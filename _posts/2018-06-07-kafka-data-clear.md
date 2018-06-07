@@ -7,7 +7,7 @@ description: Kafka
 keywords: Kafka
 ---
 
-> 动态调整kafka 数据保存时间
+> 动态调整kafka 数据保存时间,清理过期数据!!
 
 
 ```
