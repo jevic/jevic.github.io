@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>自动构建docker registry仓库 shell &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/01/23/docker-registry-shell/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="自动构建docker registry仓库 shell">
+      
+    <meta name="keywords" content="docker registry">
+    <meta name="og:keywords" content="docker registry">
+      
+    <meta name="description" content="运行 registry">
+    <meta name="og:description" content="运行 registry">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/01/23/docker-registry-shell/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-01-23">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="自动构建docker regi">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">自动构建docker registry仓库 shell</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/01/23
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Docker" title="Docker">Docker</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="运行-registry">运行 registry</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# <span class="nb">cat </span>build.sh 
+<span class="c">#!/bin/bash</span>
+<span class="c">## Docker registry 构建    </span>
+<span class="c">## Version : 2.0                      </span>
+<span class="c">## author: jevic</span>
+
+<span class="nb">set</span> <span class="nt">-e</span>
+<span class="c">## 镜像名称</span>
+<span class="nv">REGS</span><span class="o">=</span><span class="s2">"registry:latest"</span>
+<span class="nv">DATES</span><span class="o">=</span><span class="sb">`</span>date <span class="s1">'+%Y-%m-%d %H:%M:%S'</span><span class="sb">`</span>
+
+<span class="c">## 判断是否已存在仓库运行</span>
+<span class="nv">PORTS</span><span class="o">=</span><span class="sb">`</span>netstat <span class="nt">-tnlp</span>|grep 443|wc <span class="nt">-l</span><span class="sb">`</span>
+<span class="nv">PSS</span><span class="o">=</span><span class="sb">`</span>docker ps |grep <span class="s1">'registry'</span>|wc <span class="nt">-l</span><span class="sb">`</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$PORTS</span> <span class="nt">-eq</span> 1 <span class="nt">-a</span> <span class="nv">$PSS</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+   </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[31m &lt;-- 443端口已经被其他程序占用 --&gt;</span><span class="se">\0</span><span class="s2">33[0m"</span> 
+   <span class="nb">exit</span> <span class="s2">"</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$RANDOM</span>|cut <span class="nt">-c</span> 1,2<span class="sb">`</span><span class="s2">"</span>
+<span class="k">elif</span> <span class="o">[</span> <span class="nv">$PORTS</span> <span class="nt">-eq</span> 1 <span class="nt">-a</span> <span class="nv">$PSS</span> <span class="o">==</span> 1 <span class="o">]</span> 
+<span class="k">then
+   </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[31m &lt;-- 已有仓库在运行 --&gt; </span><span class="se">\0</span><span class="s2">33[0m"</span>
+   <span class="nb">exit</span> <span class="s2">"</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$RANDOM</span>|cut <span class="nt">-c</span> 1,2<span class="sb">`</span><span class="s2">"</span>
+<span class="k">else
+  </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[35m--- Docker Registry ---</span><span class="se">\0</span><span class="s2">33[0m"</span>
+<span class="k">fi</span>
+
+<span class="c">## 运行容器</span>
+Regs <span class="o">()</span> <span class="o">{</span>
+docker run <span class="nt">-d</span> <span class="se">\</span>
+<span class="nt">-p</span> 443:5000 <span class="se">\</span>
+<span class="nt">--name</span> registry <span class="se">\</span>
+<span class="nt">--restart</span><span class="o">=</span>always <span class="se">\</span>
+<span class="nt">-v</span> /var/lib/registry:/var/lib/registry <span class="se">\</span>
+<span class="nt">-v</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/auth:/auth <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_AUTH</span><span class="o">=</span>htpasswd <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_AUTH_HTPASSWD_REALM</span><span class="o">=</span><span class="s2">"Registry Realm"</span> <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_AUTH_HTPASSWD_PATH</span><span class="o">=</span>/auth/htpasswd <span class="se">\</span>
+<span class="nt">-v</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/certs:/certs <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_HTTP_TLS_CERTIFICATE</span><span class="o">=</span>/certs/ca.crt <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_HTTP_TLS_KEY</span><span class="o">=</span>/certs/ca.key <span class="se">\</span>
+<span class="nv">$REGS</span>
+<span class="o">}</span>
+
+<span class="c">## 设定变量</span>
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[32m请输入用户名:</span><span class="se">\0</span><span class="s2">33[0m"</span> <span class="o">&amp;&amp;</span> <span class="nb">read</span> <span class="nt">-p</span> <span class="s1">''</span> USERS
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[32m请输入密码:</span><span class="se">\0</span><span class="s2">33[0m"</span> <span class="o">&amp;&amp;</span> <span class="nb">read</span> <span class="nt">-p</span> <span class="s1">''</span> PASSWD
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[32m请输入域名,请勿输入IP:</span><span class="se">\0</span><span class="s2">33[0m"</span> <span class="o">&amp;&amp;</span> <span class="nb">read</span> <span class="nt">-p</span> <span class="s1">''</span> DOMAIN
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[32m请输入Email:</span><span class="se">\0</span><span class="s2">33[0m"</span> <span class="o">&amp;&amp;</span> <span class="nb">read</span> <span class="nt">-p</span> <span class="s1">''</span> EMAIL
+<span class="nb">echo</span> <span class="s1">''</span>
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"创建时间: </span><span class="k">${</span><span class="nv">DATES</span><span class="k">}</span><span class="se">\n</span><span class="s2">user: </span><span class="nv">$USERS</span><span class="se">\n</span><span class="s2">passwd: </span><span class="nv">$PASSWD</span><span class="se">\n</span><span class="s2">域名: </span><span class="nv">$DOMAIN</span><span class="s2">"</span> |tee registry.log
+<span class="c">## 初始化目录</span>
+<span class="c">## </span>
+<span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/auth/htpasswd <span class="nt">-o</span> <span class="o">!</span> <span class="nt">-d</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/certs/ca.crt <span class="o">]</span><span class="p">;</span><span class="k">then
+    </span>mkdir <span class="nt">-p</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/<span class="o">{</span>auth,certs<span class="o">}</span>
+<span class="k">fi</span>
+
+<span class="c">## 生成密码文件</span>
+docker run <span class="nt">--entrypoint</span> htpasswd <span class="k">${</span><span class="nv">REGS</span><span class="k">}</span> <span class="nt">-Bbn</span> <span class="k">${</span><span class="nv">USERS</span><span class="k">}</span> <span class="k">${</span><span class="nv">PASSWD</span><span class="k">}</span> <span class="o">&gt;</span> auth/htpasswd
+
+<span class="c">## 配置证书文件</span>
+openssl req <span class="nt">-newkey</span> rsa:4096 <span class="nt">-nodes</span> <span class="nt">-sha256</span> <span class="nt">-keyout</span> certs/ca.key <span class="nt">-x509</span> <span class="nt">-days</span> 365 <span class="nt">-out</span> certs/ca.crt <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
+CN
+GD
+SZ
+SOFT
+APP
+</span><span class="nv">$DOMAIN</span><span class="sh">
+</span><span class="nv">$EMAIL</span><span class="sh">
+</span><span class="no">EOF
+
+</span><span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+   </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[32m&lt;-- 生成证书成功 --&gt;</span><span class="se">\0</span><span class="s2">33[0m"</span>
+<span class="k">else
+   </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[31m&lt;-- 生成证书失败 --&gt;</span><span class="se">\0</span><span class="s2">33[0m"</span>
+   <span class="nb">exit </span>11
+<span class="k">fi
+
+if</span> <span class="o">[</span> <span class="nt">-f</span> /etc/docker/certs.d/<span class="k">${</span><span class="nv">DOMAIN</span><span class="k">}</span>/ca.crt <span class="o">]</span><span class="p">;</span><span class="k">then
+     </span>rm <span class="nt">-rf</span> /etc/docker/certs.d/<span class="k">${</span><span class="nv">DOMAIN</span><span class="k">}</span>
+<span class="k">else 
+   </span>mkdir <span class="nt">-p</span> /etc/docker/certs.d/<span class="k">${</span><span class="nv">DOMAIN</span><span class="k">}</span>
+   cp <span class="nt">-a</span> certs/ca.crt /etc/docker/certs.d/<span class="k">${</span><span class="nv">DOMAIN</span><span class="k">}</span>/
+<span class="k">fi</span>
+
+<span class="c">## 重启 Docker</span>
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[32m*** 重启docker ***</span><span class="se">\n</span><span class="s2">....</span><span class="se">\0</span><span class="s2">33[0m"</span>
+systemctl daemon-reload <span class="o">&amp;&amp;</span> systemctl restart docker
+
+<span class="c">## Run</span>
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[32m*** 运行仓库 ***</span><span class="se">\0</span><span class="s2">33[0m"</span>
+Regs
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+  </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[32m*** 仓库构建完成 ***</span><span class="se">\0</span><span class="s2">33[0m"</span>
+<span class="k">else
+  </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[31m*** 仓库构建失败 ***</span><span class="se">\0</span><span class="s2">33[0m"</span>
+  <span class="nb">exit </span>1
+<span class="k">fi</span>
+
+</code></pre></div></div>
+
+<h2 id="自动登录脚本">自动登录脚本</h2>
+<ul>
+  <li>需要安装expect</li>
+  <li>yum install -y expect</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# <span class="nb">cat </span>login
+<span class="c">#!/bin/expect</span>
+<span class="nb">set </span>USER <span class="s2">"admin"</span>
+<span class="nb">set </span>PASS <span class="s2">"admin"</span>
+
+spawn docker login jevic.hub
+expect <span class="s2">"Username*"</span> 
+send <span class="s2">"</span><span class="nv">$USER</span><span class="se">\r</span><span class="s2">"</span>
+expect <span class="s2">"Password:"</span>
+send <span class="s2">"</span><span class="nv">$PASS</span><span class="se">\r</span><span class="s2">"</span>
+interact
+<span class="o">[</span>root@master ~]# ./login 
+spawn docker login jevic.hub
+Username: admiin
+Password: 
+Login Succeeded
+
+
+</code></pre></div></div>
+
+<h3 id="api">API:</h3>
+<p><a href="https://docs.docker.com/registry/spec/api/">Registry API</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -u admin:admin --cacert ca.crt https://hub.jevic.cn/v2/_catalog
+
+curl -u admin:admin --cacert ca.crt https://hub.jevic.cn/v2/nginx/tags/list
+
+curl -u admin:admin https://hub.jevic.cn/v2/nginx/manifests/v1
+
+</code></pre></div></div>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/01/23/docker-registry-shell/';
+                    this.page.identifier = '/2017/01/23/docker-registry-shell/';
+                    this.page.title = '自动构建docker registry仓库 shell';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

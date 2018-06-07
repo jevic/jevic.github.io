@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Zabbix 手动快速安装 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2016/11/29/linux-ops-zabbix-install/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Zabbix 手动快速安装">
+      
+    <meta name="keywords" content="zabbix linux">
+    <meta name="og:keywords" content="zabbix linux">
+      
+    <meta name="description" content="  手动快速安装配置 Zabbix 环境">
+    <meta name="og:description" content="  手动快速安装配置 Zabbix 环境">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2016/11/29/linux-ops-zabbix-install/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-11-29">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Zabbix 手动快速安装">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Zabbix 手动快速安装</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/11/29
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#OPS" title="OPS">OPS</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>手动快速安装配置 Zabbix 环境</p>
+</blockquote>
+
+<h2 id="环境准备">环境准备</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@Server ~]# yum install <span class="nt">-y</span> epel-release
+<span class="o">[</span>root@Server ~]# yum install <span class="nt">-y</span> php php-gd php-mysql php-bcmath php-mbstring php-xml curl curl-devel net-snmp net-snmp-devel perl-DBI
+<span class="o">[</span>root@Server ~]# yum install <span class="nt">-y</span> httpd 
+
+ntpdate ntp.sjtu.edu.cn
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>如果已经有数据库服务则无需重复安装</p>
+  </li>
+  <li>
+    <p>mysql</p>
+  </li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://ftp.kernel.yunfan.com/soft/yangjie/bigdata/mysql57-community-release-el7-9.noarch.rpm
+rpm <span class="nt">-ivh</span> mysql57-community-release-el7-9.noarch.rpm
+yum install mysql-server
+</code></pre></div></div>
+
+<ul>
+  <li>mariadb</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@Server ~]# yum install <span class="nt">-y</span> mariadb mariadb-server 
+<span class="o">[</span>root@Server ~]# systemctl start mariadb
+<span class="o">[</span>root@Server ~]# systemctl <span class="nb">enable </span>mariadb
+
+</code></pre></div></div>
+
+<ul>
+  <li>安装服务端和客户端</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@Server ~]# yum install <span class="nt">-y</span> zabbix-server-mysql zabbix-web-mysql zabbix-agent
+</code></pre></div></div>
+
+<ul>
+  <li>创建数据库：</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@dbServer ~]# mysql <span class="nt">-uroot</span> <span class="nt">-p</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> create database zabbix character <span class="nb">set </span>utf8 collate utf8_bin<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> grant all privileges on zabbix.<span class="k">*</span> to <span class="s1">'zabbix'</span>@<span class="s1">'192.168.1.10'</span> identified by <span class="s1">'zabbix'</span><span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> flush privileges<span class="p">;</span>
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> quit
+</code></pre></div></div>
+
+<h2 id="server">Server</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@Server ~]# vi /etc/zabbix/zabbix_server.conf
+<span class="nv">DBHost</span><span class="o">=</span>Server
+<span class="nv">DBName</span><span class="o">=</span>zabbix
+<span class="nv">DBUser</span><span class="o">=</span>zabbix
+<span class="nv">DBPassword</span><span class="o">=</span>zabbix
+
+<span class="o">[</span>root@Server ~]# vim /etc/httpd/conf.d/zabbix.conf
+ &lt;IfModule mod_php5.c&gt;
+        php_value max_execution_time 300
+        php_value memory_limit 128M
+        php_value post_max_size 16M
+        php_value upload_max_filesize 2M
+        php_value max_input_time 300
+        php_value always_populate_raw_post_data <span class="nt">-1</span>
+        php_value date.timezone Asia/Shanghai  <span class="c">## 添加</span>
+
+<span class="o">[</span>root@Server ~]# systemctl start zabbix-server <span class="o">&amp;&amp;</span> systemctl <span class="nb">enable </span>zabbix-server
+<span class="o">[</span>root@Server ~]# systemctl start zabbix-agent <span class="o">&amp;&amp;</span> systemctl <span class="nb">enable </span>zabbix-agent
+<span class="o">[</span>root@Server ~]# systemctl start httpd <span class="o">&amp;&amp;</span> systemctl <span class="nb">enable </span>httpd
+
+
+
+设置字体消除乱码：<span class="o">(</span>从Windows系统复制简体字体到此目录<span class="o">)</span>
+<span class="o">[</span>root@Server ~]# <span class="nb">cd</span> /usr/share/zabbix/fonts/
+<span class="o">[</span>root@Server ~]# <span class="nb">ls </span>simshei.ttc 
+<span class="o">[</span>root@Server ~]# vim /usr/share/zabbix/include/defines.inc.php
+define<span class="o">(</span><span class="s1">'ZBX_GRAPH_FONT_NAME'</span>,           <span class="s1">'simhei'</span><span class="o">)</span><span class="p">;</span> // font file name
+
+http://192.168.1.10/zabbix   访问链接安装
+
+</code></pre></div></div>
+
+<h2 id="agent">agent</h2>
+
+<ul>
+  <li>centos 6.x:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install <span class="nt">-y</span> http://repo.zabbix.com/zabbix/3.2/rhel/6/x86_64/zabbix-agent-3.2.4-1.el6.x86_64.rpm
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>centos 7.2:
+<span class="o">[</span>root@node1 ~]# <span class="nb">cat </span>zabbix.repo 
+<span class="o">[</span>zabbix]
+<span class="nv">name</span><span class="o">=</span>Zabbix Official Repository - <span class="nv">$basearch</span>
+<span class="nv">baseurl</span><span class="o">=</span>http://repo.zabbix.com/zabbix/3.2/rhel/7/<span class="nv">$basearch</span>/
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX-A14FE591
+
+<span class="o">[</span>zabbix-non-supported]
+<span class="nv">name</span><span class="o">=</span>Zabbix Official Repository non-supported - <span class="nv">$basearch</span> 
+<span class="nv">baseurl</span><span class="o">=</span>http://repo.zabbix.com/non-supported/rhel/7/<span class="nv">$basearch</span>/
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node1 ~]# vim /etc/zabbix/zabbix_agentd.conf
+
+<span class="nv">PidFile</span><span class="o">=</span>/var/run/zabbix/zabbix_agentd.pid
+<span class="nv">LogFile</span><span class="o">=</span>/var/log/zabbix/zabbix_agentd.log
+<span class="nv">LogFileSize</span><span class="o">=</span>0
+<span class="nv">Server</span><span class="o">=</span>192.168.1.10
+<span class="nv">ServerActive</span><span class="o">=</span>192.168.1.10
+<span class="nv">Hostname</span><span class="o">=</span>Zabbix server
+<span class="nv">Include</span><span class="o">=</span>/etc/zabbix/zabbix_agentd.d/<span class="k">*</span>.conf
+
+</code></pre></div></div>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2016/11/29/linux-ops-zabbix-install/';
+                    this.page.identifier = '/2016/11/29/linux-ops-zabbix-install/';
+                    this.page.title = 'Zabbix 手动快速安装';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

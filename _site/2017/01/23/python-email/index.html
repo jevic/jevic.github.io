@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Python Email &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/01/23/python-email/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Python Email">
+      
+    <meta name="keywords" content="python email">
+    <meta name="og:keywords" content="python email">
+      
+    <meta name="description" content="  SMTP是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。Python对SMTP支持有smtplib和email两个模块，email负责构造邮件，smtplib负责发送邮件">
+    <meta name="og:description" content="  SMTP是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。Python对SMTP支持有smtplib和email两个模块，email负责构造邮件，smtplib负责发送邮件">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/01/23/python-email/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-01-23">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Python Email">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Python Email</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/01/23
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Python" title="Python">Python</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>SMTP是发送邮件的协议，Python内置对SMTP的支持，可以发送纯文本邮件、HTML邮件以及带附件的邮件。
+Python对SMTP支持有smtplib和email两个模块，email负责构造邮件，smtplib负责发送邮件</p>
+</blockquote>
+
+<h2 id="本地邮件服务">本地邮件服务</h2>
+<ul>
+  <li>yum install sendmail -y</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">root</span><span class="nd">@master</span> <span class="n">python</span><span class="p">]</span><span class="c"># cat localmail.py </span>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="kn">import</span> <span class="n">MIMEText</span>
+<span class="kn">from</span> <span class="nn">email.header</span> <span class="kn">import</span> <span class="n">Header</span>
+
+<span class="n">sender</span> <span class="o">=</span> <span class="s">'from@jevic.com'</span>
+<span class="n">receivers</span> <span class="o">=</span> <span class="p">[</span><span class="s">'test@test.com'</span><span class="p">]</span>  <span class="c"># 接收邮件，可设置为你的QQ邮箱或者其他邮箱</span>
+
+<span class="c"># 三个参数：第一个为文本内容，第二个 plain 设置文本格式，第三个 utf-8 设置编码</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="s">'Python 邮件发送测试...'</span><span class="p">,</span> <span class="s">'plain'</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">)</span>
+<span class="n">message</span><span class="p">[</span><span class="s">'From'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="s">"测试邮件"</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">)</span>
+<span class="n">message</span><span class="p">[</span><span class="s">'To'</span><span class="p">]</span> <span class="o">=</span>  <span class="n">Header</span><span class="p">(</span><span class="s">"测试"</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">)</span>
+
+<span class="n">subject</span> <span class="o">=</span> <span class="s">'Python SMTP 邮件测试'</span>
+<span class="n">message</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">)</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">smtpObj</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s">'localhost'</span><span class="p">)</span>
+    <span class="n">smtpObj</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">receivers</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
+    <span class="k">print</span> <span class="s">"邮件发送成功"</span>
+<span class="k">except</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTPException</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"Error: 无法发送邮件"</span>
+
+
+
+</code></pre></div></div>
+
+<h2 id="163邮箱1">163邮箱[1]</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master python]# <span class="nb">cat </span>email.py
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+from email import encoders
+from email.header import Header
+from email.mime.text import MIMEText
+from email.utils import parseaddr, formataddr
+import smtplib
+
+def _format_adds<span class="o">(</span>s<span class="o">)</span>:
+    name, addr <span class="o">=</span> parseaddr<span class="o">(</span>s<span class="o">)</span>
+    <span class="k">return </span>formataddr <span class="o">((</span> <span class="se">\</span>
+           Header<span class="o">(</span>name, <span class="s1">'utf-8'</span><span class="o">)</span>.encode<span class="o">()</span>, <span class="se">\</span>
+           addr.encode<span class="o">(</span><span class="s1">'utf-8'</span><span class="o">)</span> <span class="k">if </span>isinstance<span class="o">(</span>addr,unicode<span class="o">)</span> <span class="k">else </span>addr <span class="o">))</span>
+               
+
+from_addr <span class="o">=</span> raw_input<span class="o">(</span><span class="s1">'From: '</span><span class="o">)</span>
+password <span class="o">=</span> raw_input<span class="o">(</span><span class="s1">'Password: '</span><span class="o">)</span>
+to_addr <span class="o">=</span> raw_input<span class="o">(</span><span class="s1">'To: '</span><span class="o">)</span>
+smtp_server <span class="o">=</span> raw_input<span class="o">(</span><span class="s1">'SMTP server: '</span><span class="o">)</span>
+
+msg <span class="o">=</span> MIMEText<span class="o">(</span><span class="s1">'Hi,Jevic....'</span>,<span class="s1">'plain'</span>,<span class="s1">'utf-8'</span><span class="o">)</span>
+msg[<span class="s1">'From'</span><span class="o">]</span> <span class="o">=</span> _format_addr<span class="o">(</span><span class="s1">'Jevic 爱好者 &lt;%s&gt;'</span> % from_addr<span class="o">)</span>
+msg[<span class="s1">'To'</span><span class="o">]</span> <span class="o">=</span> _format_addr<span class="o">(</span><span class="s1">'管理员 &lt;%s&gt;'</span> % to_addr<span class="o">)</span>
+msg[<span class="s1">'Subject'</span><span class="o">]</span> <span class="o">=</span> Header<span class="o">(</span><span class="s1">'来自jevic...'</span>,<span class="s1">'utf-8'</span><span class="o">)</span>.encode<span class="o">()</span>
+
+server <span class="o">=</span> smtplib.SMTP<span class="o">(</span>smtp_server, 25<span class="o">)</span>
+server.set_debuglevel<span class="o">(</span>1<span class="o">)</span>
+server.login<span class="o">(</span>from_addr,password<span class="o">)</span>
+server.sendmail<span class="o">(</span>from_addr, <span class="o">[</span>to_addr], msg.as_string<span class="o">())</span>
+server.quit<span class="o">()</span>
+
+</code></pre></div></div>
+
+<h2 id="163邮箱2">163邮箱[2]</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
+<span class="c"># coding=utf-8</span>
+
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">from</span> <span class="nn">email.MIMEText</span> <span class="kn">import</span> <span class="n">MIMEText</span>
+<span class="c">#from email.Utils import formatdate</span>
+<span class="kn">from</span> <span class="nn">email.Header</span> <span class="kn">import</span> <span class="n">Header</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">send_mail</span><span class="p">(</span><span class="n">toMail</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+    <span class="n">smtpHost</span> <span class="o">=</span> <span class="s">'test.163.com'</span>
+    <span class="n">smtpPort</span> <span class="o">=</span> <span class="s">'25'</span>
+    
+    <span class="n">fromMail</span> <span class="o">=</span> <span class="s">"test@test.com"</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="s">"test"</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="s">"password"</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="s">'utf-8'</span>
+
+    <span class="n">toMail</span><span class="o">=</span><span class="n">toMail</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">','</span><span class="p">)</span>
+    <span class="n">mail</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="p">),</span><span class="s">'plain'</span><span class="p">,</span><span class="n">encoding</span><span class="p">)</span>
+    <span class="n">mail</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">encoding</span><span class="p">)</span>
+    <span class="n">mail</span><span class="p">[</span><span class="s">'From'</span><span class="p">]</span> <span class="o">=</span> <span class="n">fromMail</span>
+    <span class="n">mail</span><span class="p">[</span><span class="s">'To'</span><span class="p">]</span> <span class="o">=</span><span class="s">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">toMail</span><span class="p">)</span> 
+    <span class="k">print</span> <span class="n">mail</span><span class="p">[</span><span class="s">'To'</span><span class="p">]</span>
+<span class="c">#   mail['Date'] = formatdate()</span>
+    
+    <span class="k">try</span><span class="p">::</span>
+        <span class="n">smtp</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="n">smtpHost</span><span class="p">,</span> <span class="n">smtpPort</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">smtp</span><span class="o">.</span><span class="n">ehlo</span><span class="p">()</span>
+        <span class="n">smtp</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">toMail</span>
+        <span class="n">smtp</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">fromMail</span><span class="p">,</span> <span class="n">toMail</span><span class="p">,</span> <span class="n">mail</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
+        <span class="n">smtp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">except</span> <span class="nb">Exception</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">print</span>  <span class="nb">Exception</span><span class="p">,</span> <span class="s">":"</span><span class="p">,</span> <span class="n">data</span>
+        <span class="k">print</span> <span class="s">'Error: unable to send email'</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">send_mail</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/01/23/python-email/';
+                    this.page.identifier = '/2017/01/23/python-email/';
+                    this.page.title = 'Python Email';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

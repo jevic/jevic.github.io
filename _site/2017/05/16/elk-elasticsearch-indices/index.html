@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Elasticsearch 索引分片维护操作 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/05/16/elk-elasticsearch-indices/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Elasticsearch 索引分片维护操作">
+      
+    <meta name="keywords" content="elasticsearch elk ELK">
+    <meta name="og:keywords" content="elasticsearch elk ELK">
+      
+    <meta name="description" content="  索引分片移动 集群数据维护操作">
+    <meta name="og:description" content="  索引分片移动 集群数据维护操作">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/05/16/elk-elasticsearch-indices/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-05-16">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Elasticsearch 索">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Elasticsearch 索引分片维护操作</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/05/16
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>索引分片移动 集群数据维护操作</p>
+</blockquote>
+
+<h3 id="索引创建">索引创建</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/man'</span>
+<span class="c"># curl -XPUT "http://ESnode:9200/man/_settings' -d '{</span>
+   <span class="s2">"index.routing.allocation.include.zone"</span> : <span class="s2">"zone_one"</span>
+   <span class="o">}</span><span class="s1">'
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>第一条命令是创建man索引；
+第二条命令是发送到_settings REST端点，用来指定这个索引的其他配置信息。我们将index.routing.allocation.include.zone属性设置为zone_one值，就是我们所希望的把man索引放置到node.zone属性值为zone_one的ES集群节点服务器上。</p>
+</blockquote>
+
+<p>同样对woman索引我们做类似操作：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/woman'</span>
+<span class="c"># curl -XPUT "http://ESnode:9200/woman/_settings' -d '{</span>
+   <span class="s2">"index.routing.allocation.include.zone"</span> : <span class="s2">"zone_two"</span>
+   <span class="o">}</span><span class="s1">'
+</span></code></pre></div></div>
+<p>不同的是，这次指定woman索引放置在node.zone属性值为zone_two的ES集群节点服务器上</p>
+
+<p>最后我们需要将katoey索引放置到上面所有的ES集群节点上面，配置设置命令如下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/katoey"</span>
+<span class="c"># curl -XPUT "http://ESnode:9200/katoey/_settings" -d '{</span>
+  <span class="s2">"index.routing.allocation.include.zone"</span> : <span class="s2">"zone_one,zone_two"</span>
+  <span class="o">}</span><span class="s1">'
+
+</span></code></pre></div></div>
+
+<h3 id="分配时排除节点">分配时排除节点</h3>
+<blockquote>
+  <p>跟我们上面操作为索引指定放置节点位置一样，我们也可以在索引分配的时候排除某些节点。
+参照之前的例子，我们新建一个people索引，但是不希望people索引放置到zone_one的ES集群节点服务器上，我们可以运行如下命令操作：</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># curl -XPOST "http://EScode:9200/people"
+# curl -XPUT "http://EScode:9200/people/_settings" -d '{
+  "index.routing.allocation.exclude.zone" : "zone_one"
+  }'
+请注意，在这里我们使用的是index.routing.allocation.exclude.zone属性
+而不是index.routing.allocation.include.zone属性。
+</code></pre></div></div>
+
+<h3 id="使用ip地址进行分配配置">使用IP地址进行分配配置</h3>
+
+<blockquote>
+  <p>除了在节点的配置中添加一些特殊的属性参数外，我们还可以使用IP地址来指定你将分片和副本分配或者不分配到哪些节点上面。
+为了做到这点，我们应该使用_ip属性，把zone换成_ip就好了。
+例如我们希望lucky索引分配到IP地址为10.0.1.110和10.0.1.119的节点上，我们可以运行如下命令设置：</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># curl -XPOST "http://ESnode:9200/lucky"
+# curl -XPUT "http://ESnode:9200/lucky/_settings" -d '{
+  "index.routing.allocation.include._ip" "10.0.1.110,10.0.1.119"
+  }'
+</code></pre></div></div>
+
+<h3 id="集群范围内分配">集群范围内分配</h3>
+
+<ul>
+  <li>除了索引层面指定分配活着排除分配之外(上面我们所做的都是这两种情况),我们还可以指定集群中所有索引的分配。</li>
+  <li>例如，我们希望将所有的新索引分配到IP地址为10.0.1.112和10.0.1.114的节点上，我们可以运行如下命令设置：</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPUT "http://ESnode:9200/_cluster/settings" -d '{</span>
+  <span class="s2">"transient"</span> : <span class="o">{</span>
+   <span class="s2">"cluster.routing.allocation.include._ip"</span> <span class="s2">"10.0.1.112,10.0.1.114"</span>
+   <span class="o">}</span>
+  <span class="o">}</span><span class="s1">'
+  
+</span></code></pre></div></div>
+<blockquote>
+  <p>集群级别的控制还有transient和persistent属性</p>
+</blockquote>
+
+<h3 id="每个节点上分片和副本数量的控制">每个节点上分片和副本数量的控制</h3>
+
+<ul>
+  <li>除了指定分片和副本的分配，我们还可以对一个索引指定每个节点上的最大分片数量。</li>
+  <li>例如我们希望ops索引在每个节点上只有一个分片，我们可以运行如下命令：</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c"># curl -XPUT "http://ESnode:9200/ops/_settings" -d '{</span>
+  <span class="s2">"index.routing.allocation.total_shards_per_node"</span> : 1
+  <span class="o">}</span><span class="s1">'
+  
+</span></code></pre></div></div>
+<blockquote>
+  <p>这个属性也可以直接配置到elasticsearch.ym配置文件中，或者使用上面命令在活动索引上更新。
+如果配置不当，导致主分片无法分配的话，集群就会处于red状态。</p>
+</blockquote>
+
+<h3 id="手动移动分片和副本">手动移动分片和副本</h3>
+<blockquote>
+  <p>接下来我们介绍一下节点间手动移动分片和副本。可以使用ElasticSearch提供的_cluster/reroute REST端点进行控制，能够进行下面操作：</p>
+</blockquote>
+
+<ul>
+  <li>取消对分片的分配</li>
+  <li>强制对分片进行分配</li>
+  <li>移动分片</li>
+</ul>
+
+<h4 id="将一个分片从一个节点移动到另外一个节点">将一个分片从一个节点移动到另外一个节点</h4>
+<blockquote>
+  <p>假设我们有两个节点：es_node_one和es_node_two，ElasticSearch在es_node_one节点上分配了ops索引的两个分片，我们现在希望将第二个分片移动到es_node_two节点上。可以如下操作实现：</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/_cluster/reroute' -d  '{</span>
+   <span class="s2">"commands"</span> : <span class="o">[</span> <span class="o">{</span>
+   <span class="s2">"move"</span> : <span class="o">{</span>
+   <span class="s2">"index"</span> : <span class="s2">"ops"</span>,
+   <span class="s2">"shard"</span> : 1,
+   <span class="s2">"from_node"</span> : <span class="s2">"es_node_one"</span>,
+   <span class="s2">"to_node"</span> : <span class="s2">"es_node_two"</span>
+   <span class="o">}</span>
+  <span class="o">}]</span>
+  <span class="o">}</span><span class="s1">'
+  
+我们通过move命令的index属性指定移动哪个索引,通过shard属性指定移动哪个分片，
+最终通过from_node属性指定我们从哪个节点上移动分片，
+通过to_node属性指定我们希望将分片移动到哪个节点。
+
+</span></code></pre></div></div>
+
+<h4 id="取消分配">取消分配</h4>
+<blockquote>
+  <p>如果希望取消一个正在进行的分配过程，我们通过运行cancel命令来指定我们希望取消分配的索引、节点以及分片，如下所示：</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/_cluster/reroute" -d '{</span>
+  <span class="s2">"commands"</span> : <span class="o">[</span> <span class="o">{</span>
+  <span class="s2">"cancel"</span> : <span class="o">{</span>
+  <span class="s2">"index"</span> : <span class="s2">"ops"</span>,
+  <span class="s2">"shard"</span> : 0,
+  <span class="s2">"node"</span> : <span class="s2">"es_node_one"</span>
+  <span class="o">}</span>
+  <span class="o">}</span> <span class="o">]</span>
+  <span class="o">}</span><span class="s1">'
+运行上面的命令将会取消es_node_one节上ops索引的第0个分片的分配
+
+</span></code></pre></div></div>
+
+<h4 id="分配分片">分配分片</h4>
+<blockquote>
+  <p>除了取消和移动分片和副本之外，我们还可以将一个未分配的分片分配到一个指定的节点上。
+假设ops索引上有一个编号为0的分片尚未分配，并且我们希望ElasticSearch将其分配到es_node_two上，可以运行如下命令操作：</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c"># curl -XPOST "http://ESnode:9200/_cluster/reroute' -d '{</span>
+  <span class="s2">"commands"</span> : <span class="o">[</span> <span class="o">{</span>
+   <span class="s2">"allocate"</span> : <span class="o">{</span>
+    <span class="s2">"index"</span> : <span class="s2">"ops"</span>,
+    <span class="s2">"shard"</span> : 0,
+    <span class="s2">"node"</span> : <span class="s2">"es_node_two"</span>
+    <span class="o">}</span>
+   <span class="o">}</span> <span class="o">]</span>
+   <span class="o">}</span><span class="s1">'
+
+一次HTTP请求包含多个命令
+我们可以在一次HTTP请求中包含多个命令，例如：
+
+# curl -XPOST "http://ESnode:9200/_cluster/reroute" -d '</span><span class="o">{</span>
+   <span class="s2">"commands"</span> : <span class="o">[</span>
+     <span class="o">{</span><span class="s2">"move"</span> : 
+            <span class="o">{</span><span class="s2">"index"</span> : <span class="s2">"ops"</span>, 
+        <span class="s2">"shard"</span> : 1, 
+        <span class="s2">"from_node"</span> : <span class="s2">"es_node_one"</span>, 
+        <span class="s2">"to_node"</span> : <span class="s2">"es_node_two"</span>
+        <span class="o">}</span>
+     <span class="o">}</span>,
+     <span class="o">{</span><span class="s2">"cancel"</span> : 
+        <span class="o">{</span><span class="s2">"index"</span> : <span class="s2">"ops"</span>, 
+     <span class="s2">"shard"</span> : 0, 
+     <span class="s2">"node"</span> : <span class="s2">"es_node_one"</span><span class="o">}</span>
+     <span class="o">}</span>
+    <span class="o">]</span>
+ <span class="o">}</span><span class="s1">'
+
+</span></code></pre></div></div>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/05/16/elk-elasticsearch-indices/';
+                    this.page.identifier = '/2017/05/16/elk-elasticsearch-indices/';
+                    this.page.title = 'Elasticsearch 索引分片维护操作';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

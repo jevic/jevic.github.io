@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>docker 基础知识杂录 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2016/09/30/docker-basic-old/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="docker 基础知识杂录">
+      
+    <meta name="keywords" content="docker">
+    <meta name="og:keywords" content="docker">
+      
+    <meta name="description" content="Docker的主要优点：">
+    <meta name="og:description" content="Docker的主要优点：">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2016/09/30/docker-basic-old/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-09-30">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="docker 基础知识杂录">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">docker 基础知识杂录</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/09/30
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Docker" title="Docker">Docker</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="docker的主要优点">Docker的主要优点：</h2>
+
+<ul>
+  <li>
+    <p>轻量级资源使用：容器在进程级别隔离并使用宿主机的内核，而不需要虚拟化整个操作系统。</p>
+  </li>
+  <li>
+    <p>可移植性：一个容器应用所需要的依赖都在容器中，这就让它可以在任意一台Docker主机上运行。</p>
+  </li>
+  <li>
+    <p>可预测性：宿主机不需要关心容器内运行的是什么，同样，容器也不需要关心是在哪个宿主机上运行。所需要的接口都是标准化的，并且交互也都是可预测的。</p>
+  </li>
+  <li>
+    <p>通常在用Docker来设计应用或者服务时，最好的方法是打破面向服务架构的设计，而采用独立容器的设计。这让使用者在以后的使用中更容易的独立扩展或者升级组件。拥有如此的灵活性是人们对用Docker开发和部署感兴趣的原因之一。</p>
+  </li>
+</ul>
+
+<h2 id="服务发现">服务发现</h2>
+<blockquote>
+  <p>etcd：服务发现/全局分布式键值对存储
+consul：服务发现/全局分布式键值对存储
+zookeeper：服务发现/全局分布式键值对存储
+crypt：加密etcd条目的项目
+confd：观测键值对存储变更和新值的触发器重新配置服务</p>
+</blockquote>
+
+<h2 id="调度和集群管理工具">调度和集群管理工具</h2>
+<blockquote>
+  <p>fleet: 调度器和集群管理工具
+marathon:调度器和集群管理工具
+Swarm:调度器和集群管理工具
+mesos:宿主机抽象服务，用于为调度器联合宿主机资源
+kubernetes:一个管理容器组的工具，具有先进的调度能力
+compose:一个用于创建容器组的容器编排工具</p>
+</blockquote>
+
+<h2 id="内核升级-centos-721511-core">内核升级 CentOS 7.2.1511 (Core)</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.升级内核需要使用 elrepo 的yum 源首先我们导入 elrepo 的key
+rpm <span class="nt">--import</span> https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+
+2. 安装 elrepo 源
+rpm <span class="nt">-Uvh</span> http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+
+3. 在yum的ELRepo源中，mainline 为最新版本的内核
+yum <span class="nt">--enablerepo</span><span class="o">=</span>elrepo-kernel install  kernel-ml-devel kernel-ml <span class="nt">-y</span>
+
+4. 修改内核启动顺序，默认启动的顺序应该为1,升级以后内核是往前面插入，为0    
+grub2-set-default 0
+5. 重启系统    
+reboot
+6. 查看 内核版本    
+uname <span class="nt">-r</span> 
+
+</code></pre></div></div>
+
+<h3 id="install">install</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@master ~]# yum install <span class="nt">-y</span> yum-utils
+<span class="o">[</span>root@master ~]# yum-config-manager <span class="se">\</span>
+    <span class="nt">--add-repo</span> <span class="se">\</span>
+    https://docs.docker.com/engine/installation/linux/repo_files/centos/docker.repo
+<span class="o">[</span>root@master ~]# yum <span class="nt">-y</span> check-update
+<span class="o">[</span>root@master ~]# yum <span class="nt">-y</span> install docker-engine
+
+加速器：
+<span class="c"># curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://df4b377c.m.daocloud.io</span>
+
+<span class="o">[</span>root@master ~]# systemctl daemon-reload <span class="o">&amp;&amp;</span> systemctl restart docker
+
+
+开启守护进程[本地和网络]
+<span class="c"># vim /usr/lib/systemd/system/docker.service</span>
+<span class="nv">ExecStart</span><span class="o">=</span>/usr/bin/dockerd <span class="nt">-H</span> unix:///var/run/docker.sock <span class="nt">-H</span> tcp://0.0.0.0:2375
+<span class="c"># systemctl enable docker</span>
+<span class="c"># systemctl start docker</span>
+<span class="c"># docker version</span>
+
+</code></pre></div></div>
+
+<h3 id="基础操作有些命令已经废弃不建议使用">基础操作(有些命令已经废弃不建议使用)</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker pull centos   下载镜像
+<span class="o">[</span>root@docker ~]# docker info
+<span class="o">[</span>root@docker ~]# docker version
+<span class="o">[</span>root@docker ~]# docker <span class="nt">--help</span>
+<span class="o">[</span>root@docker ~]# docker images  查看镜像
+<span class="o">[</span>root@docker ~]# docker search <span class="o">[</span>images name]  搜索镜像
+<span class="o">[</span>root@docker ~]# docker <span class="nb">history</span> <span class="o">[</span>images name]  查看镜像历史版本
+
+管理命令
+docker <span class="nt">--help</span>  
+
+
+<span class="nt">-i</span>：交互式  <span class="nt">-t</span>: 打开一个终端 <span class="nt">-d</span> 后台运行 <span class="o">[</span>不可同时使用] <span class="nt">--rm</span> 终止后立刻删除
+<span class="o">[</span>root@docker ~]# docker run <span class="o">[</span><span class="nt">--rm</span><span class="o">]</span> <span class="o">[</span><span class="nt">-d</span><span class="o">]</span> <span class="nt">-i</span> <span class="nt">-t</span> centos7 /bin/sh    进入docker镜像
+<span class="o">[</span>root@docker ~]# docker ps <span class="nt">-l</span> 
+<span class="o">[</span>root@docker ~]# docker stop id
+<span class="o">[</span>root@docker ~]# docker start id
+<span class="o">[</span>root@docker ~]# docker inspect mytest   【检查容器运行状态信息】
+
+
+<span class="o">[</span>root@docker ~]# docker stats testssh   【实时查看Container负载】
+
+
+<span class="o">[</span>root@docker ~]# docker logs <span class="nt">-f</span> mysql
+
+<span class="o">[</span>root@docker ~]# docker <span class="nb">exec</span> <span class="nt">-it</span> id /bin/bash  【exit退出后，容器依旧运行】
+
+<span class="o">[</span>root@docker ~]# docker rm id  删除容器
+
+<span class="o">[</span>root@docker ~]# docker rmi images_name 删除镜像
+<span class="o">[</span>root@docker ~]# docker rmi <span class="k">$(</span>docker images <span class="nt">-aq</span> <span class="nt">-f</span> <span class="s2">"dangling=true"</span><span class="k">)</span>  删除丢了标签的镜像
+
+<span class="o">[</span>root@docker ~]# docker ps <span class="nt">-a</span> | <span class="nb">grep</span> <span class="s2">"Exited"</span> | awk <span class="s1">'{print $1 }'</span>|xargs docker stop
+<span class="o">[</span>root@docker ~]# docker ps <span class="nt">-a</span> | <span class="nb">grep</span> <span class="s2">"Exited"</span> | awk <span class="s1">'{print $1 }'</span>|xargs docker rm
+
+
+Docker提供了一个非常强大的命令diff，它可以列出容器内发生变化的文件和目录。
+这些变化包括添加（A-add）、删除（D-delete）、修改（C-change）。
+该命令便于Debug，并支持快速的共享环境。
+<span class="o">[</span>root@docker ~]# docker diff container
+
+save 【持久化镜像】导入导出：
+<span class="o">[</span>root@docker ~]# docker save centos:7 <span class="o">&gt;</span> /home/save.tar
+<span class="o">[</span>root@docker ~]# docker load &lt; /home/save.tar
+<span class="nb">export</span>【持久化容器】导入导出：
+<span class="o">[</span>root@docker ~]# docker <span class="nb">export</span> <span class="o">[</span>id] <span class="o">&gt;</span> <span class="o">[</span>imagesname.tar]   导出镜像
+<span class="o">[</span>root@docker ~]# <span class="nb">cat</span> /home/export.tar | docker import - busybox-1-export:latest
+远程路径导入：
+<span class="o">[</span>root@docker ~]# docker import http://example.com/test.tar
+
+保存对容器的修改（commit）
+当你对某一个容器做了修改之后（通过在容器中运行某一个命令），可以把对容器的修改保存下来，这样下次可以从保存后的最新状态运行该容器。
+不建议使用此命令来构建镜像,里面的操作无法进行查看[黑箱操作]，构建镜像请使用Dockerfile
+
+<span class="nt">-a</span>, <span class="nt">--author</span><span class="o">=</span><span class="s2">""</span> Author<span class="p">;</span> <span class="nt">-m</span>, <span class="nt">--message</span><span class="o">=</span><span class="s2">""</span> Commit message
+docker ps <span class="nt">-l</span> 查看ID
+<span class="o">[</span>root@docker ~]# docker commit ID new_image_name
+Note:image相当于类，container相当于实例，不过可以动态给实例安装新软件，然后把这个container用commit命令固化成一个image
+
+
+将容器中的文件拷贝到主机上
+Usage: docker cp CONTAINER:PATH HOSTPATH
+<span class="o">[</span>root@docker ~]# docker cp testip:/tmp/testaa /tmp
+
+
+<span class="nt">-p</span>:指定容器启动后docker上运行的端口映射，第一个为主机端口第二个为容器里的端口
+<span class="o">[</span>root@docker ~]# docker run <span class="nt">-d</span> <span class="nt">-p</span> 80:80 <span class="nt">-p</span> 8022:22 <span class="nt">-p</span> 2000-3000:2000-3000 lnmp
+
+</code></pre></div></div>
+
+<h3 id="docker数据卷">docker数据卷</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+创建一个数据卷挂载到容器的/webapp目录：
+<span class="c"># docker run -it -d --name test -v /webapp docker.io/centos:7 /bin/bash</span>
+挂载一个主机目录作为数据卷[默认读写<span class="o">(</span>rw<span class="o">)</span>,可以指定为只读<span class="o">(</span>ro<span class="o">)]</span>：
+docker run <span class="nt">-it</span> <span class="nt">--name</span><span class="o">=</span>test1 <span class="nt">-v</span> /opt/webapp:/opt/webapp centos7:ip /bin/bash
+挂载本地主机文件作为数据卷：[记录容器输入的历史]
+docker run <span class="nt">-rm</span> <span class="nt">-d</span> /root/.bash_history:/.bash_history centos7 /bin/bash
+
+
+数据卷容器：
+1.&gt; 创建数据卷容器：
+<span class="c"># docker run -itd -v /mydata --name=volumes1 centos:6.8</span>
+
+2.&gt; 创建容器，并从volumes1容器中挂载数据卷
+<span class="c"># docker run -itd --volumes-from=volumes1 --volume-driver=/mydata --name votest1 centos:6.8</span>
+<span class="c"># docker run -itd --volumes-from=volumes1 --volume-driver=/mydata --name votest2 centos:6.8</span>
+3.&gt;&gt; 三个容器共享/mydata数据卷，都可以读写
+注意：数据卷容器自身<span class="o">(</span>volumes<span class="o">)</span>并不需要保持运行状态！即使删除容器db1,db2，数据卷容器mydata里面的数据依旧存在；
+<span class="o">[</span>root@CentOS7 ~]# lsblk 
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda               8:0    0    8G  0 disk 
+├─sda1            8:1    0  500M  0 part /boot
+└─sda2            8:2    0  7.5G  0 part 
+  ├─centos-root 253:0    0  6.7G  0 lvm  /
+  └─centos-swap 253:1    0  820M  0 lvm  <span class="o">[</span>SWAP]
+sdb               8:16   0    8G  0 disk 
+sr0              11:0    1 1024M  0 rom  
+<span class="o">[</span>root@CentOS7 ~]# lvs <span class="nt">-a</span>
+  LV   VG     Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root centos <span class="nt">-wi-ao----</span>   6.67g                                                    
+  swap centos <span class="nt">-wi-ao----</span> 820.00m
+  
+
+容器互联：<span class="o">(</span>废弃<span class="o">)</span>
+&lt;在两个互联的容器之间创建了一个安全隧道，而且不用映射它们的端口到宿主机，避免暴漏数据库端口到外部网络上&gt;
+<span class="nt">--link</span>
+docker run <span class="nt">-d</span> <span class="nt">-P</span>  <span class="nt">--name</span><span class="o">=</span>name <span class="nt">--link</span> container_name:alias images_name &lt;Command&gt;
+docker run <span class="nt">-d</span> <span class="nt">-P</span> <span class="nt">--name</span><span class="o">=</span>web <span class="nt">--link</span> mysql:db centos:7 /bin/bash
+
+</code></pre></div></div>
+
+<h3 id="存储驱动">存储驱动</h3>
+
+<ul>
+  <li>http://cloud.51cto.com/art/201412/461261.htm</li>
+  <li><a href="https://docs.docker.com/engine/userguide/storagedriver/device-mapper-driver/#image-layering-and-sharing">Device-mapper 存储驱动</a></li>
+</ul>
+
+<blockquote>
+  <p>联合文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一次提交来一层层的叠加，
+同时可以将不同目录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)。
+联合文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。
+另外，不同 Docker 容器就可以共享一些基础的文件系统层，同时再加上自己独有的改动层，大大提高了存储的效率。
+Docker 中使用的 AUFS（AnotherUnionFS）就是一种联合文件系统。 
+AUFS 支持为每一个成员目录（类似 Git 的分支）设定只读（readonly）、读写（readwrite）和写出（whiteout-able）权限, 同时 AUFS 里有一个类似分层的概念, 
+对只读权限的分支可以逻辑上进行增量地修改(不影响只读部分的)。
+Docker 目前支持的联合文件系统种类包括 AUFS, btrfs, vfs 和 DeviceMapper。</p>
+</blockquote>
+
+<h2 id="ubuntu">Ubuntu</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>升级内核：
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get install <span class="nt">-y</span> <span class="nt">--install-recommends</span> linux-generic-lts-xenial
+<span class="nv">$ </span>reboot
+
+  
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get update
+E: Could not get lock /var/lib/apt/lists/lock - open <span class="o">(</span>11: Resource temporarily unavailable<span class="o">)</span>
+E: Unable to lock the list directory
+原因：刚装好的Ubantu系统，内部缺少很多软件源，这时，系统会自动启动软件源更新进程“apt-get”，并且它会一直存活。
+由于它在运行时，会占用软件源更新时的系统锁（以下称“系统更新锁”，此锁文件在“/var/lib/apt/lists/”目录下），
+而当有新的apt-get进程生成时，就会因为得不到系统更新锁而出现<span class="s2">"E: 无法获得锁 /var/lib/apt/lists/lock - open (11: Resource temporarily unavailable)"</span>错误提示！
+因此，我们只要将原先的apt-get进程杀死，从新激活新的apt-get进程，就可以让软件管理器正常工作了！
+
+
+安装docker
+https://docs.docker.com/engine/installation/linux/ubuntu/ 
+
+Ubuntu:
+<span class="nv">$ </span><span class="nb">cat</span> /etc/default/docker|egrep <span class="nt">-v</span> <span class="s2">"^</span><span class="nv">$|</span><span class="s2">^#"</span>
+<span class="nv">DOCKER_OPTS</span><span class="o">=</span><span class="s2">"-H unix:///var/run/docker.sock -H 0.0.0.0:2375"</span>
+
+</code></pre></div></div>
+
+<h2 id="扩展阅读">扩展阅读</h2>
+<ul>
+  <li><a href="https://docs.docker.com/compose/install/">Compose</a></li>
+  <li>https://docs.docker.com/compose/compose-file/#versioning</li>
+  <li>https://docs.docker.com/compose/networking/#using-a-pre-existing-network</li>
+  <li><a href="https://docs.docker.com/engine/swarm/">Swarm Mode</a></li>
+  <li><a href="https://shipyard-project.com/">Shipyard</a></li>
+</ul>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2016/09/30/docker-basic-old/';
+                    this.page.identifier = '/2016/09/30/docker-basic-old/';
+                    this.page.title = 'docker 基础知识杂录';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

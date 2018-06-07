@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>elk Elasticsearch Unassigned Shards 无法reroute问题处理 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/01/23/elasticsearch-unassigned-shared/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="elk Elasticsearch Unassigned Shards 无法reroute问题处理">
+      
+    <meta name="keywords" content="elk es">
+    <meta name="og:keywords" content="elk es">
+      
+    <meta name="description" content="问题概述  由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态；">
+    <meta name="og:description" content="问题概述  由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态；">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/01/23/elasticsearch-unassigned-shared/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-01-23">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="elk Elasticsear">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">elk Elasticsearch Unassigned Shards 无法reroute问题处理</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/01/23
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h1 id="问题概述">问题概述</h1>
+<blockquote>
+  <p>由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态；</p>
+</blockquote>
+
+<blockquote>
+  <p>而且此时集群分片均衡失效，不在均衡数据；</p>
+</blockquote>
+
+<blockquote>
+  <p>尝试使用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html">reroute API</a> 接口来手动迁移，发现命令执行失败；</p>
+</blockquote>
+
+<blockquote>
+  <p>接下来就比较尴尬了….均衡不了….手动迁移也失败….</p>
+</blockquote>
+
+<blockquote>
+  <p>综合以上状况只能做以下操作了…</p>
+</blockquote>
+
+<h1 id="处理过程">处理过程</h1>
+<blockquote>
+  <p>将处于<code class="highlighter-rouge">red</code>状态的并且过期不在使用的索引删除(此乃下下策😭)
+ 保留并处理热门数据</p>
+</blockquote>
+
+<h2 id="1-重建索引">1. 重建索引</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-XPOST</span> es-90:9200/_reindex <span class="nt">-d</span> <span class="s1">'
+{
+  "source": {
+    "index": "index-name"
+  },
+  "dest": {
+    "index": "index-name.bak"
+  }
+}'</span>
+
+</code></pre></div></div>
+
+<h2 id="2-删除旧索引">2. 删除旧索引</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-XDELETE</span> es-90:9200/index-name
+
+</code></pre></div></div>
+
+<h2 id="3-建立别名">3. 建立别名</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-XPUT</span> es-90:9200/index-name.bak/_alias/index-name
+</code></pre></div></div>
+
+<h1 id="批量处理">批量处理</h1>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">#!/bin/bash</span>
+<span class="nv">indexs</span><span class="o">=</span><span class="s2">"index1 index2 index3"</span>
+
+back<span class="o">(){</span>
+curl <span class="nt">-XPOST</span> es-90:9200/_reindex <span class="nt">-d</span> <span class="s1">'
+{
+  "source": {
+    "index": "'</span><span class="nv">$index</span><span class="s1">'"
+  },
+  "dest": {
+    "index": "'</span><span class="k">${</span><span class="nv">index</span><span class="k">}</span>.bak<span class="s1">'"
+  }
+}'</span>
+<span class="o">}</span>
+
+<span class="k">for </span>index <span class="k">in</span> <span class="nv">$indexs</span><span class="p">;</span><span class="k">do
+    </span>back
+    curl <span class="nt">-XDELETE</span> es-90:9200/<span class="k">${</span><span class="nv">index</span><span class="k">}</span>
+    curl <span class="nt">-XPUT</span> es-90:9200/<span class="k">${</span><span class="nv">index</span><span class="k">}</span>.bak/_alias/<span class="k">${</span><span class="nv">index</span><span class="k">}</span>
+<span class="k">done</span>
+
+</code></pre></div></div>
+
+<h1 id="副本丢失">副本丢失</h1>
+<blockquote>
+  <p>当索引副本分片丢失 且无法正常均衡时</p>
+</blockquote>
+
+<h2 id="1-取消副本">1. 取消副本</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT /test/_settings
+<span class="o">{</span>
+    <span class="s2">"index"</span> : <span class="o">{</span>
+        <span class="s2">"number_of_replicas"</span> : 0
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h2 id="2-恢复副本">2. 恢复副本</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+PUT /test/_settings
+<span class="o">{</span>
+    <span class="s2">"index"</span> : <span class="o">{</span>
+        <span class="s2">"number_of_replicas"</span> : 1
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h1 id="后记">后记</h1>
+<blockquote>
+  <p>在扩容下线 更换节点时 务必单个节点逐一操作</p>
+</blockquote>
+
+<h2 id="节点更新或下线">节点更新或下线</h2>
+<ol>
+  <li>关闭均衡</li>
+  <li>设置此节点不在运行数据写入</li>
+  <li>重启或停用节点</li>
+  <li>开启均衡</li>
+</ol>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/01/23/elasticsearch-unassigned-shared/';
+                    this.page.identifier = '/2018/01/23/elasticsearch-unassigned-shared/';
+                    this.page.title = 'elk Elasticsearch Unassigned Shards 无法reroute问题处理';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

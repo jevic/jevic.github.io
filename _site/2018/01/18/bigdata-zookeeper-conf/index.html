@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>zookeeper &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/01/18/bigdata-zookeeper-conf/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="zookeeper">
+      
+    <meta name="keywords" content="zookeeper bigdata">
+    <meta name="og:keywords" content="zookeeper bigdata">
+      
+    <meta name="description" content="Apache ZooKeeper™简介">
+    <meta name="og:description" content="Apache ZooKeeper™简介">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/01/18/bigdata-zookeeper-conf/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-01-18">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="zookeeper">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">zookeeper</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/01/18
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p><img src="http://zookeeper.apache.org/images/feather_small.gif" alt="image" />Apache ZooKeeper™
+<img src="http://zookeeper.apache.org/images/zookeeper_small.gif" alt="image" /></p>
+<h3 id="简介">简介</h3>
+
+<p>Apache Zookeeper 是由 Apache Hadoop 的 Zookeeper 子项目发展而来，现在已经成为了 Apache 的顶级项目。Zookeeper 为分布式系统提供了高效可靠且易于使用的协同服务，它可以为分布式应用提供相当多的服务，诸如统一命名服务，配置管理，状态同步和组服务等。Zookeeper 接口简单，开发人员不必过多地纠结在分布式系统编程难于处理的同步和一致性问题上，你可以使用 Zookeeper 提供的现成(off-the-shelf)服务来实现分布式系统的配置管理，组管理，Leader 选举等功能。</p>
+
+<p>Zookeeper 维护了大规模分布式系统中的常用对象，比如配置信息，层次化命名空间等，本文将从开发者的角度详细介绍 Zookeeper 的配置信息的意义以及 Zookeeper 的典型应用场景（配置文件的管理、集群管理、分布式队列、同步锁、Leader 选举、队列管理等）。</p>
+
+<h3 id="zookeeper-安装与配置">Zookeeper 安装与配置</h3>
+
+<ul>
+  <li>本文采用 <code class="highlighter-rouge">Zookeeper-3.4.9</code> 介绍它的安装步骤以及配置信息，最新的代码可以到 Zookeeper 的<a href="http://apache.fayea.com/zookeeper/">官网下载</a>：</li>
+  <li>Zookeeper功能强大，但是安装却十分简单，下面重点以伪分布式模式来介绍 Zookeeper 的安装。</li>
+</ul>
+
+<blockquote>
+  <p>Zookeeper 安装模式包括：<code class="highlighter-rouge">单机模式</code>，<code class="highlighter-rouge">伪分布式模式</code>和<code class="highlighter-rouge">完全的集群模式</code>。
+单机模式最简单本文跳过（单机模式安装步骤参见 Zeekeeper <a href="http://zookeeper.apache.org/doc/current/zookeeperStarted.html">官方文档</a>）
+伪分布式模式与集群模式配置差别不大! 为了帮助大家理解所以本文采用单台虚拟机来配置伪分布集群，
+后续大家如果熟悉后建议使用 <code class="highlighter-rouge">Docker</code> 提供的<a href="https://hub.docker.com/">官方镜像</a>来配置集群环境</p>
+</blockquote>
+
+<ul>
+  <li>本文在 <code class="highlighter-rouge">CentOS 7.2</code> 上操作</li>
+  <li>Java 环境为 <code class="highlighter-rouge">jdk1.8.0_111</code></li>
+</ul>
+
+<blockquote>
+  <p>安装 Zookeeper 前首先下载你需要的版本，暂时解压到指定目录
+本文解压至 <code class="highlighter-rouge">/opt/source/</code> 目录下，本次伪分布式模拟 <code class="highlighter-rouge">3</code> 个 Zookeeper，目录分配如下：</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@master <span class="nb">source</span><span class="o">]</span><span class="nv">$ </span>mkdir /opt/source
+<span class="o">[</span>hadoop@master <span class="nb">source</span><span class="o">]</span><span class="nv">$ </span><span class="nb">tar </span>zxf /home/zookeeper-3.4.9.tar.gz <span class="nt">-C</span> /opt/source
+<span class="o">[</span>hadoop@master <span class="nb">source</span><span class="o">]</span><span class="nv">$ </span>cp <span class="nt">-a</span> zookeeper zookeeper2 <span class="o">&amp;&amp;</span> cp <span class="nt">-a</span> zookeeper zookeeper3
+<span class="o">[</span>hadoop@master <span class="nb">source</span><span class="o">]</span><span class="nv">$ </span>tree <span class="nt">-d</span> <span class="nt">-L</span> 1
+<span class="nb">.</span>
+├── zookeeper
+├── zookeeper2
+└── zookeeper3
+<span class="o">[</span>hadoop@master ~]<span class="nv">$ </span>tree <span class="nt">-d</span> <span class="nt">-L</span> 1 /data
+/data
+├── zookeeper
+├── zookeeper2
+└── zookeeper3
+</code></pre></div></div>
+
+<h4 id="zookeeper-配置文件">Zookeeper 配置文件</h4>
+<ul>
+  <li>这里我们只介绍 zoo_sample.cfg，首先将此文件重命名为<code class="highlighter-rouge">zoo.cfg</code>，并修改对应目录下的zoo.cfg。整体配置其实很简单所以这里只列出了配置后启用参数，具体参数的说明请参考官方文档这里不在叙述：</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@master <span class="nb">source</span><span class="o">]</span><span class="nv">$ </span>egrep <span class="nt">-v</span> <span class="s2">"^#|^$"</span> zookeeper/conf/zoo.cfg 
+<span class="nv">tickTime</span><span class="o">=</span>2000
+<span class="nv">initLimit</span><span class="o">=</span>10
+<span class="nv">syncLimit</span><span class="o">=</span>5
+<span class="nv">dataDir</span><span class="o">=</span>/data/zookeeper
+<span class="nv">clientPort</span><span class="o">=</span>2181
+server.1<span class="o">=</span>master:3331:4881
+server.2<span class="o">=</span>master:3332:4882
+server.3<span class="o">=</span>master:3333:4883
+<span class="o">[</span>hadoop@master <span class="nb">source</span><span class="o">]</span><span class="nv">$ </span>egrep <span class="nt">-v</span> <span class="s2">"^#|^$"</span> zookeeper2/conf/zoo.cfg 
+<span class="nv">tickTime</span><span class="o">=</span>2000
+<span class="nv">initLimit</span><span class="o">=</span>10
+<span class="nv">syncLimit</span><span class="o">=</span>5
+<span class="nv">dataDir</span><span class="o">=</span>/data/zookeeper2
+<span class="nv">clientPort</span><span class="o">=</span>2182
+server.1<span class="o">=</span>master:3331:4881
+server.2<span class="o">=</span>master:3332:4882
+server.3<span class="o">=</span>master:3333:4883
+<span class="o">[</span>hadoop@master <span class="nb">source</span><span class="o">]</span><span class="nv">$ </span>egrep <span class="nt">-v</span> <span class="s2">"^#|^$"</span> zookeeper3/conf/zoo.cfg 
+<span class="nv">tickTime</span><span class="o">=</span>2000
+<span class="nv">initLimit</span><span class="o">=</span>10
+<span class="nv">syncLimit</span><span class="o">=</span>5
+<span class="nv">dataDir</span><span class="o">=</span>/data/zookeeper3
+<span class="nv">clientPort</span><span class="o">=</span>2183
+server.1<span class="o">=</span>master:3331:4881
+server.2<span class="o">=</span>master:3332:4882
+server.3<span class="o">=</span>master:3333:4883
+
+<span class="o">[</span>hadoop@master ~]<span class="nv">$ </span><span class="nb">echo</span> <span class="s2">"1"</span> <span class="o">&gt;</span> /data/zookeeper/myid
+<span class="o">[</span>hadoop@master ~]<span class="nv">$ </span><span class="nb">echo</span> <span class="s2">"2"</span> <span class="o">&gt;</span> /data/zookeeper2/myid
+<span class="o">[</span>hadoop@master ~]<span class="nv">$ </span><span class="nb">echo</span> <span class="s2">"3"</span> <span class="o">&gt;</span> /data/zookeeper3/myid
+
+</code></pre></div></div>
+
+<h4 id="启动服务">启动服务</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@master ~]<span class="nv">$ </span>/opt/source/zookeeper/bin/zkServer.sh start
+<span class="o">[</span>hadoop@master ~]<span class="nv">$ </span>/opt/source/zookeeper2/bin/zkServer.sh start
+<span class="o">[</span>hadoop@master ~]<span class="nv">$ </span>/opt/source/zookeeper3/bin/zkServer.sh start
+</code></pre></div></div>
+
+<h4 id="参数说明">参数说明</h4>
+<ul>
+  <li>tickTime：这个时间是作为 Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。</li>
+  <li>dataDir：顾名思义就是 Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存在这个目录里。</li>
+  <li>clientPort：这个端口就是客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求。</li>
+  <li>initLimit：这个配置项是用来配置 Zookeeper 接受客户端
+    <ul>
+      <li>（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，
+而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。</li>
+      <li>当已经超过 5个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5*2000=10 秒</li>
+    </ul>
+  </li>
+  <li>syncLimit：这个配置项标识 Leader 与Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是2*2000=4 秒
+server.A=B：C：D：
+    <ul>
+      <li>其中 A 是一个数字，表示这个是第几号服务器；</li>
+      <li>B 是这个服务器的 ip 地址；</li>
+      <li>C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；</li>
+      <li>D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。</li>
+      <li>如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="服务查看">服务查看</h3>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@master ~]<span class="nv">$ </span>netstat <span class="nt">-tnlp</span> |grep <span class="s1">'java'</span>
+<span class="o">(</span>Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.<span class="o">)</span>
+tcp        0      0 192.168.11.130:4881     0.0.0.0:<span class="k">*</span>               LISTEN      3751/java           
+tcp        0      0 192.168.11.130:4882     0.0.0.0:<span class="k">*</span>               LISTEN      3779/java           
+tcp        0      0 192.168.11.130:4883     0.0.0.0:<span class="k">*</span>               LISTEN      3820/java           
+tcp        0      0 0.0.0.0:52021           0.0.0.0:<span class="k">*</span>               LISTEN      3820/java           
+tcp        0      0 0.0.0.0:42968           0.0.0.0:<span class="k">*</span>               LISTEN      3751/java           
+tcp        0      0 0.0.0.0:45241           0.0.0.0:<span class="k">*</span>               LISTEN      3779/java           
+tcp        0      0 192.168.11.130:3332     0.0.0.0:<span class="k">*</span>               LISTEN      3779/java           
+tcp        0      0 0.0.0.0:2181            0.0.0.0:<span class="k">*</span>               LISTEN      3751/java           
+tcp        0      0 0.0.0.0:2182            0.0.0.0:<span class="k">*</span>               LISTEN      3779/java           
+tcp        0      0 0.0.0.0:2183            0.0.0.0:<span class="k">*</span>               LISTEN      3820/java
+
+</code></pre></div></div>
+
+<h3 id="验证测试">验证测试</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@master ~]<span class="nv">$ </span>/opt/source/zookeeper/bin/zkCli.sh <span class="nt">-server</span> master:2181
+Welcome to ZooKeeper!
+JLine support is enabled
+2016-12-26 15:20:48,698 <span class="o">[</span>myid:] - INFO  <span class="o">[</span>main-SendThread<span class="o">(</span>master:2181<span class="o">)</span>:ClientCnxn<span class="nv">$SendThread</span>@876] - Socket conn
+ection established to master/192.168.11.130:2181, initiating session2016-12-26 15:20:48,725 <span class="o">[</span>myid:] - INFO  <span class="o">[</span>main-SendThread<span class="o">(</span>master:2181<span class="o">)</span>:ClientCnxn<span class="nv">$SendThread</span>@1299] - Session es
+tablishment <span class="nb">complete </span>on server master/192.168.11.130:2181, sessionid <span class="o">=</span> 0x15939ddfedb0001, negotiated timeout <span class="o">=</span> 30000
+WATCHER::
+WatchedEvent state:SyncConnected <span class="nb">type</span>:None path:null
+<span class="o">[</span>zk: master:2181<span class="o">(</span>CONNECTED<span class="o">)</span> 1] create /test 123
+
+另开一个终端：
+<span class="o">[</span>root@master ~]# /opt/source/zookeeper3/bin/zkCli.sh <span class="nt">-server</span> master:2183
+Welcome to ZooKeeper!
+JLine support is enabled
+2016-12-26 15:21:40,669 <span class="o">[</span>myid:] - INFO  <span class="o">[</span>main-SendThread<span class="o">(</span>master:2183<span class="o">)</span>:ClientCnxn<span class="nv">$SendThread</span>@876] - Socket conn
+ection established to master/192.168.11.130:2183, initiating session2016-12-26 15:21:40,691 <span class="o">[</span>myid:] - INFO  <span class="o">[</span>main-SendThread<span class="o">(</span>master:2183<span class="o">)</span>:ClientCnxn<span class="nv">$SendThread</span>@1299] - Session es
+tablishment <span class="nb">complete </span>on server master/192.168.11.130:2183, sessionid <span class="o">=</span> 0x35939de0e410001, negotiated timeout <span class="o">=</span> 30000
+WATCHER::
+WatchedEvent state:SyncConnected <span class="nb">type</span>:None path:null
+<span class="o">[</span>zk: master:2183<span class="o">(</span>CONNECTED<span class="o">)</span> 1] get /test
+123
+cZxid <span class="o">=</span> 0x100000009
+ctime <span class="o">=</span> Mon Dec 26 15:21:12 CST 2016
+mZxid <span class="o">=</span> 0x100000009
+mtime <span class="o">=</span> Mon Dec 26 15:21:12 CST 2016
+pZxid <span class="o">=</span> 0x100000009
+cversion <span class="o">=</span> 0
+dataVersion <span class="o">=</span> 0
+aclVersion <span class="o">=</span> 0
+ephemeralOwner <span class="o">=</span> 0x0
+dataLength <span class="o">=</span> 4
+numChildren <span class="o">=</span> 0
+</code></pre></div></div>
+
+<p>更多详细信息请查看<a href="http://zookeeper.apache.org/doc/r3.4.9/">官方文档</a></p>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/01/18/bigdata-zookeeper-conf/';
+                    this.page.identifier = '/2018/01/18/bigdata-zookeeper-conf/';
+                    this.page.title = 'zookeeper';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

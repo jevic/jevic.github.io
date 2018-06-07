@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>hadoop HDFS HA 高可用配置(一) &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/01/18/hadoop-ha-config/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="hadoop HDFS HA 高可用配置(一)">
+      
+    <meta name="keywords" content="hadoop hdfs bigdata">
+    <meta name="og:keywords" content="hadoop hdfs bigdata">
+      
+    <meta name="description" content="">
+    <meta name="og:description" content="">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/01/18/hadoop-ha-config/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-01-18">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="hadoop HDFS HA ">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">hadoop HDFS HA 高可用配置(一)</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/01/18
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p><img src="http://hadoop.apache.org/images/hadoop-logo.jpg" alt="Hadoop" /></p>
+
+<h2 id="概述">概述</h2>
+<ul>
+  <li>Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
+用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。</li>
+  <li>Hadoop实现了一个分布式文件系统（Hadoop Distributed File System），简称HDFS。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。</li>
+  <li>HDFS放宽了（relax）POSIX的要求，可以以流的形式访问（streaming access）文件系统中的数据。</li>
+  <li>Hadoop的框架最核心的设计就是：HDFS和MapReduce。</li>
+  <li>HDFS为海量的数据提供了存储，则MapReduce为海量的数据提供了计算。</li>
+</ul>
+
+<blockquote>
+  <p>Hadoop2.x之后的版本提供了解决单点问题的方案－HA(HighAvailable 高可用) 执行步骤如下：</p>
+</blockquote>
+
+<h3 id="配置-hdfs-ha">配置 HDFS HA</h3>
+<h4 id="依赖组件下载">依赖组件下载</h4>
+<ul>
+  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK</a></li>
+  <li><a href="http://zookeeper.apache.org/releases.html">zookeeper</a></li>
+  <li><a href="http://apache.fayea.com/hadoop/common/">hadoop2.x</a></li>
+</ul>
+
+<h4 id="初始化主机">初始化主机</h4>
+<ol>
+  <li>hostname</li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>192.168.3.27 hdfs-master
+192.168.3.28 hdfs-slave
+
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>关闭防火墙 selinux</p>
+  </li>
+  <li>
+    <p>创建 hadoop 用户</p>
+  </li>
+  <li>
+    <p>ulimit</p>
+  </li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># cat /etc/security/limits.conf</span>
+<span class="k">*</span> soft nofile 102400
+<span class="k">*</span> hard nofile 102400
+</code></pre></div></div>
+
+<ol>
+  <li>配置 hadoop 用户双机互信</li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-master ~]<span class="nv">$ </span>
+<span class="o">[</span>hadoop@hdfs-master ~]<span class="nv">$ </span>ssh-keygen <span class="nt">-t</span> rsa
+<span class="o">[</span>hadoop@hdfs-master ~]<span class="nv">$ </span><span class="nb">cat</span> .ssh/id_rsa.pub <span class="o">&gt;&gt;</span> .ssh/authorized_keys
+<span class="o">[</span>hadoop@hdfs-master ~]<span class="nv">$ </span>chmod 600 .ssh/authorized_keys
+<span class="o">[</span>hadoop@hdfs-master ~]<span class="nv">$ </span>
+复制master 公钥到各节点 步骤略.......
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="err">$</span>
+</code></pre></div></div>
+
+<h4 id="jdk">jdk</h4>
+<ul>
+  <li>/opt/jdk</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/profile
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/opt/jdk
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/bin:<span class="nv">$PATH</span>
+<span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/jre/lib/rt.jar:<span class="nv">$JAVA_HOME</span>/jre/lib/dt.jar:<span class="nv">$JAVA_HOME</span>/lib/tools.jar
+
+</code></pre></div></div>
+
+<h4 id="zookeeper">zookeeper</h4>
+<ul>
+  <li><a href="http://www.jevic.cn/categories/#Bigdata">zookeeper 配置实例</a></li>
+</ul>
+
+<h4 id="hadoop">Hadoop</h4>
+<ul>
+  <li>/usr/local/hadoop</li>
+</ul>
+
+<h5 id="创建目录所有节点">创建目录(所有节点)</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mkdir -p /data/hadoop/data/{dfs,tmp,yarn}</span>
+<span class="c"># mkdir -p /data/hadoop/data/dfs/{data,name}</span>
+<span class="c"># chown -R hadoop.hadoop /data/hadoop</span>
+</code></pre></div></div>
+
+<h5 id="编辑配置文件">编辑配置文件</h5>
+
+<h6 id="切换到hadoop-用户操作">切换到hadoop 用户操作</h6>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@hdfs-master ~]# su - hadoop
+<span class="o">[</span>hadoop@hdfs-master ~]<span class="nv">$ </span><span class="nb">cd</span> /usr/local/hadoop/etc/hadoop/
+</code></pre></div></div>
+<h6 id="hadoop-envsh">hadoop-env.sh</h6>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/opt/jdk
+<span class="c">#export HADOOP_SSH_OPTS="-p 22" 默认为22</span>
+
+</code></pre></div></div>
+<h6 id="slave">slave</h6>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span><span class="nb">cat </span>slaves
+hdfs-master
+hdfs-slave
+</code></pre></div></div>
+
+<h6 id="core-siteyml">core-site.yml</h6>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span><span class="nb">cat </span>core-site.xml
+&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">"UTF-8"</span>?&gt;
+&lt;?xml-stylesheet <span class="nb">type</span><span class="o">=</span><span class="s2">"text/xsl"</span> <span class="nv">href</span><span class="o">=</span><span class="s2">"configuration.xsl"</span>?&gt;
+&lt;configuration&gt;
+&lt;property&gt;
+        &lt;name&gt;fs.defaultFS&lt;/name&gt;
+        &lt;value&gt;hdfs://hadoop-node&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;io.file.buffer.size&lt;/name&gt;
+        &lt;value&gt;131072&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+        &lt;value&gt;/data/hadoop/tmp&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hadoop.proxyuser.hduser.hosts&lt;/name&gt;
+        &lt;value&gt;<span class="k">*</span>&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;hadoop.proxyuser.hduser.groups&lt;/name&gt;
+        &lt;value&gt;<span class="k">*</span>&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;ha.zookeeper.quorum&lt;/name&gt;
+        &lt;value&gt;hdfs-master:2181&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+</code></pre></div></div>
+
+<h6 id="hdfs-sitexml">hdfs-site.xml</h6>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span><span class="nb">cat </span>hdfs-site.xml
+&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">"UTF-8"</span>?&gt;
+&lt;?xml-stylesheet <span class="nb">type</span><span class="o">=</span><span class="s2">"text/xsl"</span> <span class="nv">href</span><span class="o">=</span><span class="s2">"configuration.xsl"</span>?&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.nameservices&lt;/name&gt;
+        &lt;value&gt;hadoop-node&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.ha.namenodes.hadoop-node&lt;/name&gt;
+        &lt;value&gt;nmaster,nslave&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.namenode.rpc-address.hadoop-node.nmaster&lt;/name&gt;
+        &lt;value&gt;hdfs-master:9000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.namenode.rpc-address.hadoop-node.nslave&lt;/name&gt;
+        &lt;value&gt;hdfs-slave:9000&lt;/value&gt;
+    &lt;/property&gt;
+
+    &lt;property&gt;
+        &lt;name&gt;dfs.namenode.http-address.hadoop-node.nmaster&lt;/name&gt;
+        &lt;value&gt;hdfs-master:50070&lt;/value&gt;
+    &lt;/property&gt;
+
+    &lt;property&gt;
+        &lt;name&gt;dfs.namenode.http-address.hadoop-node.nslave&lt;/name&gt;
+        &lt;value&gt;hdfs-slave:50070&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.namenode.shared.edits.dir&lt;/name&gt;
+        &lt;value&gt;qjournal://hdfs-master:8485<span class="p">;</span>hdfs-slave:8485/hadoop-node&lt;/value&gt;
+    &lt;/property&gt;
+
+    &lt;property&gt;
+        &lt;name&gt;dfs.client.failover.proxy.provider.hadoop-node&lt;/name&gt;
+        &lt;value&gt;org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.ha.fencing.methods&lt;/name&gt;
+        &lt;value&gt;sshfence&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.ha.fencing.ssh.private-key-files&lt;/name&gt;
+        &lt;value&gt;/home/hadoop/.ssh/id_rsa&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.journalnode.edits.dir&lt;/name&gt;
+        &lt;value&gt;/data/hadoop/data/tmp/journal&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.ha.automatic-failover.enabled&lt;/name&gt;
+        &lt;value&gt;true&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+        &lt;value&gt;/data/hadoop/data/dfs/name&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+        &lt;value&gt;/data/hadoop/data/dfs/data&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.replication&lt;/name&gt;
+        &lt;value&gt;3&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.webhdfs.enabled&lt;/name&gt;
+        &lt;value&gt;true&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.journalnode.http-address&lt;/name&gt;
+        &lt;value&gt;0.0.0.0:8480&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.journalnode.rpc-address&lt;/name&gt;
+        &lt;value&gt;0.0.0.0:8485&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;ha.zookeeper.quorum&lt;/name&gt;
+        &lt;value&gt;Test-27:2181&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.datanode.data.dir.perm&lt;/name&gt;
+        &lt;value&gt;755&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.block.local-path-access.user&lt;/name&gt;
+        &lt;value&gt;hadoop,root&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+　　    &lt;<span class="o">!</span><span class="nt">--dfs</span>.hosts.exclude定义的文件内容为,每个需要下线的机器，一行一个--&gt;
+        &lt;name&gt;dfs.hosts.exclude&lt;/name&gt;
+　      &lt;value&gt;/usr/local/hadoop/etc/hadoop/excludes&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+</code></pre></div></div>
+
+<h6 id="mapred-sitexml">mapred-site.xml</h6>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span><span class="nb">cat </span>mapred-site.xml
+&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span>?&gt;
+&lt;?xml-stylesheet <span class="nb">type</span><span class="o">=</span><span class="s2">"text/xsl"</span> <span class="nv">href</span><span class="o">=</span><span class="s2">"configuration.xsl"</span>?&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+        &lt;value&gt;yarn&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.jobhistory.address&lt;/name&gt;
+        &lt;value&gt;nmaster:10020&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.jobhistory.webapp.address&lt;/name&gt;
+        &lt;value&gt;nmaster:19888&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+</code></pre></div></div>
+
+<h6 id="yarn-sitexml">yarn-site.xml</h6>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span><span class="nb">cat </span>yarn-site.xml
+&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span>?&gt;
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.connect.retry-interval.ms&lt;/name&gt;
+        &lt;value&gt;2000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.ha.enabled&lt;/name&gt;
+        &lt;value&gt;true&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.ha.rm-ids&lt;/name&gt;
+        &lt;value&gt;rm1,rm2&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;ha.zookeeper.quorum&lt;/name&gt;
+        &lt;value&gt;hdfs-master:2181&lt;/value&gt;
+    &lt;/property&gt;
+
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.ha.automatic-failover.enabled&lt;/name&gt;
+        &lt;value&gt;true&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.hostname.rm1&lt;/name&gt;
+        &lt;value&gt;hdfs-master&lt;/value&gt;
+    &lt;/property&gt;
+
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.hostname.rm2&lt;/name&gt;
+        &lt;value&gt;hdfs-slave&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;<span class="o">!</span><span class="nt">--</span>在hdfs-master上配置rm1,在hdfs-slave上配置rm2,注意：一般都喜欢把配置好的文件远程复制到其它机器上，但这个在YARN的另一个机器上一定要修改 <span class="nt">--</span><span class="o">&gt;</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.ha.id&lt;/name&gt;
+        &lt;value&gt;rm1&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;<span class="o">!</span><span class="nt">--</span>开启自动恢复功能 <span class="nt">--</span><span class="o">&gt;</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.recovery.enabled&lt;/name&gt;
+        &lt;value&gt;true&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;<span class="o">!</span><span class="nt">--</span>配置与zookeeper的连接地址 <span class="nt">--</span><span class="o">&gt;</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.zk-state-store.address&lt;/name&gt;
+        &lt;value&gt;hdfs-master:2181&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.store.class&lt;/name&gt;
+        &lt;value&gt;org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.zk-address&lt;/name&gt;
+        &lt;value&gt;hdfs-master:2181&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.cluster-id&lt;/name&gt;
+        &lt;value&gt;hadoop-yarn&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;<span class="o">!</span><span class="nt">--schelduler</span>失联等待连接时间 <span class="nt">--</span><span class="o">&gt;</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.app.mapreduce.am.scheduler.connection.wait.interval-ms&lt;/name&gt;
+        &lt;value&gt;5000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;<span class="o">!</span><span class="nt">--</span>配置rm1 <span class="nt">--</span><span class="o">&gt;</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.address.rm1&lt;/name&gt;
+        &lt;value&gt;hdfs-master:8132&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.scheduler.address.rm1&lt;/name&gt;
+        &lt;value&gt;hdfs-master:8130&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.webapp.address.rm1&lt;/name&gt;
+        &lt;value&gt;hdfs-master:8188&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.resource-tracker.address.rm1&lt;/name&gt;
+        &lt;value&gt;hdfs-master:8131&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.admin.address.rm1&lt;/name&gt;
+        &lt;value&gt;hdfs-master:8033&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.ha.admin.address.rm1&lt;/name&gt;
+        &lt;value&gt;hdfs-master:23142&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;<span class="o">!</span><span class="nt">--</span>配置rm2 <span class="nt">--</span><span class="o">&gt;</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.address.rm2&lt;/name&gt;
+        &lt;value&gt;hdfs-slave:8132&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.scheduler.address.rm2&lt;/name&gt;
+        &lt;value&gt;hdfs-slave:8130&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.webapp.address.rm2&lt;/name&gt;
+        &lt;value&gt;hdfs-slave:8188&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.resource-tracker.address.rm2&lt;/name&gt;
+        &lt;value&gt;hdfs-slave:8131&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.admin.address.rm2&lt;/name&gt;
+        &lt;value&gt;hdfs-slave:8033&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.ha.admin.address.rm2&lt;/name&gt;
+        &lt;value&gt;hdfs-slave:23142&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
+        &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.local-dirs&lt;/name&gt;
+        &lt;value&gt;/data/hadoop/data/yarn/local&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.log-dirs&lt;/name&gt;
+        &lt;value&gt;/data/hadoop/log/yarn&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.shuffle.port&lt;/name&gt;
+        &lt;value&gt;23080&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;<span class="o">!</span><span class="nt">--</span>故障处理类 <span class="nt">--</span><span class="o">&gt;</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.client.failover-proxy-provider&lt;/name&gt;
+        &lt;value&gt;org.apache.hadoop.yarn.client.ConfiguredRMFailoverProxyProvider&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.ha.automatic-failover.zk-base-path&lt;/name&gt;
+        &lt;value&gt;/yarn-leader-election&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+</code></pre></div></div>
+
+<h5 id="同步配置文件">同步配置文件</h5>
+<ul>
+  <li>同步到所有节点</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>scp <span class="nt">-r</span> /usr/local/hadoop/etc/hadoop hdfs-slave:/usr/local/hadoop/etc/
+
+</code></pre></div></div>
+<h5 id="修改-slave的haid">修改 slave的ha.id</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-slave hadoop]<span class="nv">$ </span><span class="nb">cat </span>yarn-site.xml |grep <span class="nt">-a2</span> ha.id
+    &lt;<span class="o">!</span><span class="nt">--</span>在hdfs-master上配置rm1,在hdfs-slave上配置rm2,注意：一般都喜欢把配置好的文件远程复制到其它机器上，但这个在YARN的另一个机器上一定要修改 <span class="nt">--</span><span class="o">&gt;</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.ha.id&lt;/name&gt;
+        &lt;value&gt;rm2&lt;/value&gt;
+    &lt;/property&gt;
+
+</code></pre></div></div>
+
+<h5 id="启用hadoop">启用Hadoop</h5>
+
+<ul>
+  <li>所有节点执行</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./sbin/hadoop-daemon.sh start journalnode
+</code></pre></div></div>
+
+<ul>
+  <li>master</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./bin/hadoop namenode <span class="nt">-format</span>
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./bin/hdfs zkfc <span class="nt">-formatZK</span>
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./sbin/start-dfs.sh 
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./sbin/start-yarn.sh
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>jps
+16896 Jps
+30194 NodeManager
+27363 JournalNode
+30083 ResourceManager
+29925 DFSZKFailoverController
+29590 DataNode
+29448 NameNode
+</code></pre></div></div>
+
+<ul>
+  <li>slave</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>查看此时的slave 节点进程:
+<span class="o">[</span>hadoop@hdfs-slave hadoop]<span class="nv">$ </span>jps
+28489 NodeManager
+32345 Jps
+25675 JournalNode
+28380 DFSZKFailoverController
+28222 DataNode
+
+<span class="c">## 同步master节点源数据</span>
+<span class="o">[</span>hadoop@hdfs-slave hadoop]<span class="nv">$ </span>./bin/hdfs namenode <span class="nt">-bootstrapStandby</span>
+...........
+<span class="o">=====================================================</span>
+About to bootstrap Standby ID nslave from:
+           Nameservice ID: hadoop-node
+        Other Namenode ID: nmaster
+  Other NN<span class="s1">'s HTTP address: http://hdfs-master:50070
+  Other NN'</span>s IPC  address: hdfs-master/192.168.3.27:9000
+             Namespace ID: 910041107
+            Block pool ID: BP-847688455-192.168.3.27-1516010305437
+               Cluster ID: CID-15090545-231e-4ba6-a593-1afc74857e9c
+           Layout version: <span class="nt">-63</span>
+       isUpgradeFinalized: <span class="nb">true</span>
+<span class="o">=====================================================</span>
+..... common.Storage: Storage directory /data/hadoop/data/dfs/name has been successfully formatted.
+
+<span class="o">[</span>hadoop@hdfs-slave hadoop]<span class="nv">$ </span>./sbin/hadoop-daemon.sh start namenode
+
+<span class="o">[</span>hadoop@hdfs-slave hadoop]<span class="nv">$ </span>./sbin/yarn-daemon.sh start resourcemanager
+<span class="o">[</span>hadoop@hdfs-slave hadoop]<span class="nv">$ </span>jps
+28489 NodeManager
+857 Jps
+25675 JournalNode
+28380 DFSZKFailoverController
+32765 NameNode
+28222 DataNode
+478 ResourceManager
+
+
+</code></pre></div></div>
+
+<h5 id="web-ui">web-ui</h5>
+<ul>
+  <li>http://hdfs-master:50070/</li>
+</ul>
+
+<h5 id="管理命令">管理命令</h5>
+<ul>
+  <li>状态查看</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./bin/hdfs haadmin <span class="nt">-getServiceState</span> nmaster
+active
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./bin/hdfs haadmin <span class="nt">-getServiceState</span> nslave
+standby
+
+</code></pre></div></div>
+
+<ul>
+  <li>未配置自动切换手动操作</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+这条命令的意思是，nslave将变成standby，nmaster变成active。而且手动状态下需要重启服务
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./bin/hdfs haadmin <span class="nt">-failover</span> <span class="nt">--forcefence</span> <span class="nt">--forceactive</span> nmaster nslave
+
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./bin/hdfs haadmin <span class="nt">-transitionToActive</span> nslave
+<span class="o">[</span>hadoop@hdfs-master hadoop]<span class="nv">$ </span>./bin/hdfs haadmin <span class="nt">-transitionToStandby</span> nmaster
+
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/01/18/hadoop-ha-config/';
+                    this.page.identifier = '/2018/01/18/hadoop-ha-config/';
+                    this.page.title = 'hadoop HDFS HA 高可用配置(一)';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

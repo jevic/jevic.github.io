@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Linux Firewalld 防火墙配置(一) &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2016/07/23/linux-firewalld-iptables/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Linux Firewalld 防火墙配置(一)">
+      
+    <meta name="keywords" content="linux iptables firewalld">
+    <meta name="og:keywords" content="linux iptables firewalld">
+      
+    <meta name="description" content="firewalld 常用配置">
+    <meta name="og:description" content="firewalld 常用配置">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2016/07/23/linux-firewalld-iptables/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-07-23">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Linux Firewalld">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Linux Firewalld 防火墙配置(一)</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/07/23
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Linux" title="Linux">Linux</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h1 id="firewalld-常用配置">firewalld 常用配置</h1>
+
+<h2 id="永久设定">永久设定</h2>
+<p><code class="highlighter-rouge">--permanent</code>  当设定永久状态时 在命令开头或者结尾处加入此参数,否则重载或重启防火墙后设置失效！</p>
+
+<h2 id="开放端口">开放端口</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd --zone=public --add-port=80/tcp --permanent
+# firewall-cmd --zone=public --add-port=22/tcp --permanent
+
+可以一次指定多个：
+# firewall-cmd --zone=public  --permanent --add-port=111/tcp --add-port=139/tcp --add-port=445/tcp
+
+</code></pre></div></div>
+<h2 id="加载配置">加载配置</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>firewall-cmd --reload
+</code></pre></div></div>
+
+<h2 id="查看端口">查看端口</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd --list-port
+# firewall-cmd --zone=public --list-ports
+</code></pre></div></div>
+
+<h2 id="开启伪装">开启伪装</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd [--zone=zone] --add-masquerade
+# firewall-cmd --remove-masquerade
+# firewall-cmd --query-masquerade
+</code></pre></div></div>
+<h2 id="添加区域接口">添加区域接口</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd [--zone=zone] --add-interface=&lt;interface&gt;
+# firewall-cmd --zone=public --add-interface=eth0
+
+列出全部启用的区域的特性
+firewall-cmd --list-all-zones
+
+输出区域 &lt;zone&gt; 全部启用的特性。如果省略区域，将显示默认区域的信息
+# firewall-cmd --zone=public --list-all
+</code></pre></div></div>
+
+<h2 id="启用服务">启用服务</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>firewall-cmd --add-service=http
+firewall-cmd --add-service=vnc-server
+firewall-cmd --zone=public --add-service=nfs --add-service=samba --add-service=samba-client --permanent
+
+firewall-cmd --remove-service=service   移除服务
+
+查询：firewall-cmd --list-service
+</code></pre></div></div>
+
+<h2 id="nat地址转换">NAT地址转换</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>firewall-cmd [--zone=&lt;zone&gt;] --add-forward-port=port=&lt;port&gt;[-&lt;port&gt;]:proto=&lt;protocol&gt; { :toport=&lt;port&gt;[-&lt;port&gt;] | :toaddr=&lt;address&gt; | :toport=&lt;port&gt;[-&lt;port&gt;]:toaddr=&lt;address&gt; }
+</code></pre></div></div>
+<h3 id="ip端口转发">IP端口转发</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd --add-forward-port=222:proto=tcp:toport=333:toaddr=192.168.1.100
+</code></pre></div></div>
+<h3 id="本地转发">本地转发：</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd --add-forward-port=port=9898:proto=tcp:toport=8088:toaddr=
+</code></pre></div></div>
+<h3 id="查询">查询：</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd --list-forward-port
+# firewall-cmd --list-port
+# firewall-cmd --list-all
+</code></pre></div></div>
+<h3 id="移除">移除：</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd --remove-forward-port=port=222:proto=tcp:toport=333:toaddr=
+# firewall-cmd --remove-forward-port=222:proto=tcp:toport=333:toaddr=192.168.1.100
+</code></pre></div></div>
+<h2 id="图形化配置工具">图形化配置工具</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-config
+</code></pre></div></div>
+<h2 id="自定义规则">自定义规则</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/sbin/iptables -t filter -I INPUT_direct 2 -s 192.168.1.1 -p tcp --dport=22 -j DROP 
+usage: --direct --add-rule { ipv4 | ipv6 | eb } &lt;table&gt; &lt;chain&gt; &lt;priority&gt; &lt;args&gt;
+
+# firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 1 -s 192.168.1.0/24 -p tcp --dport=22 -j ACCEPT
+# firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 2 -p tcp --dport=22 -j DROP
+# firewall-cmd --reload
+# firewall-cmd --direct --get-all-rules
+ipv4 filter INPUT 1 -s 192.168.1.0/24 -p tcp --dport=22 -j ACCEPT
+ipv4 filter INPUT 2 -p tcp --dport=22 -j DROP
+
+</code></pre></div></div>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2016/07/23/linux-firewalld-iptables/';
+                    this.page.identifier = '/2016/07/23/linux-firewalld-iptables/';
+                    this.page.title = 'Linux Firewalld 防火墙配置(一)';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

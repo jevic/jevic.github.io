@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Chatops 趣味自动化BearyChat-hubot &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/02/07/chatops-hubot/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Chatops 趣味自动化BearyChat-hubot">
+      
+    <meta name="keywords" content="chatops ops linux">
+    <meta name="og:keywords" content="chatops ops linux">
+      
+    <meta name="description" content="  ChatOps 在 GitHub 上广受赞誉，是指由对话驱动的开发。将工具植入到对话当中，使用被关键插件和脚本改良过的聊天机器人，团队能够自动执行任务和协作，效果更好、成本更低、速度更快…..">
+    <meta name="og:description" content="  ChatOps 在 GitHub 上广受赞誉，是指由对话驱动的开发。将工具植入到对话当中，使用被关键插件和脚本改良过的聊天机器人，团队能够自动执行任务和协作，效果更好、成本更低、速度更快…..">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/02/07/chatops-hubot/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-02-07">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Chatops 趣味自动化Be">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Chatops 趣味自动化BearyChat-hubot</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/02/07
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#OPS" title="OPS">OPS</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>ChatOps 在 GitHub 上广受赞誉，是指由对话驱动的开发。将工具植入到对话当中，使用被关键插件和脚本改良过的聊天机器人，团队能够自动执行任务和协作，效果更好、成本更低、速度更快…..</p>
+</blockquote>
+
+<blockquote>
+  <p>在聊天室里，团队成员输入命令来配置机器人，它们通过自定义脚本和插件来执行命令，从代码部署到安全事件响应再到团队成员提醒，范围极广。随着命令被不断执行，整个团队协作也实时进行。</p>
+</blockquote>
+
+<ul>
+  <li>Hubot：GitHub 开发的机器人，用 CoffeeScript 和 Node.js 写成</li>
+  <li>Lita：用 Ruby 写的机器人</li>
+  <li>Err：用 Python 写的机器人</li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <p>BearyChat 是一款团队内部的 IM 沟通工具，旨在为团队提供一种崭新的工作方式，打通团队内部使用的众多第三方服务，提高沟通效率。</p>
+</blockquote>
+
+<blockquote>
+  <p>Hubot 是 GitHub 开源的聊天机器人，提供了一种崭新的运维工作方式：配置，部署，报表，监控等。这些通过指令实现的交互方式，可以大大帮我们减少一些重复的劳作，提高工作效率，也使得工作方式一步步自动化，让工作者找到一种更愉悦的操作方式，当然这不能影响服务的稳定性。</p>
+</blockquote>
+
+<h2 id="部署机器人">部署机器人</h2>
+
+<h3 id="1安装nodejs">1.安装nodejs</h3>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum安装：
+<span class="o">[</span>root@node1 ~]# yum install <span class="nt">-y</span> epel-release
+<span class="o">[</span>root@node1 ~]# yum install <span class="nt">-y</span> npm
+<span class="o">[</span>root@node1 ~]# npm <span class="nt">-version</span>
+3.10.8
+<span class="o">[</span>root@node1 ~]# node <span class="nt">-v</span>
+v6.9.1
+
+
+二进制包安装最新版：
+官网下载地址：https://nodejs.org/en/download/
+
+<span class="o">[</span>root@node1 ~]# <span class="nb">tar </span>xf node-v6.9.5-linux-x64.tar.xz
+<span class="o">[</span>root@node1 ~]# mv node-v6.9.5-linux-x64 /usr/local/nodejs
+<span class="o">[</span>root@node1 ~]# vim /etc/profile
+<span class="nb">export </span><span class="nv">NODE_HOME</span><span class="o">=</span>/usr/local/nodejs
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$NODE_HOME</span>/bin:<span class="nv">$PATH</span>
+<span class="o">[</span>root@node1 ~]# <span class="nb">source</span> /etc/profile
+<span class="o">[</span>root@node1 ~]# npm <span class="nt">-version</span>
+3.10.10
+<span class="o">[</span>root@node1 ~]# node <span class="nt">-v</span>
+v6.9.5
+
+</code></pre></div></div>
+
+<h2 id="2-安装hubot">2. 安装hubot</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node1 ~]# npm install <span class="nt">-g</span> hubot coffee-script yo generator-hubot
+<span class="o">[</span>root@node1 ~]# mkdir myhubot <span class="o">&amp;&amp;</span> <span class="nb">cd </span>myhubot
+<span class="o">[</span>root@node1 myhubot]# yo hubot  <span class="o">(</span>提示没有权限<span class="o">)</span>
+/usr/local/nodejs/lib/node_modules/yo/node_modules/mkdirp/index.js:90
+                    throw err0<span class="p">;</span>
+                    ^
+
+Error: EACCES: permission denied, mkdir <span class="s1">'/root/.config'</span>
+    at Error <span class="o">(</span>native<span class="o">)</span>
+    at Object.fs.mkdirSync <span class="o">(</span>fs.js:922:18<span class="o">)</span>
+    at sync <span class="o">(</span>/usr/local/nodejs/lib/node_modules/yo/node_modules/mkdirp/index.js:71:13<span class="o">)</span>
+    at Function.sync <span class="o">(</span>/usr/local/nodejs/lib/node_modules/yo/node_modules/mkdirp/index.js:77:24<span class="o">)</span>
+    at Object.get <span class="o">(</span>/usr/local/nodejs/lib/node_modules/yo/node_modules/configstore/index.js:38:13<span class="o">)</span>
+    at Object.Configstore <span class="o">(</span>/usr/local/nodejs/lib/node_modules/yo/node_modules/configstore/index.js:27:44<span class="o">)</span>
+    at new Insight <span class="o">(</span>/usr/local/nodejs/lib/node_modules/yo/node_modules/insight/lib/index.js:37:34<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">(</span>/usr/local/nodejs/lib/node_modules/yo/lib/cli.js:172:11<span class="o">)</span>
+    at Module._compile <span class="o">(</span>module.js:570:32<span class="o">)</span>
+    at Object.Module._extensions..js <span class="o">(</span>module.js:579:10<span class="o">)</span>
+
+<span class="o">[</span>root@node1 myhubot]# chmod g+w /root   <span class="o">(</span>修改root目录权限<span class="o">)</span>
+<span class="o">[</span>root@node1 myhubot]# yo hubot
+? <span class="o">==========================================================================</span>
+We<span class="s1">'re constantly looking for ways to make yo better! 
+May we anonymously report usage statistics to improve the tool over time? 
+More info: https://github.com/yeoman/insight &amp; http://yeoman.io
+========================================================================== Yes
+                     _____________________________  
+                    /                             \ 
+   //\              |      Extracting input for    |
+  ////\    _____    |   self-replication process   |
+ //////\  /_____\   \                             / 
+ ======= |[^_/\_]|   /----------------------------  
+  |   | _|___@@__|__                                
+  +===+/  ///     \_\                               
+   | |_\ /// HUBOT/\\                             
+   |___/\//      /  \\                            
+         \      /   +---+                            
+          \____/    |   |                            
+           | //|    +===+                            
+            \//      |xx|                            
+
+? Owner XXX &lt;XXX@163.com&gt;
+? Bot name myhubot
+? Description A simple helpful robot for your Company
+? Bot adapter campfire
+   create bin/hubot
+   create bin/hubot.cmd
+   create Procfile
+   create README.md
+   create external-scripts.json
+   create hubot-scripts.json
+   create .gitignore
+   create package.json
+   create scripts/example.coffee
+   create .editorconfig
+                     _____________________________  
+ _____              /                             \ 
+ \    \             |   Self-replication process   |
+ |    |    _____    |          complete...         |
+ |__\\|   /_____\   \     Good luck with that.    / 
+   |//+  |[^_/\_]|   /----------------------------  
+  |   | _|___@@__|__                                
+  +===+/  ///     \_\                               
+   | |_\ /// HUBOT/\\                             
+   |___/\//      /  \\                            
+         \      /   +---+                            
+          \____/    |   |                            
+           | //|    +===+                            
+            \//      |xx|                            
+
+myhubot@0.0.0 /root/myhubot
+├─┬ hubot@2.19.0 
+│ ├── async@0.9.2 
+│ ├─┬ chalk@1.1.3 
+│ │ ├── ansi-styles@2.2.1 
+│ │ ├── escape-string-regexp@1.0.5 
+│ │ ├─┬ has-ansi@2.0.0 
+│ │ │ └── ansi-regex@2.1.1 
+│ │
+│ │ ├─┬ connect@2.30.2 
+......
+</span></code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node1 myhubot]# chmod g-w /root　（将root目录权限恢复原状）
+<span class="o">[</span>root@node1 myhubot]# npm install hubot-bearychat <span class="nt">--save</span>
+myhubot@0.0.0 /root/myhubot
+└─┬ hubot-bearychat@0.3.1 
+  ├─┬ bearychat@0.1.0 
+  │ ├── babel-plugin-add-module-exports@0.2.1 
+  │ ├─┬ isomorphic-fetch@2.2.1 
+  │ │ ├─┬ node-fetch@1.6.3 
+  │ │ │ ├─┬ encoding@0.1.12 
+  │ │ │ │ └── iconv-lite@0.4.15 
+  │ │ │ └── is-stream@1.1.0 
+  │ │ └── whatwg-fetch@2.0.2 
+  │ └── urijs@1.18.5 
+  └─┬ ws@1.1.1 
+    ├── options@0.0.6 
+    └── ultron@1.0.2
+</code></pre></div></div>
+
+<h3 id="安装shell-命令脚本支持模块">安装shell 命令脚本支持模块：</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node1 myhubot]# npm install hubot-script-shellcmd
+myhubot@0.0.0 /root/myhubot
+└── hubot-script-shellcmd@0.0.16
+<span class="o">[</span>root@node1 myhubot]# cp <span class="nt">-R</span> node_modules/hubot-script-shellcmd/bash ./
+
+修改一下external-scripts.json，添加模块：hubot-script-shellcmd
+<span class="o">[</span>root@node1 myhubot]# <span class="nb">cat </span>external-scripts.json 
+<span class="o">[</span>
+  <span class="s2">"hubot-diagnostics"</span>,
+  <span class="s2">"hubot-help"</span>,
+  <span class="s2">"hubot-heroku-keepalive"</span>,
+  <span class="s2">"hubot-google-images"</span>,
+  <span class="s2">"hubot-google-translate"</span>,
+  <span class="s2">"hubot-pugme"</span>,
+  <span class="s2">"hubot-maps"</span>,
+  <span class="s2">"hubot-redis-brain"</span>,
+  <span class="s2">"hubot-rules"</span>,
+  <span class="s2">"hubot-shipit"</span>,
+  <span class="s2">"hubot-script-shellcmd"</span>  //新增部分
+<span class="o">]</span>
+<span class="o">[</span>root@node1 myhubot]# <span class="nb">cd </span>bash/handlers/
+<span class="o">[</span>root@node1 handlers]# <span class="nb">ls
+</span>helloworld  update
+
+新增脚本
+<span class="o">[</span>root@node1 handlers]# <span class="nb">cat </span>disk 
+<span class="c">#!/bin/bash</span>
+df <span class="nt">-h</span>
+<span class="o">[</span>root@node1 handlers]# chmod +x disk 
+
+</code></pre></div></div>
+
+<h2 id="3-注册bearychat添加机器人">3. 注册bearychat添加机器人</h2>
+<ul>
+  <li>https://www.bearychat.com  注册并登陆
+<img src="http://img.blog.csdn.net/20170207143342629?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenhmXzY2ODg5OQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" />
+<img src="http://img.blog.csdn.net/20170207143420864?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenhmXzY2ODg5OQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" />
+<img src="http://img.blog.csdn.net/20170207143434879?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenhmXzY2ODg5OQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" /></li>
+</ul>
+
+<h3 id="注意">注意：</h3>
+<ul>
+  <li>复制Hubot Token 这个很重要</li>
+  <li>Hubot URL 端口可以随意指定【export EXPRESS_PORT=9090】</li>
+</ul>
+
+<h3 id="下载bearychat客户端或者直接使用网页版都可以">下载bearychat客户端或者直接使用网页版都可以</h3>
+
+<h2 id="配置hubot并启动">配置hubot并启动</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>此处的token就是第三步添加机器人时显示的token多个使用逗号分隔
+<span class="o">[</span>root@node1 myhubot]# <span class="nb">export </span><span class="nv">HUBOT_BEARYCHAT_TOKENS</span><span class="o">=</span>bd00e55956a3759886c21c1ac1fd17dd
+<span class="o">[</span>root@node1 myhubot]# <span class="nb">export </span><span class="nv">HUBOT_BEARYCHAT_MODE</span><span class="o">=</span>rtm
+<span class="o">[</span>root@node1 myhubot]# <span class="nb">export </span><span class="nv">HUBOT_SHELLCMD_KEYWORD</span><span class="o">=</span>run //命令别名
+<span class="o">[</span>root@node1 myhubot]# <span class="nb">export </span><span class="nv">EXPRESS_PORT</span><span class="o">=</span>9090
+<span class="o">[</span>root@node1 myhubot]# nohup ./bin/hubot <span class="nt">-a</span> bearychat 2&amp;1&gt; hubot.log
+<span class="o">[</span>root@node1 myhubot]# netstat <span class="nt">-tnlp</span>|grep 9090
+tcp        0      0 0.0.0.0:9090            0.0.0.0:<span class="k">*</span>               LISTEN      54886/node 
+
+为了以后启动方便可以直接将变量写人文件：
+<span class="o">[</span>root@node1 myhubot]# <span class="nb">cat</span> /etc/profile.d/myhubot.sh 
+<span class="nb">export </span><span class="nv">HUBOT_BEARYCHAT_TOKENS</span><span class="o">=</span>bd00e5595121249886c21c1ac1fd17dd
+<span class="nb">export </span><span class="nv">HUBOT_BEARYCHAT_MODE</span><span class="o">=</span>rtm
+<span class="nb">export </span><span class="nv">EXPRESS_PORT</span><span class="o">=</span>9090
+<span class="o">[</span>root@node1 myhubot]# <span class="nb">source</span> /etc/profile 
+这样以后就无需手动再次export
+
+</code></pre></div></div>
+
+<h2 id="5-客户端登录并测试">5. 客户端登录并测试</h2>
+<p><img src="http://img.blog.csdn.net/20170207144158897?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenhmXzY2ODg5OQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" /></p>
+
+<h2 id="6-机器人脚本示例">6. 机器人脚本示例</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node1 ~]# <span class="nb">cd </span>myhubot/scripts
+<span class="o">[</span>root@node1 scripts]# vim example.coffee   <span class="o">(</span>编辑并修改<span class="o">)</span> 
+....
+<span class="c">#   Uncomment the ones you want to try and experiment with.</span>
+<span class="c">#</span>
+<span class="c">#   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md</span>
+
+module.exports <span class="o">=</span> <span class="o">(</span>robot<span class="o">)</span> -&gt;
+
+   robot.hear /jevic/i, <span class="o">(</span>res<span class="o">)</span> -&gt;
+     res.send <span class="s2">"https://jevic.github.io"</span>
+ 
+<span class="c">#   robot.respond /open the (.*) doors/i, (res) -&gt;</span>
+....
+</code></pre></div></div>
+
+<p><img src="http://img.blog.csdn.net/20170207161248378?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenhmXzY2ODg5OQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" /></p>
+
+<ul>
+  <li>重启hubot</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node1 ~]# nohup ./bin/hubot <span class="nt">-a</span> bearychat 2&amp;1&gt;&gt; hubot.log &amp;
+</code></pre></div></div>
+
+<h3 id="测试">测试</h3>
+<p><img src="http://img.blog.csdn.net/20170207161351456?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenhmXzY2ODg5OQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" /></p>
+
+<ul>
+  <li><a href="https://segmentfault.com/a/1190000006681056#articleHeader1">用slack和hubot搭建你自己的运维机器人</a></li>
+  <li><a href="https://github.com/bearyinnovative/hubot-bearychat/blob/master/README_CN.md">hubot-bearychat</a></li>
+  <li>https://hubot.github.com</li>
+</ul>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/02/07/chatops-hubot/';
+                    this.page.identifier = '/2017/02/07/chatops-hubot/';
+                    this.page.title = 'Chatops 趣味自动化BearyChat-hubot';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

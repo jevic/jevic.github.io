@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Linux firewalld xml配置文件(二) &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2016/10/19/linux-iptables-firewall-xml/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Linux firewalld xml配置文件(二)">
+      
+    <meta name="keywords" content="iptables firewalld linux">
+    <meta name="og:keywords" content="iptables firewalld linux">
+      
+    <meta name="description" content="  在 CentOS 6 防火墙 iptables 是以 Rules 写在 Chain 建立规则然后给 kernel 去执行，每次重建规则必须先清除原有规则，这会导致既有连线中断。  到 CentOS 7 之后改用 firewalld 以 zone 的区域分割观念来建立，并以动态设定方式执行避免中断的问题。  请注意：不能同时执行 iptables 跟 firewalld 这会造成冲突错误。">
+    <meta name="og:description" content="  在 CentOS 6 防火墙 iptables 是以 Rules 写在 Chain 建立规则然后给 kernel 去执行，每次重建规则必须先清除原有规则，这会导致既有连线中断。  到 CentOS 7 之后改用 firewalld 以 zone 的区域分割观念来建立，并以动态设定方式执行避免中断的问题。  请注意：不能同时执行 iptables 跟 firewalld 这会造成冲突错误。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2016/10/19/linux-iptables-firewall-xml/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-10-19">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Linux firewalld">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Linux firewalld xml配置文件(二)</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/10/19
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Linux" title="Linux">Linux</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <ul>
+  <li>在 CentOS 6 防火墙 iptables 是以 Rules 写在 Chain 建立规则然后给 kernel 去执行，每次重建规则必须先清除原有规则，这会导致既有连线中断。</li>
+  <li>到 CentOS 7 之后改用 firewalld 以 zone 的区域分割观念来建立，并以动态设定方式执行避免中断的问题。</li>
+  <li>请注意：不能同时执行 iptables 跟 firewalld 这会造成冲突错误。</li>
+</ul>
+
+<h2 id="firewalld-相关路径">Firewalld 相关路径</h2>
+<ul>
+  <li>/etc/firewalld：设定档路径</li>
+  <li>/usr/bin/：firewall-cmd 指令所在的位置</li>
+  <li>/usr/lib/firewalld/：firewalld 预设的设定资料 (xml 格式)，例如 nfs.xml 就定义了 <code class="highlighter-rouge">&lt;port protocol="tcp" port="2049"/&gt;</code></li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>所谓的 zone 就表示主机位於何种环境，需要设定哪些规则，在 firewalld 里共有 7 个zones
+    <blockquote>
+      <p>先决定主机要设定在那个区域 zone » 再往该 zone 设定规则 »&gt; 重新读取设定档 sudo firewall-cmd –reload</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>public： 公开的场所，不信任网域内所有连线，只有被允许的连线才能进入，一般只要设定这里就可以了
+For use in public areas. You do not trust the other computers on the network to not harm your computer. Only selected incoming connections are accepted.</p>
+  </li>
+  <li>
+    <p>external： 公开的场所，应用在IP是NAT的网路 
+For use on external networks with masquerading enabled especially for routers. You do not trust the other computers on the network to not harm your computer. Only selected incoming connections are accepted.</p>
+  </li>
+  <li>
+    <p>dmz： (Demilitarized Zone) 非军事区，允许对外连线，内部网路只有允许的才可以连线进来 
+For computers in your demilitarized zone that are publicly-accessible with limited access to your internal network. Only selected incoming connections are accepted.</p>
+  </li>
+  <li>
+    <p>work： 公司、工作的环境 
+For use in work areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.</p>
+  </li>
+  <li>
+    <p>home： 家庭环境 
+For use in home areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.</p>
+  </li>
+  <li>
+    <p>internal： 内部网路，应用在NAT设定时的对内网路 
+For use on internal networks. You mostly trust the other computers on the networks to not harm your computer. Only selected incoming connections are accepted.</p>
+  </li>
+  <li>
+    <p>trusted： 接受所有的连线
+All network connections are accepted.</p>
+  </li>
+  <li>
+    <p>drop： 任何进入的封包全部丢弃，只有往外的连线是允许的 
+Any incoming network packets are dropped, there is no reply. Only outgoing network connections are possible.</p>
+  </li>
+  <li>block： 任何进入的封包全部拒绝，并以 icmp 回覆对方 ，只有往外的连线是允许的
+Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated from within the system are possible.</li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>预设主机是被放在 public zone 区域，并有开启两个服务 dhcpv6-client ssh</li>
+  <li>在这样的设定下，任何来源都可以透过 ssh 服务来连接到本主机，但其他的服务 service-port 都是关闭的。</li>
+</ul>
+
+<h2 id="显示目前的设定">显示目前的设定</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># firewall-cmd --list-all</span>
+public <span class="o">(</span>default, active<span class="o">)</span>
+interfaces: ens160
+sources:
+services: dhcpv6-client ssh
+ports:
+masquerade: no
+forward-ports:
+icmp-blocks:
+rich rules:
+</code></pre></div></div>
+
+<ul>
+  <li>若你的环境没在用 DHCP ，则可以将他关掉 DHCP 服务 port</li>
+  <li>关掉 DHCP 服务 port
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sudo firewall-cmd --zone=public --remove-service dhcpv6-client
+</code></pre></div>    </div>
+  </li>
+  <li>暂时允许外部连接本机 DNS 服务</li>
+  <li>暂时开启 DNS port 53</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># sudo systemctl start named</span>
+<span class="c"># sudo systemctl enable named</span>
+<span class="c"># sudo firewall-cmd --add-service=dns</span>
+<span class="c"># sudo firewall-cmd --reload</span>
+<span class="c"># firewall-cmd --list-all</span>
+public <span class="o">(</span>default, active<span class="o">)</span>
+interfaces: ens160
+sources:
+services: dhcpv6-client dns ssh
+ports: <span class="o">(</span>略<span class="o">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>永久开启 DNS port 53</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># sudo firewall-cmd --add-service=dns --permanent</span>
+<span class="c"># sudo firewall-cmd --reload</span>
+</code></pre></div></div>
+
+<hr />
+
+<p>QA：为何可以直接指定加入的服务名称为dns 呢？
+Ans：他会参考 /usr/lib/firewalld/services/ 下的服务，例如 dns.xml ，启用本服务就会连带的开启 TCP 跟 UDP 的 port 53</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span>?&gt;
+&lt;service&gt;
+&lt;short&gt;DNS&lt;/short&gt;
+&lt;description&gt;The Domain Name System <span class="o">(</span>DNS<span class="o">)</span> is used to provide and request host and domain names. Enable this option, <span class="k">if </span>you plan
+to provide a domain name service <span class="o">(</span>e.g. with <span class="nb">bind</span><span class="o">)</span>.&lt;/description&gt;
+&lt;port <span class="nv">protocol</span><span class="o">=</span><span class="s2">"tcp"</span> <span class="nv">port</span><span class="o">=</span><span class="s2">"53"</span>/&gt;
+&lt;port <span class="nv">protocol</span><span class="o">=</span><span class="s2">"udp"</span> <span class="nv">port</span><span class="o">=</span><span class="s2">"53"</span>/&gt;
+&lt;/service&gt;
+</code></pre></div></div>
+
+<ul>
+  <li>总共有这些服务</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ls -1 /usr/lib/firewalld/services/</span>
+amanda-client.xml
+amanda-k5-client.xml
+bacula-client.xml
+bacula.xml
+ceph-mon.xml
+ceph.xml
+.....
+
+</code></pre></div></div>
+
+<h2 id="修改主机的预设-zone">修改主机的预设 zone</h2>
+<ul>
+  <li>前面说过预设为 public zone ，但有些主机服务是要建立在 DMZ 下，我们可以透过修改 /etc/firewalld/firewalld.conf 来将预设的区域改为 dmz</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># sudo vi /etc/firewalld/firewalld.conf</span>
+<span class="o">&gt;</span> 修改 <span class="nv">DefaultZone</span><span class="o">=</span>public
+<span class="o">&gt;</span> 变成 <span class="nv">DefaultZone</span><span class="o">=</span>dmz
+然后重新载入
+<span class="c"># sudo firewall-cmd --reload</span>
+</code></pre></div></div>
+
+<h2 id="自行指定的连接端口">自行指定的连接端口</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sudo firewall-cmd --add-port=8080/tcp --permanent
+success
+# sudo firewall-cmd --reload
+success
+# sudo firewall-cmd --list-all
+public (default, active)
+interfaces: ens160
+sources:
+services: dhcpv6-client dns ssh
+ports: 8080/tcp
+masquerade: no
+</code></pre></div></div>
+<hr />
+
+<p>QA：为何我设定暂时的 rules 都无效呢？
+ANS：假设你临时要开放 port 8888，执行</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># sudo firewall-cmd --add-port=8888/tcp </span>
+<span class="c"># sudo firewall-cmd --reload</span>
+<span class="c"># sudo firewall-cmd --list-all</span>
+
+却发现 <span class="nt">--list-all</span> 的结果都没将 port:8888 这 rule 给加入
+这是因为你在第二步骤时做了 reload ，不是设定没用而是被你的 reload 给清除了
+<span class="c"># sudo firewall-cmd --add-port=8888/tcp</span>
+<span class="c"># sudo firewall-cmd --list-all</span>
+</code></pre></div></div>
+
+<h2 id="查看永久的设定">查看永久的设定</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># firewall-cmd  --list-all --permanent
+</code></pre></div></div>
+
+<h2 id="修改服务的预设连接端口">修改服务的预设连接端口</h2>
+<p>假设你的主机web/www ，默认port 80 但有时候某些网站就不是使用 80 port ，这时候该如何修改呢？</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Step 1：先复制对应的 xml 档到 /etc/firewalld/services
+<span class="c"># sudo cp /usr/lib/firewalld/services/http.xml  /etc/firewalld/services</span>
+
+Step 2：修改 http.xml
+<span class="c"># sudo vi /etc/firewalld/services/http.xml</span>
+
+Step 3：修改对应连接端口
+&lt;port <span class="nv">protocol</span><span class="o">=</span><span class="s2">"tcp"</span> <span class="nv">port</span><span class="o">=</span><span class="s2">"80"</span>/&gt;
+改为
+&lt;port <span class="nv">protocol</span><span class="o">=</span><span class="s2">"tcp"</span> <span class="nv">port</span><span class="o">=</span><span class="s2">"8080"</span>/&gt;
+
+Step 4：重新载入 
+<span class="c"># sudo firewall-cmd --reload</span>
+
+</code></pre></div></div>
+
+<h2 id="限制某服务只能从哪ip连入">限制某服务只能从哪IP连入</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>通常我们会限制 ssh 只能从某些IP来进来，我们可以使用 rich-rule 来加入
+<span class="c"># sudo firewall-cmd --add-rich-rule="rule family="ipv4" source address="192.168.1.88" service name="ssh" accept"</span>
+或 ip subnet
+<span class="c"># sudo firewall-cmd --add-rich-rule="rule family="ipv4" source address="192.168.1.0/24" service name="ssh" accept"</span>
+</code></pre></div></div>
+
+<h2 id="限制某-port-只能从哪ip连入">限制某 port 只能从哪IP连入</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sudo firewall-cmd --add-rich-rule="rule family="ipv4" source address="192.168.12.9" port port="8080" protocol="tcp" accept"
+注意：port port="8080" 不是写错！这是他的格式
+</code></pre></div></div>
+
+<h2 id="直接指定-rule-到-input--chain">直接指定 rule 到 INPUT  chain</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sudo firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 0 -p tcp -s "192.168.12.9" --dport 22 -j ACCEPT
+这样的写法使用 # firewall-cmd --list-all 是看不到的，要用 iptables -L -n
+</code></pre></div></div>
+
+<h2 id="查看预设载入的-rule">查看预设载入的 rule</h2>
+<p>所有的 zone 设定档会放在 /etc/firewalld/zones 跟 /usr/lib/firewalld/zones/ ，
+你所执行的 –permanent 参数会写在 /etc/firewalld/zones 对应的 zone 文件内（例：public.xml），所以当你</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># sudo firewall-cmd --add-service=dns --permanent</span>
+就会在 /etc/firewalld/zones/public.xml 变成 多了 &lt;service <span class="nv">name</span><span class="o">=</span><span class="s2">"dns"</span>/&gt;
+&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span>?&gt;
+  &lt;zone&gt;
+  &lt;short&gt;Public&lt;/short&gt;
+  &lt;description&gt;For use <span class="k">in </span>public areas. You <span class="k">do </span>not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.&lt;/description&gt;
+  &lt;service <span class="nv">name</span><span class="o">=</span><span class="s2">"dhcpv6-client"</span>/&gt;
+  &lt;service <span class="nv">name</span><span class="o">=</span><span class="s2">"ssh"</span>/&gt;
+  &lt;service <span class="nv">name</span><span class="o">=</span><span class="s2">"dns"</span>/&gt;
+  &lt;port <span class="nv">protocol</span><span class="o">=</span><span class="s2">"tcp"</span> <span class="nv">port</span><span class="o">=</span><span class="s2">"8080"</span>/&gt;
+&lt;/zone&gt;
+</code></pre></div></div>
+
+<h2 id="从-etcsysconfigiptables-转为-firewalld-的-direct">从 /etc/sysconfig/iptables 转为 firewalld 的 direct</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>假设你原有的 /etc/sysconfig/iptables 有规则
+-A INPUT -s 140.113.12.9 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp -s 140.113.0.0/16 --dport 123 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp -s 140.114.88.0/24 --dport 161 -j ACCEPT
+要转换到 firewalld 的 direct 规则
+新增 /etc/firewalld/direct.xml  ，如果你之前有执行过 #sudo firewall-cmd --permanent --direct .... 则自动的产生
+
+新增/修改 direct.xml 增加对应上面的 rules
+
+# sudo vi /etc/firewalld/direct.xml
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;direct&gt;
+   &lt;rule priority="0" table="filter" ipv="ipv4" chain="INPUT"&gt;-p tcp -s 192.168.12.9 --dport 22 -j ACCEPT&lt;/rule&gt;
+   &lt;rule priority="0" table="filter" ipv="ipv4" chain="INPUT"&gt;-s 140.113.12.9 -j ACCEPT&lt;/rule&gt;
+   &lt;rule priority="0" table="filter" ipv="ipv4" chain="INPUT"&gt;-p udp -s 140.113.0.0/16 --dport 123 -j ACCEPT&lt;/rule&gt;
+   &lt;rule priority="0" table="filter" ipv="ipv4" chain="INPUT"&gt;-p tcp -s 140.114.88.0/24 --dport 161 -j ACCEPT&lt;/rule&gt;
+&lt;/direct&gt;
+</code></pre></div></div>
+
+<h2 id="从-zone-移除某项服务">从 zone 移除某项服务</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sudo firewall-cmd --zone=public --add-service=http --permanent 
+# sudo firewall-cmd --zone=public --remove-service=http --permanent
+
+# sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent 
+# sudo firewall-cmd --zone=public --remove-port=8080/tcp --permanent
+</code></pre></div></div>
+
+<ul>
+  <li>port forward 将从某 port number 的封包转送另外的 port 或其他主机</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 将 80 port 转往 port 8080
+# sudo firewall-cmd --zone="public" --add-forward-port=port=80:proto=tcp:toport=8080
+
+# 将 80 port 转往其他台主机的 port 8080
+# sudo firewall-cmd --zone="public" --add-forward-port=port=80:proto=tcp:toport=8080:toaddr=140.113.1.1
+</code></pre></div></div>
+
+<h2 id="reference">Reference:</h2>
+<ul>
+  <li>[1]  <a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Security_Guide/sec-Using_Firewalls.html" title="Red_Hat">Red_Hat_Enterprise_Linux</a></li>
+  <li>[2]  <a href="https://www.youtube.com/watch?v=7_XwTdZlqes" title="youtube">youtube</a></li>
+  <li>[3]  <a href="https://www.linode.com/docs/security/firewalls/introduction-to-firewalld-on-centos" title="Introduction to FirewallD on CentOS">Introduction to FirewallD on CentOS</a></li>
+</ul>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2016/10/19/linux-iptables-firewall-xml/';
+                    this.page.identifier = '/2016/10/19/linux-iptables-firewall-xml/';
+                    this.page.title = 'Linux firewalld xml配置文件(二)';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>ELK elasticsearch 管理优化杂记 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/01/23/elk-elasticsearch-itom-ops/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="ELK elasticsearch 管理优化杂记">
+      
+    <meta name="keywords" content="ELK elasticsearch">
+    <meta name="og:keywords" content="ELK elasticsearch">
+      
+    <meta name="description" content="索引分片： 从策略层面，控制分片分配的选择  磁盘限额 为了保护节点数据安全，ES 会定时(cluster.info.update.interval，默认 30 秒)检查一下各节点的数据目录磁盘使用情况。在达到 cluster.routing.allocation.disk.watermark.low (默认 85%)的时候，新索引分片就不会再分配到这个节点上了。在达到 cluster.routing.allocation.disk.watermark.high (默认 90%)的时候，就会触发该节点现存分片的数据均衡，把数据挪到其他节点上去。这两个值不但可以写百分比，还可以写具体的字节,有些公司可能出于成本考虑，对磁盘使用率有一定的要求，需要适当抬高这个配置：">
+    <meta name="og:description" content="索引分片： 从策略层面，控制分片分配的选择  磁盘限额 为了保护节点数据安全，ES 会定时(cluster.info.update.interval，默认 30 秒)检查一下各节点的数据目录磁盘使用情况。在达到 cluster.routing.allocation.disk.watermark.low (默认 85%)的时候，新索引分片就不会再分配到这个节点上了。在达到 cluster.routing.allocation.disk.watermark.high (默认 90%)的时候，就会触发该节点现存分片的数据均衡，把数据挪到其他节点上去。这两个值不但可以写百分比，还可以写具体的字节,有些公司可能出于成本考虑，对磁盘使用率有一定的要求，需要适当抬高这个配置：">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/01/23/elk-elasticsearch-itom-ops/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-01-23">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="ELK elasticsear">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">ELK elasticsearch 管理优化杂记</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/01/23
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="索引分片-从策略层面控制分片分配的选择">索引分片： 从策略层面，控制分片分配的选择</h2>
+<blockquote>
+  <p>磁盘限额 为了保护节点数据安全，ES 会定时(cluster.info.update.interval，默认 30 秒)检查一下各节点的数据目录磁盘使用情况。
+在达到 cluster.routing.allocation.disk.watermark.low (默认 85%)的时候，新索引分片就不会再分配到这个节点上了。
+在达到 cluster.routing.allocation.disk.watermark.high (默认 90%)的时候，就会触发该节点现存分片的数据均衡，把数据挪到其他节点上去。
+这两个值不但可以写百分比，还可以写具体的字节,有些公司可能出于成本考虑，对磁盘使用率有一定的要求，需要适当抬高这个配置：</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPUT localhost:9200/_cluster/settings -d '{</span>
+    <span class="s2">"transient"</span> : <span class="o">{</span>
+        <span class="s2">"cluster.routing.allocation.disk.watermark.low"</span> : <span class="s2">"85%"</span>,
+        <span class="s2">"cluster.routing.allocation.disk.watermark.high"</span> : <span class="s2">"10gb"</span>,
+        <span class="s2">"cluster.info.update.interval"</span> : <span class="s2">"1m"</span>
+    <span class="o">}</span>
+<span class="o">}</span><span class="s1">'
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>热索引分片不均 默认情况下，ES 集群的数据均衡策略是以各节点的分片总数(indices_all_active)作为基准的。这对于搜索服务来说无疑是均衡搜索压力提高性能的好办法。但是对于 Elastic Stack 场景，一般压力集中在新索引的数据写入方面。正常运行的时候，也没有问题。但是当集群扩容时，新加入集群的节点，分片总数远远低于其他节点。这时候如果有新索引创建，ES 的默认策略会导致新索引的所有主分片几乎全分配在这台新节点上。整个集群的写入压力，压在一个节点上，结果很可能是这个节点直接被压死，集群出现异常。 所以，对于 Elastic Stack 场景，强烈建议大家预先计算好索引的分片数后，配置好单节点分片的限额。比如，一个 5 节点的集群，索引主分片 10 个，副本 1 份。则平均下来每个节点应该有 4 个分片，那么就配置：</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -s -XPUT http://127.0.0.1:9200/logstash-2015.05.08/_settings -d '{</span>
+    <span class="s2">"index"</span>: <span class="o">{</span> <span class="s2">"routing.allocation.total_shards_per_node"</span> : <span class="s2">"5"</span> <span class="o">}</span>
+<span class="o">}</span><span class="s1">'
+</span></code></pre></div></div>
+
+<p>注意，这里配置的是 5 而不是 4。因为我们需要预防有机器故障，分片发生迁移的情况。如果写的是 4，那么分片迁移会失败。
+此外，另一种方式则更加玄妙，Elasticsearch 中有一系列参数，相互影响，最终联合决定分片分配：</p>
+<blockquote>
+  <p>cluster.routing.allocation.balance.shard 节点上分配分片的权重，默认为 0.45。数值越大越倾向于在节点层面均衡分片。
+cluster.routing.allocation.balance.index 每个索引往单个节点上分配分片的权重，默认为 0.55。数值越大越倾向于在索引层面均衡分片。
+cluster.routing.allocation.balance.threshold 大于阈值则触发均衡操作。默认为1。</p>
+</blockquote>
+
+<h2 id="reroute-接口">reroute 接口</h2>
+<ul>
+  <li>reroute 接口支持五种指令：allocate_replica, allocate_stale_primary, allocate_empty_primary，move 和 cancel。</li>
+  <li>常用的一般是 allocate 和 move：
+allocate_* 指令</li>
+  <li>因为负载过高等原因，有时候个别分片可能长期处于 UNASSIGNED 状态，我们就可以手动分配分片到指定节点上。默认情况下只允许手动分配副本分片(即使用 allocate_replica)，所以如果要分配主分片，需要单独加一个 accept_data_loss 选项：</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST 127.0.0.1:9200/_cluster/reroute -d '{</span>
+  <span class="s2">"commands"</span> : <span class="o">[</span> <span class="o">{</span>
+        <span class="s2">"allocate_stale_primary"</span> :
+            <span class="o">{</span>
+              <span class="s2">"index"</span> : <span class="s2">"logstash-2015.05.27"</span>, <span class="s2">"shard"</span> : 61, <span class="s2">"node"</span> : <span class="s2">"10.19.0.77"</span>, <span class="s2">"accept_data_loss"</span> : <span class="nb">true</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span><span class="s1">'
+</span></code></pre></div></div>
+
+<ul>
+  <li>因为负载过高，磁盘利用率过高，服务器下线，更换磁盘等原因，可以会需要从节点上移走部分分片：</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-XPOST</span> 127.0.0.1:9200/_cluster/reroute <span class="nt">-d</span> <span class="s1">'{
+  "commands" : [ {
+        "move" :
+            {
+              "index" : "logstash-2015.05.22", "shard" : 0, "from_node" : "10.19.0.81", "to_node" : "10.19.0.104"
+            }
+        }
+  ]
+}'</span>
+</code></pre></div></div>
+
+<h2 id="节点下线">节点下线</h2>
+
+<ul>
+  <li>集群中个别节点出现故障预警等情况，需要下线，也是 Elasticsearch 运维工作中常见的情况。如果已经稳定运行过一段时间的集群，每个节点上都会保存有数量不少的分片。这种时候通过 reroute 接口手动转移，就显得太过麻烦了。这个时候，有另一种方式：</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-XPUT</span> 127.0.0.1:9200/_cluster/settings <span class="nt">-d</span> <span class="s1">'{
+  "transient" :{
+      "cluster.routing.allocation.exclude._ip" : "10.0.0.1"
+   }
+}'</span>
+</code></pre></div></div>
+<blockquote>
+  <p>Elasticsearch 集群就会自动把这个 IP 上的所有分片，都自动转移到其他节点上。等到转移完成，这个空节点就可以毫无影响的下线了。和 _ip 类似的参数还有 _host, _name 等。此外，这类参数不单是 cluster 级别，也可以是 index 级别。下一小节就是 index 级别的用例。</p>
+</blockquote>
+
+<h2 id="冷热数据的读写分离">冷热数据的读写分离</h2>
+
+<p>Elasticsearch 集群一个比较突出的问题是: 用户做一次大的查询的时候, 非常大量的读 IO 以及聚合计算导致机器 Load 升高, CPU 使用率上升, 会影响阻塞到新数据的写入, 这个过程甚至会持续几分钟。所以，可能需要仿照 MySQL 集群一样，做读写分离。</p>
+
+<blockquote>
+  <p>实施方案</p>
+</blockquote>
+
+<p>N 台机器做热数据的存储, 上面只放当天的数据。这 N 台热数据节点上面的 elasticsearc.yml 中配置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node.tag: hot
+</code></pre></div></div>
+
+<p>之前的数据放在另外的 M 台机器上。这 M 台冷数据节点中配置 node.tag: stale
+模板中控制对新建索引添加 hot 标签：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+ </span><span class="s2">"order"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+ </span><span class="s2">"template"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+ </span><span class="s2">"settings"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="s2">"index.routing.allocation.require.tag"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"hot"</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>每天计划任务更新索引的配置, 将 tag 更改为 stale, 索引会自动迁移到 M 台冷数据节点</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPUT http://127.0.0.1:9200/indexname/_settings -d'</span>
+<span class="o">{</span>
+<span class="s2">"index"</span>: <span class="o">{</span>
+   <span class="s2">"routing"</span>: <span class="o">{</span>
+      <span class="s2">"allocation"</span>: <span class="o">{</span>
+         <span class="s2">"require"</span>: <span class="o">{</span>
+            <span class="s2">"tag"</span>: <span class="s2">"stale"</span>
+         <span class="o">}</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>这样，写操作集中在 N 台热数据节点上，大范围的读操作集中在 M 台冷数据节点上。避免了堵塞影响</p>
+  <ul>
+    <li>https://www.elastic.co/guide/en/elasticsearch/reference/master/shard-allocation-filtering.html</li>
+    <li>http://kibana.logstash.es/content/elasticsearch/principle/shard-allocate.html</li>
+  </ul>
+</blockquote>
+
+<hr />
+
+<h2 id="集群自动发现">集群自动发现</h2>
+<ul>
+  <li>fd 是 fault detection</li>
+  <li>考虑到节点有时候因为高负载，慢 <code class="highlighter-rouge">GC</code> <code class="highlighter-rouge">[垃圾回收]</code> 等原因会偶尔没及时响应 ping ,一般建议稍加大 Fault Detection 的超时时间。</li>
+  <li>discovery.zen.ping_timeout 仅在加入或者选举 master 主节点的时候才起作用；</li>
+  <li>discovery.zen.fd.ping_timeout 在稳定运行的集群中，master检测所有节点，以及节点检测 master是否畅通时长期有用</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 集群自动发现</span>
+discovery.zen.ping.unicast.hosts: <span class="o">[</span><span class="s2">"es0"</span>,<span class="s2">"es1"</span>, <span class="s2">"es2"</span>,<span class="s2">"es3"</span>,<span class="s2">"es4"</span><span class="o">]</span>    
+<span class="c"># 超时时间(根据实际情况调整)</span>
+discovery.zen.fd.ping_timeout: 120s
+<span class="c"># 重试次数，防止GC[Garbage collection]节点不响应被剔除</span>
+discovery.zen.fd.ping_retries: 6
+<span class="c"># 运行间隔</span>
+discovery.zen.fd.ping_interval: 30s                
+</code></pre></div></div>
+
+<h2 id="慢查询配置">慢查询配置</h2>
+<ul>
+  <li>es5.X 不支持配置文件设定</li>
+  <li>根据提示进行慢查询设定</li>
+  <li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.2/index-modules-slowlog.html#index-slow-log">Slow log</a></li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">*************************************************************************************</span>
+Found index level settings on node level configuration.
+
+Since elasticsearch 5.x index level settings can NOT be <span class="nb">set </span>on the nodes 
+configuration like the elasticsearch.yaml, <span class="k">in </span>system properties or <span class="nb">command </span>line 
+arguments.In order to upgrade all indices the settings must be updated via the 
+/<span class="k">${</span><span class="nv">index</span><span class="k">}</span>/_settings API. Unless all settings are dynamic all indices must be closed 
+<span class="k">in </span>order to apply the upgradeIndices created <span class="k">in </span>the future should use index templates 
+to <span class="nb">set </span>default values. 
+
+Please ensure all required values are updated on all indices by executing: 
+
+curl <span class="nt">-XPUT</span> <span class="s1">'http://localhost:9200/_all/_settings?preserve_existing=true'</span> <span class="nt">-d</span> <span class="s1">'{
+  "index.indexing.slowlog.level" : "info",
+  "index.indexing.slowlog.source" : "1000",
+  "index.indexing.slowlog.threshold.index.debug" : "2s",
+  "index.indexing.slowlog.threshold.index.info" : "5s",
+  "index.indexing.slowlog.threshold.index.trace" : "500ms",
+  "index.indexing.slowlog.threshold.index.warn" : "10s",
+  "index.search.slowlog.threshold.fetch.debug" : "500ms",
+  "index.search.slowlog.threshold.fetch.info" : "800ms",
+  "index.search.slowlog.threshold.fetch.trace" : "200ms",
+  "index.search.slowlog.threshold.fetch.warn" : "1s",
+  "index.search.slowlog.threshold.query.debug" : "2s",
+  "index.search.slowlog.threshold.query.info" : "5s",
+  "index.search.slowlog.threshold.query.trace" : "500ms",
+  "index.search.slowlog.threshold.query.warn" : "10s"
+}'</span>
+
+</code></pre></div></div>
+
+<h2 id="api-接口">API 接口</h2>
+<h3 id="数据写入">数据写入</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST http://127.0.0.1:9200/logstash-2015.06.21/testlog -d '{</span>
+    <span class="s2">"date"</span> : <span class="s2">"1434966686000"</span>,
+    <span class="s2">"user"</span> : <span class="s2">"chenlin7"</span>,
+    <span class="s2">"mesg"</span> : <span class="s2">"first message into Elasticsearch"</span>
+<span class="o">}</span><span class="s1">'
+</span></code></pre></div></div>
+<p>命令返回响应结果为：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s2">"_index"</span>:<span class="s2">"logstash-2015.06.21"</span>,<span class="s2">"_type"</span>:<span class="s2">"testlog"</span>,<span class="s2">"_id"</span>:<span class="s2">"AU4ew3h2nBE6n0qcyVJK"</span>,<span class="s2">"_version"</span>:1,<span class="s2">"created"</span>:true<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="数据读取">数据读取</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XGET http://127.0.0.1:9200/logstash-2015.06.21/testlog/AU4ew3h2nBE6n0qcyVJK</span>
+<span class="c"># curl -XGET http://127.0.0.1:9200/logstash-2015.06.21/testlog/AU4ew3h2nBE6n0qcyVJK/_source </span>
+
+GET apache-2016.12.30/testlog/AVlPEWLkYdfL4HTWelef/_source
+GET apache-2016.12.30/testlog/AVlPEWLkYdfL4HTWelef?fields<span class="o">=</span>user  <span class="c"># 指定字段</span>
+</code></pre></div></div>
+
+<h3 id="数据删除">数据删除</h3>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XDELETE http://127.0.0.1:9200/logstash-2015.06.21/testlog/AU4ew3h2nBE6n0qcyVJK</span>
+删除不单针对单条数据，还可以删除整个整个索引。甚至可以用通配符。
+<span class="c"># curl -XDELETE http://127.0.0.1:9200/logstash-2015.06.0*</span>
+
+在 Elasticsearch 2.x 之前，可以通过查询语句删除，也可以删除某个 _type 内的数据。现在都已经不再内置支持，改为 Delete by Query 插件。因为这种方式本身对性能影响较大！
+</code></pre></div></div>
+
+<h3 id="数据更新">数据更新</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>已经写过的数据，同样还是可以修改的。有两种办法，一种是全量提交，即指明 _id 再发送一次写入请求。
+<span class="c"># curl -XPOST http://127.0.0.1:9200/logstash-2015.06.21/testlog/AU4ew3h2nBE6n0qcyVJK -d '{</span>
+    <span class="s2">"date"</span> : <span class="s2">"1434966686000"</span>,
+    <span class="s2">"user"</span> : <span class="s2">"chenlin7"</span>,
+    <span class="s2">"mesg"</span> <span class="s2">" "</span>first message into Elasticsearch but version 2<span class="s2">"
+}'
+
+另一种是局部更新，使用 /_update 接口：
+# curl -XPOST 'http://127.0.0.1:9200/logstash-2015.06.21/testlog/AU4ew3h2nBE6n0qcyVJK/_update' -d '{
+    "</span>doc<span class="s2">" : {
+        "</span>user<span class="s2">" : "</span>someone<span class="s2">"
+    }
+}'
+
+或者
+# curl -XPOST 'http://127.0.0.1:9200/logstash-2015.06.21/testlog/AU4ew3h2nBE6n0qcyVJK/_update' -d '{
+    "</span>script<span class="s2">" : "</span>ctx._source.user <span class="o">=</span> <span class="se">\"</span>someone<span class="se">\"</span><span class="s2">"
+}'
+</span></code></pre></div></div>
+
+<h3 id="分片存储设置">分片存储设置</h3>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PUT /_cluster/settings<span class="o">{</span>
+  <span class="s2">"transient"</span>: <span class="o">{</span>
+    <span class="s2">"cluster.routing.allocation.disk.watermark.low"</span>: <span class="s2">"80%"</span>,
+    <span class="s2">"cluster.routing.allocation.disk.watermark.high"</span>: <span class="s2">"5gb"</span>,
+    <span class="s2">"cluster.info.update.interval"</span>: <span class="s2">"1m"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="搜索请求">搜索请求</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>全文搜索
+<span class="c"># curl -XGET http://127.0.0.1:9200/logstash-2015.06.21/testlog/_search?q=first</span>
+<span class="c"># curl -XGET http://127.0.0.1:9200/logstash-2015.06.21/testlog/_search?q=user:"chenlin7"</span>
+<span class="o">{</span>
+  <span class="s2">"took"</span>: 2,   Elasticsearch 执行这个搜索的耗时，以毫秒为单位
+  <span class="s2">"timed_out"</span>: <span class="nb">false</span>,  搜索是否超时 
+  <span class="s2">"_shards"</span>: <span class="o">{</span> 指出多少个分片被搜索了，同时也指出了成功/失败的被搜索的shards 的数量
+    <span class="s2">"total"</span>: 5,  
+    <span class="s2">"successful"</span>: 5,    
+    <span class="s2">"failed"</span>: 0     
+  <span class="o">}</span>,
+  <span class="s2">"hits"</span> : <span class="o">{</span>   搜索结果
+    <span class="s2">"total"</span> : 579,  匹配查询条件的文档的总数目
+    <span class="s2">"max_score"</span> : 0.12633952,
+    <span class="s2">"hits"</span> : <span class="o">[</span>   真正的搜索结果数组（默认是前10个文档）
+      <span class="o">{</span>
+        <span class="s2">"_index"</span> : <span class="s2">"logstash-2015.06.21"</span>,
+        <span class="s2">"_type"</span> : <span class="s2">"logs"</span>,
+        <span class="s2">"_id"</span> : <span class="s2">"AVmvfgGaSF0Iy2LFN0EH"</span>,
+        <span class="s2">"_score"</span> : 0.12633952,
+        <span class="s2">"_source"</span> : <span class="o">{</span>
+          <span class="s2">"user"</span> : <span class="s2">"chenlin7"</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    ......
+
+
+</code></pre></div></div>
+
+<h3 id="querystring-语法">querystring 语法</h3>
+
+<ul>
+  <li>上例中，?q=后面写的，就是 querystring 语法。鉴于这部分内容会在 Kibana 上经常使用，这里详细解析一下语法：</li>
+  <li>全文检索：直接写搜索的单词，如上例中的 first；</li>
+  <li>单字段的全文检索：在搜索单词之前加上字段名和冒号，比如如果知道单词 first 肯定出现在 mesg 字段，可以写作 mesg:first；</li>
+  <li>单字段的精确检索：在搜索单词前后加双引号，比如 user:”chenlin7”；</li>
+  <li>多个检索条件的组合：可以使用 NOT, AND 和 OR 来组合检索，注意必须是大写。比如 user:(“chenlin7” OR “chenlin”) AND NOT mesg:first；</li>
+  <li>字段是否存在：<em>exists</em>:user 表示要求 user 字段存在，<em>missing</em>:user 表示要求 user 字段不存在；</li>
+  <li>通配符：用 ? 表示单字母，* 表示任意个字母。比如 fir?t mess*；</li>
+  <li>正则：需要比通配符更复杂一点的表达式，可以使用正则。比如 mesg:/mes{2}ages?/。注意 ES 中正则性能很差，而且支持的功能也不是特别强大，尽量不要使用。</li>
+  <li>ES 支持的正则语法见：https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-regexp-query.html#regexp-syntax；</li>
+  <li>近似搜索：用 ~ 表示搜索单词可能有一两个字母写的不对，请 ES 按照相似度返回结果。比如 frist~；</li>
+  <li>范围搜索：对数值和时间，ES 都可以使用范围搜索，比如：rtt:&gt;300，date:[“now-6h” TO “now”} 等。其中，[] 表示端点数值包含在范围内，{} 表示端点数值不包含在范围内；</li>
+  <li>完整语法：
+https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-queries.html</li>
+</ul>
+
+<p>term query 的写法</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XGET http://127.0.0.1:9200/_search -d '</span>
+<span class="o">{</span>
+  <span class="s2">"query"</span>: <span class="o">{</span>
+    <span class="s2">"term"</span>: <span class="o">{</span>
+      <span class="s2">"user"</span>: <span class="s2">"chenlin7"</span> 
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span><span class="s1">'
+
+</span></code></pre></div></div>
+
+<h2 id="集群健康状态">集群健康状态</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -XGET 127.0.0.1:9200/_cluster/health?pretty
+</code></pre></div></div>
+
+<ul>
+  <li>green 绿灯，所有分片都正确运行，集群非常健康。</li>
+  <li>yellow 黄灯，所有主分片都正确运行，但是有副本分片缺失。这种情况意味着 ES 当前还是正常运行的，但是有一定风险。注意，在 Kibana4 的 server 端启动逻辑中，即使是黄灯状态，Kibana 4 也会拒绝启动，死循环等待集群状态变成绿灯后才能继续运行。</li>
+  <li>red 红灯，有<code class="highlighter-rouge">主分片缺失</code>。这部分数据完全不可用。而考虑到 ES 在写入端是简单的取余算法，轮到这个分片上的数据也会持续写入报错。</li>
+</ul>
+
+<h2 id="level-请求参数">level 请求参数</h2>
+<blockquote>
+  <p>接口请求的时候，可以附加一个 level 参数，指定输出信息以 indices 还是 shards 级别显示。当然，一般来说，indices 级别就够了。</p>
+</blockquote>
+
+<ul>
+  <li>curl  -XGET http://127.0.0.1:9200/_cluster/health?level=indices</li>
+</ul>
+
+<h2 id="节点状态监控接口">节点状态监控接口</h2>
+<ul>
+  <li>curl -XGET 127.0.0.1:9200/_nodes/stats</li>
+  <li>curl -XGET http://127.0.0.1:9200/_cat/nodes?help</li>
+</ul>
+
+<h2 id="gc垃圾回收"><a href="http://kibana.logstash.es/content/elasticsearch/monitor/api/node-stats.html">GC(垃圾回收)</a></h2>
+<blockquote>
+
+  <p>对不了解 JVM 的 GC 的读者，这里先介绍一下 GC(垃圾收集)以及 GC 对 Elasticsearch 的影响。
+Java is a garbage-collected language, which means that the programmer does not manually manage memory allocation and deallocation. The programmer simply writes code, and the Java Virtual Machine (JVM) manages the process of allocating memory as needed, and then later cleaning up that memory when no longer needed. Java 是一个自动垃圾收集的编程语言，启动 JVM 虚拟机的时候，会分配到固定大小的内存块，这个块叫做 heap(堆)。JVM 会把 heap 分成两个组：
+Young 新实例化的对象所分配的空间。这个空间一般来说只有 100MB 到 500MB 大小。Young 空间又分为两个 survivor(幸存)空间。当 Young 空间满，就会发生一次 young gc，还存活的对象，就被移入幸存空间里，已失效的对象则被移除。
+Old 老对象存储的空间。这些对象应该是长期存活而且在较长一段时间内不会变化的内容。这个空间会大很多，在 ES 来说，一节点上可能就有 30GB 内存是这个空间。前面提到的 young gc 中，如果某个对象连续多次幸存下来，就会被移进 Old 空间内。而等到 Old 空间满，就会发生一次 old gc，把失效对象移除。
+听起来很美好的样子，但是这些都是有代价的！在 GC 发生的时候，JVM 需要暂停程序运行，以便自己追踪对象图收集全部失效对象。在这期间，其他一切都不会继续运行。请求没有响应，ping 没有应答，分片不会分配……
+当然，young gc 一般来说执行极快，没太大影响。但是 old 空间那么大，稍慢一点的 gc 就意味着程序几秒乃至十几秒的不可用，这太危险了。
+JVM 本身对 gc 算法一直在努力优化，Elasticsearch 也尽量复用内部对象，复用网络缓冲，然后还提供像 Doc Values 这样的特性。但不管怎么说，gc 性能总是我们需要密切关注的数据，因为它是集群稳定性最大的影响因子。
+如果你的 ES 集群监控里发现经常有很耗时的 GC，说明集群负载很重，内存不足。严重情况下，这些 GC 导致节点无法正确响应集群之间的 ping ，可能就直接从集群里退出了。然后数据分片也随之在集群中重新迁移，引发更大的网络和磁盘 IO，正常的写入和搜索也会受到影响。</p>
+</blockquote>
+
+<h2 id="集群更新节点配置">集群更新节点配置</h2>
+<ul>
+  <li>刚上线的服务，最近一再的更新基础配置(硬盘)</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 关闭分片自动均衡
+PUT /_cluster/settings
+<span class="o">{</span>
+    <span class="s2">"transient"</span> : <span class="o">{</span>
+        <span class="s2">"cluster.routing.allocation.enable"</span> : <span class="s2">"none"</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+2<span class="o">)</span><span class="nb">.</span> 升级重启该节点，并确认该节点重新加入到了集群中
+
+3<span class="o">)</span><span class="nb">.</span> 其他节点重复第2步，升级重启。
+
+4. 最后所有节点配置更新完成后,重启集群的shard均衡
+
+curl <span class="nt">-XPUT</span> http://192.168.1.2/_cluster/settings <span class="nt">-d</span><span class="s1">'
+{
+    "transient" : {
+        "cluster.routing.allocation.enable" : "all"
+    }
+}'</span>
+
+</code></pre></div></div>
+
+<h2 id="grafana-监控es">Grafana 监控ES</h2>
+<ul>
+  <li>http://kibana.logstash.es/content/elasticsearch/other/grafana.html</li>
+</ul>
+
+<h2 id="kibana-2x">Kibana 2.x</h2>
+<ul>
+  <li>Sence</li>
+  <li>Marvel</li>
+  <li>5.x 版本( x-pack )</li>
+</ul>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/01/23/elk-elasticsearch-itom-ops/';
+                    this.page.identifier = '/2017/01/23/elk-elasticsearch-itom-ops/';
+                    this.page.title = 'ELK elasticsearch 管理优化杂记';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

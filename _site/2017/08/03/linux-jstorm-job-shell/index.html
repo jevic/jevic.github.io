@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Jstorm 多任务管理脚本 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/08/03/linux-jstorm-job-shell/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Jstorm 多任务管理脚本">
+      
+    <meta name="keywords" content="jstorm shell">
+    <meta name="og:keywords" content="jstorm shell">
+      
+    <meta name="description" content="  由于之前一直都是手动的执行命令去提交任务和启动停止任务,但是由于计算任务的逐个增加，每次都要敲一大串的命令或者去执行单个任务脚本是一件很痛苦的事情……为了方便对jstorm任务日常管理操作，将同一业务下的多个任务进行整理写入一个脚本来进行统一操作">
+    <meta name="og:description" content="  由于之前一直都是手动的执行命令去提交任务和启动停止任务,但是由于计算任务的逐个增加，每次都要敲一大串的命令或者去执行单个任务脚本是一件很痛苦的事情……为了方便对jstorm任务日常管理操作，将同一业务下的多个任务进行整理写入一个脚本来进行统一操作">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/08/03/linux-jstorm-job-shell/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-08-03">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Jstorm 多任务管理脚本">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Jstorm 多任务管理脚本</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/08/03
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Linux" title="Linux">Linux</a>
+          </span>
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Shell" title="Shell">Shell</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>由于之前一直都是手动的执行命令去提交任务和启动停止任务,但是由于计算任务的逐个增加，每次都要敲一大串的命令或者去执行单个任务脚本是一件很痛苦的事情……
+为了方便对jstorm任务日常管理操作，将同一业务下的多个任务进行整理写入一个脚本来进行统一操作</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">## Jstorm 多任务管理脚本</span>
+<span class="c">##</span>
+
+<span class="nv">USAGE</span><span class="o">=</span><span class="s2">"Usage: </span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2"> [-hms] [SRV] [TYPE] [ACTION] 
+
+SRV (SRV Option) is one of:
+
+    web         </span><span class="se">\t</span><span class="s2"> web
+    app         </span><span class="se">\t</span><span class="s2"> app
+    all              </span><span class="se">\t</span><span class="s2"> web and app
+
+Where [TYPE] is on of:
+    flow        </span><span class="se">\t</span><span class="s2"> flow
+    status      </span><span class="se">\t</span><span class="s2"> status
+    all         </span><span class="se">\t</span><span class="s2"> all
+
+Where [ACTION] is on of:
+    start          </span><span class="se">\t</span><span class="s2"> start job
+    stop          </span><span class="se">\t</span><span class="s2"> stop  job
+
+-h    </span><span class="se">\t</span><span class="s2"> display this help.
+-d    </span><span class="se">\t</span><span class="s2"> date   e.g: YYYYmmdd
+-t    </span><span class="se">\t</span><span class="s2"> times  e.g: HHMM"</span>
+
+<span class="c">## color</span>
+<span class="nv">red</span><span class="o">=</span><span class="s2">"</span><span class="se">\0</span><span class="s2">33[31m"</span>
+<span class="nv">green</span><span class="o">=</span><span class="s2">"</span><span class="se">\0</span><span class="s2">33[32m"</span>
+<span class="nv">yellow</span><span class="o">=</span><span class="s2">"</span><span class="se">\0</span><span class="s2">33[33m"</span>
+<span class="nv">plan</span><span class="o">=</span><span class="s2">"</span><span class="se">\0</span><span class="s2">33[0m"</span>
+
+
+<span class="c">## webFlow</span>
+webFlow<span class="o">(){</span>
+      <span class="k">if</span> <span class="o">[</span> <span class="nv">$KEY</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+
+      else
+
+      fi</span>
+<span class="o">}</span>
+
+appFlow<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">[</span> <span class="nv">$KEY</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+
+      else
+
+      fi</span>
+<span class="o">}</span>
+
+webStatus<span class="o">()</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">[</span> <span class="nv">$KEY</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+
+     elif</span> <span class="o">[</span> <span class="nv">$KEY</span> <span class="o">==</span> 1 <span class="o">]</span><span class="p">;</span><span class="k">then
+        
+     fi</span>
+<span class="o">}</span>
+
+appStatus<span class="o">()</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">[</span> <span class="nv">$KEY</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">""</span>
+     <span class="k">elif</span> <span class="o">[</span> <span class="nv">$KEY</span> <span class="o">==</span> 1 <span class="o">]</span><span class="p">;</span><span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">""</span>
+     <span class="k">fi</span>
+<span class="o">}</span>
+
+RUN<span class="o">(){</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$APP</span> <span class="o">==</span> <span class="s2">"web"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+           if</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"flow"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>webFlow
+           <span class="k">elif</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"status"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>webStatus
+           <span class="k">elif</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"all"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>webFlow
+              webStatus
+           <span class="k">fi
+        elif</span> <span class="o">[</span> <span class="nv">$APP</span> <span class="o">==</span> <span class="s2">"app"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+           if</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"flow"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>appFlow
+           <span class="k">elif</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"status"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>appStatus
+           <span class="k">elif</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"all"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>appFlow
+              appStatus
+           <span class="k">fi
+        elif</span> <span class="o">[</span> <span class="nv">$APP</span> <span class="o">==</span> <span class="s2">"all"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+           if</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"flow"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>webFlow
+              appFlow
+           <span class="k">elif</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"status"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>webStatus
+              appStatus
+           <span class="k">elif</span> <span class="o">[</span> <span class="nv">$BW</span> <span class="o">==</span> <span class="s2">"all"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+              </span>webFlow
+              appFlow
+              webStatus
+              appStatus
+           <span class="k">fi
+        fi</span>
+<span class="o">}</span>
+
+main<span class="o">()</span> <span class="o">{</span>  
+<span class="k">while </span><span class="nb">getopts</span> <span class="s2">"hm:t:"</span> opt
+<span class="k">do
+    case</span> <span class="s2">"</span><span class="nv">$opt</span><span class="s2">"</span> <span class="k">in
+       </span>h<span class="p">)</span>
+        <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USAGE</span><span class="k">}</span><span class="s2">"</span>
+        <span class="nb">exit </span>0
+        <span class="p">;;</span>
+       m<span class="p">)</span>
+        <span class="nv">Date</span><span class="o">=</span><span class="nv">$OPTARG</span>
+        <span class="p">;;</span>
+       t<span class="p">)</span>
+         <span class="nv">Time</span><span class="o">=</span><span class="nv">$OPTARG</span>
+         <span class="p">;;</span> 
+       <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USAGE</span><span class="k">}</span><span class="s2">"</span>
+        <span class="nb">exit </span>0
+        <span class="p">;;</span>
+     <span class="k">esac</span>
+<span class="k">done
+
+</span><span class="nb">shift</span> <span class="k">$((${</span><span class="nv">OPTIND</span><span class="k">}</span> <span class="o">-</span> <span class="m">1</span><span class="k">))</span>
+
+<span class="nv">SRV</span><span class="o">=</span><span class="nv">$1</span>
+<span class="k">case</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SRV</span><span class="k">}</span><span class="s2">"</span> <span class="k">in
+     </span>web<span class="p">)</span> <span class="nv">APP</span><span class="o">=</span>web <span class="p">;;</span>
+     app<span class="p">)</span> <span class="nv">APP</span><span class="o">=</span>app <span class="p">;;</span>
+     all<span class="p">)</span> <span class="nv">APP</span><span class="o">=</span>all <span class="p">;;</span>
+     <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">red</span><span class="k">}</span><span class="s2">Error: no SRV specified </span><span class="nv">$plan</span><span class="s2">"</span> <span class="o">&gt;</span>&amp;2
+        <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USAGE</span><span class="k">}</span><span class="s2">"</span>
+        <span class="nb">exit </span>1
+        <span class="p">;;</span>
+<span class="k">esac</span>
+<span class="nb">shift
+
+</span><span class="nv">TYPE</span><span class="o">=</span><span class="nv">$1</span>
+<span class="k">case</span> <span class="nv">$TYPE</span> <span class="k">in
+    </span>flow<span class="p">)</span>
+       <span class="nv">BW</span><span class="o">=</span><span class="s2">"flow"</span> <span class="p">;;</span>
+    status<span class="p">)</span>
+       <span class="nv">BW</span><span class="o">=</span><span class="s2">"status"</span> <span class="p">;;</span>
+    all<span class="p">)</span>
+       <span class="nv">BW</span><span class="o">=</span><span class="s2">"all"</span> <span class="p">;;</span>
+    <span class="k">*</span><span class="p">)</span>
+     <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">red</span><span class="k">}</span><span class="s2">Error: no TYPE specified </span><span class="nv">$plan</span><span class="s2">"</span> <span class="o">&gt;</span>&amp;2
+     <span class="nb">exit </span>1
+     <span class="p">;;</span>
+<span class="k">esac</span>
+<span class="nb">shift
+
+</span><span class="nv">ACTION</span><span class="o">=</span><span class="nv">$1</span>
+<span class="k">case</span> <span class="nv">$ACTION</span> <span class="k">in 
+     </span>start<span class="p">)</span>
+        <span class="nv">KEY</span><span class="o">=</span>0 
+        RUN
+        <span class="p">;;</span>
+     stop<span class="p">)</span>
+        <span class="nv">KEY</span><span class="o">=</span>1
+        RUN
+        <span class="p">;;</span>
+     <span class="k">*</span><span class="p">)</span>
+       <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USAGE</span><span class="k">}</span><span class="s2">"</span>
+       <span class="nb">exit </span>1
+       <span class="p">;;</span>
+<span class="k">esac</span>
+<span class="o">}</span>
+
+main <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+
+</code></pre></div></div>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/08/03/linux-jstorm-job-shell/';
+                    this.page.identifier = '/2017/08/03/linux-jstorm-job-shell/';
+                    this.page.title = 'Jstorm 多任务管理脚本';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

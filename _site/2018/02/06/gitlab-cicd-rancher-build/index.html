@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>gitlab CI/CD 自动化构建Rancher容器服务 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/02/06/gitlab-cicd-rancher-build/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="gitlab CI/CD 自动化构建Rancher容器服务">
+      
+    <meta name="keywords" content="gitlab cicd 自动化">
+    <meta name="og:keywords" content="gitlab cicd 自动化">
+      
+    <meta name="description" content="概述  gitlab  rancher">
+    <meta name="og:description" content="概述  gitlab  rancher">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/02/06/gitlab-cicd-rancher-build/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-02-06">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="gitlab CI/CD 自动">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">gitlab CI/CD 自动化构建Rancher容器服务</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/02/06
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#OPS" title="OPS">OPS</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h1 id="概述">概述</h1>
+<ul>
+  <li>gitlab</li>
+  <li>rancher</li>
+</ul>
+
+<h2 id="rancher">Rancher</h2>
+<p><a href="https://www.cnrancher.com/">Rancher</a>是一个开源的企业级容器管理平台。通过Rancher，企业再也不必自己使用一系列的开源软件去从头搭建容器服务平台。Rancher提供了在生产环境中使用的管理Docker和Kubernetes的全栈化容器部署与管理平台。
+<img src="http://rancher.com/docs/img/rancher/rancher_overview_2.png" alt="" /></p>
+<h2 id="gitlab-cicd">Gitlab CI/CD</h2>
+<p><img src="https://docs.gitlab.com/ee/ci/img/cicd_pipeline_infograph.png" alt="" /></p>
+<h3 id="1-gitlab">1. Gitlab</h3>
+<p><a href="https://docs.gitlab.com/ee/README.html">GitLab</a> 是一个利用Ruby on Rails开发的开源应用程序，实现一个自托管的Git项目仓库，可通过Web界面进行访问公开的或者私人项目。
+它拥有与GitHub类似的功能，能够浏览源代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本并提供一个文件历史库。团队成员可以利用内置的简单聊天程序（Wall）进行交流。它还提供一个代码片段收集功能可以轻松实现代码复用，便于日后有需要的时候进行查找。</p>
+
+<h3 id="2-gitlab-ci">2. Gitlab-CI</h3>
+<p>Gitlab-CI是GitLab Continuous Integration（Gitlab持续集成）的简称。
+从Gitlab的8.0版本开始，gitlab就全面集成了Gitlab-CI,并且对所有项目默认开启。
+只要在项目仓库的根目录添加.gitlab-ci.yml文件，并且配置了Runner（运行器），那么每一次合并请求（MR）或者push都会触发CI pipeline。</p>
+
+<h3 id="3-gitlab-runner">3. Gitlab-runner</h3>
+<p>Gitlab-runner 是.gitlab-ci.yml脚本的运行器，Gitlab-runner是基于Gitlab-CI的API进行构建的相互隔离的机器（或虚拟机）。GitLab Runner 不需要和Gitlab安装在同一台机器上，但是考虑到GitLab Runner的资源消耗问题和安全问题，也不建议这两者安装在同一台机器上。</p>
+
+<p>Gitlab Runner分为两种，Shared runners和Specific runners。
+Specific runners只能被指定的项目使用，Shared runners则可以运行所有开启 Allow shared runners选项的项目。</p>
+
+<h3 id="4-pipelines">4. Pipelines</h3>
+<p>Pipelines是定义于.gitlab-ci.yml中的不同阶段的不同任务。
+我把Pipelines理解为流水线，流水线包含有多个阶段（stages），每个阶段包含有一个或多个工序（jobs），比如先购料、组装、测试、包装再上线销售，每一次push或者MR都要经过流水线之后才可以合格出厂。而.gitlab-ci.yml正是定义了这条流水线有哪些阶段，每个阶段要做什么事。</p>
+
+<h3 id="5-badges">5. Badges</h3>
+<p>徽章，当Pipelines执行完成，会生成徽章，你可以将这些徽章加入到你的README.md文件或者你的网站。</p>
+
+<h2 id="环境配置">环境配置</h2>
+<h3 id="rancher-1">Rancher</h3>
+<blockquote>
+  <p>具体安装请查看<a href="http://rancher.com/docs/rancher/v1.6/zh/">官网文档</a></p>
+</blockquote>
+
+<h4 id="运行-nginx-服务">运行 Nginx 服务</h4>
+<h5 id="1-添加私有仓库并添加证书">1. 添加私有仓库并添加证书</h5>
+<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-registry.jpg" alt="" />
+<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-registry-02.jpg" alt="" /></p>
+<h5 id="2-创建应用服务">2. 创建应用服务</h5>
+<ul>
+  <li>网络模式: <code class="highlighter-rouge">主机</code>，如果设置为manage 需要配置<code class="highlighter-rouge">负载均衡</code></li>
+  <li>
+    <p>切记要对服务进行标签设定
+<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-nginx-01.jpg" alt="" /></p>
+  </li>
+  <li>访问
+<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-01.jpg" alt="" />
+    <h5 id="3-添加接收器-webhooks">3. 添加接收器 webhooks</h5>
+    <p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-webhook.jpg" alt="" />
+<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-webhook-02.jpg" alt="" /></p>
+  </li>
+</ul>
+
+<h3 id="gitlab">Gitlab</h3>
+<blockquote>
+  <p>中文社区版 <a href="https://hub.docker.com/r/twang2218/gitlab-ce-zh/">docker hub</a>
+安装步骤省略…..</p>
+</blockquote>
+
+<h3 id="gitlab-runner">gitlab-runner</h3>
+<blockquote>
+  <p>注: 主版本要与gitlab 一致否则无法添加!!!</p>
+</blockquote>
+
+<blockquote>
+  <p><a href="https://gitlab.com/gitlab-org/gitlab-runner/blob/master/docs/configuration/advanced-configuration.md">高级配置</a></p>
+</blockquote>
+
+<ul>
+  <li>官方镜像并未配置docker CLI,如有需要安装即可，否则直接使用官方镜像run 即可。</li>
+  <li>此处基于官方镜像配置docker CLI，并运行</li>
+</ul>
+
+<h5 id="安装docker-命令">安装docker 命令</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># cat Dockerfile</span>
+FROM gitlab/gitlab-runner:v9.2.2
+RUN curl <span class="nt">-O</span> https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz  <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> <span class="nb">tar </span>zxvf docker-latest.tgz <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> cp docker/docker /usr/local/bin/ <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> rm <span class="nt">-rf</span> docker docker-latest.tgz  
+<span class="c"># docker build -t gitlab-runner:docker .</span>
+</code></pre></div></div>
+
+<h5 id="运行">运行</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-d</span> <span class="nt">--name</span> gitlab-runner <span class="nt">--restart</span> always <span class="se">\</span>
+<span class="nt">-v</span> /srv/gitlab-runner/config:/etc/gitlab-runner <span class="se">\</span>
+<span class="nt">-v</span> /var/run/docker.sock:/var/run/docker.sock <span class="se">\</span>
+gitlab-runner:docker
+
+</code></pre></div></div>
+
+<h5 id="配置sudo">配置sudo</h5>
+<blockquote>
+  <p>由于需要执行docker 命令所以需要配置sudo 免密码执行权限</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># docker exec -it 0c115c075b32 /bin/bash</span>
+root@0c115c075b32:/# <span class="nb">cat</span> /etc/sudoers |grep gitlab
+gitlab-runner    <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span>       NOPASSWD: ALL
+
+</code></pre></div></div>
+
+<h5 id="注册-runners">注册 Runners</h5>
+<blockquote>
+  <p>根据提示输入指定参数即可</p>
+</blockquote>
+
+<blockquote>
+  <p>URL  gitlab URL</p>
+</blockquote>
+
+<blockquote>
+  <p>token 注册认证token</p>
+</blockquote>
+
+<blockquote>
+  <p>description 描述信息，自定义</p>
+</blockquote>
+
+<blockquote>
+  <p>tags  用来区分多个runners,自定义</p>
+</blockquote>
+
+<blockquote>
+  <p>executor 根据需要选择即可，此处选择的shell</p>
+</blockquote>
+
+<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-runners.jpg" alt="" /></p>
+
+<ul>
+  <li>register</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@0c115c075b32:/# gitlab-ci-multi-runner register
+Running <span class="k">in </span>system-mode.
+
+Please enter the gitlab-ci coordinator URL <span class="o">(</span>e.g. https://gitlab.com/<span class="o">)</span>:
+http://test.gitlab.com/ci
+Please enter the gitlab-ci token <span class="k">for </span>this runner:
+xxxxxxxx-xxxxxxx
+Please enter the gitlab-ci description <span class="k">for </span>this runner:
+<span class="o">[</span>0c115c075b32]: t197
+Please enter the gitlab-ci tags <span class="k">for </span>this runner <span class="o">(</span>comma separated<span class="o">)</span>:
+t197
+Whether to run untagged builds <span class="o">[</span><span class="nb">true</span>/false]:
+<span class="o">[</span><span class="nb">false</span><span class="o">]</span>: 直接回车
+Whether to lock Runner to current project <span class="o">[</span><span class="nb">true</span>/false]:
+<span class="o">[</span><span class="nb">false</span><span class="o">]</span>: 直接回车
+INFO[0034] fcf5c619 Registering runner... succeeded
+Please enter the executor: shell, docker, docker-ssh, ssh?
+shell
+INFO[0037] Runner registered successfully. Feel free to start it, but <span class="k">if </span>it<span class="s1">'s
+running already the config should be automatically reloaded!
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>此时打开gitlab CI/CD 设置页面 即可查看到注册的Runners
+<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-set-01.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p>设置构建时的环境变量
+<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-set-02.jpg" alt="" /></p>
+  </li>
+</ul>
+
+<h5 id="至此所有准备工作完毕下面开始首次构建">至此所有准备工作完毕，下面开始首次构建</h5>
+<h3 id="cicd-test">CI/CD Test</h3>
+<h4 id="dockerfile-version01">dockerfile Version0.1</h4>
+<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-01.jpg" alt="" /></p>
+<blockquote>
+  <p>下面将通过gitlab ci/cd 结合rancher 升级服务到version 0.2</p>
+</blockquote>
+
+<h4 id="update-version02">update Version0.2</h4>
+<blockquote>
+  <p>编辑更新Dockerfile</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM nginx:alpine
+
+RUN <span class="nb">echo</span> <span class="s2">"&lt;h2&gt;Gitlab CI/CD on Rancher NginxApp Version 0.2....&lt;h2&gt;"</span> <span class="o">&gt;</span> /usr/share/nginx/html/index.html
+
+</code></pre></div></div>
+<h4 id="rancher-服务升级触发脚本">Rancher 服务升级触发脚本</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">## rancher 触发器</span>
+<span class="nv">Webhook</span><span class="o">=</span><span class="nv">$1</span>
+<span class="c">## 仓库名称</span>
+<span class="nv">repo</span><span class="o">=</span><span class="nv">$2</span>
+
+curl <span class="nt">-XPOST</span> <span class="nt">-H</span> <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+<span class="s2">"</span><span class="nv">$Webhook</span><span class="s2">"</span> <span class="se">\</span>
+<span class="nt">-d</span> <span class="s1">'{
+    "push_data": {
+        "tag": "master"
+    },
+    "repository": {
+        "repo_name": "'</span><span class="nv">$repo</span><span class="s1">'"
+    }
+}'</span>
+
+</code></pre></div></div>
+
+<h4 id="gitlab-ciyml">.gitlab-ci.yml</h4>
+<ul>
+  <li><a href="https://docs.gitlab.com/ce/ci/yaml/README.html">官方配置文件详解</a></li>
+  <li><a href="http://blog.csdn.net/wmq880204/article/details/70141771">中文说明</a></li>
+  <li>引用Runners 添加的环境变量</li>
+  <li>尽量使用环境变量来引用各个参数</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jay➜/tmp/cicd<span class="o">(</span>master✗<span class="o">)</span>» <span class="nb">cat</span> .gitlab-ci.yml                                                                                                                             <span class="o">[</span>16:19:16]
+variables:
+  Tags: master
+
+stages:
+  - build
+  - release
+<span class="c"># 环境</span>
+before_script:
+  - <span class="nb">sudo </span>docker <span class="nt">--version</span>
+  - <span class="nb">sudo </span>uname <span class="nt">-a</span>
+<span class="c"># 构建镜像</span>
+build:
+  stage: build
+  script:
+    - <span class="nb">sudo echo</span> <span class="s2">"</span><span class="nv">$repo</span><span class="s2">:</span><span class="nv">$Tags</span><span class="s2">"</span>
+    - <span class="nb">sudo </span>docker build <span class="nt">--pull</span> <span class="nt">-t</span> <span class="s2">"</span><span class="nv">$repo</span><span class="s2">:</span><span class="nv">$Tags</span><span class="s2">"</span> <span class="nb">.</span>
+    - <span class="nb">sudo </span>docker login <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$PASSWD</span><span class="s2">"</span> <span class="nv">$registry</span>
+    - <span class="nb">sudo </span>docker push <span class="s2">"</span><span class="nv">$repo</span><span class="s2">:</span><span class="nv">$Tags</span><span class="s2">"</span>
+    - <span class="nb">sudo </span>docker rmi <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$repo</span><span class="s2">:</span><span class="nv">$Tags</span><span class="s2">"</span>
+<span class="c"># 升级rancher服务</span>
+release:
+  stage: release
+  script:
+    - sh update.sh <span class="nv">$Webhook</span> <span class="nv">$repo</span>
+</code></pre></div></div>
+
+<h4 id="提交commit">提交commit</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jay➜/tmp/cicd<span class="o">(</span>master✗<span class="o">)</span>» git add <span class="nt">--all</span>                                                                                                                                  <span class="o">[</span>16:28:37]
+
+jay➜/tmp/cicd<span class="o">(</span>master✗<span class="o">)</span>» git commit <span class="nt">-m</span> <span class="s2">"version 0.2"</span>                                                                                                                    <span class="o">[</span>16:29:25]
+<span class="o">[</span>master 6647463] version 0.2
+ 2 files changed, 4 insertions<span class="o">(</span>+<span class="o">)</span>, 3 deletions<span class="o">(</span>-<span class="o">)</span>
+
+jay➜/tmp/cicd<span class="o">(</span>master<span class="o">)</span>» git push origin master                                                                                                                          <span class="o">[</span>16:30:20]
+Counting objects: 4, <span class="k">done</span><span class="nb">.</span>
+Delta compression using up to 4 threads.
+Compressing objects: 100% <span class="o">(</span>4/4<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+Writing objects: 100% <span class="o">(</span>4/4<span class="o">)</span>, 412 bytes | 0 bytes/s, <span class="k">done</span><span class="nb">.</span>
+Total 4 <span class="o">(</span>delta 3<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
+To http://test.gitlab.com/jevic/cicd.git
+   3dd8d23..6647463  master -&gt; master
+</code></pre></div></div>
+
+<h4 id="查看项目状态">查看项目状态</h4>
+<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-ok.jpg" alt="" />
+<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-02.jpg" alt="" />
+<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-03.jpg" alt="" /></p>
+
+<h4 id="页面访问">页面访问</h4>
+<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-02.jpg" alt="" /></p>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/02/06/gitlab-cicd-rancher-build/';
+                    this.page.identifier = '/2018/02/06/gitlab-cicd-rancher-build/';
+                    this.page.title = 'gitlab CI/CD 自动化构建Rancher容器服务';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>docker registry &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2016/12/23/docker-registry/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="docker registry">
+      
+    <meta name="keywords" content="docker registry">
+    <meta name="og:keywords" content="docker registry">
+      
+    <meta name="description" content="关于私有仓库配置docker官网给出的参考示例 其实已经很详尽了，但是还是不免在配置过程中 踩坑。这里根据官网文档整理了配置示例供大家参考！">
+    <meta name="og:description" content="关于私有仓库配置docker官网给出的参考示例 其实已经很详尽了，但是还是不免在配置过程中 踩坑。这里根据官网文档整理了配置示例供大家参考！">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2016/12/23/docker-registry/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2016-12-23">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="docker registry">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">docker registry</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2016/12/23
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Docker" title="Docker">Docker</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>关于私有仓库配置docker官网给出的参考示例 其实已经很详尽了，但是还是不免在配置过程中 踩坑。这里根据官网文档整理了配置示例供大家参考！</p>
+
+<ul>
+  <li>host文件</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+192.168.11.10   hub.test.io 
+192.168.11.20   node1
+192.168.11.30   node2
+
+</code></pre></div></div>
+
+<h3 id="时间同步分别执行">时间同步(分别执行)：</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@hub <span class="o">]</span><span class="c"># yum install -y ntpdate &amp;&amp; ntpdate cn.pool.ntp.org</span>
+<span class="o">[</span>root@node1 <span class="o">]</span><span class="c"># yum install -y ntpdate &amp;&amp; ntpdate cn.pool.ntp.org</span>
+<span class="o">[</span>root@hub <span class="o">]</span><span class="c"># crontab -l</span>
+<span class="k">*</span>/5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> ntpdate cn.pool.ntp.org
+</code></pre></div></div>
+
+<h2 id="1仓库服务端设置-hubtestio">1.仓库服务端设置 hub.test.io：</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@hub <span class="o">]</span><span class="c"># docker pull registry</span>
+<span class="o">[</span>root@hub <span class="o">]</span><span class="c"># cat /etc/hosts   //内网没有DNS情况下修改hosts,修改主机名</span>
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.11.10 hub.test.io
+<span class="o">[</span>root@hub ~]# hostname    
+hub.test.io
+说明：如果私有仓库用的不是域名而是IP，请加上此设置：
+- <span class="c"># sed -i '/^\[ v3_ca \]$/a subjectAltName = IP:192.168.10.10' /etc/ssl/openssl.cnf</span>
+<span class="o">[</span>root@hub <span class="o">]</span><span class="c"># mkdir /opt/registry &amp;&amp; cd /opt/registry</span>
+<span class="o">[</span>root@hub registry]# mkdir auth certs
+<span class="o">[</span>root@hub registry]# docker run <span class="nt">--entrypoint</span> htpasswd registry:latest <span class="nt">-Bbn</span> username password <span class="o">&gt;</span> auth/htpasswd  //自行更换用户名密码
+<span class="o">[</span>root@hub registry]# <span class="nb">cat </span>auth/htpasswd   // 下面一行为空，切记不要修改生成后的文件
+admin:<span class="nv">$2y$05$LSRMXpIbnvnj8ErzbRvKq</span>.F04Qf3oajP7dFWQIjJBrFAoDXKM1I16
+
+<span class="o">[</span>root@hub registry]# openssl req <span class="nt">-newkey</span> rsa:4096 <span class="nt">-nodes</span> <span class="nt">-sha256</span> <span class="nt">-keyout</span> certs/ca.key <span class="nt">-x509</span> <span class="nt">-days</span> 365 <span class="nt">-out</span> certs/ca.crt
+Generating a 4096 bit RSA private key
+........
+........
+....++writing new private key to certs/ca.key
+<span class="nt">-----</span>
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter <span class="s1">'.'</span>, the field will be left blank.
+<span class="nt">-----</span>
+Country Name <span class="o">(</span>2 letter code<span class="o">)</span> <span class="o">[</span>XX]:
+State or Province Name <span class="o">(</span>full name<span class="o">)</span> <span class="o">[]</span>:
+Locality Name <span class="o">(</span>eg, city<span class="o">)</span> <span class="o">[</span>Default City]:
+Organization Name <span class="o">(</span>eg, company<span class="o">)</span> <span class="o">[</span>Default Company Ltd]:
+Organizational Unit Name <span class="o">(</span>eg, section<span class="o">)</span> <span class="o">[]</span>:
+Common Name <span class="o">(</span>eg, your name or your servers hostname<span class="o">)</span> <span class="o">[]</span>:hub.test.io
+Email Address <span class="o">[]</span>:
+<span class="o">[</span>root@hub registry]# mkdir <span class="nt">-p</span> /etc/docker/certs.d/hub.test.io <span class="o">&amp;&amp;</span> cp certs/ca.crt /etc/docker/certs.d/hub.test.io
+<span class="o">[</span>root@hub registry]# <span class="nb">ls</span> /etc/docker/certs.d/hub.test.io/
+ca.crt
+<span class="o">[</span>root@hub registry]# systemctl daemon-reload <span class="o">&amp;&amp;</span> systemctl restart docker
+<span class="o">[</span>root@hub registry]# <span class="nb">cat </span>start.sh
+<span class="c">#!/bin/bash</span>
+docker run <span class="nt">-d</span> <span class="se">\</span>
+<span class="nt">-p</span> 443:5000 <span class="se">\</span>
+<span class="nt">--name</span> registry <span class="se">\</span>
+<span class="nt">--restart</span><span class="o">=</span>always <span class="se">\</span>
+<span class="nt">-v</span> /var/lib/registry:/var/lib/registry <span class="se">\</span>
+<span class="nt">-v</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/auth:/auth <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_AUTH</span><span class="o">=</span>htpasswd <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_AUTH_HTPASSWD_REALM</span><span class="o">=</span><span class="s2">"Registry Realm"</span> <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_AUTH_HTPASSWD_PATH</span><span class="o">=</span>/auth/htpasswd <span class="se">\</span>
+<span class="nt">-v</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/certs:/certs <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_HTTP_TLS_CERTIFICATE</span><span class="o">=</span>/certs/ca.crt <span class="se">\</span>
+<span class="nt">-e</span> <span class="nv">REGISTRY_HTTP_TLS_KEY</span><span class="o">=</span>/certs/ca.key <span class="se">\</span>
+registry:latest
+<span class="o">[</span>root@hub registry]# tree   //最终的目录结构
+<span class="nb">.</span>
+├── auth
+│   └── htpasswd
+├── certs
+│   ├── ca.crt
+│   └── ca.key
+└── start.sh
+<span class="o">[</span>root@hub registry]# docker login hub.test.io
+Username: admin
+Password: 
+Login Succeeded
+<span class="o">[</span>root@hub registry]# docker tag pause-amd64:3.0 hub.test.io/pause-amd64:3.0
+<span class="o">[</span>root@hub registry]# docker push hub.test.io/pause-amd64:3.0
+The push refers to a repository <span class="o">[</span>hub.test.io/pause-amd64]
+5f70bf18a086: Pushed 
+41ff149e94f2: Pushed 
+3.0: digest: sha256:ec6581792f828ab138bc7ed65205dbd4d7df966249179b7afbb9f6cac729771b size: 939
+</code></pre></div></div>
+<h2 id="客户端">客户端：</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.仓库配置:
+<span class="o">[</span>root@node1 <span class="o">]</span><span class="c"># mkdir /etc/docker/certs.d/hub.test.io </span>
+<span class="o">[</span>root@node1 <span class="o">]</span><span class="c"># scp hub.test.io:/etc/docker/certs.d/hub.test.io/ca.crt /etc/docker/certs.d/hub.test.io</span>
+
+<span class="c">### 或者通过添加仓库地址配置: ###</span>
+<span class="o">[</span>root@node1 <span class="o">]</span><span class="c"># vim /lib/systemd/system/docker.service</span>
+.....
+<span class="nt">--insecure-registry</span><span class="o">=</span><span class="s2">"hub.test.io"</span>
+.....
+
+2.登陆仓库并下载镜像：
+<span class="o">[</span>root@node1 <span class="o">]</span><span class="c"># docker login hub.test.io</span>
+<span class="o">[</span>root@node1 <span class="o">]</span><span class="c"># docker pull hub.test.io/pause-amd64:3.0</span>
+3.0: Pulling from pause-amd64
+a3ed95caeb02: Pull <span class="nb">complete 
+</span>f11233434377: Pull <span class="nb">complete 
+</span>Digest: sha256:ec6581792f828ab138bc7ed65205dbd4d7df966249179b7afbb9f6cac729771b
+Status: Downloaded newer image <span class="k">for </span>hub.test.io/pause-amd64:3.0
+至此私有仓库就搭建完成了
+</code></pre></div></div>
+
+<p>更多配置详解 请查看 <a href="https://docs.docker.com/registry/">Docker官方registry配置文档</a></p>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2016/12/23/docker-registry/';
+                    this.page.identifier = '/2016/12/23/docker-registry/';
+                    this.page.title = 'docker registry';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
