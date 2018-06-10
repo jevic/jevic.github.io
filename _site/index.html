@@ -125,6 +125,46 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
+                      <a href="/2018/06/10/cdn-choice/">CDN 厂商选择三要素</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2018/06/10
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2018/06/10/distributed-system/">分布式系统发展史</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        分布式系统从最早的数据共享需求，发展到现在的 serverless 架构。它伴随着技术的发展与公司实际需求变化而演进。现在的云服务提供商简化了分布式系统开发的复杂性，让应用开发者只需关注开发，而把基础设施管理交给大型的云服务提供商。回顾分布式系统发展的历史，了解容器技术革新的原动力。
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2018/06/10
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
                       <a href="/2018/06/07/kafka-data-clear/">kafka 数据保存时间动态调整</a>
                     </h3>
                     <p class="repo-list-description">
@@ -138,6 +178,46 @@
                         <span class="meta-info">
                           <span class="octicon octicon-file-directory"></span>
                           <a href="/categories/#Kafka" title="Kafka">Kafka</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2018/05/06/docker-problem-location/">docker 问题定位记述</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2018/05/06
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Docker" title="Docker">Docker</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2018/04/27/k8s-release-12/">12款Kubernetes发行版</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        12 款最突出的 Kubernetes 产品，也就是整合了 Kubernetes 和容器工具的发行版。
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2018/04/27
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Docker" title="Docker">Docker</a>
                         </span>
                         
                     </p>
@@ -209,96 +289,6 @@
                     </p>
                 </li>
                 
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2018/01/31/etcd-setup/">etcd</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        etcd 是 CoreOS 团队于 2013 年 6 月发起的开源项目，它的目标是构建一个高可用的分布式键值（key-value）数据库，基于 Go 语言实现。我们知道，在分布式系统中，各种服务的配置信息的管理分享，服务的发现是一个很基本同时也是很重要的问题。CoreOS 项目就希望基于 etcd 来解决这一问题。
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2018/01/31
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2018/01/23/elk-elasticsearch-shareds-error/">elk Elasticsearch 分片丢失问题处理</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        问题概述
-
-  由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态；
-而且此时集群分片均衡失效，不在均衡数据；
-尝试使用reroute API 接口来手动迁移，发现命令执行失败；
-接下来就比较尴尬了….均衡不了….手动迁移也失败…. 
-综合以上状况只能做以下操作了…
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2018/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2018/01/23/elasticsearch-unassigned-shared/">elk Elasticsearch Unassigned Shards 无法reroute问题处理</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        问题概述
-
-  由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态；
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2018/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2018/01/18/bigdata-zookeeper-conf/">zookeeper</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        Apache ZooKeeper™
-
-简介
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2018/01/18
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
             </ol>
         </div>
         <div class="column one-third">
@@ -348,35 +338,6 @@
     </div>
 </a>
 
-<a href="https://github.com/jevic/bak.github.io" target="_blank" class="card text-center">
-    <div class="thumbnail">
-        <div class="card-image geopattern" data-pattern-id="bak.github.io">
-            <div class="card-image-cell">
-                <h3 class="card-title">
-                    bak.github.io
-                </h3>
-            </div>
-        </div>
-        <div class="caption">
-            <div class="card-description">
-                <p class="card-text">路漫漫 忆往昔.......</p>
-            </div>
-            <div class="card-text">
-                <span class="meta-info" title="1 stars">
-                    <span class="octicon octicon-star"></span> 1
-                </span>
-                <span class="meta-info" title="2 forks">
-                    <span class="octicon octicon-git-branch"></span> 2
-                </span>
-                <span class="meta-info" title="Last updated：2018-06-07 16:26:52 UTC">
-                    <span class="octicon octicon-clock"></span>
-                    <time datetime="2018-06-07 16:26:52 UTC">2018-06-07</time>
-                </span>
-            </div>
-        </div>
-    </div>
-</a>
-
 <a href="https://github.com/jevic/jenkins" target="_blank" class="card text-center">
     <div class="thumbnail">
         <div class="card-image geopattern" data-pattern-id="jenkins">
@@ -400,6 +361,35 @@
                 <span class="meta-info" title="Last updated：2017-12-21 13:31:44 UTC">
                     <span class="octicon octicon-clock"></span>
                     <time datetime="2017-12-21 13:31:44 UTC">2017-12-21</time>
+                </span>
+            </div>
+        </div>
+    </div>
+</a>
+
+<a href="https://github.com/jevic/php-nginx" target="_blank" class="card text-center">
+    <div class="thumbnail">
+        <div class="card-image geopattern" data-pattern-id="php-nginx">
+            <div class="card-image-cell">
+                <h3 class="card-title">
+                    php-nginx
+                </h3>
+            </div>
+        </div>
+        <div class="caption">
+            <div class="card-description">
+                <p class="card-text"> Basic environment installation instructions, Source Package!</p>
+            </div>
+            <div class="card-text">
+                <span class="meta-info" title="0 stars">
+                    <span class="octicon octicon-star"></span> 0
+                </span>
+                <span class="meta-info" title="0 forks">
+                    <span class="octicon octicon-git-branch"></span> 0
+                </span>
+                <span class="meta-info" title="Last updated：2017-12-28 11:20:57 UTC">
+                    <span class="octicon octicon-clock"></span>
+                    <time datetime="2017-12-28 11:20:57 UTC">2017-12-28</time>
                 </span>
             </div>
         </div>

@@ -1,4 +1,190 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-06-08T00:48:31+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">kafka 数据保存时间动态调整</title><link href="http://0.0.0.0/2018/06/07/kafka-data-clear/" rel="alternate" type="text/html" title="kafka 数据保存时间动态调整" /><published>2018-06-07T22:07:44+08:00</published><updated>2018-06-07T22:07:44+08:00</updated><id>http://0.0.0.0/2018/06/07/kafka-data-clear</id><content type="html" xml:base="http://0.0.0.0/2018/06/07/kafka-data-clear/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-06-10T20:58:31+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">CDN 厂商选择三要素</title><link href="http://0.0.0.0/2018/06/10/cdn-choice/" rel="alternate" type="text/html" title="CDN 厂商选择三要素" /><published>2018-06-10T20:25:16+08:00</published><updated>2018-06-10T20:25:16+08:00</updated><id>http://0.0.0.0/2018/06/10/cdn-choice</id><content type="html" xml:base="http://0.0.0.0/2018/06/10/cdn-choice/">&lt;blockquote&gt;
+  &lt;p&gt;作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;一，哪家的 CDN 更快（速度快，用户体验好）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;二， 哪家 CDN 功能最全，即使现在用不到也不会给将来业务发展挖坑。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;三，怎么付费最划算。本文通过分析对国内 CDN 市场占有率靠前的十家服务商的网络环境和技术服务，希望给大家提供一些启发和建议。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.idcps.com/idc/china/cdn&quot;&gt;IDC 评述网&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;哪家的-cdn-更快&quot;&gt;哪家的 CDN 更快？&lt;/h2&gt;
+
+&lt;p&gt;CDN 服务商经常引用独立第三方公司的拨测数据来证明自己的 CDN 服务更好。虽然这些数据在某个区域或时间段也许是准确的，实际却是盲人摸象，无法证明全时段和全网 CDN 服务的真实性能。也许从 CDN 服务商所处的网络环境和提供的技术功能入手，会是更科学和公平的对比方法。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;阿里云，腾讯云和网宿科技由于支持 HttpDNS 在技术上有领先优势，可以列为第一梯队。第二梯队的是百度云，蓝讯，Ucloud 和网易云。它们所在 AS 和两个以上运营商主干网 AS 相邻，也具有一定优势。剩下的金山云，七牛云和京东云排在第三梯队。金山云所在 AS 只和电信骨干网 AS 相连，使用其它运营商的用户访问其 CDN 节点理论上会相对电信的慢一些。七牛云和京东云其网络属于北京电信通的 AS，需要穿过两个 AS 才接入骨干网，理论上速度也会比其他 CDN 服务商稍慢。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;国内用户普遍使用互联网提供商 (ISP) 的宽带上网，具体访问流程如下图：
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/cdn_wx01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;用户终端访问 CDN 的过程分两个步骤;
+一是用户通过 DNS 找到最近的 CDN 边缘节点 IP; 
+二是数据在网络中的送达用户终端。
+整个过程中，有三个方面会影响用户访问 CDN 的体验。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;一拥有-dns-优化策略的-cdn-提供商会有更好的用户体验&quot;&gt;一，拥有 DNS 优化策略的 CDN 提供商，会有更好的用户体验。&lt;/h5&gt;
+
+&lt;p&gt;从图 1 可见， 客户终端的 DNS Resolver 负责告诉浏览器到哪里去找 CDN 的资源。理论上 ISP 的 DNS 服务器会选择离用户最近 CDN 节点 IP 并返回给用户，但是实际情况并不是这么简单。国内的大城市的 ISP 业务，除了一些区域性的 ISP，基本被联通、电信和移动这样的大运营商所垄断。由于各运营商之间存在着网间费用结算，运营商会想尽一切办法将用户的访问在自己的网内解决掉。比如，广州联调宽带的用户想访问的内容在联通北京的 CDN 节点， 尽管在广东移动的 CDN 节点有用户想访问的资源，联通的 DNS 还是会返回联通北京 CDN 节点的 IP。&lt;/p&gt;
+
+&lt;p&gt;另外，一些 ISP 为了节省网间流量，未经 CDN 服务商同意，自己针对一些 CDN 文件做了一层 CDN 缓存，通过“DNS 劫持”把用户访问 CDN 资源的请求都指到自己网内的非法 CDN 缓存服务器。很多时候这些缓存的内容不能及时和 CDN 节点同步更新，会造成使用该 ISP 的用户终端出现访问 CDN 资源缓慢，失败等现象。同时，国内严重的 DNS 污染问题也影响了用户的上网体验。&lt;/p&gt;
+
+&lt;p&gt;因此，如果能使用一些技术优化用户 DNS 查询，会大幅度提高用户的体验。目前优化 DNS 的技术主要是：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;HttpDNS ：客户端基于 Http 协议向 CDN 服务商指定的 DNS 服务器发送域名解析请求，从而避免 LocalDNS 造成的域名劫持和跨网访问;
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/cdn_wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Http 302 跳转: CDN 厂商维护 CDN 域名 IP 库，根据用户访问终端的 IP 和 CDN 边缘节点的状态，选择最合适的 CDN 节点，发出 HTTP 的 302 返回码，将用户的请求跳转到合适的 CDN 边缘节点。例如腾讯的下载直通车就使用类似技术。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/cdn_wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;二拥有自治系统autonomous-system-as的-cdn-提供商数据包跨越最少的网络边界能获得更快的传输速度&quot;&gt;二，拥有自治系统（Autonomous system, AS）的 CDN 提供商，数据包跨越最少的网络边界，能获得更快的传输速度。&lt;/h5&gt;
+
+&lt;p&gt;在 BGP 协议中，IP 包从一个 AS 向另一个 AS 传输时，需要经过边界路由器，如果由于网络问题造成 IP 包不可达，则需要边界路由器重新规划线路。如果 CDN 服务商自己拥有自治系统，AS 内部拥有同样的选路策略，数据就能在 CDN 服务商自己的 AS 中高效传输，理论上最终送达用户所花的时间也会最小。 就好比我们开车在省内玩，肯定要比跨多个省经过多个收费站耗时要少。&lt;/p&gt;
+
+&lt;h5 id=&quot;三-cdn-服务商所在自治系统-as-的相邻-as-越多离运营商骨干网越近数据传输也会更有优势&quot;&gt;三， CDN 服务商所在自治系统 AS 的相邻 AS 越多，离运营商骨干网越近，数据传输也会更有优势。&lt;/h5&gt;
+
+&lt;p&gt;CDN 服务商所在的 AS 离运营商骨干网 AS 越近，理论上数据包传输所花时间也越少。另外， CDN 厂商如果同时租用了多个运营商品牌的带宽线路，其服务器的 IP 就会同时属于这几家运营商的 AS，跨运营商的数据传输时间也会比只有一个运营商的相对快些。就如同有多个高速公路的通行证，数据在传输过程中从一家的路面后就可直达用户，而不用来回在多个道路上切换，避免了不必要的时间损耗。&lt;/p&gt;
+
+&lt;h2 id=&quot;哪家-cdn-功能最全&quot;&gt;哪家 CDN 功能最全&lt;/h2&gt;
+
+&lt;p&gt;CDN 服务的功能点非常多，为了比较方便选择了 11 个常用的功能，主要覆盖加速优化，监控和安全三个方面：&lt;/p&gt;
+
+&lt;h4 id=&quot;加速优化&quot;&gt;加速优化&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP2.0 加速&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;HTTP2.0 和现在的 HTTP1.1 相比，做了很大的改动和优化，例如头部压缩、服务端推送等。因为它要求服务器端和浏览器端都得支持 HTTP2.0 协议，所以在国内获得普遍支持还有一段时间。不过作为互联网下一代 HTTP 协议，即使我们现在用不上，也应考虑为将来的系统升级留下余地。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;文件压缩&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;目前 CDN 节点使用的 WEB 服务器端普遍支持 GZIP 协议的压缩， 当用户浏览器访问静态资源，并且支持 Gzip 压缩时， 服务器端可以把资源压缩打包发送给浏览器，由浏览器进行解压， 减少文件在互联网传输的数据量和时间。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;源站推送&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;为了避免传统的 CDN 节点同时去源站拉数据，造成访问洪峰压垮源站的带宽和服务器。 CDN 厂商使用源站推送功能将源站内容提前推送给边缘 CDN 节点，提前进行刷新预热。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;点播加速&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;CDN 对音视频等流媒体文件进行加速，其背后是一套复杂的技术方案，包括上传，转码，分发，以及 CDN 边缘节点根据用户终端支持协议的情况下发合适的流媒体格式。不同 CDN 服务商对点播加速的技术实现方案不同，不好做量化比较，只用是否支持播加速功能来比较。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;直播加速&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;直播加速如何解决播放延时、连麦时多路音视频的合并、以及突发热点对带宽的冲击等这些技术挑战，对 CDN 服务商的技术、硬件和网络条件都有很高的要求。也用是否支持直播加速来比较。&lt;/p&gt;
+
+&lt;h4 id=&quot;监控统计&quot;&gt;监控统计&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;实时监控&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;CDN 服务商提供图形化工具，对 CDN 的使用情况，例如点击量，命中率，公网下行流量等进行统计和监控。方便客户对于 CDN 使用效率和结果进行评估，及时发现问题和调整网络带宽预算。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;原始日志&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;提供所有客户终端访问 CDN 服务的原始日志 (access log)，这些日志看似没用，其实很有价值。例如，可以通过分析原始日志的数据包总量估算出 CDN 实际的下行流量，作为支付 CDN 服务费的参考。也可以通过分析这些日志的响应时间，结合客户端 IP，评估各地区终端用户实际访问 CDN 的情况&lt;/p&gt;
+
+&lt;h4 id=&quot;安全&quot;&gt;安全&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;防盗链&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;CDN 服务商防盗链的手段很多，例如常用的 http Referer 防盗链，其原理是利用 http header 中的 referer 属性，判断用户提交信息的网站 IP 地址，然后和真正的源站端的地址相比较，如果一致则表明是站内提交，或者为自己信任的站点提交，否则视为盗链。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;IP 黑白名单&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;黑白名单是我们可以根据业务需要对用户请求的源 IP 访问进行管理，为我们提供了主动防御的能力。使用 IP 黑名单的功能，可以有效的帮助我们阻止盗链，和恶意攻击。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;SNI （ 服务器名称指示 Server Name Indication ）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;网站使用 SSL/TSL 协议校验是目前防止盗链，和解决 “DNS 劫持”最好的方式。目前国内外大型网站都已经换成了基于该协议的 HTTPS 通信方式。早期的 SSL 协议默认每个 IP 地址上只能用一个证书。TLSv1z 增加了服务器名称指示（SNI）功能，通过发送虚拟主机名作为 TLS 协商的一部分这使得服务器可以在握手阶段选择正确虚拟域，并发送对应证书。这样每个 IP 上可以部署多张证书，对于运行很多虚机和域名的用户会非常节省资源。如果 CDN 服务商支持该项功能，说明 CDN 服务支持 HTTPS 和 TSL v1 以上版本。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;OCSP 装订（OCSP STAPLING）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;使用 SSL 认证时，客户端会在 TLS 握手阶段，去发证机构对实时查询 OCSP （Online Certificate Status Protocol，在线证书状态协议）接口，来判断服务器端的证书是否作废。在获得获得 OCSP 结果前会阻塞后续流程，通常发证机构都在国外，客户端的访问会延迟整个 TLS 握手的时间。而 OCSP Stapling 功能，是指服务端在证书链中封装了发证书机构对证书的 OCSP 查询结果，从而让客户端浏览器跳过自己去验证的过程。如果 CDN 服务商支持该功能，说明其 CDN 服务支持 HTTPS 加速比较好。&lt;/p&gt;
+
+&lt;h4 id=&quot;对比结果&quot;&gt;对比结果&lt;/h4&gt;
+
+&lt;p&gt;对十家 CDN 服务商进行打分，结果如下表：
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/cdn_wx05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;腾讯云和网宿科技得分最高，其它厂商各有优劣。 9 分以上的厂商占了前 50%，分别是腾讯云，网宿科技，阿里云，百度云蓝汛。后 50% 的厂商分数在 8-7 分之间。&lt;/p&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：</summary></entry><entry><title type="html">分布式系统发展史</title><link href="http://0.0.0.0/2018/06/10/distributed-system/" rel="alternate" type="text/html" title="分布式系统发展史" /><published>2018-06-10T19:55:15+08:00</published><updated>2018-06-10T19:55:15+08:00</updated><id>http://0.0.0.0/2018/06/10/distributed-system</id><content type="html" xml:base="http://0.0.0.0/2018/06/10/distributed-system/">&lt;blockquote&gt;
+  &lt;p&gt;分布式系统从最早的数据共享需求，发展到现在的 serverless 架构。它伴随着技术的发展与公司实际需求变化而演进。现在的云服务提供商简化了分布式系统开发的复杂性，让应用开发者只需关注开发，而把基础设施管理交给大型的云服务提供商。回顾分布式系统发展的历史，了解容器技术革新的原动力。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;分布式系统（确切地说应该是分布式计算机系统）从它诞生到现在已经过去了很长的时间。在很久以前，一台电脑一次只能完成一项特定的任务。如果我们需要同时完成多项任务，则需要多台计算机并行运行。但是，并行运行并不足以构建真正的分布式系统，因为它需要一种机制来在不同计算机或者那些运行在计算机上的程序之间进行通信。这种在多台计算机之间交换 / 共享数据的需求催生了面向消息通信的想法，即两台计算机使用包含了数据的消息来共享数据。文件共享、数据库共享等其他机制当时还没有出现。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;接着，我们进入了多任务操作系统和个人电脑的时代。利用 Windows、Unix、Linux 等操作系统，我们可以在同一台计算机上运行多个任务。这使得分布式系统开发人员能够在一台或者几台通过消息传递连接的计算机内构建和运行整个分布式系统。这催生了面向服务的架构（SOA），其中每个分布式系统可以通过一组集成在一台计算机或多台计算机上运行的服务来构建。我们通过 WSDL（用于 SOAP 协议）或 WADL（用于 REST 协议）等语言适当地定义服务接口。接着，服务的使用者将利用这些接口来进行客户端的实现。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;随着计算能力和存储价格的降低，世界各地的组织都开始使用分布式系统和基于 SOA 的企业 IT 系统。但是，一旦服务或系统的数量增加，这些服务之间的点到点连接就不再是可扩展和可维护的了。这催生了集中式“服务总线”概念的产生。服务总线通过类似集线器的架构将所有系统连接在一起。这个组件被称为 ESB（企业服务总线）。它作为一个“语言”翻译者，就像一个中间人在帮助一群使用不同“语言”但希望相互通信的人进行沟通。在企业应用中，“语言”代表着在通信时不同系统的消息传递协议和消息格式。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这种模式工作得很好，即使在今天也能正常工作。随着万维网的普及和模型的简化，基于 REST 的通信比基于 SOAP 的通信模型变得更加流行。这促进了基于应用程序编程接口（API）的 REST 模型通信的发展。由于 REST 模型的简洁特性，我们需要在标准 REST API 实现之上实现安全（身份验证和授权）、缓存、流控和监控等各种类型的功能。但我们并不想独立地在每个 API 上实现这些功能，而是需要一个公共组件将这些功能应用于这些 API 之上。这样的需求催生了 API 管理平台的发展。现在，它已经成为了任何分布式系统的核心功能之一。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;随后，我们见证了分布式系统大爆炸的时代。Facebook、Google、Amazon、Netflix、LinkedIn、Twitter 等互联网公司变得异常庞大。他们开始想要构建跨越多个地理区域和多个数据中心的分布式系统。这样的需求使他们的技术焦点转向了一切开始的地方。工程师们开始思考单台计算机和单个程序的概念。他们不再把一台计算机当作一台计算机来看，而在同一台计算机内创建多台虚拟计算机。这催生了关于虚拟机的想法，即同一台计算机可以充当多台计算机并且全部并行运行。尽管这是一个还不错的主意，但在宿主计算机的资源利用方面，这并不是最好的选择。运行多个操作系统需要更多的资源，但在同一个操作系统里运行多个程序并不需要这些资源。&lt;/p&gt;
+
+&lt;p&gt;这些问题最终催生了关于容器技术的想法。容器只使用一个宿主操作系统（Linux）的内核，就可以运行多个程序并分别依赖于相互独立的运行时。这个概念在 Linux 操作系统上已经有一段时间了。随着基于容器技术的应用程序部署的普及，它变得更加流行并且有了很多改进和提升。容器可以像虚拟机一样工作，却不需要多一个操作系统的开销。您可以将应用程序和所有相关的依赖项放入容器镜像中。它便可以被放在任何可以运行容器的宿主操作系统中运行。Docker 和 Rocket 是两个热门的容器构建平台。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;容器技术为 Netflix、LinkedIn 和 Twitter 等组织提供了底层框架，用于构建他们要求苛刻的永远在线的多区域、多数据中心应用平台。但这并不意味着利用容器技术没有任何难点。基于容器的部署带来的轻量特性让跨多个容器的平台维护和编排变得非常复杂。随着微服务架构（MSA）的出现，单体式应用程序被分成更小块的微服务。这些微服务能够完成整个服务里的某一个特定功能并部署在容器中（在大多数情况下都可以）。这给分布式系统生态系统带来了一系列新的需求。要让系统最终保持一致，并且彼此之间没有太多复杂的通信。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这些新的需求最终帮助工程师们构建了一个容器编排系统。该系统可用于维护更大规模的容器部署的一致性。毋庸置疑的是，这个领域的顶尖技术来自 Google。因为它们的规模非常大。他们构建了名为“Kubernetes”（又名 k8s）的容器编排平台，并成为大规模容器编排需求的事实标准。k8s 让工程师可以：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在大型集群中运行容器&lt;/li&gt;
+  &lt;li&gt;将数据中心视为一台计算机&lt;/li&gt;
+  &lt;li&gt;控制服务之间的通信（在容器上运行）&lt;/li&gt;
+  &lt;li&gt;动态伸缩与为多个服务进行负载均衡&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Kubernetes 和 Docker 让应用程序员的生活更加轻松。他们不用再考虑他们的应用在不同的环境（操作系统、开发环境、测试环境、生产环境等）下的不同表现。他构建的容器镜像在所有环境中运行表现几乎完全相同，因为所有依赖项都被打包到镜像中了。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;但是，尽管我们有了容器和编排框架，我们仍然需要一个管理这些服务器的团队。这意味着数据中心需要使用像 Docker 和 Kubernetes 这样的技术进行管理，以确保它对于应用程序来说就像一个单台计算机一样。如果不是你自己来做这些事情，而是别人来为你管理这部分工作，这正是 serverless 架构所带来的便利。您的服务器将由第三方云提供商（如 Amazon（Lambda），Microsoft（Azure Functions）或 Google（Cloud Functions））进行管理。现在，分布式系统将由应用程序员进行编程，而基础设施管理将由云提供商完成。这是分布式系统发展的最新状态，并且会不断地发展下去。&lt;/p&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">分布式系统从最早的数据共享需求，发展到现在的 serverless 架构。它伴随着技术的发展与公司实际需求变化而演进。现在的云服务提供商简化了分布式系统开发的复杂性，让应用开发者只需关注开发，而把基础设施管理交给大型的云服务提供商。回顾分布式系统发展的历史，了解容器技术革新的原动力。</summary></entry><entry><title type="html">kafka 数据保存时间动态调整</title><link href="http://0.0.0.0/2018/06/07/kafka-data-clear/" rel="alternate" type="text/html" title="kafka 数据保存时间动态调整" /><published>2018-06-07T22:07:44+08:00</published><updated>2018-06-07T22:07:44+08:00</updated><id>http://0.0.0.0/2018/06/07/kafka-data-clear</id><content type="html" xml:base="http://0.0.0.0/2018/06/07/kafka-data-clear/">&lt;blockquote&gt;
   &lt;p&gt;动态调整kafka 数据保存时间,清理过期数据!!&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -45,7 +231,283 @@ DelConf&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">动态调整kafka 数据保存时间,清理过期数据!!</summary></entry><entry><title type="html">Rancher 部署Traefik 实现微服务快速发现</title><link href="http://0.0.0.0/2018/02/28/traefik-rancher/" rel="alternate" type="text/html" title="Rancher 部署Traefik 实现微服务快速发现" /><published>2018-02-28T21:12:36+08:00</published><updated>2018-02-28T21:12:36+08:00</updated><id>http://0.0.0.0/2018/02/28/traefik-rancher</id><content type="html" xml:base="http://0.0.0.0/2018/02/28/traefik-rancher/">&lt;blockquote&gt;
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">动态调整kafka 数据保存时间,清理过期数据!!</summary></entry><entry><title type="html">docker 问题定位记述</title><link href="http://0.0.0.0/2018/05/06/docker-problem-location/" rel="alternate" type="text/html" title="docker 问题定位记述" /><published>2018-05-06T17:56:26+08:00</published><updated>2018-05-06T17:56:26+08:00</updated><id>http://0.0.0.0/2018/05/06/docker-problem-location</id><content type="html" xml:base="http://0.0.0.0/2018/05/06/docker-problem-location/">&lt;blockquote&gt;
+  &lt;p&gt;性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;周一&quot;&gt;周一&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;先找下游了解了下业务模型，他们说已经把业务模型最简化了，当前的模式是：业务进程运行在容器中，通过与主机共享 IPC namespace 的方式来使用共享内存与宿主机上的 Daemon 进程进行通信，整个过程不涉及磁盘读写、网络交互等。
+撸起袖子开始干，定位第一步，当然是找瓶颈了，分析下到底问题出在哪。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;top&quot;&gt;top&lt;/h5&gt;
+
+&lt;p&gt;用到的第一个命令自然是 top，top 是 linux 里一个非常强大的命令，通过它基本上能看到系统中的所有指标。
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/docker-error-wx01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上面是 top 命令运行时的一个示意图，比较重要的指标都已经标了出来：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;1 处表示系统负载，它表示当前正在等待被 cpu 调度的进程数量，这个值小于系统 vcpu 数（超线程数）的时候是比较正常的，一旦大于 vcpu 数，则说明并发运行的进程太多了，有进程迟迟得不到 cpu 时间。这种情况给用户的直观感受就是敲任何命令都卡。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;2 处表示当前系统的总进程数，通常该值过大的时候就会导致 load average 过大。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;3 处表示 cpu 的空闲时间，可以反应 cpu 的繁忙程度，该值较高时表示系统 cpu 处于比较清闲的状态，如果该值较低，则说明系统的 cpu 比较繁忙。需要注意的是，有些时候该值比较高，表示 cpu 比较清闲，但是 load average 依然比较高，这种情况很可能就是因为进程数太多，进程切换占用了大量的 cpu 时间，从而挤占了业务运行需要使用的 cpu 时间。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;4 处表示进程 IO 等待的时间，该值较高时表示系统的瓶颈可能出现在磁盘和网络。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;5 处表示系统的剩余内存，反应了系统的内存使用情况。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;6 处表示单个进程的 cpu 和内存使用情况。关于 top 命令中各个指标含义的进一步描述可以参见：&lt;/li&gt;
+  &lt;li&gt;http://www.jb51.net/LINUXjishu/34604.html&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;使用 top 命令查看了下系统情况，发现一切正常。load average 也不高，task 也不多，cpu 和内存都还很空闲，就连 IO 等待时间都很低，也没有哪个进程的 cpu 和内存使用率偏高，一切都很和谐，没有瓶颈！&lt;/p&gt;
+
+&lt;p&gt;当然，没有瓶颈是不可能的。由于我们的容器都是绑核的，所以很有可能是分配给容器的那些核是处于繁忙状态，而由于总核数较多，将 cpu 的使用率给拉了下来。于是又按下了“1”键，切换到详细模式下：
+&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/docker-error-wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在这种模式下，可以看到每个 vcpu 的使用情况。一切依然很和谐，诡异的和谐。
+看来从 cpu 这块是看不出来什么了，那就继续看看是不是磁盘搞的鬼吧。&lt;/p&gt;
+
+&lt;h5 id=&quot;iostate&quot;&gt;iostate&lt;/h5&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;iostate 命令是用来查看磁盘使用情况的一个命令，经验告诉我们，磁盘和网络已经成为影响性能的最大嫌疑犯。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用 iostate 工具时，通常只用关注最后一行（%util）即可，它反映了磁盘的繁忙程度。虽然下游部门已经说了他们跑的用例是一个纯内存的场景，不涉及磁盘读写。但是客户的话信得住，母猪也能上树，我还是要跑一下 iostate，看下磁盘情况怎么样。结果，依旧很和谐，磁盘使用率基本为零。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;后面还尝试了观察网络指标，发现确实也没有网络吞吐，完了，看来问题没那么简单。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;周二&quot;&gt;周二&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;虽然周一看似白忙活了一天，但是也得到了一个重要结论：这个问题不简单！不过简单的在资源层面时分析不出来啥了，得寄出性能分析的大杀器——perf 了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;perf-火焰图&quot;&gt;perf+ 火焰图&lt;/h5&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;perf 是 linux 下一个非常强大的性能分析工具，通过它可以分析出进程运行过程中的主要时间都花在了哪些地方。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;之前没太使用过 perf，因此刚开始进行分析，就自然而然地直接使用上了 perf+ 火焰图这种最常见的组合：&lt;/p&gt;
+
+&lt;p&gt;安装 perf。&lt;/p&gt;
+
+&lt;p&gt;yum install perf&lt;/p&gt;
+
+&lt;p&gt;下载火焰图工具。&lt;/p&gt;
+
+&lt;p&gt;git clone https://github.com/brendangregg/FlameGraph.git&lt;/p&gt;
+
+&lt;p&gt;采样。&lt;/p&gt;
+
+&lt;p&gt;perf record -e cpu-clock -g -p 1572（业务进程 id）&lt;/p&gt;
+
+&lt;p&gt;一段时间（通常 20s 足够）之后 ctrl+c，结束采样。&lt;/p&gt;
+
+&lt;p&gt;用 perf script 工具对 perf.data 进行解析。&lt;/p&gt;
+
+&lt;p&gt;perf script -i perf.data &amp;amp;&amp;gt; perf.unfold。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;PS：如果在容器中运行的程序有较多的依赖，则该命令解析出来的符号中可能会有较多的“Unregistered symbol…”错误，此时需要通过–symfs参数指定容器的rootfs位置来解决该问题。获取容器rootfs的方法根据 docker 的 storagedriver 的不同而有所不同，如果是device mapper类型，则可以通过 dockerinspect 找到容器的rootfs所在位置，如果是overlay类型，则需要通过 dockerexport 命令将该容器的rootfs导出来，如果是富容器的话，一般都有外置的rootfs，直接使用即可。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;将 perf.unfold 中的符号进行折叠。&lt;/p&gt;
+
+&lt;p&gt;./stackcollapse-perf.pl perf.unfold &amp;amp;&amp;gt; perf.folded&lt;/p&gt;
+
+&lt;p&gt;最后生成 svg 图。&lt;/p&gt;
+
+&lt;p&gt;/flamegraph.pl perf.folded &amp;gt; perf.svg&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/docker-error-wx03.png&quot; alt=&quot;&quot; /&gt;
+最后就能得到像下面这种样子的漂亮图片。通常情况下，如果程序中有一些函数占用了大量的 CPU 时间，则会在图片中以长横条的样式出现，表示该函数占用了大量的 CPU 时间。&lt;/p&gt;
+
+&lt;p&gt;然而，perf+ 火焰图在这次并没有起到太大的作用，反复统计了很多次，并没有出现梦寐以求的“长横条”，还是很和谐。&lt;/p&gt;
+
+&lt;h5 id=&quot;perf-stat&quot;&gt;perf stat&lt;/h5&gt;
+&lt;p&gt;perf+ 火焰图并没有起到很好的效果，就想换个工具继续试试，但是找来找去、请教大神，也没找到更好的工具，只好继续研究 perf 这个工具。&lt;/p&gt;
+
+&lt;p&gt;perf 除了上面提到的 record（记录事件）、script（解析记录的事件）命令之外，还有其他一些命令，常用的有 report（与 script 类似，都是对 perf record 记录的事件进行解析，不同之处在于 report 直接解析程序中的运行热点，script 的扩展性更强一点，可以调用外部脚本对事件数据进行解析）、stat（记录进程一段时间之内触发的事件数）、top（实时分析程序运行时热点）、list（列出 perf 可以记录的事件数）等命令。&lt;/p&gt;
+
+&lt;p&gt;这些命令挨个试了个遍，终于在 perf stat 命令这块有了突破：&lt;/p&gt;
+
+&lt;p&gt;使用 perf stat 对业务进程运行在物理机和容器上分别进行统计，发现业务进程运行在容器中时，大部分事件（task-clock、context-switches、cycles、instructions 等）的触发次数是运行在物理机上时的百分之一。&lt;/p&gt;
+
+&lt;p&gt;这是什么原因呢？一定是什么东西阻塞住了程序的运转，这个东西是什么呢？&lt;/p&gt;
+
+&lt;p&gt;前面已经分析了，不是磁盘，不是网络，也不是内存，更不是 cpu，那还有什么呢？？&lt;/p&gt;
+
+&lt;h4 id=&quot;周三&quot;&gt;周三&lt;/h4&gt;
+
+&lt;p&gt;是什么原因阻塞住了程序的运转呢？百思不得其解，百问不得其解，百猜不得其解，得，还是得动手，上控制变量法。&lt;/p&gt;
+
+&lt;p&gt;运行在容器中的程序和运行在物理机上有什么区别呢？我们知道，docker 容器 =cgroup+namespace+secomp+capability+selinux，那么就把这些技术一个个都去掉，看到底是哪个特性搞的鬼。&lt;/p&gt;
+
+&lt;p&gt;在这 5 个技术中，后三个都是安全相关的，都有开关可以控制，经过测试，发现把后三个都关掉之后，性能还是很差，说明这 3 个技术是无辜的，开始排查 cgroup 和 namespace。&lt;/p&gt;
+
+&lt;p&gt;首先怀疑的当然是 cgroup，毕竟它就是做资源限制的，很有可能一不小心限制错了，就把业务给限制了。&lt;/p&gt;
+
+&lt;h5 id=&quot;cgexec&quot;&gt;cgexec&lt;/h5&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;cgexec 是 cgroup 提供的一个工具，可以在启动时就将程序运行到某个 cgroup 中，因此我们可以将业务程序运行在物理机上，但是放到业务容器所在的 cgroup 中，看看性能会不会下降。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;具体用法如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cgexec -g *:/system.slice/docker-03c2dd57ba123879abab6f7b6da5192a127840534990c515be325450b7193c11.scope ./run.sh
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;通过该命令即可将 run.sh 运行在与容器 03c2dd57 相同的 cgroup 中。在多次测试之后，发现这种情况下，业务进程的运行速度没有受到影响，cgroup 被洗白，那么真相只有一个——凶手就是 namespace。&lt;/p&gt;
+
+&lt;h4 id=&quot;周四&quot;&gt;周四&lt;/h4&gt;
+
+&lt;p&gt;虽然说凶手已经确定是 namespace，但是 namespace 家族也有一大票人，有 ipc namespace、pid namespace 等等，还需要进一步确定真凶。&lt;/p&gt;
+
+&lt;h5 id=&quot;nsenter&quot;&gt;nsenter&lt;/h5&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;nsenter 是一个 namespace 相关的工具，通过它可以进入某个进程所在的 namespace。在 docker exec 命令出现之前，它唯一一个可以进入 docker 容器的工具，在 docker exec 出现之后，nsenter 也由于其可以选择进入哪些 namespace 而成为 docker 问题定位的一个极其重要的工具。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;通过如下命令，即可进入容器所在的 mount namespace。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nsenter --target $(docker inspect --format '' 容器 id) --mount bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;同理，通过如下命令即可进入容器所在的 IPC namespace 和 pid namespace。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nsenter --target $(docker inspect --format '' 容器 id) --ipc --pid bash
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在不断的将业务进程在各个 namespace 之间切换后，终于进一步锁定了真凶：mount namespace。测试发现，一旦将业务进程放置到容器所在的 mount namespace，性能就会急剧下降。&lt;/p&gt;
+
+&lt;p&gt;这是为什么呢？这是为什么呢？mount namespace 到底做了什么，会有这么大的影响？&lt;/p&gt;
+
+&lt;h4 id=&quot;周五&quot;&gt;周五&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mount namespace&lt;/code&gt; 为什么有这么大的威力呢？它到底影响什么了呢？实在想不通，就去请教了下大神，大神想了想，回了我句，试试 ldd？&lt;/p&gt;
+
+&lt;h5 id=&quot;ldd&quot;&gt;ldd&lt;/h5&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ldd 是什么？&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;当然这句话我没去问大神，转身自己查去了。&lt;/p&gt;
+
+&lt;p&gt;ldd 是 list, dynamic, dependencies 的缩写，意思是列出动态库依赖关系。顿时豁然开朗，mount namespace 隔离出了自己的文件系统，所以容器内外可以使用不同的依赖库，而不同的依赖库就可能造成无数种影响。&lt;/p&gt;
+
+&lt;p&gt;于是开始通过 ldd 对比容器中业务进程的依赖库与宿主机上业务进程的依赖库，最终发现容器中的 glibc 库与宿主机上的 glibc 库版本不一致，很可能是这个原因导致性能下降的。&lt;/p&gt;
+
+&lt;p&gt;于是将容器中的 glibc 库版本替换为宿主机上的 glibc 库之后，容器内业务的性能终于恢复了，猜想得到证实。&lt;/p&gt;
+
+&lt;h4 id=&quot;后记&quot;&gt;后记&lt;/h4&gt;
+
+&lt;p&gt;为什么容器内外 glibc 版本不一致就导致性能下降了呢？&lt;/p&gt;
+
+&lt;p&gt;这是和业务模型相关的，前面提到，下游的业务模型是通过与主机共享 IPC namespace 的方式来使用共享内存与宿主机上的 daemon 进程进行通信。而 glibc 在一次升级中，更新了信号量的数据结构（如下），就会导致在共享内存通信时，由于数据格式不一致，每次信号量通信都超时，从而影响了程序运行效率。&lt;/p&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。</summary></entry><entry><title type="html">12款Kubernetes发行版</title><link href="http://0.0.0.0/2018/04/27/k8s-release-12/" rel="alternate" type="text/html" title="12款Kubernetes发行版" /><published>2018-04-27T20:35:46+08:00</published><updated>2018-04-27T20:35:46+08:00</updated><id>http://0.0.0.0/2018/04/27/k8s-release-12</id><content type="html" xml:base="http://0.0.0.0/2018/04/27/k8s-release-12/">&lt;blockquote&gt;
+  &lt;p&gt;12 款最突出的 Kubernetes 产品，也就是整合了 Kubernetes 和容器工具的发行版。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://d33wubrfki0l68.cloudfront.net/1567471e7c58dc9b7d9c65dcd54e60cbf5870daa/a2249/images/flower.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Kubernetes 已经成为大规模容器编排的首选。这款由 Google 开源的容器编排系统受到广泛好评和支持，发展势头迅猛。&lt;/p&gt;
+
+&lt;p&gt;Kubernetes 十分庞大而复杂，难以搭建和配置。不仅如此，还有很多繁重的工作留给了最终用户去做。因此，最好的方法就是不要尝试单独使用 Kubernetes，而是寻找一种将 Kubernetes 作为组件的容器解决方案。&lt;/p&gt;
+
+&lt;p&gt;在这里，我列出了 12 款最突出的 Kubernetes 产品，也就是整合了 Kubernetes 和容器工具的发行版，可媲美各种供应商提供的 Linux 内核版本。&lt;/p&gt;
+
+&lt;p&gt;请注意，此列表不包含专有云服务，如 Amazon EKS 或 Google Kubernetes Engine，我们主要关注的是可在本地运行或作为云托管服务的产品。&lt;/p&gt;
+
+&lt;h4 id=&quot;coreos-tectonic&quot;&gt;CoreOS Tectonic&lt;/h4&gt;
+&lt;p&gt;CoreOS 主要提供基于容器的 Linux 发行版，与 Docker 兼容，但具有自己的自定义镜像格式和运行时，以及“企业级 Kubernetes”发行版。它们一起构成了 CoreOS Tectonic 技术栈的基础。&lt;/p&gt;
+
+&lt;p&gt;CoreOS 的操作系统 Container Linux 主要作为一组容器化的组件进行发行。通过这种方式，操作系统的自动更新可以直接进入生产环境中，无需关闭运行中的应用程序。CoreOS 也支持“一键”更新 Kubernetes。CoreOS Tectonic 可运行在 Amazon Web Services、Microsoft Azure 和裸机上。&lt;/p&gt;
+
+&lt;h4 id=&quot;kubernetes-的-canonical-发行版&quot;&gt;Kubernetes 的 Canonical 发行版&lt;/h4&gt;
+
+&lt;p&gt;Canonical 是 Ubuntu Linux 的制造商，也提供了自己的 Kubernetes 发行版。Canonical 发行版的一大卖点是它以已经得到广泛推崇和部署的 Ubuntu Linux 发行版为基础。 Canonical 称它的技术栈可以在云端或本地运行，并且支持 CPU 和 GPU 两种工作负载。对于付费用户，有 Canonical 工程师来远程协助管理 Kubernetes 群集。&lt;/p&gt;
+
+&lt;p&gt;Canonical 和 Rancher 实验室（见下文）共同推出了 Cloud Native Platform，将 Canonical 的 Kubernetes 发行版与 Rancher 的容器管理平台组合在一起。该平台使用 Kubernetes 来管理每个集群中运行的容器，并使用 Rancher 来管理多个 Kubernetes 集群。Cloud Native Platform 将随 Rancher 2.0 一起发布，目前提供了测试预览版。&lt;/p&gt;
+
+&lt;h4 id=&quot;docker-社区版和-docker-企业版&quot;&gt;Docker 社区版和 Docker 企业版&lt;/h4&gt;
+
+&lt;p&gt;对于大多数人来说，Docker 就是容器。自 2014 年起，Docker 拥有了自己的集群和编排系统 Docker Swarm，不久前 Docker Swarm 还是 Kubernetes 的竞争对手。2017 年 10 月，Docker 宣布将 Kubernetes 作为 Docker 社区版和 Docker Enterprise 2.0 的标准插入式组件。&lt;/p&gt;
+
+&lt;p&gt;简而言之，Docker 公司承认 Kubernetes 比 Swarm 更适合管理大型复杂的容器环境。但是，Docker 仍然为小型作业保留了初始的集群系统（也就是“Swarm 模式”），比如部署在数量不会很大的防火墙后面的本地应用程序。&lt;/p&gt;
+
+&lt;h4 id=&quot;heptio-kubernetes-subscription&quot;&gt;Heptio Kubernetes Subscription&lt;/h4&gt;
+&lt;p&gt;Kubernetes 的两位作者 Craig McLuckie 和 Joe Beda 共同创立了 Heptio，旨在提供基于 Kubernetes 的服务和产品。他们的第一个主要产品是 Heptio Kubernetes Subscription（HKS），一项付费的 Kubernetes 部署服务，由 Heptio 提供 24/7 全天候支持。起价为每月 2000 美元。&lt;/p&gt;
+
+&lt;p&gt;Heptio 的主要卖点是提供没有供应商锁定的企业级 Kubernetes。该产品可以运行在公有云或私有硬件上。Heptio 提供的所有用于管理和配置 Kubernetes 的工具都是开源的，补丁可以直接推送到受支持的集群。&lt;/p&gt;
+
+&lt;h4 id=&quot;mesosphere-dcos&quot;&gt;Mesosphere DC/OS&lt;/h4&gt;
+
+&lt;p&gt;Mesosphere DC/OS 使用 Apache Mesos 将一组机器变成单个资源，并可以动态分配给多个应用程序。 Kubernetes 作为 DC/OS 上众多应用程序包之一，用户可以跨 DC/OS 群集安装、运行和更新 Kubernetes。&lt;/p&gt;
+
+&lt;p&gt;Kubernetes 并不完全是 DC/OS 的一部分，但可以通过 DC/OS 来部署，就像 Linux 应用程序可以通过 Linux 发行版的包管理系统来管理一样，这么说来，DC/OS 本身是不是一个 Kubernetes 发行版仍然值得商榷。尽管如此，Mesosphere 在如何使用 Kubernetes 方面与 Kubernetes 的工作原理息息相关，例如，它使用 Kubernetes 的主流社区发行版来确保与现有工具集的高度兼容性。&lt;/p&gt;
+
+&lt;h4 id=&quot;mirantis-cloud-platform&quot;&gt;Mirantis Cloud Platform&lt;/h4&gt;
+
+&lt;p&gt;如 Mirantis 所言，Mirantis Cloud Platform 将 OpenStack、Kubernetes 或两者的组合作为“敏捷基础设施平台”的基础。简而言之，Mirantis Cloud Platform 是一个用于编排虚拟机、容器和裸机服务器的单一集成解决方案。该平台以“DevOps 方式”管理部署在该平台上的应用程序，使用 Salt 作为配置管理工具，并集成 CI/CD 支持以确保应用程序被正确部署。&lt;/p&gt;
+
+&lt;p&gt;Mirantis Cloud Platform 可以直接在裸机、OpenStack 集群或公有云上运行 Kubernetes。&lt;/p&gt;
+
+&lt;p&gt;Mirantis 声称，Mirantis Cloud Platform 可以更容易地与 Kubernetes 集成，因为配置 Kubernetes 基础设施的相关任务不会落在最终用户身上。&lt;/p&gt;
+
+&lt;h4 id=&quot;platform9-managed-kubernetes&quot;&gt;Platform9 Managed Kubernetes&lt;/h4&gt;
+
+&lt;p&gt;大多数 Kubernetes 发行版专注于让 Kubernetes 从内到外和从上到下都易于管理。 Platform9 Managed Kubernetes 可以在任意环境中运行——本地裸机或远程的公共有云上，并可由 Platform9 的工程师作为服务进行远程管理。&lt;/p&gt;
+
+&lt;p&gt;在客户的监督下，Platform9 大约每六周推出一次 Managed Kubernetes 更新。 Platform9 还提供了一些功能，比如多租户用户配额，而该功能在 Kubernetes 集群中通常需要通过手动来添加。Platform9 还提供了与 Platform9 Fission 项目的集成，Fission 是一个无服务器计算服务（“函数即服务”系统），可与大多数具有容器化运行时的编程语言一起使用。&lt;/p&gt;
+
+&lt;h4 id=&quot;rancher-20&quot;&gt;Rancher 2.0&lt;/h4&gt;
+
+&lt;p&gt;Rancher 实验室已经将 Kubernetes 集成到它的容器管理平台 Rancher 2.0 版本中，Rancher 2.0 目前处于测试阶段。相比其他 Kubernetes 发行版，Rancher 2.0 位于更上层，它位于 Linux 主机、Docker 容器和 Kubernetes 节点之上，可以独立管理所有这些节点。它甚至可以管理 Amazon EKS、Google Kubernetes Engine、Azure Container Service 和其他云端的 Kubernetes。&lt;/p&gt;
+
+&lt;p&gt;Rancher 也有自己的 Kubernetes 发行版。Rancher 旨在消除搭建 Kubernetes 集群和为特定环境定制 Kubernetes 所需要的苦差事，并防止这些自定义功能妨碍 Kubernetes 升级。&lt;/p&gt;
+
+&lt;h4 id=&quot;red-hat-openshift&quot;&gt;Red Hat OpenShift&lt;/h4&gt;
+
+&lt;p&gt;Red Hat 的 PaaS 产品 OpenShift 最初使用 Heroku 风格的“cartridges”来打包应用程序，然后把它们部署到名为“gear”的容器中。后来，Docker 出现了，OpenShift 进行了重写，以便利用新的容器镜像和运行时标准。Red Hat 也不可避免地将 Kubernetes 作为 OpenShift 的编配技术。&lt;/p&gt;
+
+&lt;p&gt;OpenShift 旨在为 PaaS 中的所有组件提供抽象和自动化。这种抽象和自动化也扩展到了 Kubernetes，因此带来了相当大的管理负担，而 OpenShift 可以用来在部署 PaaS 的过程中缓解这一点。&lt;/p&gt;
+
+&lt;h4 id=&quot;stackube&quot;&gt;Stackube&lt;/h4&gt;
+
+&lt;p&gt;Hyper.sh 云服务用于运行容器，它的开发商 HyperHQ 推出了 Stackube，一个“以 Kubernetes 为中心的 OpenStack 发行版”。通常，OpenStack 使用一个名为 Nova 的组件来配置和管理计算节点，而 Stackube 使用的是 Kubernetes。除此之外，它使用的是“普通”的 OpenStack 和 Kubernetes，所有其他额外细节由 OpenStack 插件来处理。&lt;/p&gt;
+
+&lt;p&gt;HyperHQ 声称，Stackube 的主要优势是它可以根据使用哪个容器运行时提供不同程度的多租户。对于“软”多租户，可以使用 Docker，要想更可靠地进行资源分离，可以使用 HyperContainer，HyperContainer 提供了 Hypervisor 级别的隔离。&lt;/p&gt;
+
+&lt;h4 id=&quot;suse-caas-平台&quot;&gt;SUSE CaaS 平台&lt;/h4&gt;
+
+&lt;p&gt;SUSE 以在欧洲广泛流行的 Linux 发行版而闻名，它还提供了 SUSE CaaS 平台。从概念上讲，它让人联想到 CoreOS Tectonic——捆绑运行容器的裸机“微”操作系统，将 Kubernetes 作为容器编排系统，内置镜像注册表和集群配置工具。&lt;/p&gt;
+
+&lt;p&gt;SUSE CaaS Platform 可以在公有云以及本地裸机上运行，但要注意，“SUSE 目前不支持任何与底层云基础设施的集成”。这意味着 SUSE CaaS Platform 的设计不是为了弥补 Amazon EKS 或 Google Kubernetes Engine 的不足，而是为了让用户可以跨多个云和数据中心运行容器。&lt;/p&gt;
+
+&lt;h4 id=&quot;telekube&quot;&gt;Telekube&lt;/h4&gt;
+
+&lt;p&gt;Teleport SSH 服务器开发商 Gravitational 推出了 Telekube，这是一款在本地或远程集群上运行的“生产强化型”Kubernetes 发行版。Telekube 定位为私有 SaaS 平台解决方案，将 Kubernetes 作为跨多个区域运行的托管服务。&lt;/p&gt;
+
+&lt;p&gt;Telekube 上的应用程序必须能够在 Kubernetes 容器中运行。他们还必须打包成“Bundle”，然后发布到 Kubernetes 集群中。在部署基于容器的应用程序之前，需要为捆绑做一些额外的工作，不过 Telekube 唯一留给用户的任务是维护 Bundle Manifest。&lt;/p&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">12 款最突出的 Kubernetes 产品，也就是整合了 Kubernetes 和容器工具的发行版。</summary></entry><entry><title type="html">Rancher 部署Traefik 实现微服务快速发现</title><link href="http://0.0.0.0/2018/02/28/traefik-rancher/" rel="alternate" type="text/html" title="Rancher 部署Traefik 实现微服务快速发现" /><published>2018-02-28T21:12:36+08:00</published><updated>2018-02-28T21:12:36+08:00</updated><id>http://0.0.0.0/2018/02/28/traefik-rancher</id><content type="html" xml:base="http://0.0.0.0/2018/02/28/traefik-rancher/">&lt;blockquote&gt;
   &lt;p&gt;Traefik是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。本文将向你展示如何在Rancher上简单快速地部署Traefik，实现微服务的快速发现&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -722,1020 +1184,4 @@ PUT /test/_settings
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">问题概述 由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态； 而且此时集群分片均衡失效，不在均衡数据； 尝试使用reroute API 接口来手动迁移，发现命令执行失败； 接下来就比较尴尬了….均衡不了….手动迁移也失败…. 综合以上状况只能做以下操作了…</summary></entry><entry><title type="html">elk Elasticsearch Unassigned Shards 无法reroute问题处理</title><link href="http://0.0.0.0/2018/01/23/elasticsearch-unassigned-shared/" rel="alternate" type="text/html" title="elk Elasticsearch Unassigned Shards 无法reroute问题处理" /><published>2018-01-23T18:53:02+08:00</published><updated>2018-01-23T18:53:02+08:00</updated><id>http://0.0.0.0/2018/01/23/elasticsearch-unassigned-shared</id><content type="html" xml:base="http://0.0.0.0/2018/01/23/elasticsearch-unassigned-shared/">&lt;h1 id=&quot;问题概述&quot;&gt;问题概述&lt;/h1&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态；&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;而且此时集群分片均衡失效，不在均衡数据；&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;尝试使用&lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html&quot;&gt;reroute API&lt;/a&gt; 接口来手动迁移，发现命令执行失败；&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;接下来就比较尴尬了….均衡不了….手动迁移也失败….&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;综合以上状况只能做以下操作了…&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;处理过程&quot;&gt;处理过程&lt;/h1&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;将处于&lt;code class=&quot;highlighter-rouge&quot;&gt;red&lt;/code&gt;状态的并且过期不在使用的索引删除(此乃下下策😭)
- 保留并处理热门数据&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;1-重建索引&quot;&gt;1. 重建索引&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-XPOST&lt;/span&gt; es-90:9200/_reindex &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'
-{
-  &quot;source&quot;: {
-    &quot;index&quot;: &quot;index-name&quot;
-  },
-  &quot;dest&quot;: {
-    &quot;index&quot;: &quot;index-name.bak&quot;
-  }
-}'&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;2-删除旧索引&quot;&gt;2. 删除旧索引&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-XDELETE&lt;/span&gt; es-90:9200/index-name
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;3-建立别名&quot;&gt;3. 建立别名&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-XPUT&lt;/span&gt; es-90:9200/index-name.bak/_alias/index-name
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;批量处理&quot;&gt;批量处理&lt;/h1&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;indexs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;index1 index2 index3&quot;&lt;/span&gt;
-
-back&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
-curl &lt;span class=&quot;nt&quot;&gt;-XPOST&lt;/span&gt; es-90:9200/_reindex &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'
-{
-  &quot;source&quot;: {
-    &quot;index&quot;: &quot;'&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$index&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&quot;
-  },
-  &quot;dest&quot;: {
-    &quot;index&quot;: &quot;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.bak&lt;span class=&quot;s1&quot;&gt;'&quot;
-  }
-}'&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;index &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$indexs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;do
-    &lt;/span&gt;back
-    curl &lt;span class=&quot;nt&quot;&gt;-XDELETE&lt;/span&gt; es-90:9200/&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-    curl &lt;span class=&quot;nt&quot;&gt;-XPUT&lt;/span&gt; es-90:9200/&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.bak/_alias/&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;副本丢失&quot;&gt;副本丢失&lt;/h1&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;当索引副本分片丢失 且无法正常均衡时&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;1-取消副本&quot;&gt;1. 取消副本&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PUT /test/_settings
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&quot;index&quot;&lt;/span&gt; : &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s2&quot;&gt;&quot;number_of_replicas&quot;&lt;/span&gt; : 0
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;2-恢复副本&quot;&gt;2. 恢复副本&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-PUT /test/_settings
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&quot;index&quot;&lt;/span&gt; : &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s2&quot;&gt;&quot;number_of_replicas&quot;&lt;/span&gt; : 1
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;后记&quot;&gt;后记&lt;/h1&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;在扩容下线 更换节点时 务必单个节点逐一操作&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;节点更新或下线&quot;&gt;节点更新或下线&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;关闭均衡&lt;/li&gt;
-  &lt;li&gt;设置此节点不在运行数据写入&lt;/li&gt;
-  &lt;li&gt;重启或停用节点&lt;/li&gt;
-  &lt;li&gt;开启均衡&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">问题概述 由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态；</summary></entry><entry><title type="html">zookeeper</title><link href="http://0.0.0.0/2018/01/18/bigdata-zookeeper-conf/" rel="alternate" type="text/html" title="zookeeper" /><published>2018-01-18T16:11:08+08:00</published><updated>2018-01-18T16:11:08+08:00</updated><id>http://0.0.0.0/2018/01/18/bigdata-zookeeper-conf</id><content type="html" xml:base="http://0.0.0.0/2018/01/18/bigdata-zookeeper-conf/">&lt;p&gt;&lt;img src=&quot;http://zookeeper.apache.org/images/feather_small.gif&quot; alt=&quot;image&quot; /&gt;Apache ZooKeeper™
-&lt;img src=&quot;http://zookeeper.apache.org/images/zookeeper_small.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-&lt;h3 id=&quot;简介&quot;&gt;简介&lt;/h3&gt;
-
-&lt;p&gt;Apache Zookeeper 是由 Apache Hadoop 的 Zookeeper 子项目发展而来，现在已经成为了 Apache 的顶级项目。Zookeeper 为分布式系统提供了高效可靠且易于使用的协同服务，它可以为分布式应用提供相当多的服务，诸如统一命名服务，配置管理，状态同步和组服务等。Zookeeper 接口简单，开发人员不必过多地纠结在分布式系统编程难于处理的同步和一致性问题上，你可以使用 Zookeeper 提供的现成(off-the-shelf)服务来实现分布式系统的配置管理，组管理，Leader 选举等功能。&lt;/p&gt;
-
-&lt;p&gt;Zookeeper 维护了大规模分布式系统中的常用对象，比如配置信息，层次化命名空间等，本文将从开发者的角度详细介绍 Zookeeper 的配置信息的意义以及 Zookeeper 的典型应用场景（配置文件的管理、集群管理、分布式队列、同步锁、Leader 选举、队列管理等）。&lt;/p&gt;
-
-&lt;h3 id=&quot;zookeeper-安装与配置&quot;&gt;Zookeeper 安装与配置&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;本文采用 &lt;code class=&quot;highlighter-rouge&quot;&gt;Zookeeper-3.4.9&lt;/code&gt; 介绍它的安装步骤以及配置信息，最新的代码可以到 Zookeeper 的&lt;a href=&quot;http://apache.fayea.com/zookeeper/&quot;&gt;官网下载&lt;/a&gt;：&lt;/li&gt;
-  &lt;li&gt;Zookeeper功能强大，但是安装却十分简单，下面重点以伪分布式模式来介绍 Zookeeper 的安装。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Zookeeper 安装模式包括：&lt;code class=&quot;highlighter-rouge&quot;&gt;单机模式&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;伪分布式模式&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;完全的集群模式&lt;/code&gt;。
-单机模式最简单本文跳过（单机模式安装步骤参见 Zeekeeper &lt;a href=&quot;http://zookeeper.apache.org/doc/current/zookeeperStarted.html&quot;&gt;官方文档&lt;/a&gt;）
-伪分布式模式与集群模式配置差别不大! 为了帮助大家理解所以本文采用单台虚拟机来配置伪分布集群，
-后续大家如果熟悉后建议使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;Docker&lt;/code&gt; 提供的&lt;a href=&quot;https://hub.docker.com/&quot;&gt;官方镜像&lt;/a&gt;来配置集群环境&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;本文在 &lt;code class=&quot;highlighter-rouge&quot;&gt;CentOS 7.2&lt;/code&gt; 上操作&lt;/li&gt;
-  &lt;li&gt;Java 环境为 &lt;code class=&quot;highlighter-rouge&quot;&gt;jdk1.8.0_111&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;安装 Zookeeper 前首先下载你需要的版本，暂时解压到指定目录
-本文解压至 &lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/source/&lt;/code&gt; 目录下，本次伪分布式模拟 &lt;code class=&quot;highlighter-rouge&quot;&gt;3&lt;/code&gt; 个 Zookeeper，目录分配如下：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir /opt/source
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;zxf /home/zookeeper-3.4.9.tar.gz &lt;span class=&quot;nt&quot;&gt;-C&lt;/span&gt; /opt/source
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cp &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; zookeeper zookeeper2 &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cp &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; zookeeper zookeeper3
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;tree &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; 1
-&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-├── zookeeper
-├── zookeeper2
-└── zookeeper3
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;tree &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; 1 /data
-/data
-├── zookeeper
-├── zookeeper2
-└── zookeeper3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;zookeeper-配置文件&quot;&gt;Zookeeper 配置文件&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;这里我们只介绍 zoo_sample.cfg，首先将此文件重命名为&lt;code class=&quot;highlighter-rouge&quot;&gt;zoo.cfg&lt;/code&gt;，并修改对应目录下的zoo.cfg。整体配置其实很简单所以这里只列出了配置后启用参数，具体参数的说明请参考官方文档这里不在叙述：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;egrep &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;^#|^$&quot;&lt;/span&gt; zookeeper/conf/zoo.cfg 
-&lt;span class=&quot;nv&quot;&gt;tickTime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2000
-&lt;span class=&quot;nv&quot;&gt;initLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
-&lt;span class=&quot;nv&quot;&gt;syncLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5
-&lt;span class=&quot;nv&quot;&gt;dataDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/data/zookeeper
-&lt;span class=&quot;nv&quot;&gt;clientPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2181
-server.1&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3331:4881
-server.2&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3332:4882
-server.3&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3333:4883
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;egrep &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;^#|^$&quot;&lt;/span&gt; zookeeper2/conf/zoo.cfg 
-&lt;span class=&quot;nv&quot;&gt;tickTime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2000
-&lt;span class=&quot;nv&quot;&gt;initLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
-&lt;span class=&quot;nv&quot;&gt;syncLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5
-&lt;span class=&quot;nv&quot;&gt;dataDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/data/zookeeper2
-&lt;span class=&quot;nv&quot;&gt;clientPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2182
-server.1&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3331:4881
-server.2&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3332:4882
-server.3&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3333:4883
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;egrep &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;^#|^$&quot;&lt;/span&gt; zookeeper3/conf/zoo.cfg 
-&lt;span class=&quot;nv&quot;&gt;tickTime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2000
-&lt;span class=&quot;nv&quot;&gt;initLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
-&lt;span class=&quot;nv&quot;&gt;syncLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5
-&lt;span class=&quot;nv&quot;&gt;dataDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/data/zookeeper3
-&lt;span class=&quot;nv&quot;&gt;clientPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2183
-server.1&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3331:4881
-server.2&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3332:4882
-server.3&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;master:3333:4883
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /data/zookeeper/myid
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;2&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /data/zookeeper2/myid
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;3&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /data/zookeeper3/myid
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;启动服务&quot;&gt;启动服务&lt;/h4&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;/opt/source/zookeeper/bin/zkServer.sh start
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;/opt/source/zookeeper2/bin/zkServer.sh start
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;/opt/source/zookeeper3/bin/zkServer.sh start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;参数说明&quot;&gt;参数说明&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;tickTime：这个时间是作为 Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。&lt;/li&gt;
-  &lt;li&gt;dataDir：顾名思义就是 Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存在这个目录里。&lt;/li&gt;
-  &lt;li&gt;clientPort：这个端口就是客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求。&lt;/li&gt;
-  &lt;li&gt;initLimit：这个配置项是用来配置 Zookeeper 接受客户端
-    &lt;ul&gt;
-      &lt;li&gt;（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，
-而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。&lt;/li&gt;
-      &lt;li&gt;当已经超过 5个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5*2000=10 秒&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;syncLimit：这个配置项标识 Leader 与Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是2*2000=4 秒
-server.A=B：C：D：
-    &lt;ul&gt;
-      &lt;li&gt;其中 A 是一个数字，表示这个是第几号服务器；&lt;/li&gt;
-      &lt;li&gt;B 是这个服务器的 ip 地址；&lt;/li&gt;
-      &lt;li&gt;C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；&lt;/li&gt;
-      &lt;li&gt;D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。&lt;/li&gt;
-      &lt;li&gt;如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;服务查看&quot;&gt;服务查看&lt;/h3&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;netstat &lt;span class=&quot;nt&quot;&gt;-tnlp&lt;/span&gt; |grep &lt;span class=&quot;s1&quot;&gt;'java'&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Not all processes could be identified, non-owned process info
- will not be shown, you would have to be root to see it all.&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-tcp        0      0 192.168.11.130:4881     0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3751/java           
-tcp        0      0 192.168.11.130:4882     0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3779/java           
-tcp        0      0 192.168.11.130:4883     0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3820/java           
-tcp        0      0 0.0.0.0:52021           0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3820/java           
-tcp        0      0 0.0.0.0:42968           0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3751/java           
-tcp        0      0 0.0.0.0:45241           0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3779/java           
-tcp        0      0 192.168.11.130:3332     0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3779/java           
-tcp        0      0 0.0.0.0:2181            0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3751/java           
-tcp        0      0 0.0.0.0:2182            0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3779/java           
-tcp        0      0 0.0.0.0:2183            0.0.0.0:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;               LISTEN      3820/java
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;验证测试&quot;&gt;验证测试&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;/opt/source/zookeeper/bin/zkCli.sh &lt;span class=&quot;nt&quot;&gt;-server&lt;/span&gt; master:2181
-Welcome to ZooKeeper!
-JLine support is enabled
-2016-12-26 15:20:48,698 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;myid:] - INFO  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;main-SendThread&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;master:2181&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:ClientCnxn&lt;span class=&quot;nv&quot;&gt;$SendThread&lt;/span&gt;@876] - Socket conn
-ection established to master/192.168.11.130:2181, initiating session2016-12-26 15:20:48,725 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;myid:] - INFO  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;main-SendThread&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;master:2181&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:ClientCnxn&lt;span class=&quot;nv&quot;&gt;$SendThread&lt;/span&gt;@1299] - Session es
-tablishment &lt;span class=&quot;nb&quot;&gt;complete &lt;/span&gt;on server master/192.168.11.130:2181, sessionid &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x15939ddfedb0001, negotiated timeout &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 30000
-WATCHER::
-WatchedEvent state:SyncConnected &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;:None path:null
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;zk: master:2181&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;CONNECTED&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 1] create /test 123
-
-另开一个终端：
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# /opt/source/zookeeper3/bin/zkCli.sh &lt;span class=&quot;nt&quot;&gt;-server&lt;/span&gt; master:2183
-Welcome to ZooKeeper!
-JLine support is enabled
-2016-12-26 15:21:40,669 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;myid:] - INFO  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;main-SendThread&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;master:2183&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:ClientCnxn&lt;span class=&quot;nv&quot;&gt;$SendThread&lt;/span&gt;@876] - Socket conn
-ection established to master/192.168.11.130:2183, initiating session2016-12-26 15:21:40,691 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;myid:] - INFO  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;main-SendThread&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;master:2183&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:ClientCnxn&lt;span class=&quot;nv&quot;&gt;$SendThread&lt;/span&gt;@1299] - Session es
-tablishment &lt;span class=&quot;nb&quot;&gt;complete &lt;/span&gt;on server master/192.168.11.130:2183, sessionid &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x35939de0e410001, negotiated timeout &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 30000
-WATCHER::
-WatchedEvent state:SyncConnected &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;:None path:null
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;zk: master:2183&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;CONNECTED&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 1] get /test
-123
-cZxid &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x100000009
-ctime &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; Mon Dec 26 15:21:12 CST 2016
-mZxid &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x100000009
-mtime &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; Mon Dec 26 15:21:12 CST 2016
-pZxid &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x100000009
-cversion &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0
-dataVersion &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0
-aclVersion &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0
-ephemeralOwner &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x0
-dataLength &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 4
-numChildren &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;更多详细信息请查看&lt;a href=&quot;http://zookeeper.apache.org/doc/r3.4.9/&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">Apache ZooKeeper™ 简介</summary></entry><entry><title type="html">hadoop HDFS Datanode 节点动态扩展(二)</title><link href="http://0.0.0.0/2018/01/18/hadoop-hdfs-datanode/" rel="alternate" type="text/html" title="hadoop HDFS Datanode 节点动态扩展(二)" /><published>2018-01-18T15:37:37+08:00</published><updated>2018-01-18T15:37:37+08:00</updated><id>http://0.0.0.0/2018/01/18/hadoop-hdfs-datanode</id><content type="html" xml:base="http://0.0.0.0/2018/01/18/hadoop-hdfs-datanode/">&lt;h2 id=&quot;扩容-datanode&quot;&gt;扩容 Datanode&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;增加hostname,同步/etc/hosts 到所有节点,配置双机互信&lt;/li&gt;
-  &lt;li&gt;添加主机名到主节点的 slave 文件中&lt;/li&gt;
-  &lt;li&gt;同步主节点Hadoop 运行目录到新增Datanode 节点 并修改权限&lt;/li&gt;
-  &lt;li&gt;创建数据目录并修改权限&lt;/li&gt;
-  &lt;li&gt;启动datanode&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;配置互信-hostname-slave&quot;&gt;配置互信 hostname slave&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-node3 .ssh]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
-/home/hadoop/.ssh
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-node3 .ssh]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls
-&lt;/span&gt;authorized_keys  id_rsa 
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]# &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/hosts |grep hdfs
-192.168.3.27 hdfs-master
-192.168.3.28 hdfs-slave
-192.168.3.91 hdfs-node3
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]# scp /etc/hosts hdfs-slave:/etc/hosts
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]# scp /etc/hosts hdfs-node3:/etc/hosts
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]# &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /usr/local/hadoop/etc/hadoop/slaves
-hdfs-master
-hdfs-slave
-hdfs-node3
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]# scp /usr/local/hadoop/etc/hadoop/slaves hdfs-slave:/usr/local/hadoop/etc/hadoop/slaves
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;同步hadoop运行目录&quot;&gt;同步Hadoop运行目录&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[hadoop@hdfs-master ~]# scp /usr/local/hadoop hdfs-node3:/usr/local/
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;创建目录并修改权限&quot;&gt;创建目录并修改权限&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@hdfs-node3 &lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;# chown -R hadoop.hadoop hadoop&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@hdfs-node3 &lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;# mkdir -p /data/hadoop/data/{dfs,tmp,yarn}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@hdfs-node3 &lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;# mkdir -p /data/hadoop/data/dfs/data&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@hdfs-node3 &lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;# chown -R hadoop.hadoop /data/hadoop&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;启动-datanode&quot;&gt;启动 datanode&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-node3 hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./sbin/hadoop-daemon.sh start datanode
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;master节点查看当前集群信息-确认新节点已经加入&quot;&gt;master节点查看当前集群信息 确认新节点已经加入&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hdfs dfsadmin &lt;span class=&quot;nt&quot;&gt;-report&lt;/span&gt;
-Configured Capacity: 548221317120 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;510.57 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Present Capacity: 446565990400 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;415.90 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Remaining: 446516936704 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;415.85 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Used: 49053696 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;46.78 MB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Used%: 0.01%
-Under replicated blocks: 0
-Blocks with corrupt replicas: 0
-Missing blocks: 0
-Missing blocks &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;with replication factor 1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: 0
-
-&lt;span class=&quot;nt&quot;&gt;-------------------------------------------------&lt;/span&gt;
-Live datanodes &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;3&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-
-Name: 192.168.3.27:50010 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;hdfs-master&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Hostname: hdfs-master
-Decommission Status : Normal
-Configured Capacity: 440899563520 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;410.62 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Used: 16351232 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;15.59 MB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Non DFS Used: 21774798848 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;20.28 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Remaining: 419108413440 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;390.33 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Used%: 0.00%
-DFS Remaining%: 95.06%
-Configured Cache Capacity: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Used: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Remaining: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Used%: 100.00%
-Cache Remaining%: 0.00%
-Xceivers: 1
-Last contact: Tue Jan 16 14:03:18 CST 2018
-
-
-Name: 192.168.3.91:50010 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;hdfs-node3&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Hostname: hdfs-node3
-Decommission Status : Normal
-Configured Capacity: 53660876800 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;49.98 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Used: 16351232 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;15.59 MB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Non DFS Used: 37875245056 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;35.27 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Remaining: 15769280512 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;14.69 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Used%: 0.03%
-DFS Remaining%: 29.39%
-Configured Cache Capacity: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Used: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Remaining: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Used%: 100.00%
-Cache Remaining%: 0.00%
-Xceivers: 1
-Last contact: Tue Jan 16 14:03:16 CST 2018
-
-
-Name: 192.168.3.28:50010 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;hdfs-slave&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Hostname: hdfs-slave
-Decommission Status : Normal
-Configured Capacity: 53660876800 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;49.98 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Used: 16351232 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;15.59 MB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Non DFS Used: 42005282816 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;39.12 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Remaining: 11639242752 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;10.84 GB&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DFS Used%: 0.03%
-DFS Remaining%: 21.69%
-Configured Cache Capacity: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Used: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Remaining: 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0 B&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cache Used%: 100.00%
-Cache Remaining%: 0.00%
-Xceivers: 1
-Last contact: Tue Jan 16 14:03:18 CST 2018
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;master节点开启负载均衡&quot;&gt;master节点开启负载均衡&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hdfs dfsadmin &lt;span class=&quot;nt&quot;&gt;-setBalancerBandwidth&lt;/span&gt; 67108864
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;start-balancer.sh &lt;span class=&quot;nt&quot;&gt;-threshold&lt;/span&gt; 5
-starting balancer, logging to /usr/local/hadoop/logs/hadoop-hadoop-balancer-hdfs-master.out
-Time Stamp               Iteration#  Bytes Already Moved  Bytes Left To Move  Bytes Being Moved
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;新节点启动nodemanager&quot;&gt;新节点启动nodemanager&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-node3 hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./sbin/yarn-daemon.sh start nodemanager
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;datanode-节点退役&quot;&gt;Datanode 节点退役&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;hdfs-site.xml 必须配置此部分&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;tail &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; 5 hdfs-site.xml
-　　&amp;lt;property&amp;gt;
-　　    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--dfs&lt;/span&gt;.hosts.exclude定义的文件内容为,每个需要下线的机器，一行一个--&amp;gt;
-        &amp;lt;name&amp;gt;dfs.hosts.exclude&amp;lt;/name&amp;gt;
-　      &amp;lt;value&amp;gt;/usr/local/hadoop/etc/hadoop/excludes&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-&amp;lt;/configuration&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;excludes-文件&quot;&gt;excludes 文件&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;在 $HADOOP_HOME/etc/hadoop/excludes 中配置想要退役的节点，一行一个
-如果配置了HA 则需要同步到standby 节点&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[hadoop@hdfs-master hadoop]$ scp excludes hdfs-slave:/usr/local/hadoop/etc/hadoop/
-[hadoop@hdfs-master hadoop]$ cat excludes
-hdfs-node4
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;然后在namenode 节点执行 刷新&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;hdfs dfsadmin &lt;span class=&quot;nt&quot;&gt;-refreshNodes&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;查看web 界面发现节点已经退役状态&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;恢复节点&quot;&gt;恢复节点&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;当退役节点维护完毕 需要重新恢复到集群时&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;重启datanode&lt;/li&gt;
-  &lt;li&gt;查看并确认 DataNode节点已经加入&lt;/li&gt;
-  &lt;li&gt;启动 nodemanager 即可&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;注意: 当启动或重启 &lt;code class=&quot;highlighter-rouge&quot;&gt;namenode&lt;/code&gt; 节点时务必把 &lt;code class=&quot;highlighter-rouge&quot;&gt;excludes&lt;/code&gt; 文件清空后再进行操作
-一定要注意操作的顺序 否则会报错&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>Jevic</name></author><summary type="html">扩容 Datanode 增加hostname,同步/etc/hosts 到所有节点,配置双机互信 添加主机名到主节点的 slave 文件中 同步主节点Hadoop 运行目录到新增Datanode 节点 并修改权限 创建数据目录并修改权限 启动datanode</summary></entry><entry><title type="html">hadoop HDFS HA 高可用配置(一)</title><link href="http://0.0.0.0/2018/01/18/hadoop-ha-config/" rel="alternate" type="text/html" title="hadoop HDFS HA 高可用配置(一)" /><published>2018-01-18T15:35:27+08:00</published><updated>2018-01-18T15:35:27+08:00</updated><id>http://0.0.0.0/2018/01/18/hadoop-ha-config</id><content type="html" xml:base="http://0.0.0.0/2018/01/18/hadoop-ha-config/">&lt;p&gt;&lt;img src=&quot;http://hadoop.apache.org/images/hadoop-logo.jpg&quot; alt=&quot;Hadoop&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;概述&quot;&gt;概述&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;Hadoop是一个由Apache基金会所开发的分布式系统基础架构。
-用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。&lt;/li&gt;
-  &lt;li&gt;Hadoop实现了一个分布式文件系统（Hadoop Distributed File System），简称HDFS。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。&lt;/li&gt;
-  &lt;li&gt;HDFS放宽了（relax）POSIX的要求，可以以流的形式访问（streaming access）文件系统中的数据。&lt;/li&gt;
-  &lt;li&gt;Hadoop的框架最核心的设计就是：HDFS和MapReduce。&lt;/li&gt;
-  &lt;li&gt;HDFS为海量的数据提供了存储，则MapReduce为海量的数据提供了计算。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Hadoop2.x之后的版本提供了解决单点问题的方案－HA(HighAvailable 高可用) 执行步骤如下：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;配置-hdfs-ha&quot;&gt;配置 HDFS HA&lt;/h3&gt;
-&lt;h4 id=&quot;依赖组件下载&quot;&gt;依赖组件下载&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&quot;&gt;JDK&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://zookeeper.apache.org/releases.html&quot;&gt;zookeeper&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://apache.fayea.com/hadoop/common/&quot;&gt;hadoop2.x&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;初始化主机&quot;&gt;初始化主机&lt;/h4&gt;
-&lt;ol&gt;
-  &lt;li&gt;hostname&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;192.168.3.27 hdfs-master
-192.168.3.28 hdfs-slave
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;关闭防火墙 selinux&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;创建 hadoop 用户&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;ulimit&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# cat /etc/security/limits.conf&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; soft nofile 102400
-&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; hard nofile 102400
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;配置 hadoop 用户双机互信&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; .ssh/id_rsa.pub &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; .ssh/authorized_keys
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;chmod 600 .ssh/authorized_keys
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;
-复制master 公钥到各节点 步骤略.......
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;jdk&quot;&gt;jdk&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;/opt/jdk&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/profile
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;JAVA_HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/jdk
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;JAVA_HOME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/bin:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CLASSPATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;.:&lt;span class=&quot;nv&quot;&gt;$JAVA_HOME&lt;/span&gt;/jre/lib/rt.jar:&lt;span class=&quot;nv&quot;&gt;$JAVA_HOME&lt;/span&gt;/jre/lib/dt.jar:&lt;span class=&quot;nv&quot;&gt;$JAVA_HOME&lt;/span&gt;/lib/tools.jar
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;zookeeper&quot;&gt;zookeeper&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.jevic.cn/categories/#Bigdata&quot;&gt;zookeeper 配置实例&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;hadoop&quot;&gt;Hadoop&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;/usr/local/hadoop&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;创建目录所有节点&quot;&gt;创建目录(所有节点)&lt;/h5&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# mkdir -p /data/hadoop/data/{dfs,tmp,yarn}&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# mkdir -p /data/hadoop/data/dfs/{data,name}&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# chown -R hadoop.hadoop /data/hadoop&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;编辑配置文件&quot;&gt;编辑配置文件&lt;/h5&gt;
-
-&lt;h6 id=&quot;切换到hadoop-用户操作&quot;&gt;切换到hadoop 用户操作&lt;/h6&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@hdfs-master ~]# su - hadoop
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master ~]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /usr/local/hadoop/etc/hadoop/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h6 id=&quot;hadoop-envsh&quot;&gt;hadoop-env.sh&lt;/h6&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;JAVA_HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/jdk
-&lt;span class=&quot;c&quot;&gt;#export HADOOP_SSH_OPTS=&quot;-p 22&quot; 默认为22&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h6 id=&quot;slave&quot;&gt;slave&lt;/h6&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;slaves
-hdfs-master
-hdfs-slave
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h6 id=&quot;core-siteyml&quot;&gt;core-site.yml&lt;/h6&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;core-site.xml
-&amp;lt;?xml &lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1.0&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;UTF-8&quot;&lt;/span&gt;?&amp;gt;
-&amp;lt;?xml-stylesheet &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/xsl&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;configuration.xsl&quot;&lt;/span&gt;?&amp;gt;
-&amp;lt;configuration&amp;gt;
-&amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;fs.defaultFS&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs://hadoop-node&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;io.file.buffer.size&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;131072&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;hadoop.tmp.dir&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;/data/hadoop/tmp&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;hadoop.proxyuser.hduser.hosts&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;hadoop.proxyuser.hduser.groups&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;ha.zookeeper.quorum&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:2181&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-&amp;lt;/configuration&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h6 id=&quot;hdfs-sitexml&quot;&gt;hdfs-site.xml&lt;/h6&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;hdfs-site.xml
-&amp;lt;?xml &lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1.0&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;UTF-8&quot;&lt;/span&gt;?&amp;gt;
-&amp;lt;?xml-stylesheet &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/xsl&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;configuration.xsl&quot;&lt;/span&gt;?&amp;gt;
-&amp;lt;configuration&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.nameservices&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hadoop-node&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.ha.namenodes.hadoop-node&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;nmaster,nslave&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.namenode.rpc-address.hadoop-node.nmaster&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:9000&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.namenode.rpc-address.hadoop-node.nslave&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave:9000&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.namenode.http-address.hadoop-node.nmaster&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:50070&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.namenode.http-address.hadoop-node.nslave&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave:50070&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.namenode.shared.edits.dir&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;qjournal://hdfs-master:8485&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;hdfs-slave:8485/hadoop-node&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.client.failover.proxy.provider.hadoop-node&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.ha.fencing.methods&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;sshfence&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.ha.fencing.ssh.private-key-files&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;/home/hadoop/.ssh/id_rsa&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.journalnode.edits.dir&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;/data/hadoop/data/tmp/journal&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.ha.automatic-failover.enabled&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;true&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.namenode.name.dir&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;/data/hadoop/data/dfs/name&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.datanode.data.dir&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;/data/hadoop/data/dfs/data&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.replication&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;3&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.webhdfs.enabled&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;true&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.journalnode.http-address&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;0.0.0.0:8480&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.journalnode.rpc-address&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;0.0.0.0:8485&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;ha.zookeeper.quorum&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;Test-27:2181&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.datanode.data.dir.perm&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;755&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;dfs.block.local-path-access.user&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hadoop,root&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-　　    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--dfs&lt;/span&gt;.hosts.exclude定义的文件内容为,每个需要下线的机器，一行一个--&amp;gt;
-        &amp;lt;name&amp;gt;dfs.hosts.exclude&amp;lt;/name&amp;gt;
-　      &amp;lt;value&amp;gt;/usr/local/hadoop/etc/hadoop/excludes&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-&amp;lt;/configuration&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h6 id=&quot;mapred-sitexml&quot;&gt;mapred-site.xml&lt;/h6&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;mapred-site.xml
-&amp;lt;?xml &lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1.0&quot;&lt;/span&gt;?&amp;gt;
-&amp;lt;?xml-stylesheet &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/xsl&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;configuration.xsl&quot;&lt;/span&gt;?&amp;gt;
-&amp;lt;configuration&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;mapreduce.framework.name&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;yarn&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;mapreduce.jobhistory.address&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;nmaster:10020&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;mapreduce.jobhistory.webapp.address&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;nmaster:19888&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-&amp;lt;/configuration&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h6 id=&quot;yarn-sitexml&quot;&gt;yarn-site.xml&lt;/h6&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;yarn-site.xml
-&amp;lt;?xml &lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1.0&quot;&lt;/span&gt;?&amp;gt;
-&amp;lt;configuration&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.connect.retry-interval.ms&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;2000&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.ha.enabled&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;true&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.ha.rm-ids&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;rm1,rm2&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;ha.zookeeper.quorum&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:2181&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.ha.automatic-failover.enabled&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;true&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.hostname.rm1&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.hostname.rm2&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;在hdfs-master上配置rm1,在hdfs-slave上配置rm2,注意：一般都喜欢把配置好的文件远程复制到其它机器上，但这个在YARN的另一个机器上一定要修改 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.ha.id&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;rm1&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;开启自动恢复功能 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.recovery.enabled&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;true&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;配置与zookeeper的连接地址 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.zk-state-store.address&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:2181&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.store.class&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.zk-address&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:2181&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.cluster-id&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hadoop-yarn&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--schelduler&lt;/span&gt;失联等待连接时间 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.app.mapreduce.am.scheduler.connection.wait.interval-ms&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;5000&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;配置rm1 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.address.rm1&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:8132&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.scheduler.address.rm1&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:8130&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.webapp.address.rm1&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:8188&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.resource-tracker.address.rm1&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:8131&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.admin.address.rm1&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:8033&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.ha.admin.address.rm1&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-master:23142&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;配置rm2 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.address.rm2&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave:8132&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.scheduler.address.rm2&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave:8130&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.webapp.address.rm2&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave:8188&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.resource-tracker.address.rm2&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave:8131&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.admin.address.rm2&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave:8033&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.ha.admin.address.rm2&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;hdfs-slave:23142&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.nodemanager.aux-services&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;mapreduce_shuffle&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;org.apache.hadoop.mapred.ShuffleHandler&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.nodemanager.local-dirs&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;/data/hadoop/data/yarn/local&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.nodemanager.log-dirs&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;/data/hadoop/log/yarn&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;mapreduce.shuffle.port&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;23080&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;故障处理类 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.client.failover-proxy-provider&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;org.apache.hadoop.yarn.client.ConfiguredRMFailoverProxyProvider&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.ha.automatic-failover.zk-base-path&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;/yarn-leader-election&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-&amp;lt;/configuration&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;同步配置文件&quot;&gt;同步配置文件&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;同步到所有节点&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;scp &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; /usr/local/hadoop/etc/hadoop hdfs-slave:/usr/local/hadoop/etc/
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h5 id=&quot;修改-slave的haid&quot;&gt;修改 slave的ha.id&lt;/h5&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-slave hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;yarn-site.xml |grep &lt;span class=&quot;nt&quot;&gt;-a2&lt;/span&gt; ha.id
-    &amp;lt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;在hdfs-master上配置rm1,在hdfs-slave上配置rm2,注意：一般都喜欢把配置好的文件远程复制到其它机器上，但这个在YARN的另一个机器上一定要修改 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &amp;lt;property&amp;gt;
-        &amp;lt;name&amp;gt;yarn.resourcemanager.ha.id&amp;lt;/name&amp;gt;
-        &amp;lt;value&amp;gt;rm2&amp;lt;/value&amp;gt;
-    &amp;lt;/property&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;启用hadoop&quot;&gt;启用Hadoop&lt;/h5&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;所有节点执行&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./sbin/hadoop-daemon.sh start journalnode
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;master&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./bin/hadoop namenode &lt;span class=&quot;nt&quot;&gt;-format&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./bin/hdfs zkfc &lt;span class=&quot;nt&quot;&gt;-formatZK&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./sbin/start-dfs.sh 
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./sbin/start-yarn.sh
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;jps
-16896 Jps
-30194 NodeManager
-27363 JournalNode
-30083 ResourceManager
-29925 DFSZKFailoverController
-29590 DataNode
-29448 NameNode
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;slave&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;查看此时的slave 节点进程:
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-slave hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;jps
-28489 NodeManager
-32345 Jps
-25675 JournalNode
-28380 DFSZKFailoverController
-28222 DataNode
-
-&lt;span class=&quot;c&quot;&gt;## 同步master节点源数据&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-slave hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./bin/hdfs namenode &lt;span class=&quot;nt&quot;&gt;-bootstrapStandby&lt;/span&gt;
-...........
-&lt;span class=&quot;o&quot;&gt;=====================================================&lt;/span&gt;
-About to bootstrap Standby ID nslave from:
-           Nameservice ID: hadoop-node
-        Other Namenode ID: nmaster
-  Other NN&lt;span class=&quot;s1&quot;&gt;'s HTTP address: http://hdfs-master:50070
-  Other NN'&lt;/span&gt;s IPC  address: hdfs-master/192.168.3.27:9000
-             Namespace ID: 910041107
-            Block pool ID: BP-847688455-192.168.3.27-1516010305437
-               Cluster ID: CID-15090545-231e-4ba6-a593-1afc74857e9c
-           Layout version: &lt;span class=&quot;nt&quot;&gt;-63&lt;/span&gt;
-       isUpgradeFinalized: &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;=====================================================&lt;/span&gt;
-..... common.Storage: Storage directory /data/hadoop/data/dfs/name has been successfully formatted.
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-slave hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./sbin/hadoop-daemon.sh start namenode
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-slave hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./sbin/yarn-daemon.sh start resourcemanager
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-slave hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;jps
-28489 NodeManager
-857 Jps
-25675 JournalNode
-28380 DFSZKFailoverController
-32765 NameNode
-28222 DataNode
-478 ResourceManager
-
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;web-ui&quot;&gt;web-ui&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;http://hdfs-master:50070/&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;管理命令&quot;&gt;管理命令&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;状态查看&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./bin/hdfs haadmin &lt;span class=&quot;nt&quot;&gt;-getServiceState&lt;/span&gt; nmaster
-active
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./bin/hdfs haadmin &lt;span class=&quot;nt&quot;&gt;-getServiceState&lt;/span&gt; nslave
-standby
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;未配置自动切换手动操作&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-这条命令的意思是，nslave将变成standby，nmaster变成active。而且手动状态下需要重启服务
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./bin/hdfs haadmin &lt;span class=&quot;nt&quot;&gt;-failover&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--forcefence&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--forceactive&lt;/span&gt; nmaster nslave
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./bin/hdfs haadmin &lt;span class=&quot;nt&quot;&gt;-transitionToActive&lt;/span&gt; nslave
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;hadoop@hdfs-master hadoop]&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./bin/hdfs haadmin &lt;span class=&quot;nt&quot;&gt;-transitionToStandby&lt;/span&gt; nmaster
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html"></summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">问题概述 由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态； 而且此时集群分片均衡失效，不在均衡数据； 尝试使用reroute API 接口来手动迁移，发现命令执行失败； 接下来就比较尴尬了….均衡不了….手动迁移也失败…. 综合以上状况只能做以下操作了…</summary></entry></feed>

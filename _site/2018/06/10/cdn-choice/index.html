@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>CDN 厂商选择三要素 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/06/10/cdn-choice/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="CDN 厂商选择三要素">
+      
+    <meta name="keywords" content="cdn">
+    <meta name="og:keywords" content="cdn">
+      
+    <meta name="description" content="  作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：">
+    <meta name="og:description" content="  作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/06/10/cdn-choice/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-06-10">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="CDN 厂商选择三要素">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">CDN 厂商选择三要素</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/06/10
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：</p>
+</blockquote>
+
+<blockquote>
+  <p>一，哪家的 CDN 更快（速度快，用户体验好）。</p>
+</blockquote>
+
+<blockquote>
+  <p>二， 哪家 CDN 功能最全，即使现在用不到也不会给将来业务发展挖坑。</p>
+</blockquote>
+
+<blockquote>
+  <p>三，怎么付费最划算。本文通过分析对国内 CDN 市场占有率靠前的十家服务商的网络环境和技术服务，希望给大家提供一些启发和建议。</p>
+</blockquote>
+
+<ul>
+  <li><a href="https://www.idcps.com/idc/china/cdn">IDC 评述网</a></li>
+</ul>
+
+<h2 id="哪家的-cdn-更快">哪家的 CDN 更快？</h2>
+
+<p>CDN 服务商经常引用独立第三方公司的拨测数据来证明自己的 CDN 服务更好。虽然这些数据在某个区域或时间段也许是准确的，实际却是盲人摸象，无法证明全时段和全网 CDN 服务的真实性能。也许从 CDN 服务商所处的网络环境和提供的技术功能入手，会是更科学和公平的对比方法。</p>
+
+<blockquote>
+  <p>阿里云，腾讯云和网宿科技由于支持 HttpDNS 在技术上有领先优势，可以列为第一梯队。第二梯队的是百度云，蓝讯，Ucloud 和网易云。它们所在 AS 和两个以上运营商主干网 AS 相邻，也具有一定优势。剩下的金山云，七牛云和京东云排在第三梯队。金山云所在 AS 只和电信骨干网 AS 相连，使用其它运营商的用户访问其 CDN 节点理论上会相对电信的慢一些。七牛云和京东云其网络属于北京电信通的 AS，需要穿过两个 AS 才接入骨干网，理论上速度也会比其他 CDN 服务商稍慢。</p>
+</blockquote>
+
+<p>国内用户普遍使用互联网提供商 (ISP) 的宽带上网，具体访问流程如下图：
+<img src="http://ok6h8mla5.bkt.clouddn.com/cdn_wx01.png" alt="" /></p>
+
+<blockquote>
+  <p>用户终端访问 CDN 的过程分两个步骤;
+一是用户通过 DNS 找到最近的 CDN 边缘节点 IP; 
+二是数据在网络中的送达用户终端。
+整个过程中，有三个方面会影响用户访问 CDN 的体验。</p>
+</blockquote>
+
+<h5 id="一拥有-dns-优化策略的-cdn-提供商会有更好的用户体验">一，拥有 DNS 优化策略的 CDN 提供商，会有更好的用户体验。</h5>
+
+<p>从图 1 可见， 客户终端的 DNS Resolver 负责告诉浏览器到哪里去找 CDN 的资源。理论上 ISP 的 DNS 服务器会选择离用户最近 CDN 节点 IP 并返回给用户，但是实际情况并不是这么简单。国内的大城市的 ISP 业务，除了一些区域性的 ISP，基本被联通、电信和移动这样的大运营商所垄断。由于各运营商之间存在着网间费用结算，运营商会想尽一切办法将用户的访问在自己的网内解决掉。比如，广州联调宽带的用户想访问的内容在联通北京的 CDN 节点， 尽管在广东移动的 CDN 节点有用户想访问的资源，联通的 DNS 还是会返回联通北京 CDN 节点的 IP。</p>
+
+<p>另外，一些 ISP 为了节省网间流量，未经 CDN 服务商同意，自己针对一些 CDN 文件做了一层 CDN 缓存，通过“DNS 劫持”把用户访问 CDN 资源的请求都指到自己网内的非法 CDN 缓存服务器。很多时候这些缓存的内容不能及时和 CDN 节点同步更新，会造成使用该 ISP 的用户终端出现访问 CDN 资源缓慢，失败等现象。同时，国内严重的 DNS 污染问题也影响了用户的上网体验。</p>
+
+<p>因此，如果能使用一些技术优化用户 DNS 查询，会大幅度提高用户的体验。目前优化 DNS 的技术主要是：</p>
+
+<ul>
+  <li>
+    <p>HttpDNS ：客户端基于 Http 协议向 CDN 服务商指定的 DNS 服务器发送域名解析请求，从而避免 LocalDNS 造成的域名劫持和跨网访问;
+<img src="http://ok6h8mla5.bkt.clouddn.com/cdn_wx02.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Http 302 跳转: CDN 厂商维护 CDN 域名 IP 库，根据用户访问终端的 IP 和 CDN 边缘节点的状态，选择最合适的 CDN 节点，发出 HTTP 的 302 返回码，将用户的请求跳转到合适的 CDN 边缘节点。例如腾讯的下载直通车就使用类似技术。
+<img src="http://ok6h8mla5.bkt.clouddn.com/cdn_wx02.png" alt="" /></p>
+  </li>
+</ul>
+
+<h5 id="二拥有自治系统autonomous-system-as的-cdn-提供商数据包跨越最少的网络边界能获得更快的传输速度">二，拥有自治系统（Autonomous system, AS）的 CDN 提供商，数据包跨越最少的网络边界，能获得更快的传输速度。</h5>
+
+<p>在 BGP 协议中，IP 包从一个 AS 向另一个 AS 传输时，需要经过边界路由器，如果由于网络问题造成 IP 包不可达，则需要边界路由器重新规划线路。如果 CDN 服务商自己拥有自治系统，AS 内部拥有同样的选路策略，数据就能在 CDN 服务商自己的 AS 中高效传输，理论上最终送达用户所花的时间也会最小。 就好比我们开车在省内玩，肯定要比跨多个省经过多个收费站耗时要少。</p>
+
+<h5 id="三-cdn-服务商所在自治系统-as-的相邻-as-越多离运营商骨干网越近数据传输也会更有优势">三， CDN 服务商所在自治系统 AS 的相邻 AS 越多，离运营商骨干网越近，数据传输也会更有优势。</h5>
+
+<p>CDN 服务商所在的 AS 离运营商骨干网 AS 越近，理论上数据包传输所花时间也越少。另外， CDN 厂商如果同时租用了多个运营商品牌的带宽线路，其服务器的 IP 就会同时属于这几家运营商的 AS，跨运营商的数据传输时间也会比只有一个运营商的相对快些。就如同有多个高速公路的通行证，数据在传输过程中从一家的路面后就可直达用户，而不用来回在多个道路上切换，避免了不必要的时间损耗。</p>
+
+<h2 id="哪家-cdn-功能最全">哪家 CDN 功能最全</h2>
+
+<p>CDN 服务的功能点非常多，为了比较方便选择了 11 个常用的功能，主要覆盖加速优化，监控和安全三个方面：</p>
+
+<h4 id="加速优化">加速优化</h4>
+<ul>
+  <li>HTTP2.0 加速</li>
+</ul>
+
+<p>HTTP2.0 和现在的 HTTP1.1 相比，做了很大的改动和优化，例如头部压缩、服务端推送等。因为它要求服务器端和浏览器端都得支持 HTTP2.0 协议，所以在国内获得普遍支持还有一段时间。不过作为互联网下一代 HTTP 协议，即使我们现在用不上，也应考虑为将来的系统升级留下余地。</p>
+
+<ul>
+  <li>文件压缩</li>
+</ul>
+
+<p>目前 CDN 节点使用的 WEB 服务器端普遍支持 GZIP 协议的压缩， 当用户浏览器访问静态资源，并且支持 Gzip 压缩时， 服务器端可以把资源压缩打包发送给浏览器，由浏览器进行解压， 减少文件在互联网传输的数据量和时间。</p>
+
+<ul>
+  <li>源站推送</li>
+</ul>
+
+<p>为了避免传统的 CDN 节点同时去源站拉数据，造成访问洪峰压垮源站的带宽和服务器。 CDN 厂商使用源站推送功能将源站内容提前推送给边缘 CDN 节点，提前进行刷新预热。</p>
+
+<ul>
+  <li>点播加速</li>
+</ul>
+
+<p>CDN 对音视频等流媒体文件进行加速，其背后是一套复杂的技术方案，包括上传，转码，分发，以及 CDN 边缘节点根据用户终端支持协议的情况下发合适的流媒体格式。不同 CDN 服务商对点播加速的技术实现方案不同，不好做量化比较，只用是否支持播加速功能来比较。</p>
+
+<ul>
+  <li>直播加速</li>
+</ul>
+
+<p>直播加速如何解决播放延时、连麦时多路音视频的合并、以及突发热点对带宽的冲击等这些技术挑战，对 CDN 服务商的技术、硬件和网络条件都有很高的要求。也用是否支持直播加速来比较。</p>
+
+<h4 id="监控统计">监控统计</h4>
+
+<ul>
+  <li>实时监控</li>
+</ul>
+
+<p>CDN 服务商提供图形化工具，对 CDN 的使用情况，例如点击量，命中率，公网下行流量等进行统计和监控。方便客户对于 CDN 使用效率和结果进行评估，及时发现问题和调整网络带宽预算。</p>
+
+<ul>
+  <li>原始日志</li>
+</ul>
+
+<p>提供所有客户终端访问 CDN 服务的原始日志 (access log)，这些日志看似没用，其实很有价值。例如，可以通过分析原始日志的数据包总量估算出 CDN 实际的下行流量，作为支付 CDN 服务费的参考。也可以通过分析这些日志的响应时间，结合客户端 IP，评估各地区终端用户实际访问 CDN 的情况</p>
+
+<h4 id="安全">安全</h4>
+<ul>
+  <li>防盗链</li>
+</ul>
+
+<p>CDN 服务商防盗链的手段很多，例如常用的 http Referer 防盗链，其原理是利用 http header 中的 referer 属性，判断用户提交信息的网站 IP 地址，然后和真正的源站端的地址相比较，如果一致则表明是站内提交，或者为自己信任的站点提交，否则视为盗链。</p>
+
+<ul>
+  <li>IP 黑白名单</li>
+</ul>
+
+<p>黑白名单是我们可以根据业务需要对用户请求的源 IP 访问进行管理，为我们提供了主动防御的能力。使用 IP 黑名单的功能，可以有效的帮助我们阻止盗链，和恶意攻击。</p>
+
+<ul>
+  <li>SNI （ 服务器名称指示 Server Name Indication ）</li>
+</ul>
+
+<p>网站使用 SSL/TSL 协议校验是目前防止盗链，和解决 “DNS 劫持”最好的方式。目前国内外大型网站都已经换成了基于该协议的 HTTPS 通信方式。早期的 SSL 协议默认每个 IP 地址上只能用一个证书。TLSv1z 增加了服务器名称指示（SNI）功能，通过发送虚拟主机名作为 TLS 协商的一部分这使得服务器可以在握手阶段选择正确虚拟域，并发送对应证书。这样每个 IP 上可以部署多张证书，对于运行很多虚机和域名的用户会非常节省资源。如果 CDN 服务商支持该项功能，说明 CDN 服务支持 HTTPS 和 TSL v1 以上版本。</p>
+
+<ul>
+  <li>OCSP 装订（OCSP STAPLING）</li>
+</ul>
+
+<p>使用 SSL 认证时，客户端会在 TLS 握手阶段，去发证机构对实时查询 OCSP （Online Certificate Status Protocol，在线证书状态协议）接口，来判断服务器端的证书是否作废。在获得获得 OCSP 结果前会阻塞后续流程，通常发证机构都在国外，客户端的访问会延迟整个 TLS 握手的时间。而 OCSP Stapling 功能，是指服务端在证书链中封装了发证书机构对证书的 OCSP 查询结果，从而让客户端浏览器跳过自己去验证的过程。如果 CDN 服务商支持该功能，说明其 CDN 服务支持 HTTPS 加速比较好。</p>
+
+<h4 id="对比结果">对比结果</h4>
+
+<p>对十家 CDN 服务商进行打分，结果如下表：
+<img src="http://ok6h8mla5.bkt.clouddn.com/cdn_wx05.png" alt="" /></p>
+
+<p>腾讯云和网宿科技得分最高，其它厂商各有优劣。 9 分以上的厂商占了前 50%，分别是腾讯云，网宿科技，阿里云，百度云蓝汛。后 50% 的厂商分数在 8-7 分之间。</p>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/06/10/cdn-choice/';
+                    this.page.identifier = '/2018/06/10/cdn-choice/';
+                    this.page.title = 'CDN 厂商选择三要素';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

@@ -125,6 +125,103 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
+                      <a href="/2017/04/01/spark-cluster-ha/">Spark HA 高可用集群</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        环境准备
+
+  Java环境
+zookeeper集群
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/04/01
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Spark" title="Spark">Spark</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/02/07/chatops-hubot/">Chatops 趣味自动化BearyChat-hubot</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        ChatOps 在 GitHub 上广受赞誉，是指由对话驱动的开发。将工具植入到对话当中，使用被关键插件和脚本改良过的聊天机器人，团队能够自动执行任务和协作，效果更好、成本更低、速度更快…..
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/02/07
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#OPS" title="OPS">OPS</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/01/23/docker-registry-shell/">自动构建docker registry仓库 shell</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        运行 registry
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/01/23
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Docker" title="Docker">Docker</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/01/23/spark-basic-install/">Spark 快速安装配置</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        1. 安装 spark
+下载地址 http://spark.apache.org/downloads.html
+
+
+  配置Java 环境
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/01/23
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Spark" title="Spark">Spark</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
                       <a href="/2017/01/23/docker-swarm-basic/">Docker swarm 容器编排调度引擎demo</a>
                     </h3>
                     <p class="repo-list-description">
@@ -219,94 +316,6 @@ Python对SMTP支持有smtplib和email两个模块，email负责构造邮件，sm
                     </p>
                 </li>
                 
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/23/docker-monitor-cadvisor-grafana/">Docker 监控应用 cAdvisor-InfluxDB-Grafana</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        基础概念
-cAdvisor
-​ cAdvisor 为Docker容器用户提供了了解运行时容器资源使用和性能特征的工具。cAdvisor的容器抽象基于Google的lmctfy容器栈，因此原生支持Docker容器并能够“开箱即用”地支持其他的容器类型。cAdvisor部署为一个运行中的daemon，它会收集、聚集、处理并导出运行中容器的信息。这些信息能够包含容器级别的资源隔离参数、资源的历史使用状况、反映资源使用和网络统计数据完整历史状况的柱状图。
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Docker" title="Docker">Docker</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/12/mysql-basic-conf/">Mysql 操作杂录</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        MySQL 操作语句
-密码修改
-
-  set password for root@localhost = password(‘password’);
-  mysqladmin -uroot -p123456 password 123
-  update user set password=password(‘123’) where user=’root’ and host=’localhost’;
-  flush privileges; (改密码后执行刷新权限)
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/12
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Mysql" title="Mysql">Mysql</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2016/12/23/docker-registry/">docker registry</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        关于私有仓库配置docker官网给出的参考示例 其实已经很详尽了，但是还是不免在配置过程中 踩坑。这里根据官网文档整理了配置示例供大家参考！
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/12/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Docker" title="Docker">Docker</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2016/11/29/linux-ops-zabbix-install/">Zabbix 手动快速安装</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        手动快速安装配置 Zabbix 环境
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/11/29
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#OPS" title="OPS">OPS</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
             </ol>
         </div>
         <div class="column one-third">
@@ -356,35 +365,6 @@ cAdvisor
     </div>
 </a>
 
-<a href="https://github.com/jevic/bak.github.io" target="_blank" class="card text-center">
-    <div class="thumbnail">
-        <div class="card-image geopattern" data-pattern-id="bak.github.io">
-            <div class="card-image-cell">
-                <h3 class="card-title">
-                    bak.github.io
-                </h3>
-            </div>
-        </div>
-        <div class="caption">
-            <div class="card-description">
-                <p class="card-text">路漫漫 忆往昔.......</p>
-            </div>
-            <div class="card-text">
-                <span class="meta-info" title="1 stars">
-                    <span class="octicon octicon-star"></span> 1
-                </span>
-                <span class="meta-info" title="2 forks">
-                    <span class="octicon octicon-git-branch"></span> 2
-                </span>
-                <span class="meta-info" title="Last updated：2018-06-07 16:26:52 UTC">
-                    <span class="octicon octicon-clock"></span>
-                    <time datetime="2018-06-07 16:26:52 UTC">2018-06-07</time>
-                </span>
-            </div>
-        </div>
-    </div>
-</a>
-
 <a href="https://github.com/jevic/jenkins" target="_blank" class="card text-center">
     <div class="thumbnail">
         <div class="card-image geopattern" data-pattern-id="jenkins">
@@ -408,6 +388,35 @@ cAdvisor
                 <span class="meta-info" title="Last updated：2017-12-21 13:31:44 UTC">
                     <span class="octicon octicon-clock"></span>
                     <time datetime="2017-12-21 13:31:44 UTC">2017-12-21</time>
+                </span>
+            </div>
+        </div>
+    </div>
+</a>
+
+<a href="https://github.com/jevic/php-nginx" target="_blank" class="card text-center">
+    <div class="thumbnail">
+        <div class="card-image geopattern" data-pattern-id="php-nginx">
+            <div class="card-image-cell">
+                <h3 class="card-title">
+                    php-nginx
+                </h3>
+            </div>
+        </div>
+        <div class="caption">
+            <div class="card-description">
+                <p class="card-text"> Basic environment installation instructions, Source Package!</p>
+            </div>
+            <div class="card-text">
+                <span class="meta-info" title="0 stars">
+                    <span class="octicon octicon-star"></span> 0
+                </span>
+                <span class="meta-info" title="0 forks">
+                    <span class="octicon octicon-git-branch"></span> 0
+                </span>
+                <span class="meta-info" title="Last updated：2017-12-28 11:20:57 UTC">
+                    <span class="octicon octicon-clock"></span>
+                    <time datetime="2017-12-28 11:20:57 UTC">2017-12-28</time>
                 </span>
             </div>
         </div>

@@ -1,9 +1,33 @@
 {
   
+  "2018-06-10-cdn-choice": {
+    "title": "CDN 厂商选择三要素",
+    "url": " /2018/06/10/cdn-choice/",
+    "category": "Bigdata"
+  },
+  
+  "2018-06-10-distributed-system": {
+    "title": "分布式系统发展史",
+    "url": " /2018/06/10/distributed-system/",
+    "category": "Bigdata"
+  },
+  
   "2018-06-07-kafka-data-clear": {
     "title": "kafka 数据保存时间动态调整",
     "url": " /2018/06/07/kafka-data-clear/",
     "category": "Kafka"
+  },
+  
+  "2018-05-06-docker-problem-location": {
+    "title": "docker 问题定位记述",
+    "url": " /2018/05/06/docker-problem-location/",
+    "category": "Docker"
+  },
+  
+  "2018-04-27-k8s-release-12": {
+    "title": "12款Kubernetes发行版",
+    "url": " /2018/04/27/k8s-release-12/",
+    "category": "Docker"
   },
   
   "2018-02-28-traefik-rancher": {
@@ -488,10 +512,34 @@
     "category": "[&quot;Docker&quot;]"
   },
   
+  "2018-04-27-k8s-release-12": {
+    "title": "12款Kubernetes发行版",
+    "url": "/2018/04/27/k8s-release-12/",
+    "category": "[&quot;Docker&quot;]"
+  },
+  
+  "2018-05-06-docker-problem-location": {
+    "title": "docker 问题定位记述",
+    "url": "/2018/05/06/docker-problem-location/",
+    "category": "[&quot;Docker&quot;]"
+  },
+  
   "2018-06-07-kafka-data-clear": {
     "title": "kafka 数据保存时间动态调整",
     "url": "/2018/06/07/kafka-data-clear/",
     "category": "[&quot;Kafka&quot;]"
+  },
+  
+  "2018-06-10-distributed-system": {
+    "title": "分布式系统发展史",
+    "url": "/2018/06/10/distributed-system/",
+    "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2018-06-10-cdn-choice": {
+    "title": "CDN 厂商选择三要素",
+    "url": "/2018/06/10/cdn-choice/",
+    "category": "[&quot;Bigdata&quot;]"
   },
   
   "wiki-template": {

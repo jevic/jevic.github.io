@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>docker 问题定位记述 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/05/06/docker-problem-location/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="docker 问题定位记述">
+      
+    <meta name="keywords" content="Docker">
+    <meta name="og:keywords" content="Docker">
+      
+    <meta name="description" content="  性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。">
+    <meta name="og:description" content="  性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/05/06/docker-problem-location/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-05-06">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="docker 问题定位记述">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">docker 问题定位记述</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/05/06
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Docker" title="Docker">Docker</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。</p>
+</blockquote>
+
+<h4 id="周一">周一</h4>
+<blockquote>
+  <p>先找下游了解了下业务模型，他们说已经把业务模型最简化了，当前的模式是：业务进程运行在容器中，通过与主机共享 IPC namespace 的方式来使用共享内存与宿主机上的 Daemon 进程进行通信，整个过程不涉及磁盘读写、网络交互等。
+撸起袖子开始干，定位第一步，当然是找瓶颈了，分析下到底问题出在哪。</p>
+</blockquote>
+
+<h5 id="top">top</h5>
+
+<p>用到的第一个命令自然是 top，top 是 linux 里一个非常强大的命令，通过它基本上能看到系统中的所有指标。
+<img src="http://ok6h8mla5.bkt.clouddn.com/docker-error-wx01.png" alt="" /></p>
+
+<p>上面是 top 命令运行时的一个示意图，比较重要的指标都已经标了出来：</p>
+
+<ul>
+  <li>
+    <p>1 处表示系统负载，它表示当前正在等待被 cpu 调度的进程数量，这个值小于系统 vcpu 数（超线程数）的时候是比较正常的，一旦大于 vcpu 数，则说明并发运行的进程太多了，有进程迟迟得不到 cpu 时间。这种情况给用户的直观感受就是敲任何命令都卡。</p>
+  </li>
+  <li>
+    <p>2 处表示当前系统的总进程数，通常该值过大的时候就会导致 load average 过大。</p>
+  </li>
+  <li>
+    <p>3 处表示 cpu 的空闲时间，可以反应 cpu 的繁忙程度，该值较高时表示系统 cpu 处于比较清闲的状态，如果该值较低，则说明系统的 cpu 比较繁忙。需要注意的是，有些时候该值比较高，表示 cpu 比较清闲，但是 load average 依然比较高，这种情况很可能就是因为进程数太多，进程切换占用了大量的 cpu 时间，从而挤占了业务运行需要使用的 cpu 时间。</p>
+  </li>
+  <li>
+    <p>4 处表示进程 IO 等待的时间，该值较高时表示系统的瓶颈可能出现在磁盘和网络。</p>
+  </li>
+  <li>
+    <p>5 处表示系统的剩余内存，反应了系统的内存使用情况。</p>
+  </li>
+  <li>6 处表示单个进程的 cpu 和内存使用情况。关于 top 命令中各个指标含义的进一步描述可以参见：</li>
+  <li>http://www.jb51.net/LINUXjishu/34604.html</li>
+</ul>
+
+<p>使用 top 命令查看了下系统情况，发现一切正常。load average 也不高，task 也不多，cpu 和内存都还很空闲，就连 IO 等待时间都很低，也没有哪个进程的 cpu 和内存使用率偏高，一切都很和谐，没有瓶颈！</p>
+
+<p>当然，没有瓶颈是不可能的。由于我们的容器都是绑核的，所以很有可能是分配给容器的那些核是处于繁忙状态，而由于总核数较多，将 cpu 的使用率给拉了下来。于是又按下了“1”键，切换到详细模式下：
+<img src="http://ok6h8mla5.bkt.clouddn.com/docker-error-wx02.png" alt="" /></p>
+
+<p>在这种模式下，可以看到每个 vcpu 的使用情况。一切依然很和谐，诡异的和谐。
+看来从 cpu 这块是看不出来什么了，那就继续看看是不是磁盘搞的鬼吧。</p>
+
+<h5 id="iostate">iostate</h5>
+<blockquote>
+  <p>iostate 命令是用来查看磁盘使用情况的一个命令，经验告诉我们，磁盘和网络已经成为影响性能的最大嫌疑犯。</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>使用 iostate 工具时，通常只用关注最后一行（%util）即可，它反映了磁盘的繁忙程度。虽然下游部门已经说了他们跑的用例是一个纯内存的场景，不涉及磁盘读写。但是客户的话信得住，母猪也能上树，我还是要跑一下 iostate，看下磁盘情况怎么样。结果，依旧很和谐，磁盘使用率基本为零。</p>
+  </li>
+  <li>
+    <p>后面还尝试了观察网络指标，发现确实也没有网络吞吐，完了，看来问题没那么简单。</p>
+  </li>
+</ul>
+
+<h4 id="周二">周二</h4>
+
+<blockquote>
+  <p>虽然周一看似白忙活了一天，但是也得到了一个重要结论：这个问题不简单！不过简单的在资源层面时分析不出来啥了，得寄出性能分析的大杀器——perf 了。</p>
+</blockquote>
+
+<h5 id="perf-火焰图">perf+ 火焰图</h5>
+<blockquote>
+  <p>perf 是 linux 下一个非常强大的性能分析工具，通过它可以分析出进程运行过程中的主要时间都花在了哪些地方。</p>
+</blockquote>
+
+<p>之前没太使用过 perf，因此刚开始进行分析，就自然而然地直接使用上了 perf+ 火焰图这种最常见的组合：</p>
+
+<p>安装 perf。</p>
+
+<p>yum install perf</p>
+
+<p>下载火焰图工具。</p>
+
+<p>git clone https://github.com/brendangregg/FlameGraph.git</p>
+
+<p>采样。</p>
+
+<p>perf record -e cpu-clock -g -p 1572（业务进程 id）</p>
+
+<p>一段时间（通常 20s 足够）之后 ctrl+c，结束采样。</p>
+
+<p>用 perf script 工具对 perf.data 进行解析。</p>
+
+<p>perf script -i perf.data &amp;&gt; perf.unfold。</p>
+
+<ul>
+  <li>PS：如果在容器中运行的程序有较多的依赖，则该命令解析出来的符号中可能会有较多的“Unregistered symbol…”错误，此时需要通过–symfs参数指定容器的rootfs位置来解决该问题。获取容器rootfs的方法根据 docker 的 storagedriver 的不同而有所不同，如果是device mapper类型，则可以通过 dockerinspect 找到容器的rootfs所在位置，如果是overlay类型，则需要通过 dockerexport 命令将该容器的rootfs导出来，如果是富容器的话，一般都有外置的rootfs，直接使用即可。</li>
+</ul>
+
+<p>将 perf.unfold 中的符号进行折叠。</p>
+
+<p>./stackcollapse-perf.pl perf.unfold &amp;&gt; perf.folded</p>
+
+<p>最后生成 svg 图。</p>
+
+<p>/flamegraph.pl perf.folded &gt; perf.svg</p>
+
+<p><img src="http://ok6h8mla5.bkt.clouddn.com/docker-error-wx03.png" alt="" />
+最后就能得到像下面这种样子的漂亮图片。通常情况下，如果程序中有一些函数占用了大量的 CPU 时间，则会在图片中以长横条的样式出现，表示该函数占用了大量的 CPU 时间。</p>
+
+<p>然而，perf+ 火焰图在这次并没有起到太大的作用，反复统计了很多次，并没有出现梦寐以求的“长横条”，还是很和谐。</p>
+
+<h5 id="perf-stat">perf stat</h5>
+<p>perf+ 火焰图并没有起到很好的效果，就想换个工具继续试试，但是找来找去、请教大神，也没找到更好的工具，只好继续研究 perf 这个工具。</p>
+
+<p>perf 除了上面提到的 record（记录事件）、script（解析记录的事件）命令之外，还有其他一些命令，常用的有 report（与 script 类似，都是对 perf record 记录的事件进行解析，不同之处在于 report 直接解析程序中的运行热点，script 的扩展性更强一点，可以调用外部脚本对事件数据进行解析）、stat（记录进程一段时间之内触发的事件数）、top（实时分析程序运行时热点）、list（列出 perf 可以记录的事件数）等命令。</p>
+
+<p>这些命令挨个试了个遍，终于在 perf stat 命令这块有了突破：</p>
+
+<p>使用 perf stat 对业务进程运行在物理机和容器上分别进行统计，发现业务进程运行在容器中时，大部分事件（task-clock、context-switches、cycles、instructions 等）的触发次数是运行在物理机上时的百分之一。</p>
+
+<p>这是什么原因呢？一定是什么东西阻塞住了程序的运转，这个东西是什么呢？</p>
+
+<p>前面已经分析了，不是磁盘，不是网络，也不是内存，更不是 cpu，那还有什么呢？？</p>
+
+<h4 id="周三">周三</h4>
+
+<p>是什么原因阻塞住了程序的运转呢？百思不得其解，百问不得其解，百猜不得其解，得，还是得动手，上控制变量法。</p>
+
+<p>运行在容器中的程序和运行在物理机上有什么区别呢？我们知道，docker 容器 =cgroup+namespace+secomp+capability+selinux，那么就把这些技术一个个都去掉，看到底是哪个特性搞的鬼。</p>
+
+<p>在这 5 个技术中，后三个都是安全相关的，都有开关可以控制，经过测试，发现把后三个都关掉之后，性能还是很差，说明这 3 个技术是无辜的，开始排查 cgroup 和 namespace。</p>
+
+<p>首先怀疑的当然是 cgroup，毕竟它就是做资源限制的，很有可能一不小心限制错了，就把业务给限制了。</p>
+
+<h5 id="cgexec">cgexec</h5>
+<blockquote>
+  <p>cgexec 是 cgroup 提供的一个工具，可以在启动时就将程序运行到某个 cgroup 中，因此我们可以将业务程序运行在物理机上，但是放到业务容器所在的 cgroup 中，看看性能会不会下降。</p>
+</blockquote>
+
+<p>具体用法如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cgexec -g *:/system.slice/docker-03c2dd57ba123879abab6f7b6da5192a127840534990c515be325450b7193c11.scope ./run.sh
+
+</code></pre></div></div>
+
+<p>通过该命令即可将 run.sh 运行在与容器 03c2dd57 相同的 cgroup 中。在多次测试之后，发现这种情况下，业务进程的运行速度没有受到影响，cgroup 被洗白，那么真相只有一个——凶手就是 namespace。</p>
+
+<h4 id="周四">周四</h4>
+
+<p>虽然说凶手已经确定是 namespace，但是 namespace 家族也有一大票人，有 ipc namespace、pid namespace 等等，还需要进一步确定真凶。</p>
+
+<h5 id="nsenter">nsenter</h5>
+
+<blockquote>
+  <p>nsenter 是一个 namespace 相关的工具，通过它可以进入某个进程所在的 namespace。在 docker exec 命令出现之前，它唯一一个可以进入 docker 容器的工具，在 docker exec 出现之后，nsenter 也由于其可以选择进入哪些 namespace 而成为 docker 问题定位的一个极其重要的工具。</p>
+</blockquote>
+
+<p>通过如下命令，即可进入容器所在的 mount namespace。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nsenter --target $(docker inspect --format '' 容器 id) --mount bash
+</code></pre></div></div>
+
+<p>同理，通过如下命令即可进入容器所在的 IPC namespace 和 pid namespace。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nsenter --target $(docker inspect --format '' 容器 id) --ipc --pid bash
+
+</code></pre></div></div>
+
+<p>在不断的将业务进程在各个 namespace 之间切换后，终于进一步锁定了真凶：mount namespace。测试发现，一旦将业务进程放置到容器所在的 mount namespace，性能就会急剧下降。</p>
+
+<p>这是为什么呢？这是为什么呢？mount namespace 到底做了什么，会有这么大的影响？</p>
+
+<h4 id="周五">周五</h4>
+
+<p><code class="highlighter-rouge">mount namespace</code> 为什么有这么大的威力呢？它到底影响什么了呢？实在想不通，就去请教了下大神，大神想了想，回了我句，试试 ldd？</p>
+
+<h5 id="ldd">ldd</h5>
+
+<p><code class="highlighter-rouge">ldd 是什么？</code></p>
+
+<p>当然这句话我没去问大神，转身自己查去了。</p>
+
+<p>ldd 是 list, dynamic, dependencies 的缩写，意思是列出动态库依赖关系。顿时豁然开朗，mount namespace 隔离出了自己的文件系统，所以容器内外可以使用不同的依赖库，而不同的依赖库就可能造成无数种影响。</p>
+
+<p>于是开始通过 ldd 对比容器中业务进程的依赖库与宿主机上业务进程的依赖库，最终发现容器中的 glibc 库与宿主机上的 glibc 库版本不一致，很可能是这个原因导致性能下降的。</p>
+
+<p>于是将容器中的 glibc 库版本替换为宿主机上的 glibc 库之后，容器内业务的性能终于恢复了，猜想得到证实。</p>
+
+<h4 id="后记">后记</h4>
+
+<p>为什么容器内外 glibc 版本不一致就导致性能下降了呢？</p>
+
+<p>这是和业务模型相关的，前面提到，下游的业务模型是通过与主机共享 IPC namespace 的方式来使用共享内存与宿主机上的 daemon 进程进行通信。而 glibc 在一次升级中，更新了信号量的数据结构（如下），就会导致在共享内存通信时，由于数据格式不一致，每次信号量通信都超时，从而影响了程序运行效率。</p>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/05/06/docker-problem-location/';
+                    this.page.identifier = '/2018/05/06/docker-problem-location/';
+                    this.page.title = 'docker 问题定位记述';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2017
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
