@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>elasticsearch templates 模板配置 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2018/08/25/elasticsearch-templates/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="elasticsearch templates 模板配置">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="ELK">
+    <meta name="og:keywords" content="ELK">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="动态模板加载">
+    <meta name="og:description" content="动态模板加载">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2018/08/25/elasticsearch-templates/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2018-10-25">
+    <meta property="article:published_time" content="2018-08-25">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="elasticsearch t">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">elasticsearch templates 模板配置</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/08/25
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,131 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <h2 id="动态模板加载">动态模板加载</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "order": 0,
+  "template": "api-*",
+  "settings": {
+    "index": {
+      "number_of_shards": "2",
+      "number_of_replicas": "1",
+      "refresh_interval": "60s"
+    }
+  },
+  "mappings": {
+    "_default_": {
+      "dynamic_templates": [
+        {
+          "message_field": {
+            "mapping": {
+              "fielddata": {
+                "format": "disabled"
+              },
+              "index": "not_analyzed",
+              "omit_norms": true,
+              "type": "string"
+            },
+            "match_mapping_type": "string",
+            "match": "message"
+          }
+        },
+        {
+          "string_fields": {
+            "mapping": {
+              "fielddata": {
+                "format": "disabled"
+              },
+              "index": "not_analyzed",
+              "omit_norms": true,
+              "type": "string",
+              "fields": {
+                "raw": {
+                  "ignore_above": 256,
+                  "index": "not_analyzed",
+                  "type": "string"
+                }
+              }
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        }
+      ],
+      "_all": {
+        "omit_norms": true,
+        "enabled": false
+      },
+      "properties": {
+        "args": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "@timestamp": {
+          "type": "date"
+        },
+        "request_time": {
+          "index": "not_analyzed",
+          "type": "float"
+        },
+        "status": {
+          "index": "not_analyzed",
+          "type": "long"
+        }
+      }
+    }
+  },
+  "aliases": {}
+}
+
+</code></pre></div></div>
+
+<h2 id="mapping">mapping</h2>
+<blockquote>
+  <p>适用于&lt;6.x 版本</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "order": 0,
+  "template": "test-*",
+  "settings": {
+    "index": {
+      "number_of_shards": "3",
+      "number_of_replicas": "1",
+      "refresh_interval": "60s"
+    }
+  },
+  "mappings": {
+    "test1": {
+      "properties": {
+        "ext": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "id": {
+          "index": "not_analyzed",
+          "type": "string"
+        }
+      }
+    },
+    "test2": {
+      "properties": {
+        "ext": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "status": {
+          "index": "not_analyzed",
+          "type": "long"
+        }
+      }
+    }
+  },
+  "aliases": {}
+}
+
+</code></pre></div></div>
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
 
     </article>
     <div class="share">
@@ -132,9 +269,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2018/08/25/elasticsearch-templates/';
+                    this.page.identifier = '/2018/08/25/elasticsearch-templates/';
+                    this.page.title = 'elasticsearch templates 模板配置';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

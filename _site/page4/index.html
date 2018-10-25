@@ -125,6 +125,26 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
+                      <a href="/2017/05/16/elk-elasticsearch-indices/">Elasticsearch 索引分片维护操作</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        索引分片移动 集群数据维护操作
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/05/16
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#ELK" title="ELK">ELK</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
                       <a href="/2017/04/01/spark-cluster-ha/">Spark HA 高可用集群</a>
                     </h3>
                     <p class="repo-list-description">
@@ -277,31 +297,6 @@ Python对SMTP支持有smtplib和email两个模块，email负责构造邮件，sm
                     </h3>
                     <p class="repo-list-description">
                         
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/23/elk-elasticsearch-itom-ops/">ELK elasticsearch 管理优化杂记</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        索引分片： 从策略层面，控制分片分配的选择
-
-  磁盘限额 为了保护节点数据安全，ES 会定时(cluster.info.update.interval，默认 30 秒)检查一下各节点的数据目录磁盘使用情况。
-在达到 cluster.routing.allocation.disk.watermark.low (默认 85%)的时候，新索引分片就不会再分配到这个节点上了。
-在达到 cluster.routing.allocation.disk.watermark.high (默认 90%)的时候，就会触发该节点现存分片的数据均衡，把数据挪到其他节点上去。
-这两个值不但可以写百分比，还可以写具体的字节,有些公司可能出于成本考虑，对磁盘使用率有一定的要求，需要适当抬高这个配置：
                     </p>
                     <p class="repo-list-meta">
                         <span class="meta-info">
@@ -510,6 +505,10 @@ Python对SMTP支持有smtplib和email两个模块，email负责构造邮件，sm
         
           
               <a href="/page5"  class="btn btn-outline">5</a>
+          
+        
+          
+              <a href="/page6"  class="btn btn-outline">6</a>
           
         
         

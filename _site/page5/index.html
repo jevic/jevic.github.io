@@ -125,6 +125,31 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
+                      <a href="/2017/01/23/elk-elasticsearch-itom-ops/">ELK elasticsearch 管理优化杂记</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        索引分片： 从策略层面，控制分片分配的选择
+
+  磁盘限额 为了保护节点数据安全，ES 会定时(cluster.info.update.interval，默认 30 秒)检查一下各节点的数据目录磁盘使用情况。
+在达到 cluster.routing.allocation.disk.watermark.low (默认 85%)的时候，新索引分片就不会再分配到这个节点上了。
+在达到 cluster.routing.allocation.disk.watermark.high (默认 90%)的时候，就会触发该节点现存分片的数据均衡，把数据挪到其他节点上去。
+这两个值不但可以写百分比，还可以写具体的字节,有些公司可能出于成本考虑，对磁盘使用率有一定的要求，需要适当抬高这个配置：
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/01/23
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#ELK" title="ELK">ELK</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
                       <a href="/2017/01/23/docker-monitor-cadvisor-grafana/">Docker 监控应用 cAdvisor-InfluxDB-Grafana</a>
                     </h3>
                     <p class="repo-list-description">
@@ -269,26 +294,6 @@ firewall-cmd --help
                         <span class="meta-info">
                           <span class="octicon octicon-file-directory"></span>
                           <a href="/categories/#Docker" title="Docker">Docker</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2016/07/23/linux-firewalld-iptables/">Linux Firewalld 防火墙配置(一)</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        firewalld 常用配置
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/07/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Linux" title="Linux">Linux</a>
                         </span>
                         
                     </p>
@@ -490,8 +495,12 @@ firewall-cmd --help
               <a href="javascript:;"  class="active btn btn-outline">5</a>
           
         
+          
+              <a href="/page6"  class="btn btn-outline">6</a>
+          
         
-            <button disabled="disabled" href="javascript:;" class="btn btn-outline">&raquo;</button>
+        
+            <a href="/page6"  class="btn btn-outline">&raquo;</a>
         
         </div>
     </div>

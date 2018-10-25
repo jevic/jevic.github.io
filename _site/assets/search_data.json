@@ -1,5 +1,11 @@
 {
   
+  "2018-08-25-elasticsearch-templates": {
+    "title": "elasticsearch templates 模板配置",
+    "url": " /2018/08/25/elasticsearch-templates/",
+    "category": "ELK"
+  },
+  
   "2018-06-10-cdn-choice": {
     "title": "CDN 厂商选择三要素",
     "url": " /2018/06/10/cdn-choice/",
@@ -300,6 +306,8 @@
   
   
   
+  
+  
 
   
   "2016-07-23-linux-firewalld-iptables": {
@@ -540,6 +548,12 @@
     "title": "CDN 厂商选择三要素",
     "url": "/2018/06/10/cdn-choice/",
     "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2018-08-25-elasticsearch-templates": {
+    "title": "elasticsearch templates 模板配置",
+    "url": "/2018/08/25/elasticsearch-templates/",
+    "category": "[&quot;ELK&quot;]"
   },
   
   "wiki-template": {

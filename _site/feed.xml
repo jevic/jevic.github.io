@@ -1,4 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-06-10T20:58:31+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">CDN 厂商选择三要素</title><link href="http://0.0.0.0/2018/06/10/cdn-choice/" rel="alternate" type="text/html" title="CDN 厂商选择三要素" /><published>2018-06-10T20:25:16+08:00</published><updated>2018-06-10T20:25:16+08:00</updated><id>http://0.0.0.0/2018/06/10/cdn-choice</id><content type="html" xml:base="http://0.0.0.0/2018/06/10/cdn-choice/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-10-25T19:12:45+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;order&quot;: 0,
+  &quot;template&quot;: &quot;api-*&quot;,
+  &quot;settings&quot;: {
+    &quot;index&quot;: {
+      &quot;number_of_shards&quot;: &quot;2&quot;,
+      &quot;number_of_replicas&quot;: &quot;1&quot;,
+      &quot;refresh_interval&quot;: &quot;60s&quot;
+    }
+  },
+  &quot;mappings&quot;: {
+    &quot;_default_&quot;: {
+      &quot;dynamic_templates&quot;: [
+        {
+          &quot;message_field&quot;: {
+            &quot;mapping&quot;: {
+              &quot;fielddata&quot;: {
+                &quot;format&quot;: &quot;disabled&quot;
+              },
+              &quot;index&quot;: &quot;not_analyzed&quot;,
+              &quot;omit_norms&quot;: true,
+              &quot;type&quot;: &quot;string&quot;
+            },
+            &quot;match_mapping_type&quot;: &quot;string&quot;,
+            &quot;match&quot;: &quot;message&quot;
+          }
+        },
+        {
+          &quot;string_fields&quot;: {
+            &quot;mapping&quot;: {
+              &quot;fielddata&quot;: {
+                &quot;format&quot;: &quot;disabled&quot;
+              },
+              &quot;index&quot;: &quot;not_analyzed&quot;,
+              &quot;omit_norms&quot;: true,
+              &quot;type&quot;: &quot;string&quot;,
+              &quot;fields&quot;: {
+                &quot;raw&quot;: {
+                  &quot;ignore_above&quot;: 256,
+                  &quot;index&quot;: &quot;not_analyzed&quot;,
+                  &quot;type&quot;: &quot;string&quot;
+                }
+              }
+            },
+            &quot;match_mapping_type&quot;: &quot;string&quot;,
+            &quot;match&quot;: &quot;*&quot;
+          }
+        }
+      ],
+      &quot;_all&quot;: {
+        &quot;omit_norms&quot;: true,
+        &quot;enabled&quot;: false
+      },
+      &quot;properties&quot;: {
+        &quot;args&quot;: {
+          &quot;index&quot;: &quot;not_analyzed&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;@timestamp&quot;: {
+          &quot;type&quot;: &quot;date&quot;
+        },
+        &quot;request_time&quot;: {
+          &quot;index&quot;: &quot;not_analyzed&quot;,
+          &quot;type&quot;: &quot;float&quot;
+        },
+        &quot;status&quot;: {
+          &quot;index&quot;: &quot;not_analyzed&quot;,
+          &quot;type&quot;: &quot;long&quot;
+        }
+      }
+    }
+  },
+  &quot;aliases&quot;: {}
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;mapping&quot;&gt;mapping&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;适用于&amp;lt;6.x 版本&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;order&quot;: 0,
+  &quot;template&quot;: &quot;test-*&quot;,
+  &quot;settings&quot;: {
+    &quot;index&quot;: {
+      &quot;number_of_shards&quot;: &quot;3&quot;,
+      &quot;number_of_replicas&quot;: &quot;1&quot;,
+      &quot;refresh_interval&quot;: &quot;60s&quot;
+    }
+  },
+  &quot;mappings&quot;: {
+    &quot;test1&quot;: {
+      &quot;properties&quot;: {
+        &quot;ext&quot;: {
+          &quot;index&quot;: &quot;not_analyzed&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;id&quot;: {
+          &quot;index&quot;: &quot;not_analyzed&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        }
+      }
+    },
+    &quot;test2&quot;: {
+      &quot;properties&quot;: {
+        &quot;ext&quot;: {
+          &quot;index&quot;: &quot;not_analyzed&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;status&quot;: {
+          &quot;index&quot;: &quot;not_analyzed&quot;,
+          &quot;type&quot;: &quot;long&quot;
+        }
+      }
+    }
+  },
+  &quot;aliases&quot;: {}
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">动态模板加载</summary></entry><entry><title type="html">CDN 厂商选择三要素</title><link href="http://0.0.0.0/2018/06/10/cdn-choice/" rel="alternate" type="text/html" title="CDN 厂商选择三要素" /><published>2018-06-10T20:25:16+08:00</published><updated>2018-06-10T20:25:16+08:00</updated><id>http://0.0.0.0/2018/06/10/cdn-choice</id><content type="html" xml:base="http://0.0.0.0/2018/06/10/cdn-choice/">&lt;blockquote&gt;
   &lt;p&gt;作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1090,98 +1214,4 @@ jevic/etcd:dcmp
 
 &lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/etcd-dcmp.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">etcd 是 CoreOS 团队于 2013 年 6 月发起的开源项目，它的目标是构建一个高可用的分布式键值（key-value）数据库，基于 Go 语言实现。我们知道，在分布式系统中，各种服务的配置信息的管理分享，服务的发现是一个很基本同时也是很重要的问题。CoreOS 项目就希望基于 etcd 来解决这一问题。</summary></entry><entry><title type="html">elk Elasticsearch 分片丢失问题处理</title><link href="http://0.0.0.0/2018/01/23/elk-elasticsearch-shareds-error/" rel="alternate" type="text/html" title="elk Elasticsearch 分片丢失问题处理" /><published>2018-01-23T21:58:39+08:00</published><updated>2018-01-23T21:58:39+08:00</updated><id>http://0.0.0.0/2018/01/23/elk-elasticsearch-shareds-error</id><content type="html" xml:base="http://0.0.0.0/2018/01/23/elk-elasticsearch-shareds-error/">&lt;h1 id=&quot;问题概述&quot;&gt;问题概述&lt;/h1&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态；
-而且此时集群分片均衡失效，不在均衡数据；
-尝试使用&lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html&quot;&gt;reroute API&lt;/a&gt; 接口来手动迁移，发现命令执行失败；
-接下来就比较尴尬了….均衡不了….手动迁移也失败…. 
-综合以上状况只能做以下操作了…&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;处理过程&quot;&gt;处理过程&lt;/h1&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;将处于&lt;code class=&quot;highlighter-rouge&quot;&gt;red&lt;/code&gt;状态的并且过期不在使用的索引删除(此乃下下策😭)
-保留并处理热门数据&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;1-重建索引&quot;&gt;1. 重建索引&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-XPOST&lt;/span&gt; es-90:9200/_reindex &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'
-{
-  &quot;source&quot;: {
-    &quot;index&quot;: &quot;index-name&quot;
-  },
-  &quot;dest&quot;: {
-    &quot;index&quot;: &quot;index-name.bak&quot;
-  }
-}'&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;2-删除旧索引&quot;&gt;2. 删除旧索引&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-XDELETE&lt;/span&gt; es-90:9200/index-name
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;3-建立别名&quot;&gt;3. 建立别名&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-XPUT&lt;/span&gt; es-90:9200/index-name.bak/_alias/index-name
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;批量处理&quot;&gt;批量处理&lt;/h1&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;indexs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;index1 index2 index3&quot;&lt;/span&gt;
-
-back&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
-curl &lt;span class=&quot;nt&quot;&gt;-XPOST&lt;/span&gt; es-90:9200/_reindex &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'
-{
-  &quot;source&quot;: {
-    &quot;index&quot;: &quot;'&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$index&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&quot;
-  },
-  &quot;dest&quot;: {
-    &quot;index&quot;: &quot;'&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.bak&lt;span class=&quot;s1&quot;&gt;'&quot;
-  }
-}'&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;index &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$indexs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;do
-    &lt;/span&gt;back
-    curl &lt;span class=&quot;nt&quot;&gt;-XDELETE&lt;/span&gt; es-90:9200/&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-    curl &lt;span class=&quot;nt&quot;&gt;-XPUT&lt;/span&gt; es-90:9200/&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.bak/_alias/&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;副本丢失&quot;&gt;副本丢失&lt;/h1&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;当索引副本分片丢失 且无法正常均衡时&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;1-取消副本&quot;&gt;1. 取消副本&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PUT /test/_settings
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&quot;index&quot;&lt;/span&gt; : &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s2&quot;&gt;&quot;number_of_replicas&quot;&lt;/span&gt; : 0
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;2-恢复副本&quot;&gt;2. 恢复副本&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-PUT /test/_settings
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&quot;index&quot;&lt;/span&gt; : &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s2&quot;&gt;&quot;number_of_replicas&quot;&lt;/span&gt; : 1
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">问题概述 由于集群节点下线更换操作，导致了部分索引主分片丢失，集群处于red状态； 而且此时集群分片均衡失效，不在均衡数据； 尝试使用reroute API 接口来手动迁移，发现命令执行失败； 接下来就比较尴尬了….均衡不了….手动迁移也失败…. 综合以上状况只能做以下操作了…</summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">etcd 是 CoreOS 团队于 2013 年 6 月发起的开源项目，它的目标是构建一个高可用的分布式键值（key-value）数据库，基于 Go 语言实现。我们知道，在分布式系统中，各种服务的配置信息的管理分享，服务的发现是一个很基本同时也是很重要的问题。CoreOS 项目就希望基于 etcd 来解决这一问题。</summary></entry></feed>

@@ -161,8 +161,12 @@
 <lastmod>2018-06-10T20:25:16+08:00</lastmod>
 </url>
 <url>
+<loc>http://0.0.0.0/2018/08/25/elasticsearch-templates/</loc>
+<lastmod>2018-08-25T16:42:16+08:00</lastmod>
+</url>
+<url>
 <loc>http://0.0.0.0/wiki/template/</loc>
-<lastmod>2018-06-10T20:58:31+08:00</lastmod>
+<lastmod>2018-10-25T19:12:45+08:00</lastmod>
 </url>
 <url>
 <loc>http://0.0.0.0/about/</loc>
@@ -193,5 +197,8 @@
 </url>
 <url>
 <loc>http://0.0.0.0/page5/</loc>
+</url>
+<url>
+<loc>http://0.0.0.0/page6/</loc>
 </url>
 </urlset>
