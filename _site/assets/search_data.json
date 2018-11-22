@@ -1,5 +1,11 @@
 {
   
+  "2018-11-22-elastic-stack-6-5": {
+    "title": "elastic-stack 6.5",
+    "url": " /2018/11/22/elastic-stack-6.5/",
+    "category": "ELK"
+  },
+  
   "2018-08-25-elasticsearch-templates": {
     "title": "elasticsearch templates 模板配置",
     "url": " /2018/08/25/elasticsearch-templates/",
@@ -553,6 +559,12 @@
   "2018-08-25-elasticsearch-templates": {
     "title": "elasticsearch templates 模板配置",
     "url": "/2018/08/25/elasticsearch-templates/",
+    "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2018-11-22-elastic-stack-6-5": {
+    "title": "elastic-stack 6.5",
+    "url": "/2018/11/22/elastic-stack-6.5/",
     "category": "[&quot;ELK&quot;]"
   },
   

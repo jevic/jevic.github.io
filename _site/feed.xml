@@ -1,4 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-10-25T19:12:45+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-22T19:58:24+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档,
+      &lt;ul&gt;
+        &lt;li&gt;类比MySQL
+          &lt;ul&gt;
+            &lt;li&gt;index == database&lt;/li&gt;
+            &lt;li&gt;_type == table&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;6.x 版本开始 移除了_type  也就是每个索引只有一种类型！！！&lt;/li&gt;
+    &lt;li&gt;x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;elasticsearch&quot;&gt;elasticsearch&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.elastic.co/downloads&quot;&gt;官网下载&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;下载解压&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;配置基础环境&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cat /etc/security/limit.conf
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc unlimited
+* hard nproc unlimited
+es soft memlock unlimited
+es hard memlock unlimited
+  
+# cat /etc/sysctl.conf
+vm.swappiness = 1
+vm.max_map_count=262144
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;添加 es 用户并授权&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;启动&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;授权 license （30天试用版）&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;证书申请: https://register.elastic.co/marvel_register&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -H &quot;Content-Type:application/json&quot; -XPOST  http://192.168.2.221:9200/_xpack/license/start_trial?acknowledge=true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;x-pack-开启认证&quot;&gt;x-pack 开启认证&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;配置用户名密码:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;$ES_PATH:/bin/elasticsearch-setup-passwords interactive&lt;/li&gt;
+      &lt;li&gt;根据提示一步步设置密码即可&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;修改 elasticsearch 配置文件&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# tail elasticsearch.yml -n 1
+xpack.security.enabled: true  ## 开启认证
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;重启ES，再次访问则需要输入用户名密码&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;修改密码&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -H &quot;Content-Type:application/json&quot; -XPOST -u elastic 'http://192.168.2.221:9200/_xpack/security/user/elastic/_password' -d '{ &quot;password&quot; : &quot;123456&quot; }'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;kibana&quot;&gt;kibana&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;配置对应的用户名密码以及 ES 链接地址&lt;/li&gt;
+  &lt;li&gt;配置文件添加此配置:
+    &lt;ul&gt;
+      &lt;li&gt;xpack.security.enabled: true&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;启动即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;cerebro&quot;&gt;cerebro&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/lmenezes/cerebro&quot;&gt;github&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;具体步骤查看文档即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;sql-插件&quot;&gt;sql 插件&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/NLPchina/elasticsearch-sql&quot;&gt;github&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档, 类比MySQL index == database _type == table 6.x 版本开始 移除了_type 也就是每个索引只有一种类型！！！ x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!</summary></entry><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
   &quot;order&quot;: 0,
@@ -1106,112 +1218,4 @@ server &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">confd 下载 解压放到 /usr/local/bin 即可</summary></entry><entry><title type="html">etcd</title><link href="http://0.0.0.0/2018/01/31/etcd-setup/" rel="alternate" type="text/html" title="etcd" /><published>2018-01-31T14:39:25+08:00</published><updated>2018-01-31T14:39:25+08:00</updated><id>http://0.0.0.0/2018/01/31/etcd-setup</id><content type="html" xml:base="http://0.0.0.0/2018/01/31/etcd-setup/">&lt;p&gt;etcd 是 CoreOS 团队于 2013 年 6 月发起的开源项目，它的目标是构建一个高可用的分布式键值（key-value）数据库，基于 Go 语言实现。我们知道，在分布式系统中，各种服务的配置信息的管理分享，服务的发现是一个很基本同时也是很重要的问题。CoreOS 项目就希望基于 etcd 来解决这一问题。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://udn.yyuap.com/doc/docker_practice/_images/etcd_logo.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;简单：支持 REST 风格的 HTTP+JSON API&lt;/li&gt;
-  &lt;li&gt;安全：支持 HTTPS 方式的访问&lt;/li&gt;
-  &lt;li&gt;快速：支持并发 1k/s 的写操作&lt;/li&gt;
-  &lt;li&gt;可靠：支持分布式结构，基于 Raft 的一致性算法&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;etcd&quot;&gt;etcd&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;主机名&lt;/th&gt;
-      &lt;th&gt;ip&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;etcd1&lt;/td&gt;
-      &lt;td&gt;192.168.3.27&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;etcd2&lt;/td&gt;
-      &lt;td&gt;192.168.3.28&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;etcd3&lt;/td&gt;
-      &lt;td&gt;192.168.3.91&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;github-下载&quot;&gt;GitHub 下载&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/coreos/etcd/releases&quot;&gt;下载地址&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;下载解压到/usr/local/bin 即可&lt;/li&gt;
-  &lt;li&gt;同步到所有主机&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://coreos.com/etcd/docs/latest/op-guide/clustering.html&quot;&gt;官网配置文档&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;static-集群运行脚本&quot;&gt;static 集群运行脚本&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;根据对应主机修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;LIP&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@Test-27 ~]# &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;run.sh
-&lt;span class=&quot;c&quot;&gt;## 根据主机名修改id&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1  
-&lt;span class=&quot;c&quot;&gt;## 修改本地监听地址&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;LIP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;192.168.3.27
-&lt;span class=&quot;c&quot;&gt;##&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;IP1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;192.168.3.27
-&lt;span class=&quot;nv&quot;&gt;IP2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;192.168.3.28
-&lt;span class=&quot;nv&quot;&gt;IP3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;192.168.3.91
-
-etcd &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; etcd&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;-data-dir&lt;/span&gt; /var/lib/etcd
-&lt;span class=&quot;nt&quot;&gt;--initial-advertise-peer-urls&lt;/span&gt; http://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LIP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:2380 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--listen-peer-urls&lt;/span&gt; http://0.0.0.0:2380 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--listen-client-urls&lt;/span&gt; http://0.0.0.0:2379 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--advertise-client-urls&lt;/span&gt; http://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LIP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:2379 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--initial-cluster-token&lt;/span&gt; etcd-cluster-2 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--initial-cluster&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;etcd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;http://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;IP1&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:2380,etcd2&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;http://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;IP2&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:2380,etcd3&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;http://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;IP3&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:2380 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--initial-cluster-state&lt;/span&gt; new &lt;span class=&quot;nt&quot;&gt;--enable-pprof&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://coreos.com/etcd/docs/latest/op-guide/configuration.html&quot;&gt;配置详情&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;查看状态&quot;&gt;查看状态&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@Test-27 ~]# &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ETCDCTL_API&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@Test-27 ~]# etcdctl &lt;span class=&quot;nt&quot;&gt;--write-out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;table &lt;span class=&quot;nt&quot;&gt;--endpoints&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;localhost:2379 member list
-+------------------+---------+-------+--------------------------+--------------------------+
-|        ID        | STATUS  | NAME  |        PEER ADDRS        |       CLIENT ADDRS       |
-+------------------+---------+-------+--------------------------+--------------------------+
-| 6a4616e4ba4ebc49 | started | etcd1 | http://192.168.3.27:2380 | http://192.168.3.27:2379 |
-| c80e270eacac1f06 | started | etcd3 | http://192.168.3.91:2380 | http://192.168.3.91:2379 |
-| d9af56dd6a49a4fc | started | etcd2 | http://192.168.3.28:2380 | http://192.168.3.28:2379 |
-+------------------+---------+-------+--------------------------+--------------------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;dcmp&quot;&gt;dcmp&lt;/h2&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;提供了一个etcd的管理界面，可通过界面修改配置信息，借助confd可实现配置文件的同步&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;docker-运行&quot;&gt;Docker 运行&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/r/jevic/etcd&quot;&gt;&lt;img src=&quot;https://img.shields.io/docker/pulls/jevic/etcd.svg&quot; alt=&quot;Docker Pulls&quot; /&gt;&lt;/a&gt;&lt;a href=&quot;https://hub.docker.com/r/jevic/etcd&quot;&gt;&lt;img src=&quot;https://img.shields.io/docker/stars/jevic/etcd.svg&quot; alt=&quot;Docker Stars&quot; /&gt;&lt;/a&gt;&lt;a href=&quot;https://microbadger.com/images/jevic/etcd&quot; title=&quot;Get your own image badge on microbadger.com&quot;&gt;&lt;img src=&quot;https://images.microbadger.com/badges/image/jevic/etcd.svg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;-e ETCD_HOST etcd服务地址,默认为 127.0.0.1&lt;/li&gt;
-  &lt;li&gt;-e ROOT  配置根目录,默认为 /config 需要在etcd手动创建&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# etcdctl mkdir /config
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# docker run &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; dcmp &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8000:8000 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ETCD_HOST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;192.168.3.27 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-jevic/etcd:dcmp
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/etcd-dcmp.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">etcd 是 CoreOS 团队于 2013 年 6 月发起的开源项目，它的目标是构建一个高可用的分布式键值（key-value）数据库，基于 Go 语言实现。我们知道，在分布式系统中，各种服务的配置信息的管理分享，服务的发现是一个很基本同时也是很重要的问题。CoreOS 项目就希望基于 etcd 来解决这一问题。</summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">confd 下载 解压放到 /usr/local/bin 即可</summary></entry></feed>
