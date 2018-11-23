@@ -12,6 +12,12 @@
     "category": "ELK"
   },
   
+  "2018-07-17-kubeadm-kubernetes1-10-1": {
+    "title": "Kubeadm 快速部署kubernetes 1.10.1",
+    "url": " /2018/07/17/kubeadm-kubernetes1.10.1/",
+    "category": "kubernetes"
+  },
+  
   "2018-06-10-cdn-choice": {
     "title": "CDN 厂商选择三要素",
     "url": " /2018/06/10/cdn-choice/",
@@ -39,6 +45,12 @@
   "2018-04-27-k8s-release-12": {
     "title": "12款Kubernetes发行版",
     "url": " /2018/04/27/k8s-release-12/",
+    "category": "Docker"
+  },
+  
+  "2018-04-10-docker-device-or-resource-busy": {
+    "title": "Docker device or resource busy 问题",
+    "url": " /2018/04/10/docker-device-or-resource-busy/",
     "category": "Docker"
   },
   
@@ -526,6 +538,12 @@
     "category": "[&quot;Docker&quot;]"
   },
   
+  "2018-04-10-docker-device-or-resource-busy": {
+    "title": "Docker device or resource busy 问题",
+    "url": "/2018/04/10/docker-device-or-resource-busy/",
+    "category": "[&quot;Docker&quot;]"
+  },
+  
   "2018-04-27-k8s-release-12": {
     "title": "12款Kubernetes发行版",
     "url": "/2018/04/27/k8s-release-12/",
@@ -554,6 +572,12 @@
     "title": "CDN 厂商选择三要素",
     "url": "/2018/06/10/cdn-choice/",
     "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2018-07-17-kubeadm-kubernetes1-10-1": {
+    "title": "Kubeadm 快速部署kubernetes 1.10.1",
+    "url": "/2018/07/17/kubeadm-kubernetes1.10.1/",
+    "category": "[&quot;kubernetes&quot;]"
   },
   
   "2018-08-25-elasticsearch-templates": {

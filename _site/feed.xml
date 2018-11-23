@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-22T19:58:24+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-23T11:23:59+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
   &lt;ul&gt;
     &lt;li&gt;在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档,
       &lt;ul&gt;
@@ -234,7 +234,184 @@ xpack.security.enabled: true  ## 开启认证
 }
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">动态模板加载</summary></entry><entry><title type="html">CDN 厂商选择三要素</title><link href="http://0.0.0.0/2018/06/10/cdn-choice/" rel="alternate" type="text/html" title="CDN 厂商选择三要素" /><published>2018-06-10T20:25:16+08:00</published><updated>2018-06-10T20:25:16+08:00</updated><id>http://0.0.0.0/2018/06/10/cdn-choice</id><content type="html" xml:base="http://0.0.0.0/2018/06/10/cdn-choice/">&lt;blockquote&gt;
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">动态模板加载</summary></entry><entry><title type="html">Kubeadm 快速部署kubernetes 1.10.1</title><link href="http://0.0.0.0/2018/07/17/kubeadm-kubernetes1.10.1/" rel="alternate" type="text/html" title="Kubeadm 快速部署kubernetes 1.10.1" /><published>2018-07-17T20:35:46+08:00</published><updated>2018-07-17T20:35:46+08:00</updated><id>http://0.0.0.0/2018/07/17/kubeadm-kubernetes1.10.1</id><content type="html" xml:base="http://0.0.0.0/2018/07/17/kubeadm-kubernetes1.10.1/">&lt;h2 id=&quot;系统环境&quot;&gt;系统环境&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;IP地址&lt;/th&gt;
+      &lt;th&gt;主机名&lt;/th&gt;
+      &lt;th&gt;Docker 版本&lt;/th&gt;
+      &lt;th&gt;kubernetes 版本&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;192.168.2.65&lt;/td&gt;
+      &lt;td&gt;k1.master&lt;/td&gt;
+      &lt;td&gt;17.03.1-ce&lt;/td&gt;
+      &lt;td&gt;v1.10.1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;192.168.2.66&lt;/td&gt;
+      &lt;td&gt;k2.master&lt;/td&gt;
+      &lt;td&gt;17.03.1-ce&lt;/td&gt;
+      &lt;td&gt;v1.10.1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;192.168.2.67&lt;/td&gt;
+      &lt;td&gt;k3.master&lt;/td&gt;
+      &lt;td&gt;17.03.1-ce&lt;/td&gt;
+      &lt;td&gt;v1.10.1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;初始化&quot;&gt;初始化&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;所有节点执行&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k1 ~]# setenforce 0
+[root@k1 ~]# sed -i 's/SELINUX=enforcing/SELINUX=disalbe/g' /etc/sysconfig/selinux
+
+[root@k1 ~]# cat &amp;gt;&amp;gt; /etc/security/limits.conf &amp;lt;&amp;lt;EOF
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc unlimited
+* hard nproc unlimited
+EOF
+
+[root@k1 ~]# swapoff -a
+
+[root@k1 ~]# cat &amp;gt;&amp;gt; /etc/sysctl.conf &amp;lt;&amp;lt;EOF
+net.bridge.bridge-nf-call-iptables=1
+net.bridge.bridge-nf-call-ip6tables=1
+net.ipv4.ip_forward=1
+net.ipv4.tcp_tw_recycle=0
+vm.swappiness=0
+vm.overcommit_memory=1
+vm.panic_on_oom=0
+fs.inotify.max_user_watches=89100
+fs.file-max=52706963
+fs.nr_open=52706963
+net.ipv6.conf.all.disable_ipv6=1
+net.netfilter.nf_conntrack_max=2310720
+EOF
+
+[root@k1 ~]# systemctl stop firewalld &amp;amp;&amp;amp; systemctl disable firewalld
+
+[root@k1 ~]# wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+[root@k1 ~]# yum makecache fast
+[root@k1 ~]# yum install -y epel-release
+[root@k1 ~]# yum install -y conntrack ipvsadm ipset jq sysstat curl iptables libseccomp ntpdate
+[root@k1 ~]# ntpdate cn.pool.ntp.org
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;install-docker&quot;&gt;Install Docker&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;参考 &lt;a href=&quot;https://docs.docker.com/install/linux/docker-ce/centos/#install-using-the-repository&quot;&gt;官方文档&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k1 ~]# yum install -y yum-utils device-mapper-persistent-data lvm2
+[root@k1 ~]# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+[root@k1 ~]# yum list docker-ce --showduplicates | sort -r
+[root@k1 ~]# yum -y install docker-ce-17.03.1.ce
+[root@k1 ~]# systemctl start docker &amp;amp;&amp;amp; systemctl stop docker
+[root@k1 ~]# cat &amp;gt; /etc/docker/daemon.json &amp;lt;&amp;lt;EOF
+{
+  &quot;registry-mirrors&quot;: [&quot;https://dlvqhrac.mirror.aliyuncs.com&quot;]
+}
+EOF
+[root@k1 ~]# systemctl daemon-reload
+[root@k1 ~]# systemctl start docker
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;kubeadm-组件&quot;&gt;Kubeadm 组件&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;配置阿里云 yum 源&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k1 ~]# cat &amp;gt; /etc/yum.repos.d/kubernetes.repo &amp;lt;&amp;lt;EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+gpgcheck=0
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+enabled=1
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;安装组件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k1 ~]# yum install kubelet kubeadm kubectl
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;初始化-master&quot;&gt;初始化 Master&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;镜像
+    &lt;ul&gt;
+      &lt;li&gt;出于不可描述的原因获取镜像会遇到困难&lt;/li&gt;
+      &lt;li&gt;从Docker hub FROM 官方镜像再从自己镜像仓库拉取即可&lt;/li&gt;
+      &lt;li&gt;具体操作细节在此忽略&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;修改配置&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k1 ~]# cat /etc/sysconfig/kubelet
+KUBELET_EXTRA_ARGS=&quot;--fail-swap-on=false&quot;
+KUBE_PROXY_MODE=ipvs,ip_vs,ip_vs_rr,ip_vs_wrr,ip_vs_sh,nf_conntrack_ipv4
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;初始化&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k1 ~]# kubeadm init --kubernetes-version=v1.10.1 --pod-network-cidr=10.20.0.0/16 --apiserver-advertise-address=192.168.2.65
+
+记录最后的节点初始化信息，添加节点即可 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;添加flannel网络插件
+    &lt;ul&gt;
+      &lt;li&gt;https://github.com/coreos/flannel&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;查看集群状态&quot;&gt;查看集群状态&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k1 ~]# kubectl get node
+NAME        STATUS   ROLES    AGE     VERSION
+k1.master   Ready    master   2d14h   v1.10.1
+k2.master   Ready    &amp;lt;none&amp;gt;   2d14h   v1.10.1
+k3.master   Ready    &amp;lt;none&amp;gt;   2d14h   v1.10.1
+
+[root@k1 ~]# kubectl get pod -n kube-system
+NAME                                READY   STATUS             RESTARTS   AGE
+etcd-k1.master                      1/1     Running            2          2d14h
+kube-apiserver-k1.master            1/1     Running            5          2d14h
+kube-controller-manager-k1.master   1/1     Running            4          2d14h
+kube-flannel-ds-amd64-9xzfl         1/1     Running            2          2d14h
+kube-flannel-ds-amd64-krc4l         1/1     Running            1          2d14h
+kube-flannel-ds-amd64-phhc7         1/1     Running            2          2d14h
+kube-proxy-4vndk                    1/1     Running            3          2d14h
+kube-proxy-f4dqb                    1/1     Running            2          2d14h
+kube-proxy-s6p9z                    1/1     Running            2          2d14h
+kube-scheduler-k1.master            1/1     Running            4          2d14h
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">系统环境</summary></entry><entry><title type="html">CDN 厂商选择三要素</title><link href="http://0.0.0.0/2018/06/10/cdn-choice/" rel="alternate" type="text/html" title="CDN 厂商选择三要素" /><published>2018-06-10T20:25:16+08:00</published><updated>2018-06-10T20:25:16+08:00</updated><id>http://0.0.0.0/2018/06/10/cdn-choice</id><content type="html" xml:base="http://0.0.0.0/2018/06/10/cdn-choice/">&lt;blockquote&gt;
   &lt;p&gt;作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -743,7 +920,80 @@ DelConf&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
 
 &lt;p&gt;Telekube 上的应用程序必须能够在 Kubernetes 容器中运行。他们还必须打包成“Bundle”，然后发布到 Kubernetes 集群中。在部署基于容器的应用程序之前，需要为捆绑做一些额外的工作，不过 Telekube 唯一留给用户的任务是维护 Bundle Manifest。&lt;/p&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">12 款最突出的 Kubernetes 产品，也就是整合了 Kubernetes 和容器工具的发行版。</summary></entry><entry><title type="html">Rancher 部署Traefik 实现微服务快速发现</title><link href="http://0.0.0.0/2018/02/28/traefik-rancher/" rel="alternate" type="text/html" title="Rancher 部署Traefik 实现微服务快速发现" /><published>2018-02-28T21:12:36+08:00</published><updated>2018-02-28T21:12:36+08:00</updated><id>http://0.0.0.0/2018/02/28/traefik-rancher</id><content type="html" xml:base="http://0.0.0.0/2018/02/28/traefik-rancher/">&lt;blockquote&gt;
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">12 款最突出的 Kubernetes 产品，也就是整合了 Kubernetes 和容器工具的发行版。</summary></entry><entry><title type="html">Docker device or resource busy 问题</title><link href="http://0.0.0.0/2018/04/10/docker-device-or-resource-busy/" rel="alternate" type="text/html" title="Docker device or resource busy 问题" /><published>2018-04-10T20:09:12+08:00</published><updated>2018-04-10T20:09:12+08:00</updated><id>http://0.0.0.0/2018/04/10/docker-device-or-resource-busy</id><content type="html" xml:base="http://0.0.0.0/2018/04/10/docker-device-or-resource-busy/">&lt;h2 id=&quot;现象描述&quot;&gt;现象描述&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;查看容器发现 Dead 状态容器&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@node ~]# docker ps -a |grep Dead
+e0fdd4b75b7c        store.jevic.com/fileinject-agents/tcs:a35104a    &quot;/fileinject-agent...&quot;   28 hours ago        Dead                                             r-fileinject-agents-tcs-16-81cfe394
+7d7841c49c7b        store.jevic.com/fileinject-agents/ups:ebb7241    &quot;/fileinject-agent...&quot;   28 hours ago        Dead                                                                                       
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;查看系统挂载
+    &lt;ul&gt;
+      &lt;li&gt;此时有很多Dead 容器依然被挂载中&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@node ~]# df -h|grep docker
+overlay         415G   18G  398G   5% /var/lib/docker/overlay/93b1805f06dda8ae47b762465ca51ec27463fd715d08f91b25ca21ac074d8010/merged
+shm              64M     0   64M   0% /var/lib/docker/containers/420d6805eede457b88f0781f50d8744647d1cdcc535f40207259abdd68f6e31e/shm
+overlay         415G   18G  398G   5% /var/lib/docker/overlay/
+....... 此次省略......
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;删除容器&quot;&gt;删除容器&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@node ~]# docker rm -f 7d7841c49c7b
+Error response from daemon: driver &quot;overlay&quot; failed to remove root filesystem for 7d7841c49c7b4109756274020d93776ce615f0f512c4f21e05b3ac94371b0604: remove /var/lib/docker/overlay/80299696071d4181254a31052dfecea062201905f0b3187ae241575fbc7a059e/merged: device or resource busy
+
+提示: 设备正忙
+
+卸载重新删除
+[root@node ~]# umount var/lib/docker/overlay/80299696071d4181254a31052dfecea062201905f0b3187ae241575fbc7a059e/merged
+[root@node ~]# docker rm -f 7d7841c49c7b
+....
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;最后 重新docker ps 发现 容器已经被删除&lt;/p&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;对于有些应用容器 可能上述步骤依然无法删除掉容器;
+直接重启宿主机也可以恢复正常,当然根据实际情况来判断是否需要此操作毕竟会导致服务中断；
+这种Dead 状态的并不影响docker正常使用，所以可视情况执行操作；&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;问题原因&quot;&gt;问题原因&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;挂载点泄露实际上是 RHEL/CentOS 内核的一个 bug，目前预计会在 RHEL7.4 kernel 中修复。
+因此该问题理论上在 Fedora,ubuntu  等发行版本中是不存在的。
+目前在RHEL/CentOS下需要在 docker.service中增加MountFlags=slave来保证 mount namespace 是私有的，不会造成挂载点泄露。
+另外，挂载点泄露在各种 storage driver 中都存在，比如最常见的 devicemeppaer 和 overlay。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;但是，目前 RHEL/CentOS 版本下 MountFlags=slave 和 –live-restore 两个给力的参数不能同时存在。
+因为 MountFlags=slave 会导致 docker daemon 每次重启时私有挂载命名空间都会发生变化，而 –live-restore 又相当于使得容器持有了变化之前的旧的挂载点信息，因此，当重启 docker daemon 之后，执行 docker exec 试图进入容器时会报错值得一提的是，虽然无法进入容器，但是容器依旧工作正常并且 docker logs 也没问题。&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;对于生产环境，遇到 Device is busy 问题时，使用 docker rm -f [container] 后重新启动新的容器即可；
+对于新的机器，当前版本下为 docker.service 加上 MountFlags=slave 即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">现象描述 查看容器发现 Dead 状态容器</summary></entry><entry><title type="html">Rancher 部署Traefik 实现微服务快速发现</title><link href="http://0.0.0.0/2018/02/28/traefik-rancher/" rel="alternate" type="text/html" title="Rancher 部署Traefik 实现微服务快速发现" /><published>2018-02-28T21:12:36+08:00</published><updated>2018-02-28T21:12:36+08:00</updated><id>http://0.0.0.0/2018/02/28/traefik-rancher</id><content type="html" xml:base="http://0.0.0.0/2018/02/28/traefik-rancher/">&lt;blockquote&gt;
   &lt;p&gt;Traefik是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。本文将向你展示如何在Rancher上简单快速地部署Traefik，实现微服务的快速发现&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -891,331 +1141,4 @@ https://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&q
   &lt;li&gt;&lt;a href=&quot;https://docs.traefik.cn/&quot;&gt;traefik.cn&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">Traefik是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。本文将向你展示如何在Rancher上简单快速地部署Traefik，实现微服务的快速发现</summary></entry><entry><title type="html">gitlab CI/CD 自动化构建Rancher容器服务</title><link href="http://0.0.0.0/2018/02/06/gitlab-cicd-rancher-build/" rel="alternate" type="text/html" title="gitlab CI/CD 自动化构建Rancher容器服务" /><published>2018-02-06T19:07:22+08:00</published><updated>2018-02-06T19:07:22+08:00</updated><id>http://0.0.0.0/2018/02/06/gitlab-cicd-rancher-build</id><content type="html" xml:base="http://0.0.0.0/2018/02/06/gitlab-cicd-rancher-build/">&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;gitlab&lt;/li&gt;
-  &lt;li&gt;rancher&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;rancher&quot;&gt;Rancher&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.cnrancher.com/&quot;&gt;Rancher&lt;/a&gt;是一个开源的企业级容器管理平台。通过Rancher，企业再也不必自己使用一系列的开源软件去从头搭建容器服务平台。Rancher提供了在生产环境中使用的管理Docker和Kubernetes的全栈化容器部署与管理平台。
-&lt;img src=&quot;http://rancher.com/docs/img/rancher/rancher_overview_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;h2 id=&quot;gitlab-cicd&quot;&gt;Gitlab CI/CD&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;https://docs.gitlab.com/ee/ci/img/cicd_pipeline_infograph.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;h3 id=&quot;1-gitlab&quot;&gt;1. Gitlab&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://docs.gitlab.com/ee/README.html&quot;&gt;GitLab&lt;/a&gt; 是一个利用Ruby on Rails开发的开源应用程序，实现一个自托管的Git项目仓库，可通过Web界面进行访问公开的或者私人项目。
-它拥有与GitHub类似的功能，能够浏览源代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本并提供一个文件历史库。团队成员可以利用内置的简单聊天程序（Wall）进行交流。它还提供一个代码片段收集功能可以轻松实现代码复用，便于日后有需要的时候进行查找。&lt;/p&gt;
-
-&lt;h3 id=&quot;2-gitlab-ci&quot;&gt;2. Gitlab-CI&lt;/h3&gt;
-&lt;p&gt;Gitlab-CI是GitLab Continuous Integration（Gitlab持续集成）的简称。
-从Gitlab的8.0版本开始，gitlab就全面集成了Gitlab-CI,并且对所有项目默认开启。
-只要在项目仓库的根目录添加.gitlab-ci.yml文件，并且配置了Runner（运行器），那么每一次合并请求（MR）或者push都会触发CI pipeline。&lt;/p&gt;
-
-&lt;h3 id=&quot;3-gitlab-runner&quot;&gt;3. Gitlab-runner&lt;/h3&gt;
-&lt;p&gt;Gitlab-runner 是.gitlab-ci.yml脚本的运行器，Gitlab-runner是基于Gitlab-CI的API进行构建的相互隔离的机器（或虚拟机）。GitLab Runner 不需要和Gitlab安装在同一台机器上，但是考虑到GitLab Runner的资源消耗问题和安全问题，也不建议这两者安装在同一台机器上。&lt;/p&gt;
-
-&lt;p&gt;Gitlab Runner分为两种，Shared runners和Specific runners。
-Specific runners只能被指定的项目使用，Shared runners则可以运行所有开启 Allow shared runners选项的项目。&lt;/p&gt;
-
-&lt;h3 id=&quot;4-pipelines&quot;&gt;4. Pipelines&lt;/h3&gt;
-&lt;p&gt;Pipelines是定义于.gitlab-ci.yml中的不同阶段的不同任务。
-我把Pipelines理解为流水线，流水线包含有多个阶段（stages），每个阶段包含有一个或多个工序（jobs），比如先购料、组装、测试、包装再上线销售，每一次push或者MR都要经过流水线之后才可以合格出厂。而.gitlab-ci.yml正是定义了这条流水线有哪些阶段，每个阶段要做什么事。&lt;/p&gt;
-
-&lt;h3 id=&quot;5-badges&quot;&gt;5. Badges&lt;/h3&gt;
-&lt;p&gt;徽章，当Pipelines执行完成，会生成徽章，你可以将这些徽章加入到你的README.md文件或者你的网站。&lt;/p&gt;
-
-&lt;h2 id=&quot;环境配置&quot;&gt;环境配置&lt;/h2&gt;
-&lt;h3 id=&quot;rancher-1&quot;&gt;Rancher&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;具体安装请查看&lt;a href=&quot;http://rancher.com/docs/rancher/v1.6/zh/&quot;&gt;官网文档&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;运行-nginx-服务&quot;&gt;运行 Nginx 服务&lt;/h4&gt;
-&lt;h5 id=&quot;1-添加私有仓库并添加证书&quot;&gt;1. 添加私有仓库并添加证书&lt;/h5&gt;
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-registry.jpg&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-registry-02.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;h5 id=&quot;2-创建应用服务&quot;&gt;2. 创建应用服务&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;网络模式: &lt;code class=&quot;highlighter-rouge&quot;&gt;主机&lt;/code&gt;，如果设置为manage 需要配置&lt;code class=&quot;highlighter-rouge&quot;&gt;负载均衡&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;切记要对服务进行标签设定
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-nginx-01.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;访问
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-01.jpg&quot; alt=&quot;&quot; /&gt;
-    &lt;h5 id=&quot;3-添加接收器-webhooks&quot;&gt;3. 添加接收器 webhooks&lt;/h5&gt;
-    &lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-webhook.jpg&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-webhook-02.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;gitlab&quot;&gt;Gitlab&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;中文社区版 &lt;a href=&quot;https://hub.docker.com/r/twang2218/gitlab-ce-zh/&quot;&gt;docker hub&lt;/a&gt;
-安装步骤省略…..&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;gitlab-runner&quot;&gt;gitlab-runner&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;注: 主版本要与gitlab 一致否则无法添加!!!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;a href=&quot;https://gitlab.com/gitlab-org/gitlab-runner/blob/master/docs/configuration/advanced-configuration.md&quot;&gt;高级配置&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;官方镜像并未配置docker CLI,如有需要安装即可，否则直接使用官方镜像run 即可。&lt;/li&gt;
-  &lt;li&gt;此处基于官方镜像配置docker CLI，并运行&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;安装docker-命令&quot;&gt;安装docker 命令&lt;/h5&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# cat Dockerfile&lt;/span&gt;
-FROM gitlab/gitlab-runner:v9.2.2
-RUN curl &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz  &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;zxvf docker-latest.tgz &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cp docker/docker /usr/local/bin/ &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; docker docker-latest.tgz  
-&lt;span class=&quot;c&quot;&gt;# docker build -t gitlab-runner:docker .&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;运行&quot;&gt;运行&lt;/h5&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; gitlab-runner &lt;span class=&quot;nt&quot;&gt;--restart&lt;/span&gt; always &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; /srv/gitlab-runner/config:/etc/gitlab-runner &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; /var/run/docker.sock:/var/run/docker.sock &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-gitlab-runner:docker
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;配置sudo&quot;&gt;配置sudo&lt;/h5&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;由于需要执行docker 命令所以需要配置sudo 免密码执行权限&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# docker exec -it 0c115c075b32 /bin/bash&lt;/span&gt;
-root@0c115c075b32:/# &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/sudoers |grep gitlab
-gitlab-runner    &lt;span class=&quot;nv&quot;&gt;ALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=(&lt;/span&gt;ALL&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;       NOPASSWD: ALL
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;注册-runners&quot;&gt;注册 Runners&lt;/h5&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;根据提示输入指定参数即可&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;URL  gitlab URL&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;token 注册认证token&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;description 描述信息，自定义&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;tags  用来区分多个runners,自定义&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;executor 根据需要选择即可，此处选择的shell&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-runners.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;register&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@0c115c075b32:/# gitlab-ci-multi-runner register
-Running &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;system-mode.
-
-Please enter the gitlab-ci coordinator URL &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;e.g. https://gitlab.com/&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-http://test.gitlab.com/ci
-Please enter the gitlab-ci token &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;this runner:
-xxxxxxxx-xxxxxxx
-Please enter the gitlab-ci description &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;this runner:
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;0c115c075b32]: t197
-Please enter the gitlab-ci tags &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;this runner &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;comma separated&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-t197
-Whether to run untagged builds &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;/false]:
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;: 直接回车
-Whether to lock Runner to current project &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;/false]:
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;: 直接回车
-INFO[0034] fcf5c619 Registering runner... succeeded
-Please enter the executor: shell, docker, docker-ssh, ssh?
-shell
-INFO[0037] Runner registered successfully. Feel free to start it, but &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;it&lt;span class=&quot;s1&quot;&gt;'s
-running already the config should be automatically reloaded!
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;此时打开gitlab CI/CD 设置页面 即可查看到注册的Runners
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-set-01.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;设置构建时的环境变量
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-set-02.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;至此所有准备工作完毕下面开始首次构建&quot;&gt;至此所有准备工作完毕，下面开始首次构建&lt;/h5&gt;
-&lt;h3 id=&quot;cicd-test&quot;&gt;CI/CD Test&lt;/h3&gt;
-&lt;h4 id=&quot;dockerfile-version01&quot;&gt;dockerfile Version0.1&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-01.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;下面将通过gitlab ci/cd 结合rancher 升级服务到version 0.2&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;update-version02&quot;&gt;update Version0.2&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;编辑更新Dockerfile&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FROM nginx:alpine
-
-RUN &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;h2&amp;gt;Gitlab CI/CD on Rancher NginxApp Version 0.2....&amp;lt;h2&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /usr/share/nginx/html/index.html
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h4 id=&quot;rancher-服务升级触发脚本&quot;&gt;Rancher 服务升级触发脚本&lt;/h4&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;## rancher 触发器&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;Webhook&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;## 仓库名称&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;
-
-curl &lt;span class=&quot;nt&quot;&gt;-XPOST&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'content-type: application/json'&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$Webhook&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{
-    &quot;push_data&quot;: {
-        &quot;tag&quot;: &quot;master&quot;
-    },
-    &quot;repository&quot;: {
-        &quot;repo_name&quot;: &quot;'&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$repo&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&quot;
-    }
-}'&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;gitlab-ciyml&quot;&gt;.gitlab-ci.yml&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.gitlab.com/ce/ci/yaml/README.html&quot;&gt;官方配置文件详解&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://blog.csdn.net/wmq880204/article/details/70141771&quot;&gt;中文说明&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;引用Runners 添加的环境变量&lt;/li&gt;
-  &lt;li&gt;尽量使用环境变量来引用各个参数&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jay➜/tmp/cicd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;master✗&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;» &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; .gitlab-ci.yml                                                                                                                             &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;16:19:16]
-variables:
-  Tags: master
-
-stages:
-  - build
-  - release
-&lt;span class=&quot;c&quot;&gt;# 环境&lt;/span&gt;
-before_script:
-  - &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt;
-  - &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;uname &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# 构建镜像&lt;/span&gt;
-build:
-  stage: build
-  script:
-    - &lt;span class=&quot;nb&quot;&gt;sudo echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$repo&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$Tags&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-    - &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker build &lt;span class=&quot;nt&quot;&gt;--pull&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$repo&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$Tags&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-    - &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker login &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PASSWD&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$registry&lt;/span&gt;
-    - &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker push &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$repo&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$Tags&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-    - &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker rmi &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$repo&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$Tags&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# 升级rancher服务&lt;/span&gt;
-release:
-  stage: release
-  script:
-    - sh update.sh &lt;span class=&quot;nv&quot;&gt;$Webhook&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$repo&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;提交commit&quot;&gt;提交commit&lt;/h4&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jay➜/tmp/cicd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;master✗&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;» git add &lt;span class=&quot;nt&quot;&gt;--all&lt;/span&gt;                                                                                                                                  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;16:28:37]
-
-jay➜/tmp/cicd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;master✗&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;» git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;version 0.2&quot;&lt;/span&gt;                                                                                                                    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;16:29:25]
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;master 6647463] version 0.2
- 2 files changed, 4 insertions&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;+&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 3 deletions&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;-&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-jay➜/tmp/cicd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;master&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;» git push origin master                                                                                                                          &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;16:30:20]
-Counting objects: 4, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-Delta compression using up to 4 threads.
-Compressing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4/4&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-Writing objects: 100% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;4/4&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 412 bytes | 0 bytes/s, &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-Total 4 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 3&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, reused 0 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;delta 0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-To http://test.gitlab.com/jevic/cicd.git
-   3dd8d23..6647463  master -&amp;gt; master
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;查看项目状态&quot;&gt;查看项目状态&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-ok.jpg&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-02.jpg&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-03.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;页面访问&quot;&gt;页面访问&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-02.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">概述 gitlab rancher</summary></entry><entry><title type="html">etcd-confd 配置管理</title><link href="http://0.0.0.0/2018/01/31/confd-etcd/" rel="alternate" type="text/html" title="etcd-confd 配置管理" /><published>2018-01-31T14:40:58+08:00</published><updated>2018-01-31T14:40:58+08:00</updated><id>http://0.0.0.0/2018/01/31/confd-etcd</id><content type="html" xml:base="http://0.0.0.0/2018/01/31/confd-etcd/">&lt;h1 id=&quot;confd&quot;&gt;confd&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kelseyhightower/confd/releases&quot;&gt;下载&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;解压放到 /usr/local/bin 即可&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;demo&quot;&gt;demo&lt;/h2&gt;
-&lt;h3 id=&quot;创建目录&quot;&gt;创建目录&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir /etc/confd/&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;conf.d,templates&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;配置文件&quot;&gt;配置文件&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master confd]# &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;conf.d/jevic-cn.toml
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;template]
-src &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jevic-conf.tmpl&quot;&lt;/span&gt;
-dest &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/tmp/jevic.conf&quot;&lt;/span&gt;
-keys &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&quot;/config/myapp/jevic/database/upstream&quot;&lt;/span&gt;,
-    &lt;span class=&quot;s2&quot;&gt;&quot;/config/myapp/jevic/database/hosts&quot;&lt;/span&gt;,
-    &lt;span class=&quot;s2&quot;&gt;&quot;/config/myapp/jevic/database/domain&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;模板&quot;&gt;模板&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/etcd-confd-templates.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;生成配置&quot;&gt;生成配置&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# confd &lt;span class=&quot;nt&quot;&gt;-onetime&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-backend&lt;/span&gt; etcd &lt;span class=&quot;nt&quot;&gt;-node&lt;/span&gt; http://192.168.3.27:2379
-
-&lt;span class=&quot;c&quot;&gt;## 间隔60s 刷新&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# confd &lt;span class=&quot;nt&quot;&gt;-interval&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;60 &lt;span class=&quot;nt&quot;&gt;-backend&lt;/span&gt; etcd &lt;span class=&quot;nt&quot;&gt;-node&lt;/span&gt; http://192.168.3.27:2379
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@master ~]# &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /tmp/jevic.conf
-upstream jevic&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-     server 127.0.0.1:5001&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-server &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    listen 80&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    server_name www.jevic.cn&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        location / &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            proxy_set_header Host &lt;span class=&quot;nv&quot;&gt;$host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-            proxy_set_header X-Real-IP &lt;span class=&quot;nv&quot;&gt;$remote_addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-            proxy_set_header X-Forwarded-For &lt;span class=&quot;nv&quot;&gt;$proxy_add_x_forwarded_for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-            proxy_buffering off&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-            proxy_pass http://jevic&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">confd 下载 解压放到 /usr/local/bin 即可</summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">Traefik是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。本文将向你展示如何在Rancher上简单快速地部署Traefik，实现微服务的快速发现</summary></entry></feed>

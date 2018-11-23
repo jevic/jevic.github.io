@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>Kubeadm 快速部署kubernetes 1.10.1 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2018/07/17/kubeadm-kubernetes1.10.1/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="Kubeadm 快速部署kubernetes 1.10.1">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="Docker,k8s">
+    <meta name="og:keywords" content="Docker,k8s">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="系统环境">
+    <meta name="og:description" content="系统环境">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2018/07/17/kubeadm-kubernetes1.10.1/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2018-11-23">
+    <meta property="article:published_time" content="2018-07-17">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="Kubeadm 快速部署kub">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">Kubeadm 快速部署kubernetes 1.10.1</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/07/17
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#kubernetes" title="kubernetes">kubernetes</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,184 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <h2 id="系统环境">系统环境</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>IP地址</th>
+      <th>主机名</th>
+      <th>Docker 版本</th>
+      <th>kubernetes 版本</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>192.168.2.65</td>
+      <td>k1.master</td>
+      <td>17.03.1-ce</td>
+      <td>v1.10.1</td>
+    </tr>
+    <tr>
+      <td>192.168.2.66</td>
+      <td>k2.master</td>
+      <td>17.03.1-ce</td>
+      <td>v1.10.1</td>
+    </tr>
+    <tr>
+      <td>192.168.2.67</td>
+      <td>k3.master</td>
+      <td>17.03.1-ce</td>
+      <td>v1.10.1</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="初始化">初始化</h3>
+<blockquote>
+  <blockquote>
+    <p>所有节点执行</p>
+  </blockquote>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k1 ~]# setenforce 0
+[root@k1 ~]# sed -i 's/SELINUX=enforcing/SELINUX=disalbe/g' /etc/sysconfig/selinux
+
+[root@k1 ~]# cat &gt;&gt; /etc/security/limits.conf &lt;&lt;EOF
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc unlimited
+* hard nproc unlimited
+EOF
+
+[root@k1 ~]# swapoff -a
+
+[root@k1 ~]# cat &gt;&gt; /etc/sysctl.conf &lt;&lt;EOF
+net.bridge.bridge-nf-call-iptables=1
+net.bridge.bridge-nf-call-ip6tables=1
+net.ipv4.ip_forward=1
+net.ipv4.tcp_tw_recycle=0
+vm.swappiness=0
+vm.overcommit_memory=1
+vm.panic_on_oom=0
+fs.inotify.max_user_watches=89100
+fs.file-max=52706963
+fs.nr_open=52706963
+net.ipv6.conf.all.disable_ipv6=1
+net.netfilter.nf_conntrack_max=2310720
+EOF
+
+[root@k1 ~]# systemctl stop firewalld &amp;&amp; systemctl disable firewalld
+
+[root@k1 ~]# wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+[root@k1 ~]# yum makecache fast
+[root@k1 ~]# yum install -y epel-release
+[root@k1 ~]# yum install -y conntrack ipvsadm ipset jq sysstat curl iptables libseccomp ntpdate
+[root@k1 ~]# ntpdate cn.pool.ntp.org
+</code></pre></div></div>
+
+<h4 id="install-docker">Install Docker</h4>
+<ul>
+  <li>参考 <a href="https://docs.docker.com/install/linux/docker-ce/centos/#install-using-the-repository">官方文档</a></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k1 ~]# yum install -y yum-utils device-mapper-persistent-data lvm2
+[root@k1 ~]# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+[root@k1 ~]# yum list docker-ce --showduplicates | sort -r
+[root@k1 ~]# yum -y install docker-ce-17.03.1.ce
+[root@k1 ~]# systemctl start docker &amp;&amp; systemctl stop docker
+[root@k1 ~]# cat &gt; /etc/docker/daemon.json &lt;&lt;EOF
+{
+  "registry-mirrors": ["https://dlvqhrac.mirror.aliyuncs.com"]
+}
+EOF
+[root@k1 ~]# systemctl daemon-reload
+[root@k1 ~]# systemctl start docker
+
+</code></pre></div></div>
+<h4 id="kubeadm-组件">Kubeadm 组件</h4>
+<ul>
+  <li>配置阿里云 yum 源</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k1 ~]# cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt;EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+gpgcheck=0
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+enabled=1
+EOF
+</code></pre></div></div>
+
+<ul>
+  <li>安装组件</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k1 ~]# yum install kubelet kubeadm kubectl
+
+</code></pre></div></div>
+
+<h2 id="初始化-master">初始化 Master</h2>
+<ul>
+  <li>镜像
+    <ul>
+      <li>出于不可描述的原因获取镜像会遇到困难</li>
+      <li>从Docker hub FROM 官方镜像再从自己镜像仓库拉取即可</li>
+      <li>具体操作细节在此忽略</li>
+    </ul>
+  </li>
+  <li>修改配置</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k1 ~]# cat /etc/sysconfig/kubelet
+KUBELET_EXTRA_ARGS="--fail-swap-on=false"
+KUBE_PROXY_MODE=ipvs,ip_vs,ip_vs_rr,ip_vs_wrr,ip_vs_sh,nf_conntrack_ipv4
+
+</code></pre></div></div>
+
+<ul>
+  <li>初始化</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k1 ~]# kubeadm init --kubernetes-version=v1.10.1 --pod-network-cidr=10.20.0.0/16 --apiserver-advertise-address=192.168.2.65
+
+记录最后的节点初始化信息，添加节点即可 
+</code></pre></div></div>
+
+<ul>
+  <li>添加flannel网络插件
+    <ul>
+      <li>https://github.com/coreos/flannel</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="查看集群状态">查看集群状态</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k1 ~]# kubectl get node
+NAME        STATUS   ROLES    AGE     VERSION
+k1.master   Ready    master   2d14h   v1.10.1
+k2.master   Ready    &lt;none&gt;   2d14h   v1.10.1
+k3.master   Ready    &lt;none&gt;   2d14h   v1.10.1
+
+[root@k1 ~]# kubectl get pod -n kube-system
+NAME                                READY   STATUS             RESTARTS   AGE
+etcd-k1.master                      1/1     Running            2          2d14h
+kube-apiserver-k1.master            1/1     Running            5          2d14h
+kube-controller-manager-k1.master   1/1     Running            4          2d14h
+kube-flannel-ds-amd64-9xzfl         1/1     Running            2          2d14h
+kube-flannel-ds-amd64-krc4l         1/1     Running            1          2d14h
+kube-flannel-ds-amd64-phhc7         1/1     Running            2          2d14h
+kube-proxy-4vndk                    1/1     Running            3          2d14h
+kube-proxy-f4dqb                    1/1     Running            2          2d14h
+kube-proxy-s6p9z                    1/1     Running            2          2d14h
+kube-scheduler-k1.master            1/1     Running            4          2d14h
+
+</code></pre></div></div>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
 
     </article>
     <div class="share">
@@ -132,9 +322,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2018/07/17/kubeadm-kubernetes1.10.1/';
+                    this.page.identifier = '/2018/07/17/kubeadm-kubernetes1.10.1/';
+                    this.page.title = 'Kubeadm 快速部署kubernetes 1.10.1';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');
