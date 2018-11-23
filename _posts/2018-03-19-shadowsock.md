@@ -1,10 +1,10 @@
 ---
 layout: post
 categories: Tools
-title: Shadowsocks 翻墙
-date: 2018-03-19 10:35:46 +0800
-description: shadowsocks,google
-keywords: shadowsocks
+title: shadowsocks 翻墙
+date: 2018-03-19 16:41:59 +0800
+description: google
+keywords: google,shadowsocks
 ---
 
 
@@ -18,6 +18,7 @@ keywords: shadowsocks
 wget --no-check-certificate -O shadowsocks-go.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-go.sh
 chmod +x shadowsocks-go.sh
 ./shadowsocks-go.sh 2>&1 | tee shadowsocks-go.log
+
 ```
 
 - 配置文件
@@ -34,10 +35,10 @@ vim /etc/shadowsocks/config.json
 ```
 
 - 启动
-
 ```
 /etc/init.d/shadowsocks start
 ```
+
 ### 卸载
 
 ```
@@ -98,13 +99,12 @@ systemctl daemon-reload
 systemctl start shadowsocks
 systemctl enable shadowsocks
 ```
-
 - 测试连接
 
 ```
 [root@master218 ~]# curl --socks5 127.0.0.1:1080 http://httpbin.org/ip
 {
-  "origin": "x.x.x.x"  ## 返回你的服务器地址,状态OK
+  "origin": "x.x.x.x"  ## 返回你的服务器地址,状态ok
 }
 ```
 
@@ -157,3 +157,5 @@ while read var; do unset $var; done < <(env | grep -i proxy | awk -F= '{print $1
 >参考链接:
 >>https://teddysun.com/392.html
 
+
+转载请注明出处，本文采用 [CC4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/) 协议授权

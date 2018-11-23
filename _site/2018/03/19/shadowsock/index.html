@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Shadowsocks 翻墙 &mdash; Jevic</title>
+    <title>shadowsocks 翻墙 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,14 +36,14 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/2018/03/19/shadowsocks/">
+    <link rel="canonical" href="http://0.0.0.0:80/2018/03/19/shadowsock/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Shadowsocks 翻墙">
+    <meta property="og:title" content="shadowsocks 翻墙">
       
-    <meta name="keywords" content="shadowsocks">
-    <meta name="og:keywords" content="shadowsocks">
+    <meta name="keywords" content="google,shadowsocks">
+    <meta name="og:keywords" content="google,shadowsocks">
       
     <meta name="description" content="  国外一台机器配置了shadowsocks,以此进行科学上网">
     <meta name="og:description" content="  国外一台机器配置了shadowsocks,以此进行科学上网">
@@ -52,7 +52,7 @@
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/2018/03/19/shadowsocks/">
+    <meta property="og:url" content="http://0.0.0.0:80/2018/03/19/shadowsock/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
@@ -100,12 +100,12 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Shadowsocks 翻墙">
+    <section class="collection-head small geopattern" data-pattern-id="shadowsocks 翻墙">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Shadowsocks 翻墙</h1>
+        <h1 class="collection-header">shadowsocks 翻墙</h1>
         <div class="collection-info">
           
           <span class="meta-info">
@@ -139,6 +139,7 @@
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget --no-check-certificate -O shadowsocks-go.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-go.sh
 chmod +x shadowsocks-go.sh
 ./shadowsocks-go.sh 2&gt;&amp;1 | tee shadowsocks-go.log
+
 </code></pre></div></div>
 
 <ul>
@@ -154,11 +155,12 @@ chmod +x shadowsocks-go.sh
 }
 </code></pre></div>    </div>
   </li>
-  <li>启动</li>
+  <li>启动
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/init.d/shadowsocks start
+</code></pre></div>    </div>
+  </li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/init.d/shadowsocks start
-</code></pre></div></div>
 <h3 id="卸载">卸载</h3>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./shadowsocks-go.sh uninstall
@@ -228,7 +230,7 @@ systemctl enable shadowsocks
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@master218 ~]# curl --socks5 127.0.0.1:1080 http://httpbin.org/ip
 {
-  "origin": "x.x.x.x"  ## 返回你的服务器地址,状态OK
+  "origin": "x.x.x.x"  ## 返回你的服务器地址,状态ok
 }
 </code></pre></div></div>
 
@@ -286,6 +288,7 @@ Proxy-Connection: keep-alive
   </blockquote>
 </blockquote>
 
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
 
     </article>
     <div class="share">
@@ -301,9 +304,9 @@ Proxy-Connection: keep-alive
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/2018/03/19/shadowsocks/';
-                    this.page.identifier = '/2018/03/19/shadowsocks/';
-                    this.page.title = 'Shadowsocks 翻墙';
+                    this.page.url = 'http://0.0.0.0:80/2018/03/19/shadowsock/';
+                    this.page.identifier = '/2018/03/19/shadowsock/';
+                    this.page.title = 'shadowsocks 翻墙';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

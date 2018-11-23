@@ -54,9 +54,9 @@
     "category": "Docker"
   },
   
-  "2018-03-19-shadowsocks": {
-    "title": "Shadowsocks 翻墙",
-    "url": " /2018/03/19/shadowsocks/",
+  "2018-03-19-shadowsock": {
+    "title": "shadowsocks 翻墙",
+    "url": " /2018/03/19/shadowsock/",
     "category": "Tools"
   },
   
@@ -544,9 +544,9 @@
     "category": "[&quot;Docker&quot;]"
   },
   
-  "2018-03-19-shadowsocks": {
-    "title": "Shadowsocks 翻墙",
-    "url": "/2018/03/19/shadowsocks/",
+  "2018-03-19-shadowsock": {
+    "title": "shadowsocks 翻墙",
+    "url": "/2018/03/19/shadowsock/",
     "category": "[&quot;Tools&quot;]"
   },
   

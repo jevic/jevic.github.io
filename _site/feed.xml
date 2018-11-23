@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-23T16:36:57+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-23T16:46:17+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
   &lt;ul&gt;
     &lt;li&gt;在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档,
       &lt;ul&gt;
@@ -993,7 +993,7 @@ Error response from daemon: driver &quot;overlay&quot; failed to remove root fil
 对于新的机器，当前版本下为 docker.service 加上 MountFlags=slave 即可。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">现象描述 查看容器发现 Dead 状态容器</summary></entry><entry><title type="html">Shadowsocks 翻墙</title><link href="http://0.0.0.0/2018/03/19/shadowsocks/" rel="alternate" type="text/html" title="Shadowsocks 翻墙" /><published>2018-03-19T10:35:46+08:00</published><updated>2018-03-19T10:35:46+08:00</updated><id>http://0.0.0.0/2018/03/19/shadowsocks</id><content type="html" xml:base="http://0.0.0.0/2018/03/19/shadowsocks/">&lt;blockquote&gt;
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">现象描述 查看容器发现 Dead 状态容器</summary></entry><entry><title type="html">shadowsocks 翻墙</title><link href="http://0.0.0.0/2018/03/19/shadowsock/" rel="alternate" type="text/html" title="shadowsocks 翻墙" /><published>2018-03-19T16:41:59+08:00</published><updated>2018-03-19T16:41:59+08:00</updated><id>http://0.0.0.0/2018/03/19/shadowsock</id><content type="html" xml:base="http://0.0.0.0/2018/03/19/shadowsock/">&lt;blockquote&gt;
   &lt;p&gt;国外一台机器配置了shadowsocks,以此进行科学上网&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1003,6 +1003,7 @@ Error response from daemon: driver &quot;overlay&quot; failed to remove root fil
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget --no-check-certificate -O shadowsocks-go.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-go.sh
 chmod +x shadowsocks-go.sh
 ./shadowsocks-go.sh 2&amp;gt;&amp;amp;1 | tee shadowsocks-go.log
+
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;ul&gt;
@@ -1018,11 +1019,12 @@ chmod +x shadowsocks-go.sh
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-  &lt;li&gt;启动&lt;/li&gt;
+  &lt;li&gt;启动
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/init.d/shadowsocks start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/init.d/shadowsocks start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;卸载&quot;&gt;卸载&lt;/h3&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./shadowsocks-go.sh uninstall
@@ -1092,7 +1094,7 @@ systemctl enable shadowsocks
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# curl --socks5 127.0.0.1:1080 http://httpbin.org/ip
 {
-  &quot;origin&quot;: &quot;x.x.x.x&quot;  ## 返回你的服务器地址,状态OK
+  &quot;origin&quot;: &quot;x.x.x.x&quot;  ## 返回你的服务器地址,状态ok
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -1148,4 +1150,6 @@ Proxy-Connection: keep-alive
   &lt;blockquote&gt;
     &lt;p&gt;https://teddysun.com/392.html&lt;/p&gt;
   &lt;/blockquote&gt;
-&lt;/blockquote&gt;</content><author><name>Jevic</name></author><summary type="html">国外一台机器配置了shadowsocks,以此进行科学上网</summary></entry></feed>
+&lt;/blockquote&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">国外一台机器配置了shadowsocks,以此进行科学上网</summary></entry></feed>
