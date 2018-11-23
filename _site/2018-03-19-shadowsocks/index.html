@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Shadowsocks 翻墙 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018-03-19-shadowsocks/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Shadowsocks 翻墙">
+      
+    <meta name="keywords" content="shadowsocks">
+    <meta name="og:keywords" content="shadowsocks">
+      
+    <meta name="description" content="shadowsocks,google">
+    <meta name="og:description" content="shadowsocks,google">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018-03-19-shadowsocks/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-03-19">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Shadowsocks 翻墙">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Shadowsocks 翻墙</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/03/19
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Tools" title="Tools">Tools</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>国外一台机器配置了shadowsocks,以此进行科学上网</p>
+</blockquote>
+
+<h2 id="server-端配置">Server 端配置</h2>
+<h3 id="一键安装脚本">一键安装脚本</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget --no-check-certificate -O shadowsocks-go.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-go.sh
+chmod +x shadowsocks-go.sh
+./shadowsocks-go.sh 2&gt;&amp;1 | tee shadowsocks-go.log
+</code></pre></div></div>
+
+<ul>
+  <li>配置文件
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/shadowsocks/config.json
+{
+  "server":"0.0.0.0",
+  "server_port":xxxx,
+  "local_port":1080,
+  "password":"xxxxx",
+  "method":"aes-256-cfb",
+  "timeout":600
+}
+</code></pre></div>    </div>
+  </li>
+  <li>启动</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/init.d/shadowsocks start
+</code></pre></div></div>
+<h3 id="卸载">卸载</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./shadowsocks-go.sh uninstall
+
+</code></pre></div></div>
+
+<h2 id="客户端">客户端</h2>
+<h3 id="windows-客户端">Windows 客户端</h3>
+<ul>
+  <li>https://github.com/shadowsocks/shadowsocks-windows/releases</li>
+</ul>
+
+<h3 id="linux-客户端配置">Linux 客户端配置</h3>
+<ul>
+  <li>安装 扩展源,pip
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install epel-relase
+yum install python-pip
+</code></pre></div>    </div>
+  </li>
+  <li>安装shadowsocks</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install shadowsocks
+</code></pre></div></div>
+
+<ul>
+  <li>添加连接配置</li>
+</ul>
+
+<blockquote>
+  <p>默认没有配置文件需要手动添加</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/shadowsocks/shadowsocks.json
+{
+    "server":"x.x.x.x", ## 服务端IP
+    "server_port":xxxx, ## 服务端口
+    "local_address": "127.0.0.1", ## 0.0.0.0
+    "local_port":1080,
+    "password":"xxxx",
+    "method":"aes-256-cfb",
+    "timeout":600
+}
+</code></pre></div></div>
+
+<ul>
+  <li>启动文件
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat &gt; /lib/systemd/system/shadowsocks.service&lt;&lt;EOF
+[Unit]
+Description=Shadowsocks
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/sslocal -c /etc/shadowsocks/shadowsocks.json
+[Install]
+WantedBy=multi-user.target
+EOF
+</code></pre></div>    </div>
+  </li>
+  <li>启动管理
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl daemon-reload
+systemctl start shadowsocks
+systemctl enable shadowsocks
+</code></pre></div>    </div>
+  </li>
+  <li>测试连接</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@master218 ~]# curl --socks5 127.0.0.1:1080 http://httpbin.org/ip
+{
+  "origin": "x.x.x.x"  ## 返回你的服务器地址,状态OK
+}
+</code></pre></div></div>
+
+<h3 id="privoxy">Privoxy</h3>
+<h4 id="安装">安装</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y privoxy
+systemctl enable privoxy
+systemctl start privoxy
+</code></pre></div></div>
+
+<h4 id="修改配置文件">修改配置文件</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@master218 ~]# tail -n 1 /etc/privoxy/config
+forward-socks5t / 127.0.0.1:1080 .
+</code></pre></div></div>
+
+<ul>
+  <li>配置环境变量</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@master218 ~]# vim /etc/profile
+PROXY_HOST=127.0.0.1
+export all_proxy=http://$PROXY_HOST:8118 ## privoxy 默认端口8118
+export ftp_proxy=http://$PROXY_HOST:8118
+export http_proxy=http://$PROXY_HOST:8118
+export https_proxy=http://$PROXY_HOST:8118
+export no_proxy=localhost,172.16.0.0/16,192.168.0.0/16.,127.0.0.1,10.10.0.0/16
+
+[root@master218 ~]# source /etc/profile
+</code></pre></div></div>
+
+<ul>
+  <li>测试连接</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@master218 ~]# curl -I www.google.com
+HTTP/1.1 200 OK
+......
+Accept-Ranges: none
+Vary: Accept-Encoding
+Proxy-Connection: keep-alive
+
+</code></pre></div></div>
+
+<ul>
+  <li>取消代理</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>while read var; do unset $var; done &lt; &lt;(env | grep -i proxy | awk -F= '{print $1}')
+</code></pre></div></div>
+
+<blockquote>
+  <p>参考链接:</p>
+  <blockquote>
+    <p>https://teddysun.com/392.html</p>
+  </blockquote>
+</blockquote>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018-03-19-shadowsocks/';
+                    this.page.identifier = '/2018-03-19-shadowsocks/';
+                    this.page.title = 'Shadowsocks 翻墙';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2018
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
