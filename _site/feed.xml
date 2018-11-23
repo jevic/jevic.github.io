@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-23T15:19:13+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-23T16:36:57+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>前路漫漫,忆往昔......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
   &lt;ul&gt;
     &lt;li&gt;在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档,
       &lt;ul&gt;
@@ -993,152 +993,159 @@ Error response from daemon: driver &quot;overlay&quot; failed to remove root fil
 对于新的机器，当前版本下为 docker.service 加上 MountFlags=slave 即可。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">现象描述 查看容器发现 Dead 状态容器</summary></entry><entry><title type="html">Rancher 部署Traefik 实现微服务快速发现</title><link href="http://0.0.0.0/2018/02/28/traefik-rancher/" rel="alternate" type="text/html" title="Rancher 部署Traefik 实现微服务快速发现" /><published>2018-02-28T21:12:36+08:00</published><updated>2018-02-28T21:12:36+08:00</updated><id>http://0.0.0.0/2018/02/28/traefik-rancher</id><content type="html" xml:base="http://0.0.0.0/2018/02/28/traefik-rancher/">&lt;blockquote&gt;
-  &lt;p&gt;Traefik是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。本文将向你展示如何在Rancher上简单快速地部署Traefik，实现微服务的快速发现&lt;/p&gt;
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">现象描述 查看容器发现 Dead 状态容器</summary></entry><entry><title type="html">Shadowsocks 翻墙</title><link href="http://0.0.0.0/2018/03/19/shadowsocks/" rel="alternate" type="text/html" title="Shadowsocks 翻墙" /><published>2018-03-19T10:35:46+08:00</published><updated>2018-03-19T10:35:46+08:00</updated><id>http://0.0.0.0/2018/03/19/shadowsocks</id><content type="html" xml:base="http://0.0.0.0/2018/03/19/shadowsocks/">&lt;blockquote&gt;
+  &lt;p&gt;国外一台机器配置了shadowsocks,以此进行科学上网&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://docs.traefik.io/img/traefik.logo.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;server-端配置&quot;&gt;Server 端配置&lt;/h2&gt;
+&lt;h3 id=&quot;一键安装脚本&quot;&gt;一键安装脚本&lt;/h3&gt;
 
-&lt;h2 id=&quot;traefik-是什么&quot;&gt;Traefik 是什么?&lt;/h2&gt;
-&lt;p&gt;Traefik 是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。它支持多种后台 (Rancher、Docker、Swarm、Kubernetes、Marathon、Mesos、Consul、Etcd、Zookeeper、BoltDB、Rest API、file…) 来自动、动态的刷新配置文件，以实现快速地服务发现
-&lt;img src=&quot;https://docs.traefik.io/img/architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;h2 id=&quot;特性&quot;&gt;特性&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;它非常快&lt;/li&gt;
-  &lt;li&gt;无需安装其他依赖，通过Go语言编写的单一可执行文件&lt;/li&gt;
-  &lt;li&gt;支持 Rest API&lt;/li&gt;
-  &lt;li&gt;多种后台支持：Rancher、Docker、Swarm、Kubernetes、Marathon、Mesos、Consul、Etcd，并且还会更多&lt;/li&gt;
-  &lt;li&gt;后台监控，可以监听后台变化进而自动化应用新的配置文件设置&lt;/li&gt;
-  &lt;li&gt;配置文件热更新。无需重启进程&lt;/li&gt;
-  &lt;li&gt;正常结束http连接&lt;/li&gt;
-  &lt;li&gt;后端断路器&lt;/li&gt;
-  &lt;li&gt;轮询，rebalancer 负载均衡&lt;/li&gt;
-  &lt;li&gt;Rest Metrics&lt;/li&gt;
-  &lt;li&gt;支持最小化 官方 docker 镜像&lt;/li&gt;
-  &lt;li&gt;后台支持SSL&lt;/li&gt;
-  &lt;li&gt;前台支持SSL（包括SNI）&lt;/li&gt;
-  &lt;li&gt;清爽的AngularJS前端页面&lt;/li&gt;
-  &lt;li&gt;支持Websocket&lt;/li&gt;
-  &lt;li&gt;支持HTTP/2&lt;/li&gt;
-  &lt;li&gt;网络错误重试&lt;/li&gt;
-  &lt;li&gt;支持Let’s Encrypt (自动更新HTTPS证书)&lt;/li&gt;
-  &lt;li&gt;高可用集群模式&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;清爽的界面&quot;&gt;清爽的界面&lt;/h2&gt;
-&lt;p&gt;Traefik 拥有一个基于AngularJS编写的简单网站界面。
-&lt;img src=&quot;http://traefik.cn/frontend/images/web.frontend.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://traefik.cn/frontend/images/traefik-health.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;rancher-traefik-部署&quot;&gt;Rancher-Traefik 部署&lt;/h2&gt;
-&lt;h3 id=&quot;添加节点主机标签&quot;&gt;添加节点主机标签&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-01-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;h3 id=&quot;安装-traefik-应用&quot;&gt;安装 Traefik 应用&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;点击查看详情进入配置界面, http port 端口改为80,其他配置保持默认&lt;/li&gt;
-  &lt;li&gt;最后点击启动；
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-02.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-03.png&quot; alt=&quot;&quot; /&gt;
-    &lt;h4 id=&quot;修改rancher-默认traefikdomain&quot;&gt;修改rancher 默认traefik.domain&lt;/h4&gt;
-    &lt;blockquote&gt;
-      &lt;p&gt;由于rancher提供的镜像默认traefik.domain 为: rancher.internal,需要修改为自己所使用的方可
-如果服务指定了 traefik.frontend.rule = Host:xxxx.com 标签,则会使用自定义前端域名访问
-建议直接指定访问域名&lt;/p&gt;
-    &lt;/blockquote&gt;
-  &lt;/li&gt;
-  &lt;li&gt;方式一：
-    &lt;ul&gt;
-      &lt;li&gt;升级服务 加入环境变量: TRAEFIK_RANCHER_DOMAIN = jevic.cn
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-20.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;方式二:
-    &lt;ul&gt;
-      &lt;li&gt;直接基于社区Dockerfile 修改域名&lt;/li&gt;
-      &lt;li&gt;https://github.com/rawmind0/alpine-traefik.git&lt;/li&gt;
-      &lt;li&gt;路径: alpine-traefik/root/opt/traefik/bin/traefik.toml.sh
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-21.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-22.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;进入 应用|用户 视图,查看应用；
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-04.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-  &lt;li&gt;此时可以访问 Traefik_host:8000 管理后台&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;运行-demo-示例&quot;&gt;运行 demo 示例&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;新建一个名为 demo 的空应用栈；&lt;/li&gt;
-  &lt;li&gt;在 demo 中添加一个名为 nginx 的服务&lt;/li&gt;
-  &lt;li&gt;Traefik默认强制开启健康检查，所有只有健康的服务才会被注册到Traefik上。在健康检查中配置健康检查
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-05.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;标签设定&quot;&gt;标签设定&lt;/h4&gt;
-&lt;h5 id=&quot;默认标签设置&quot;&gt;默认标签设置&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;traefik.enable = true 可以理解为是否把此服务注册到traefik的一个开关;
-    &lt;ul&gt;
-      &lt;li&gt;true: the service will be published as service_name.stack_name.traefik_domain&lt;/li&gt;
-      &lt;li&gt;stack: the service will be published as stack_name.traefik_domain. WARNING: You could have collisions inside services within your stack&lt;/li&gt;
-      &lt;li&gt;false: the service will not be published&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;traefik.domain = jevic.cn 一个适用于所有服务访问的主域名，可以设置多个用逗号隔开;&lt;/li&gt;
-  &lt;li&gt;traefik.alias = nginx 服务别名，可以理解为主域名下的二级域名，可以设置多个用逗号隔开；&lt;/li&gt;
-  &lt;li&gt;traefik.port = 80 告诉traefik 服务暴露的端口号；&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;此时 Traefik管理后台 显示的前端访问域名为:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;service_name&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;stack_name&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;traefik&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;http_port&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-https://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;service_name&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;stack_name&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;traefik&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;https_port&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget --no-check-certificate -O shadowsocks-go.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-go.sh
+chmod +x shadowsocks-go.sh
+./shadowsocks-go.sh 2&amp;gt;&amp;amp;1 | tee shadowsocks-go.log
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h5 id=&quot;自定义前端host-建议使用此方式&quot;&gt;自定义前端Host [建议使用此方式]&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;traefik.frontend.rule = Host:ops.jevic.cn 直接定义前端访问域名,多个使用’,’分割&lt;/li&gt;
-  &lt;li&gt;traefik.port = 80&lt;/li&gt;
-  &lt;li&gt;traefik.enable = true&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-06-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;前端访问域名:
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-07-02.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;最终应用栈如下所示&quot;&gt;最终,应用栈如下所示&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-11.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;访问测试&quot;&gt;访问测试&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;如上面图示，控制台显示了当前前端访问host 域名以及后端的节点状态&lt;/li&gt;
-  &lt;li&gt;测试域名访问:
-    &lt;ul&gt;
-      &lt;li&gt;app.jevic.cn&lt;/li&gt;
-      &lt;li&gt;ops.jevic.cn&lt;/li&gt;
-      &lt;li&gt;nginx.demo.jevic.cn
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-13.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-12.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-09.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-    &lt;/ul&gt;
+  &lt;li&gt;配置文件
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vim /etc/shadowsocks/config.json
+{
+  &quot;server&quot;:&quot;0.0.0.0&quot;,
+  &quot;server_port&quot;:xxxx,
+  &quot;local_port&quot;:1080,
+  &quot;password&quot;:&quot;xxxxx&quot;,
+  &quot;method&quot;:&quot;aes-256-cfb&quot;,
+  &quot;timeout&quot;:600
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-  &lt;li&gt;http://192.168.3.27:8000/dashboard/#/health
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/traefik-demo-10.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;启动&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;参考链接&quot;&gt;参考链接&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/init.d/shadowsocks start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;卸载&quot;&gt;卸载&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./shadowsocks-go.sh uninstall
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;客户端&quot;&gt;客户端&lt;/h2&gt;
+&lt;h3 id=&quot;windows-客户端&quot;&gt;Windows 客户端&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/rawmind0/alpine-traefik/tree/master/rancher&quot;&gt;alpine-traefik&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.traefik.io/&quot;&gt;Traefik.io&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.traefik.cn/&quot;&gt;traefik.cn&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;https://github.com/shadowsocks/shadowsocks-windows/releases&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">Traefik是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。本文将向你展示如何在Rancher上简单快速地部署Traefik，实现微服务的快速发现</summary></entry></feed>
+&lt;h3 id=&quot;linux-客户端配置&quot;&gt;Linux 客户端配置&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;安装 扩展源,pip
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install epel-relase
+yum install python-pip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;安装shadowsocks&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install shadowsocks
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;添加连接配置&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;默认没有配置文件需要手动添加&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vim /etc/shadowsocks/shadowsocks.json
+{
+    &quot;server&quot;:&quot;x.x.x.x&quot;, ## 服务端IP
+    &quot;server_port&quot;:xxxx, ## 服务端口
+    &quot;local_address&quot;: &quot;127.0.0.1&quot;, ## 0.0.0.0
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;xxxx&quot;,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;,
+    &quot;timeout&quot;:600
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;启动文件
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat &amp;gt; /lib/systemd/system/shadowsocks.service&amp;lt;&amp;lt;EOF
+[Unit]
+Description=Shadowsocks
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/sslocal -c /etc/shadowsocks/shadowsocks.json
+[Install]
+WantedBy=multi-user.target
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;启动管理
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl daemon-reload
+systemctl start shadowsocks
+systemctl enable shadowsocks
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;测试连接&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# curl --socks5 127.0.0.1:1080 http://httpbin.org/ip
+{
+  &quot;origin&quot;: &quot;x.x.x.x&quot;  ## 返回你的服务器地址,状态OK
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;privoxy&quot;&gt;Privoxy&lt;/h3&gt;
+&lt;h4 id=&quot;安装&quot;&gt;安装&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y privoxy
+systemctl enable privoxy
+systemctl start privoxy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;修改配置文件&quot;&gt;修改配置文件&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# tail -n 1 /etc/privoxy/config
+forward-socks5t / 127.0.0.1:1080 .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;配置环境变量&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# vim /etc/profile
+PROXY_HOST=127.0.0.1
+export all_proxy=http://$PROXY_HOST:8118 ## privoxy 默认端口8118
+export ftp_proxy=http://$PROXY_HOST:8118
+export http_proxy=http://$PROXY_HOST:8118
+export https_proxy=http://$PROXY_HOST:8118
+export no_proxy=localhost,172.16.0.0/16,192.168.0.0/16.,127.0.0.1,10.10.0.0/16
+
+[root@master218 ~]# source /etc/profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;测试连接&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# curl -I www.google.com
+HTTP/1.1 200 OK
+......
+Accept-Ranges: none
+Vary: Accept-Encoding
+Proxy-Connection: keep-alive
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;取消代理&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;while read var; do unset $var; done &amp;lt; &amp;lt;(env | grep -i proxy | awk -F= '{print $1}')
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;参考链接:&lt;/p&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;https://teddysun.com/392.html&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;</content><author><name>Jevic</name></author><summary type="html">国外一台机器配置了shadowsocks,以此进行科学上网</summary></entry></feed>
