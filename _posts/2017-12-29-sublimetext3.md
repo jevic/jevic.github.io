@@ -12,7 +12,7 @@ keywords: sublimetext ide
 
 
 ## 禁止自动更新
-![](http://ourpypwzb.bkt.clouddn.com/sublimeText_User.png)
+![](https://raw.githubusercontent.com/jevic/images/master/other/sublimeText_User.png)
 1. 添加 "update_check": false,
 2. 点击菜单栏 Help --> license 输入以下注册信息
 
@@ -42,11 +42,11 @@ FCCC7561 8A4A1741 68FA4223 ADCEDE07
 ```
 import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)
 ```
-![](http://ourpypwzb.bkt.clouddn.com/package01.png)
+![](https://raw.githubusercontent.com/jevic/images/master/other/package01.png)
 
 - 点击回车 安装完后即可通过 `Command + Shift + P` 打开 Package Control 来安装插件
 
-![](http://ourpypwzb.bkt.clouddn.com/package02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/other/package02.png)
 
 ##
 
@@ -76,10 +76,10 @@ import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d
 
 ```
 
-![](http://ourpypwzb.bkt.clouddn.com/viewhtml_01.png)
-![](http://ourpypwzb.bkt.clouddn.com/viewhtml_02.png)
-![](http://ourpypwzb.bkt.clouddn.com/viewhtml_set_03.png)
-![](http://ourpypwzb.bkt.clouddn.com/viewhtml_key_04.png)
+![](https://raw.githubusercontent.com/jevic/images/master/other/viewhtml_01.png)
+![](https://raw.githubusercontent.com/jevic/images/master/other/viewhtml_02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/other/viewhtml_set_03.png)
+![](https://raw.githubusercontent.com/jevic/images/master/other/viewhtml_key_04.png)
 
 ### 浏览markdown文件
 - Command + Shift + P

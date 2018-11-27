@@ -38,10 +38,10 @@ LogSlowQueries=3000
 ## 报警设置
 [报警接口应用](https://github.com/jevic/wxalarm)
 
-![](http://ok6h8mla5.bkt.clouddn.com/zabbix01.png)
-![](http://ok6h8mla5.bkt.clouddn.com/zabbix02.png)
-![](http://ok6h8mla5.bkt.clouddn.com/zabbix03.png)
-![](http://ok6h8mla5.bkt.clouddn.com/zabbix04.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/zabbix01.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/zabbix02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/zabbix03.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/zabbix04.png)
 
 
 
@@ -75,10 +75,10 @@ LogSlowQueries=3000
 - https://monitoringartist.github.io/zabbix-searcher/#
 - 模板 -> 应用集 -> 监控项 -> 触发器
 
-![](http://ok6h8mla5.bkt.clouddn.com/zabbix-temlpate-01.png)
-![](http://ok6h8mla5.bkt.clouddn.com/zabbix-template-02.png)
-![](http://ok6h8mla5.bkt.clouddn.com/zabbix-template-03.png)
-![](http://ok6h8mla5.bkt.clouddn.com/zabbix-template-04.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/zabbix-temlpate-01.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/zabbix-template-02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/zabbix-template-03.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/zabbix-template-04.png)
 
 ### 触发器多参数示例
 ```
@@ -100,5 +100,3 @@ UserParameter=chk_disk_io[*],/data/script/chk_disk_io.sh $1 $2
 UserParameter=chk_thread[*],/data/script/chk_thread.sh $1
 
 ```
-
-

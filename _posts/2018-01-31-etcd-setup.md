@@ -91,7 +91,7 @@ etcd --name etcd${id} \
 jevic/etcd:dcmp
 ```
 
-![](http://ok6h8mla5.bkt.clouddn.com/etcd-dcmp.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/etcd-dcmp.png)
 
 
 

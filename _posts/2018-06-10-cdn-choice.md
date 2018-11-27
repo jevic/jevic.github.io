@@ -28,7 +28,7 @@ CDN 服务商经常引用独立第三方公司的拨测数据来证明自己的 
 
 
 国内用户普遍使用互联网提供商 (ISP) 的宽带上网，具体访问流程如下图：
-![](http://ok6h8mla5.bkt.clouddn.com/cdn_wx01.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx01.png)
 
 
 
@@ -47,10 +47,10 @@ CDN 服务商经常引用独立第三方公司的拨测数据来证明自己的 
 因此，如果能使用一些技术优化用户 DNS 查询，会大幅度提高用户的体验。目前优化 DNS 的技术主要是：
 
 * HttpDNS ：客户端基于 Http 协议向 CDN 服务商指定的 DNS 服务器发送域名解析请求，从而避免 LocalDNS 造成的域名劫持和跨网访问;
-![](http://ok6h8mla5.bkt.clouddn.com/cdn_wx02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx02.png)
 
 * Http 302 跳转: CDN 厂商维护 CDN 域名 IP 库，根据用户访问终端的 IP 和 CDN 边缘节点的状态，选择最合适的 CDN 节点，发出 HTTP 的 302 返回码，将用户的请求跳转到合适的 CDN 边缘节点。例如腾讯的下载直通车就使用类似技术。
-![](http://ok6h8mla5.bkt.clouddn.com/cdn_wx02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx02.png)
 
 
 
@@ -124,7 +124,7 @@ CDN 服务商防盗链的手段很多，例如常用的 http Referer 防盗链�
 #### 对比结果
 
 对十家 CDN 服务商进行打分，结果如下表：
-![](http://ok6h8mla5.bkt.clouddn.com/cdn_wx05.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx05.png)
 
 腾讯云和网宿科技得分最高，其它厂商各有优劣。 9 分以上的厂商占了前 50%，分别是腾讯云，网宿科技，阿里云，百度云蓝汛。后 50% 的厂商分数在 8-7 分之间。
 

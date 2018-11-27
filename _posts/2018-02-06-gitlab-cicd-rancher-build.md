@@ -44,18 +44,18 @@ Pipelines是定义于.gitlab-ci.yml中的不同阶段的不同任务。
 
 #### 运行 Nginx 服务
 ##### 1. 添加私有仓库并添加证书
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-registry.jpg)
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-registry-02.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-registry.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-registry-02.jpg)
 ##### 2. 创建应用服务
 - 网络模式: `主机`，如果设置为manage 需要配置`负载均衡`
 - 切记要对服务进行标签设定
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-nginx-01.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-nginx-01.jpg)
 
 - 访问
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-01.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-web-01.jpg)
 ##### 3. 添加接收器 webhooks
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-webhook.jpg)
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-webhook-02.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-webhook.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-webhook-02.jpg)
 
 ### Gitlab 
 >中文社区版 [docker hub](https://hub.docker.com/r/twang2218/gitlab-ce-zh/)
@@ -115,7 +115,7 @@ gitlab-runner    ALL=(ALL)       NOPASSWD: ALL
 
 > executor 根据需要选择即可，此处选择的shell
 
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-runners.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-runners.jpg)
 
 - register
 
@@ -143,15 +143,15 @@ running already the config should be automatically reloaded!
 ```
 
 - 此时打开gitlab CI/CD 设置页面 即可查看到注册的Runners
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-set-01.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-set-01.jpg)
 
 - 设置构建时的环境变量
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-set-02.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-set-02.jpg)
 
 ##### 至此所有准备工作完毕，下面开始首次构建
 ### CI/CD Test
 #### dockerfile Version0.1
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-01.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-web-01.jpg)
 >下面将通过gitlab ci/cd 结合rancher 升级服务到version 0.2
 
 #### update Version0.2
@@ -239,12 +239,12 @@ To http://test.gitlab.com/jevic/cicd.git
 ```
 
 #### 查看项目状态
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-ok.jpg)
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-02.jpg)
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-03.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-ok.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-02.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-03.jpg)
 
 #### 页面访问
-![](http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-02.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-web-02.jpg)
 
 
 转载请注明出处，本文采用 [CC4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/) 协议授权

@@ -136,24 +136,24 @@
 <hr />
 
 <p>分布式系统（确切地说应该是分布式计算机系统）从它诞生到现在已经过去了很长的时间。在很久以前，一台电脑一次只能完成一项特定的任务。如果我们需要同时完成多项任务，则需要多台计算机并行运行。但是，并行运行并不足以构建真正的分布式系统，因为它需要一种机制来在不同计算机或者那些运行在计算机上的程序之间进行通信。这种在多台计算机之间交换 / 共享数据的需求催生了面向消息通信的想法，即两台计算机使用包含了数据的消息来共享数据。文件共享、数据库共享等其他机制当时还没有出现。
-<img src="http://ok6h8mla5.bkt.clouddn.com/DS_wxp01.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp01.png" alt="" /></p>
 
 <p>接着，我们进入了多任务操作系统和个人电脑的时代。利用 Windows、Unix、Linux 等操作系统，我们可以在同一台计算机上运行多个任务。这使得分布式系统开发人员能够在一台或者几台通过消息传递连接的计算机内构建和运行整个分布式系统。这催生了面向服务的架构（SOA），其中每个分布式系统可以通过一组集成在一台计算机或多台计算机上运行的服务来构建。我们通过 WSDL（用于 SOAP 协议）或 WADL（用于 REST 协议）等语言适当地定义服务接口。接着，服务的使用者将利用这些接口来进行客户端的实现。
-<img src="http://ok6h8mla5.bkt.clouddn.com/DS_wxp02.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp02.png" alt="" /></p>
 
 <p>随着计算能力和存储价格的降低，世界各地的组织都开始使用分布式系统和基于 SOA 的企业 IT 系统。但是，一旦服务或系统的数量增加，这些服务之间的点到点连接就不再是可扩展和可维护的了。这催生了集中式“服务总线”概念的产生。服务总线通过类似集线器的架构将所有系统连接在一起。这个组件被称为 ESB（企业服务总线）。它作为一个“语言”翻译者，就像一个中间人在帮助一群使用不同“语言”但希望相互通信的人进行沟通。在企业应用中，“语言”代表着在通信时不同系统的消息传递协议和消息格式。
-<img src="http://ok6h8mla5.bkt.clouddn.com/DS_wxp03.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp03.png" alt="" /></p>
 
 <p>这种模式工作得很好，即使在今天也能正常工作。随着万维网的普及和模型的简化，基于 REST 的通信比基于 SOAP 的通信模型变得更加流行。这促进了基于应用程序编程接口（API）的 REST 模型通信的发展。由于 REST 模型的简洁特性，我们需要在标准 REST API 实现之上实现安全（身份验证和授权）、缓存、流控和监控等各种类型的功能。但我们并不想独立地在每个 API 上实现这些功能，而是需要一个公共组件将这些功能应用于这些 API 之上。这样的需求催生了 API 管理平台的发展。现在，它已经成为了任何分布式系统的核心功能之一。
-<img src="http://ok6h8mla5.bkt.clouddn.com/DS_wxp04.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp04.png" alt="" /></p>
 
 <p>随后，我们见证了分布式系统大爆炸的时代。Facebook、Google、Amazon、Netflix、LinkedIn、Twitter 等互联网公司变得异常庞大。他们开始想要构建跨越多个地理区域和多个数据中心的分布式系统。这样的需求使他们的技术焦点转向了一切开始的地方。工程师们开始思考单台计算机和单个程序的概念。他们不再把一台计算机当作一台计算机来看，而在同一台计算机内创建多台虚拟计算机。这催生了关于虚拟机的想法，即同一台计算机可以充当多台计算机并且全部并行运行。尽管这是一个还不错的主意，但在宿主计算机的资源利用方面，这并不是最好的选择。运行多个操作系统需要更多的资源，但在同一个操作系统里运行多个程序并不需要这些资源。</p>
 
 <p>这些问题最终催生了关于容器技术的想法。容器只使用一个宿主操作系统（Linux）的内核，就可以运行多个程序并分别依赖于相互独立的运行时。这个概念在 Linux 操作系统上已经有一段时间了。随着基于容器技术的应用程序部署的普及，它变得更加流行并且有了很多改进和提升。容器可以像虚拟机一样工作，却不需要多一个操作系统的开销。您可以将应用程序和所有相关的依赖项放入容器镜像中。它便可以被放在任何可以运行容器的宿主操作系统中运行。Docker 和 Rocket 是两个热门的容器构建平台。
-<img src="http://ok6h8mla5.bkt.clouddn.com/DS_wxp05.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp05.png" alt="" /></p>
 
 <p>容器技术为 Netflix、LinkedIn 和 Twitter 等组织提供了底层框架，用于构建他们要求苛刻的永远在线的多区域、多数据中心应用平台。但这并不意味着利用容器技术没有任何难点。基于容器的部署带来的轻量特性让跨多个容器的平台维护和编排变得非常复杂。随着微服务架构（MSA）的出现，单体式应用程序被分成更小块的微服务。这些微服务能够完成整个服务里的某一个特定功能并部署在容器中（在大多数情况下都可以）。这给分布式系统生态系统带来了一系列新的需求。要让系统最终保持一致，并且彼此之间没有太多复杂的通信。
-<img src="http://ok6h8mla5.bkt.clouddn.com/DS_wxp06.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp06.png" alt="" /></p>
 
 <p>这些新的需求最终帮助工程师们构建了一个容器编排系统。该系统可用于维护更大规模的容器部署的一致性。毋庸置疑的是，这个领域的顶尖技术来自 Google。因为它们的规模非常大。他们构建了名为“Kubernetes”（又名 k8s）的容器编排平台，并成为大规模容器编排需求的事实标准。k8s 让工程师可以：</p>
 
@@ -165,7 +165,7 @@
 </ul>
 
 <p>Kubernetes 和 Docker 让应用程序员的生活更加轻松。他们不用再考虑他们的应用在不同的环境（操作系统、开发环境、测试环境、生产环境等）下的不同表现。他构建的容器镜像在所有环境中运行表现几乎完全相同，因为所有依赖项都被打包到镜像中了。
-<img src="http://ok6h8mla5.bkt.clouddn.com/DS_wxp07.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp07.png" alt="" /></p>
 
 <p>但是，尽管我们有了容器和编排框架，我们仍然需要一个管理这些服务器的团队。这意味着数据中心需要使用像 Docker 和 Kubernetes 这样的技术进行管理，以确保它对于应用程序来说就像一个单台计算机一样。如果不是你自己来做这些事情，而是别人来为你管理这部分工作，这正是 serverless 架构所带来的便利。您的服务器将由第三方云提供商（如 Amazon（Lambda），Microsoft（Azure Functions）或 Google（Cloud Functions））进行管理。现在，分布式系统将由应用程序员进行编程，而基础设施管理将由云提供商完成。这是分布式系统发展的最新状态，并且会不断地发展下去。</p>
 

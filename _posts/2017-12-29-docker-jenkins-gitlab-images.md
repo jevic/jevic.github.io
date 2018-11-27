@@ -62,29 +62,29 @@ volumes:
 ## 配置jenkins
 
 ### 安装插件
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-docker-plugin.png)
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-gitlab-plugs.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-docker-plugin.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-gitlab-plugs.png)
 
 ### 系统设置
 
 #### 配置私有仓库地址以及认证信息
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-registry-user.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-registry-user.png)
 
 #### 设置docker 服务
 - 新增一个云  选择 docker
 - unix:///var/run/docker.sock
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-docker-cloud.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-docker-cloud.png)
 
 #### 获取用户Token
 
 返回主面板 -> 用户 -> 点击admin -> 设置
 
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-admon-token.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-admon-token.png)
 
 #### 创建任务
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-jobs-01.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-jobs-01.png)
 ##### 源码管理
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-gitlab-nginx-master.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-gitlab-nginx-master.png)
 
 ##### 触发器
 - 触发远程构建 钩子
@@ -94,12 +94,12 @@ JENKINS_URL/job/webhook/build?token=TOKEN_NAME 或者
 /buildWithParameters?token=TOKEN_NAME
 
 
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-chufaqi.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-chufaqi.png)
 
 ##### 构建环境默认
 ##### 构建
 - 以构建次数为标签 hub.jevic.com/nginx/nginx:${BUILD_NUMBER}
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-docker-build.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-docker-build.png)
 
 ## gitlab 项目配置
 
@@ -112,10 +112,10 @@ JENKINS_URL/job/webhook/build?token=TOKEN_NAME 或者
 - 示例:
     - http://ci.jevic.cn:8080/buildByToken/build?job=webhook&token=494e32323dfsdfaeb0c49f8sdfa232615   
 
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-gitlab-webhook.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-gitlab-webhook.png)
 
 - 测试
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-gitlab-webhook-02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-gitlab-webhook-02.png)
 
 ## 运行任务
 1. push 代码到仓库
@@ -129,9 +129,9 @@ JENKINS_URL/job/webhook/build?token=TOKEN_NAME 或者
 Dockerfile  README.md
 
 ```
-![](http://ok6h8mla5.bkt.clouddn.com/jenkens-webhook-jobs-ok%20%281%29.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkens-webhook-jobs-ok%20%281%29.png)
 3. 查看仓库
-![](http://ok6h8mla5.bkt.clouddn.com/jenkins-registry-harbor.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-registry-harbor.png)
 
 
 转载请注明出处，本文采用 [CC4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/) 协议授权

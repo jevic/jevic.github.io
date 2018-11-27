@@ -170,20 +170,20 @@ Specific runners只能被指定的项目使用，Shared runners则可以运行�
 
 <h4 id="运行-nginx-服务">运行 Nginx 服务</h4>
 <h5 id="1-添加私有仓库并添加证书">1. 添加私有仓库并添加证书</h5>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-registry.jpg" alt="" />
-<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-registry-02.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-registry.jpg" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-registry-02.jpg" alt="" /></p>
 <h5 id="2-创建应用服务">2. 创建应用服务</h5>
 <ul>
   <li>网络模式: <code class="highlighter-rouge">主机</code>，如果设置为manage 需要配置<code class="highlighter-rouge">负载均衡</code></li>
   <li>
     <p>切记要对服务进行标签设定
-<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-nginx-01.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-nginx-01.jpg" alt="" /></p>
   </li>
   <li>访问
-<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-01.jpg" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-web-01.jpg" alt="" />
     <h5 id="3-添加接收器-webhooks">3. 添加接收器 webhooks</h5>
-    <p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-webhook.jpg" alt="" />
-<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-webhook-02.jpg" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-webhook.jpg" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-webhook-02.jpg" alt="" /></p>
   </li>
 </ul>
 
@@ -263,7 +263,7 @@ gitlab-runner    <span class="nv">ALL</span><span class="o">=(</span>ALL<span cl
   <p>executor 根据需要选择即可，此处选择的shell</p>
 </blockquote>
 
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-runners.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-runners.jpg" alt="" /></p>
 
 <ul>
   <li>register</li>
@@ -294,18 +294,18 @@ running already the config should be automatically reloaded!
 <ul>
   <li>
     <p>此时打开gitlab CI/CD 设置页面 即可查看到注册的Runners
-<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-set-01.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-set-01.jpg" alt="" /></p>
   </li>
   <li>
     <p>设置构建时的环境变量
-<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-set-02.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-set-02.jpg" alt="" /></p>
   </li>
 </ul>
 
 <h5 id="至此所有准备工作完毕下面开始首次构建">至此所有准备工作完毕，下面开始首次构建</h5>
 <h3 id="cicd-test">CI/CD Test</h3>
 <h4 id="dockerfile-version01">dockerfile Version0.1</h4>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-01.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-web-01.jpg" alt="" /></p>
 <blockquote>
   <p>下面将通过gitlab ci/cd 结合rancher 升级服务到version 0.2</p>
 </blockquote>
@@ -395,12 +395,12 @@ To http://test.gitlab.com/jevic/cicd.git
 </code></pre></div></div>
 
 <h4 id="查看项目状态">查看项目状态</h4>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-ok.jpg" alt="" />
-<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-02.jpg" alt="" />
-<img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-03.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-ok.jpg" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-02.jpg" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-03.jpg" alt="" /></p>
 
 <h4 id="页面访问">页面访问</h4>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/rancher-gitlab-cicd-web-02.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/rancher-gitlab-cicd-web-02.jpg" alt="" /></p>
 
 <p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
 

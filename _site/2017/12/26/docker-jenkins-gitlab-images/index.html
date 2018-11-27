@@ -192,31 +192,31 @@ volumes:
 <h2 id="配置jenkins">配置jenkins</h2>
 
 <h3 id="安装插件">安装插件</h3>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-docker-plugin.png" alt="" />
-<img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-gitlab-plugs.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-docker-plugin.png" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-gitlab-plugs.png" alt="" /></p>
 
 <h3 id="系统设置">系统设置</h3>
 
 <h4 id="配置私有仓库地址以及认证信息">配置私有仓库地址以及认证信息</h4>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-registry-user.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-registry-user.png" alt="" /></p>
 
 <h4 id="设置docker-服务">设置docker 服务</h4>
 <ul>
   <li>新增一个云  选择 docker</li>
   <li>unix:///var/run/docker.sock
-<img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-docker-cloud.png" alt="" /></li>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-docker-cloud.png" alt="" /></li>
 </ul>
 
 <h4 id="获取用户token">获取用户Token</h4>
 
 <p>返回主面板 -&gt; 用户 -&gt; 点击admin -&gt; 设置</p>
 
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-admon-token.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-admon-token.png" alt="" /></p>
 
 <h4 id="创建任务">创建任务</h4>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-jobs-01.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-jobs-01.png" alt="" /></p>
 <h5 id="源码管理">源码管理</h5>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-gitlab-nginx-master.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-gitlab-nginx-master.png" alt="" /></p>
 
 <h5 id="触发器">触发器</h5>
 <ul>
@@ -227,13 +227,13 @@ volumes:
 JENKINS_URL/job/webhook/build?token=TOKEN_NAME 或者 
 /buildWithParameters?token=TOKEN_NAME</p>
 
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-chufaqi.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-chufaqi.png" alt="" /></p>
 
 <h5 id="构建环境默认">构建环境默认</h5>
 <h5 id="构建">构建</h5>
 <ul>
   <li>以构建次数为标签 hub.jevic.com/nginx/nginx:${BUILD_NUMBER}
-<img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-docker-build.png" alt="" /></li>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-docker-build.png" alt="" /></li>
 </ul>
 
 <h2 id="gitlab-项目配置">gitlab 项目配置</h2>
@@ -257,11 +257,11 @@ JENKINS_URL/job/webhook/build?token=TOKEN_NAME 或者
   </li>
 </ul>
 
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-gitlab-webhook.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-gitlab-webhook.png" alt="" /></p>
 
 <ul>
   <li>测试
-<img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-gitlab-webhook-02.png" alt="" /></li>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-gitlab-webhook-02.png" alt="" /></li>
 </ul>
 
 <h2 id="运行任务">运行任务</h2>
@@ -277,10 +277,10 @@ JENKINS_URL/job/webhook/build?token=TOKEN_NAME 或者
 Dockerfile  README.md
 
 </code></pre></div></div>
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/jenkens-webhook-jobs-ok%20%281%29.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkens-webhook-jobs-ok%20%281%29.png" alt="" /></p>
 <ol>
   <li>查看仓库
-<img src="http://ok6h8mla5.bkt.clouddn.com/jenkins-registry-harbor.png" alt="" /></li>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/jenkins-registry-harbor.png" alt="" /></li>
 </ol>
 
 <p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>

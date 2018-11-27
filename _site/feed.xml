@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-27T12:11:05+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-27T16:30:20+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
   &lt;ul&gt;
     &lt;li&gt;在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档,
       &lt;ul&gt;
@@ -110,7 +110,1468 @@ xpack.security.enabled: true  ## 开启认证
   &lt;li&gt;&lt;a href=&quot;https://github.com/NLPchina/elasticsearch-sql&quot;&gt;github&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档, 类比MySQL index == database _type == table 6.x 版本开始 移除了_type 也就是每个索引只有一种类型！！！ x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!</summary></entry><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档, 类比MySQL index == database _type == table 6.x 版本开始 移除了_type 也就是每个索引只有一种类型！！！ x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!</summary></entry><entry><title type="html">二进制手动部署kubernetes 1.10.10</title><link href="http://0.0.0.0/2018/09/23/kuberentes-1.10.10/" rel="alternate" type="text/html" title="二进制手动部署kubernetes 1.10.10" /><published>2018-09-23T20:35:46+08:00</published><updated>2018-09-23T20:35:46+08:00</updated><id>http://0.0.0.0/2018/09/23/kuberentes-1.10.10</id><content type="html" xml:base="http://0.0.0.0/2018/09/23/kuberentes-1.10.10/">&lt;blockquote&gt;
+  &lt;p&gt;通读一遍在实际操作!!!
+关于镜像请查看最后的补充说明
+部署脚本查看&lt;a href=&quot;https://github.com/jevic/kshell.git&quot;&gt;仓库脚本&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;一-系统环境&quot;&gt;一. 系统环境&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;CentOS Linux release 7.2.1511 (Core)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;IP地址&lt;/th&gt;
+      &lt;th&gt;主机名&lt;/th&gt;
+      &lt;th&gt;Docker 版本&lt;/th&gt;
+      &lt;th&gt;kubernetes 版本&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;192.168.2.219&lt;/td&gt;
+      &lt;td&gt;master219&lt;/td&gt;
+      &lt;td&gt;18.06.0-ce&lt;/td&gt;
+      &lt;td&gt;v1.10.10&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;192.168.2.220&lt;/td&gt;
+      &lt;td&gt;node220&lt;/td&gt;
+      &lt;td&gt;18.06.0-ce&lt;/td&gt;
+      &lt;td&gt;v1.10.10&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;192.168.2.221&lt;/td&gt;
+      &lt;td&gt;node221&lt;/td&gt;
+      &lt;td&gt;18.06.0-ce&lt;/td&gt;
+      &lt;td&gt;v1.10.10&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;初始化&quot;&gt;初始化&lt;/h3&gt;
+&lt;h4 id=&quot;11-配置ssh&quot;&gt;1.1 配置ssh&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-keygen -t rsa
+一路回车....
+
+将公钥添加到每个节点
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;批量执行脚本:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master219 bin]# pwd
+/usr/local/bin
+[root@master219 bin]# cat cmd
+#!/bin/bash
+## 批量执行命令
+iplist=&quot;node220 node221&quot;
+
+for i in $iplist
+do
+   echo -e &quot;\033[32mssh $i \&quot;$*\&quot;\033[0m&quot;
+   ssh $i &quot;$*&quot;
+done
+[root@master219 bin]# cat rsy
+#!/bin/bash
+## 批量同步文件
+iplist=&quot;node220 node221&quot;
+
+for i in $iplist
+do
+   echo -e &quot;\033[32mscp -r $1 $i:$2\033[0m&quot;
+   scp -r $1 $i:$2
+done
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;12-系统配置&quot;&gt;1.2 系统配置&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;所有节点都需要执行下列操作&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setenforce 0
+sed -i 's/SELINUX=enforcing/SELINUX=disalbe/g' /etc/sysconfig/selinux
+
+cat &amp;gt;&amp;gt; /etc/security/limits.conf &amp;lt;&amp;lt;EOF
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc unlimited
+* hard nproc unlimited
+EOF
+
+swapoff -a
+
+cat &amp;gt;&amp;gt; /etc/sysctl.conf &amp;lt;&amp;lt;EOF
+net.bridge.bridge-nf-call-iptables=1
+net.bridge.bridge-nf-call-ip6tables=1
+net.ipv4.ip_forward=1
+net.ipv4.tcp_tw_recycle=0
+vm.swappiness=0
+vm.overcommit_memory=1
+vm.panic_on_oom=0
+fs.inotify.max_user_watches=89100
+fs.file-max=52706963
+fs.nr_open=52706963
+net.ipv6.conf.all.disable_ipv6=1
+net.netfilter.nf_conntrack_max=2310720
+EOF
+
+systemctl stop firewalld &amp;amp;&amp;amp; systemctl disable firewalld
+yum makecache fast
+yum install -y epel-release
+yum install -y conntrack ipvsadm ipset jq sysstat curl iptables libseccomp ntpdate
+ntpdate cn.pool.ntp.org
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;13-install-docker&quot;&gt;1.3 Install Docker&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;参考 &lt;a href=&quot;https://docs.docker.com/install/linux/docker-ce/centos/#install-using-the-repository&quot;&gt;官方文档&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y yum-utils device-mapper-persistent-data lvm2
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum list docker-ce --showduplicates | sort -r
+yum -y install docker-ce-18.06.0.ce
+systemctl start docker &amp;amp;&amp;amp; systemctl stop docker
+cat &amp;gt; /etc/docker/daemon.json &amp;lt;&amp;lt;EOF
+{
+  &quot;registry-mirrors&quot;: [&quot;https://dlvqhrac.mirror.aliyuncs.com&quot;]
+}
+EOF
+
+systemctl daemon-reload
+systemctl start docker
+systemctl enable docker
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;二-安装cfssl&quot;&gt;二. 安装cfssl&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;https://github.com/cloudflare/cfssl/releases&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;只需要在master节点安装使用即可，后续证书同步到其他节点即可&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tar -zxvf cfssl.tar.gz
+mv cfssl cfssljson /usr/local/bin
+chmod +x /usr/local/bin/cfssl /usr/local/bin/cfssljson
+rm -f cfssl.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;三-etcd&quot;&gt;三. ETCD&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/coreos/etcd/releases/download&quot;&gt;下载链接&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;创建etcd 用户来启动!! 注意用户权限&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;31-证书&quot;&gt;3.1 证书&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;etcd-csr.json&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;key&quot;: {
+    &quot;algo&quot;: &quot;rsa&quot;,
+    &quot;size&quot;: 2048
+  },
+  &quot;names&quot;: [
+    {
+      &quot;O&quot;: &quot;etcd&quot;,
+      &quot;OU&quot;: &quot;etcd Security&quot;,
+      &quot;L&quot;: &quot;Shengzhen&quot;,
+      &quot;ST&quot;: &quot;Shengzhen&quot;,
+      &quot;C&quot;: &quot;CN&quot;
+    }
+  ],
+  &quot;CN&quot;: &quot;etcd&quot;,
+  &quot;hosts&quot;: [
+    &quot;127.0.0.1&quot;,
+    &quot;localhost&quot;,
+    &quot;192.168.2.219&quot;,
+    &quot;192.168.2.220&quot;,
+    &quot;192.168.2.221&quot;
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;etcd-gencert.json&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;signing&quot;: {
+    &quot;default&quot;: {
+        &quot;usages&quot;: [
+          &quot;signing&quot;,
+          &quot;key encipherment&quot;,
+          &quot;server auth&quot;,
+          &quot;client auth&quot;
+        ],
+        &quot;expiry&quot;: &quot;87600h&quot;
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;etcd-root-ca-csr.json&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;key&quot;: {
+    &quot;algo&quot;: &quot;rsa&quot;,
+    &quot;size&quot;: 4096
+  },
+  &quot;names&quot;: [
+    {
+      &quot;O&quot;: &quot;etcd&quot;,
+      &quot;OU&quot;: &quot;etcd Security&quot;,
+      &quot;L&quot;: &quot;Shengzhen&quot;,
+      &quot;ST&quot;: &quot;Shengzhen&quot;,
+      &quot;C&quot;: &quot;CN&quot;
+    }
+  ],
+  &quot;CN&quot;: &quot;etcd-root-ca&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;生成证书&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cfssl gencert --initca=true etcd-root-ca-csr.json | cfssljson --bare etcd-root-ca
+cfssl gencert --ca etcd-root-ca.pem --ca-key etcd-root-ca-key.pem --config etcd-gencert.json etcd-csr.json | cfssljson --bare etcd
+
+[root@master219 ssl]# ls
+etcd.csr  etcd-csr.json  etcd-gencert.json  etcd-key.pem  etcd.pem  etcd-root-ca.csr  etcd-root-ca-csr.json  etcd-root-ca-key.pem  etcd-root-ca.pem
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;32-etcdconf&quot;&gt;3.2 etcd.conf&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# [member]
+ETCD_NAME=etcd1
+ETCD_DATA_DIR=&quot;/var/lib/etcd/etcd1.etcd&quot;
+ETCD_WAL_DIR=&quot;/var/lib/etcd/wal&quot;
+ETCD_SNAPSHOT_COUNT=&quot;100&quot;
+ETCD_HEARTBEAT_INTERVAL=&quot;100&quot;
+ETCD_ELECTION_TIMEOUT=&quot;1000&quot;
+ETCD_LISTEN_PEER_URLS=&quot;https://192.168.2.219:2380&quot;
+ETCD_LISTEN_CLIENT_URLS=&quot;https://192.168.2.219:2379,http://127.0.0.1:2379&quot;
+ETCD_MAX_SNAPSHOTS=&quot;5&quot;
+ETCD_MAX_WALS=&quot;5&quot;
+#ETCD_CORS=&quot;&quot;
+# [cluster]
+ETCD_INITIAL_ADVERTISE_PEER_URLS=&quot;https://192.168.2.219:2380&quot;
+ETCD_ADVERTISE_CLIENT_URLS=&quot;https://192.168.2.219:2379&quot;
+# if you use different ETCD_NAME (e.g. test), set ETCD_INITIAL_CLUSTER value for this name, i.e. &quot;test=http://...&quot;
+ETCD_INITIAL_CLUSTER=&quot;etcd1=https://192.168.2.219:2380,etcd2=https://192.168.2.220:2380,etcd3=https://192.168.2.221:2380&quot;
+ETCD_INITIAL_CLUSTER_STATE=&quot;new&quot;
+ETCD_INITIAL_CLUSTER_TOKEN=&quot;etcd-cluster&quot;
+#ETCD_DISCOVERY=&quot;&quot;
+#ETCD_DISCOVERY_SRV=&quot;&quot;
+#ETCD_DISCOVERY_FALLBACK=&quot;proxy&quot;
+#ETCD_DISCOVERY_PROXY=&quot;&quot;
+#ETCD_STRICT_RECONFIG_CHECK=&quot;false&quot;
+#ETCD_AUTO_COMPACTION_RETENTION=&quot;0&quot;
+# [proxy]
+#ETCD_PROXY=&quot;off&quot;
+#ETCD_PROXY_FAILURE_WAIT=&quot;5000&quot;
+#ETCD_PROXY_REFRESH_INTERVAL=&quot;30000&quot;
+#ETCD_PROXY_DIAL_TIMEOUT=&quot;1000&quot;
+#ETCD_PROXY_WRITE_TIMEOUT=&quot;5000&quot;
+#ETCD_PROXY_READ_TIMEOUT=&quot;0&quot;
+# [security]
+ETCD_CERT_FILE=&quot;/etc/etcd/ssl/etcd.pem&quot;
+ETCD_KEY_FILE=&quot;/etc/etcd/ssl/etcd-key.pem&quot;
+ETCD_CLIENT_CERT_AUTH=&quot;true&quot;
+ETCD_TRUSTED_CA_FILE=&quot;/etc/etcd/ssl/etcd-root-ca.pem&quot;
+ETCD_AUTO_TLS=&quot;true&quot;
+ETCD_PEER_CERT_FILE=&quot;/etc/etcd/ssl/etcd.pem&quot;
+ETCD_PEER_KEY_FILE=&quot;/etc/etcd/ssl/etcd-key.pem&quot;
+ETCD_PEER_CLIENT_CERT_AUTH=&quot;true&quot;
+ETCD_PEER_TRUSTED_CA_FILE=&quot;/etc/etcd/ssl/etcd-root-ca.pem&quot;
+ETCD_PEER_AUTO_TLS=&quot;true&quot;
+# [logging]
+#ETCD_DEBUG=&quot;false&quot;
+# examples for -log-package-levels etcdserver=WARNING,security=DEBUG
+#ETCD_LOG_PACKAGE_LEVELS=&quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;33-etcdservice&quot;&gt;3.3 etcd.service&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/etcd/
+EnvironmentFile=-/etc/etcd/etcd.conf
+User=etcd
+# set GOMAXPROCS to number of processors
+ExecStart=/bin/bash -c &quot;GOMAXPROCS=$(nproc) /usr/local/bin/etcd --name=\&quot;${ETCD_NAME}\&quot; --data-dir=\&quot;${ETCD_DATA_DIR}\&quot; --listen-client-urls=\&quot;${ETCD_LISTEN_CLIENT_URLS}\&quot;&quot;
+Restart=on-failure
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;34-安装启动&quot;&gt;3.4 安装启动&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;install.sh&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;ETCD_VERSION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3.2.18&quot;&lt;/span&gt;
+
+preinstall&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    getent group etcd &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;/dev/null &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; groupadd &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; etcd
+    getent passwd etcd &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;/dev/null &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; useradd &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-g&lt;/span&gt; etcd &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; /var/lib/etcd &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /sbin/nologin &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;etcd user&quot;&lt;/span&gt; etcd
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+install&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[32mINFO: Copy etcd...&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[0m&quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-zxvf&lt;/span&gt; etcd-v&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ETCD_VERSION&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-linux-amd64&lt;/span&gt;.tar.gz
+    cp etcd-v&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ETCD_VERSION&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-linux-amd64&lt;/span&gt;/etcd&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; /usr/local/bin
+    rm &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; etcd-v&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ETCD_VERSION&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-linux-amd64&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[32mINFO: Copy etcd config...&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[0m&quot;&lt;/span&gt;
+    cp &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; conf /etc/etcd
+    chown &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; etcd:etcd /etc/etcd
+    chmod &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; 755 /etc/etcd/ssl
+    &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[32mINFO: Copy etcd systemd config...&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[0m&quot;&lt;/span&gt;
+    cp etcd.service /lib/systemd/system
+    systemctl daemon-reload
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+postinstall&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/var/lib/etcd&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+        &lt;/span&gt;mkdir /var/lib/etcd
+        chown &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; etcd:etcd /var/lib/etcd
+    &lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+preinstall
+install
+postinstall
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;目录结构:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;etcd/
+├── conf
+│   ├── etcd.conf
+│   └── ssl
+│       ├── etcd.csr
+│       ├── etcd-csr.json
+│       ├── etcd-gencert.json
+│       ├── etcd-key.pem
+│       ├── etcd.pem
+│       ├── etcd-root-ca.csr
+│       ├── etcd-root-ca-csr.json
+│       ├── etcd-root-ca-key.pem
+│       └── etcd-root-ca.pem
+├── etcd.service
+├── etcd-v3.2.18-linux-amd64.tar.gz
+└── install.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;创建对应目录以及相关文件，保存 install.sh 脚本;将整个目录同步到各个节点执行即可；
+然后在各个节点修改对应的etcd 名称及IP即可；&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start etcd  ## 三个节点同时执行此操作否则单个启动会卡死在那里
+[root@master219 mnt]# cmd systemctl enable  ## 使用前面配置的cmd 命令批量执行
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export ETCDCTL_API=3
+etcdctl --cacert=/etc/etcd/ssl/etcd-root-ca.pem --cert=/etc/etcd/ssl/etcd.pem --key=/etc/etcd/ssl/etcd-key.pem --endpoints=https://192.168.2.219:2379,https://192.168.2.220:2379,https://192.168.2.221:2379 endpoint health
+
+https://192.168.2.221:2379 is healthy: successfully committed proposal: took = 2.077429ms
+https://192.168.2.219:2379 is healthy: successfully committed proposal: took = 1.421477ms
+https://192.168.2.220:2379 is healthy: successfully committed proposal: took = 2.222464ms
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;四-kubernetes&quot;&gt;四. kubernetes&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;基于 hyperkube 二进制手动安装&lt;/li&gt;
+  &lt;li&gt;hyperkube是一个集成二进制运行文件&lt;/li&gt;
+  &lt;li&gt;可以使用“hyperkube kubelet …”来启动kubelet ，用“hyperkube apiserver …”运行apiserver 等等。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;41-证书&quot;&gt;4.1 证书&lt;/h3&gt;
+&lt;p&gt;由于 kubelet 和 kube-proxy 用到的 kubeconfig 配置文件需要借助 kubectl 来生成，所以需要先安装一下 kubectl&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl https://storage.googleapis.com/kubernetes-release/release/v1.10.10/bin/linux/amd64/hyperkube -o hyperkube-1.10.10
+chmod +x hyperkube_1.10.10
+cp hyperkube_1.10.10 /usr/local/bin/hyperkube
+ln -s /usr/local/bin/hyperkube /usr/local/bin/kubectl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.jevic.cn/2018/03/19/shadowsock/&quot;&gt;curl 代理配置&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;admin-csrjson&quot;&gt;admin-csr.json&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;CN&quot;: &quot;admin&quot;,
+  &quot;hosts&quot;: [],
+  &quot;key&quot;: {
+    &quot;algo&quot;: &quot;rsa&quot;,
+    &quot;size&quot;: 2048
+  },
+  &quot;names&quot;: [
+    {
+      &quot;C&quot;: &quot;CN&quot;,
+      &quot;ST&quot;: &quot;Shengzhen&quot;,
+      &quot;L&quot;: &quot;Shengzhen&quot;,
+      &quot;O&quot;: &quot;system:masters&quot;,
+      &quot;OU&quot;: &quot;System&quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;k8s-gencertjson&quot;&gt;k8s-gencert.json&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;signing&quot;: {
+    &quot;default&quot;: {
+      &quot;expiry&quot;: &quot;87600h&quot;
+    },
+    &quot;profiles&quot;: {
+      &quot;kubernetes&quot;: {
+        &quot;usages&quot;: [
+            &quot;signing&quot;,
+            &quot;key encipherment&quot;,
+            &quot;server auth&quot;,
+            &quot;client auth&quot;
+        ],
+        &quot;expiry&quot;: &quot;87600h&quot;
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;k8s-root-ca-csrjson&quot;&gt;k8s-root-ca-csr.json&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;CN&quot;: &quot;kubernetes&quot;,
+  &quot;key&quot;: {
+    &quot;algo&quot;: &quot;rsa&quot;,
+    &quot;size&quot;: 4096
+  },
+  &quot;names&quot;: [
+    {
+      &quot;C&quot;: &quot;CN&quot;,
+      &quot;ST&quot;: &quot;Shengzhen&quot;,
+      &quot;L&quot;: &quot;Shengzhen&quot;,
+      &quot;O&quot;: &quot;k8s&quot;,
+      &quot;OU&quot;: &quot;System&quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;kube-apiserver-csrjson&quot;&gt;kube-apiserver-csr.json&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+    &quot;CN&quot;: &quot;kubernetes&quot;,
+    &quot;hosts&quot;: [
+        &quot;127.0.0.1&quot;,
+        &quot;10.254.0.1&quot;,
+        &quot;192.168.2.219&quot;,
+        &quot;192.168.2.220&quot;,
+        &quot;192.168.2.221&quot;,
+        &quot;*.kubernetes.master&quot;,
+        &quot;localhost&quot;,
+        &quot;kubernetes&quot;,
+        &quot;kubernetes.default&quot;,
+        &quot;kubernetes.default.svc&quot;,
+        &quot;kubernetes.default.svc.cluster&quot;,
+        &quot;kubernetes.default.svc.cluster.local&quot;
+    ],
+    &quot;key&quot;: {
+        &quot;algo&quot;: &quot;rsa&quot;,
+        &quot;size&quot;: 2048
+    },
+    &quot;names&quot;: [
+        {
+            &quot;C&quot;: &quot;CN&quot;,
+            &quot;ST&quot;: &quot;Shengzhen&quot;,
+            &quot;L&quot;: &quot;Shengzhen&quot;,
+            &quot;O&quot;: &quot;k8s&quot;,
+            &quot;OU&quot;: &quot;System&quot;
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;kube-proxy-csrjson&quot;&gt;kube-proxy-csr.json&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;CN&quot;: &quot;system:kube-proxy&quot;,
+  &quot;hosts&quot;: [],
+  &quot;key&quot;: {
+    &quot;algo&quot;: &quot;rsa&quot;,
+    &quot;size&quot;: 2048
+  },
+  &quot;names&quot;: [
+    {
+      &quot;C&quot;: &quot;CN&quot;,
+      &quot;ST&quot;: &quot;Shengzhen&quot;,
+      &quot;L&quot;: &quot;Shengzhen&quot;,
+      &quot;O&quot;: &quot;k8s&quot;,
+      &quot;OU&quot;: &quot;System&quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;411-生成证书和配置&quot;&gt;4.1.1 生成证书和配置&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 生成 CA
+cfssl gencert --initca=true k8s-root-ca-csr.json | cfssljson --bare k8s-root-ca
+
+# 依次生成其他组件证书
+for targetName in kube-apiserver admin kube-proxy; do
+    cfssl gencert --ca k8s-root-ca.pem --ca-key k8s-root-ca-key.pem --config k8s-gencert.json --profile kubernetes $targetName-csr.json | cfssljson --bare $targetName
+done
+
+# 地址默认为 127.0.0.1:6443
+# 如果在 master 上启用 kubelet 请在生成后的 kubeconfig 中
+# 修改该地址为 当前MASTER_IP:6443
+KUBE_APISERVER=&quot;https://127.0.0.1:6443&quot;
+BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ' ')
+echo &quot;Tokne: ${BOOTSTRAP_TOKEN}&quot;
+
+# 不要质疑 system:bootstrappers 用户组是否写错了，有疑问请参考官方文档
+# https://kubernetes.io/docs/admin/kubelet-tls-bootstrapping/
+cat &amp;gt; token.csv &amp;lt;&amp;lt;EOF
+${BOOTSTRAP_TOKEN},kubelet-bootstrap,10001,&quot;system:bootstrappers&quot;
+EOF
+
+echo &quot;Create kubelet bootstrapping kubeconfig...&quot;
+# 设置集群参数
+kubectl config set-cluster kubernetes \
+  --certificate-authority=k8s-root-ca.pem \
+  --embed-certs=true \
+  --server=${KUBE_APISERVER} \
+  --kubeconfig=bootstrap.kubeconfig
+# 设置客户端认证参数
+kubectl config set-credentials kubelet-bootstrap \
+  --token=${BOOTSTRAP_TOKEN} \
+  --kubeconfig=bootstrap.kubeconfig
+# 设置上下文参数
+kubectl config set-context default \
+  --cluster=kubernetes \
+  --user=kubelet-bootstrap \
+  --kubeconfig=bootstrap.kubeconfig
+# 设置默认上下文
+kubectl config use-context default --kubeconfig=bootstrap.kubeconfig
+
+echo &quot;Create kube-proxy kubeconfig...&quot;
+# 设置集群参数
+kubectl config set-cluster kubernetes \
+  --certificate-authority=k8s-root-ca.pem \
+  --embed-certs=true \
+  --server=${KUBE_APISERVER} \
+  --kubeconfig=kube-proxy.kubeconfig
+# 设置客户端认证参数
+kubectl config set-credentials kube-proxy \
+  --client-certificate=kube-proxy.pem \
+  --client-key=kube-proxy-key.pem \
+  --embed-certs=true \
+  --kubeconfig=kube-proxy.kubeconfig
+# 设置上下文参数
+kubectl config set-context default \
+  --cluster=kubernetes \
+  --user=kube-proxy \
+  --kubeconfig=kube-proxy.kubeconfig
+# 设置默认上下文
+kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
+
+# 创建高级审计配置
+cat &amp;gt;&amp;gt; audit-policy.yaml &amp;lt;&amp;lt;EOF
+# Log all requests at the Metadata level.
+apiVersion: audit.k8s.io/v1beta1
+kind: Policy
+rules:
+- level: Metadata
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;生成后的文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssl
+├── admin.csr
+├── admin-csr.json
+├── admin-key.pem
+├── admin.pem
+├── audit-policy.yaml
+├── bootstrap.kubeconfig
+├── genconfig.sh
+├── k8s-gencert.json
+├── k8s-root-ca.csr
+├── k8s-root-ca-csr.json
+├── k8s-root-ca-key.pem
+├── k8s-root-ca.pem
+├── kube-apiserver.csr
+├── kube-apiserver-csr.json
+├── kube-apiserver-key.pem
+├── kube-apiserver.pem
+├── kube-proxy.csr
+├── kube-proxy-csr.json
+├── kube-proxy-key.pem
+├── kube-proxy.kubeconfig
+├── kube-proxy.pem
+└── token.csv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;42-systemd-配置&quot;&gt;4.2 systemd 配置&lt;/h3&gt;
+
+&lt;h4 id=&quot;kube-apiserverservice&quot;&gt;kube-apiserver.service&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=network.target
+After=etcd.service
+[Service]
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/apiserver
+User=root
+ExecStart=/usr/local/bin/hyperkube apiserver \
+            $KUBE_LOGTOSTDERR \
+            $KUBE_LOG_LEVEL \
+            $KUBE_ETCD_SERVERS \
+            $KUBE_API_ADDRESS \
+            $KUBE_API_PORT \
+            $KUBELET_PORT \
+            $KUBE_ALLOW_PRIV \
+            $KUBE_SERVICE_ADDRESSES \
+            $KUBE_ADMISSION_CONTROL \
+            $KUBE_API_ARGS
+Restart=on-failure
+Type=notify
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;kube-controller-managerservice&quot;&gt;kube-controller-manager.service&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+[Service]
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/controller-manager
+User=root
+ExecStart=/usr/local/bin/hyperkube controller-manager \
+            $KUBE_LOGTOSTDERR \
+            $KUBE_LOG_LEVEL \
+            $KUBE_MASTER \
+            $KUBE_CONTROLLER_MANAGER_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;kubeletservice&quot;&gt;kubelet.service&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=Kubernetes Kubelet Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=docker.service
+Requires=docker.service
+[Service]
+WorkingDirectory=/var/lib/kubelet
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/kubelet
+ExecStart=/usr/local/bin/hyperkube kubelet \
+            $KUBE_LOGTOSTDERR \
+            $KUBE_LOG_LEVEL \
+            $KUBELET_API_SERVER \
+            $KUBELET_ADDRESS \
+            $KUBELET_PORT \
+            $KUBELET_HOSTNAME \
+            $KUBE_ALLOW_PRIV \
+            $KUBELET_ARGS
+Restart=on-failure
+KillMode=process
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;kube-proxyservice&quot;&gt;kube-proxy.service&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=Kubernetes Kube-Proxy Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=network.target
+[Service]
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/proxy
+ExecStart=/usr/local/bin/hyperkube proxy \
+            $KUBE_LOGTOSTDERR \
+            $KUBE_LOG_LEVEL \
+            $KUBE_MASTER \
+            $KUBE_PROXY_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;kube-schedulerservice&quot;&gt;kube-scheduler.service&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=Kubernetes Scheduler Plugin
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+[Service]
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/scheduler
+User=root
+ExecStart=/usr/local/bin/hyperkube scheduler \
+            $KUBE_LOGTOSTDERR \
+            $KUBE_LOG_LEVEL \
+            $KUBE_MASTER \
+            $KUBE_SCHEDULER_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;43-配置文件&quot;&gt;4.3 配置文件&lt;/h3&gt;
+&lt;h4 id=&quot;431-master-节点配置&quot;&gt;4.3.1 master 节点配置&lt;/h4&gt;
+&lt;p&gt;Master 节点主要会运行 3 各组件: kube-apiserver、kube-controller-manager、kube-scheduler，其中用到的配置文件如下&lt;/p&gt;
+&lt;h5 id=&quot;config&quot;&gt;config&lt;/h5&gt;
+&lt;p&gt;config 是一个通用配置文件，值得注意的是由于安装时对于 Node、Master 节点都会包含该文件;
+在 Node 节点上请注释掉 KUBE_MASTER 变量，因为 Node 节点需要做 HA，要连接本地的 6443 加密端口；而这个变量将会覆盖 kubeconfig 中指定的 127.0.0.1:6443 地址&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;###
+# kubernetes system config
+#
+# The following values are used to configure various aspects of all
+# kubernetes services, including
+#
+#   kube-apiserver.service
+#   kube-controller-manager.service
+#   kube-scheduler.service
+#   kubelet.service
+#   kube-proxy.service
+# logging to stderr means we get it in the systemd journal
+KUBE_LOGTOSTDERR=&quot;--logtostderr=true&quot;
+
+# journal message level, 0 is debug
+KUBE_LOG_LEVEL=&quot;--v=2&quot;
+
+# Should this cluster be allowed to run privileged docker containers
+KUBE_ALLOW_PRIV=&quot;--allow-privileged=true&quot;
+
+# How the controller-manager, scheduler, and proxy find the apiserver
+KUBE_MASTER=&quot;--master=http://127.0.0.1:8080&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;apiserver&quot;&gt;apiserver&lt;/h5&gt;
+&lt;p&gt;apiserver 配置相对于 1.8 略有变动，其中准入控制器(admission control)选项名称变为了 –enable-admission-plugins，控制器列表也有相应变化，这里采用官方推荐配置，具体请参考 &lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#is-there-a-recommended-set-of-admission-controllers-to-use&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;###
+# kubernetes system config
+#
+# The following values are used to configure the kube-apiserver
+#
+# The address on the local server to listen to.
+KUBE_API_ADDRESS=&quot;--advertise-address=192.168.2.219 --bind-address=192.168.2.219&quot;
+# The port on the local server to listen on.
+KUBE_API_PORT=&quot;--secure-port=6443&quot;
+# Port minions listen on
+# KUBELET_PORT=&quot;--kubelet-port=10250&quot;
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS=&quot;--etcd-servers=https://192.168.2.219:2379,https://192.168.2.220:2379,https://192.168.2.221:2379&quot;
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES=&quot;--service-cluster-ip-range=10.254.0.0/16&quot;
+# default admission control policies
+KUBE_ADMISSION_CONTROL=&quot;--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction&quot;
+# Add your own!
+KUBE_API_ARGS=&quot; --anonymous-auth=false \
+                --apiserver-count=3 \
+                --audit-log-maxage=30 \
+                --audit-log-maxbackup=3 \
+                --audit-log-maxsize=100 \
+                --audit-log-path=/var/log/kube-audit/audit.log \
+                --audit-policy-file=/etc/kubernetes/audit-policy.yaml \
+                --authorization-mode=Node,RBAC \
+                --client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                --enable-bootstrap-token-auth \
+                --enable-garbage-collector \
+                --enable-logs-handler \
+                --enable-swagger-ui \
+                --etcd-cafile=/etc/etcd/ssl/etcd-root-ca.pem \
+                --etcd-certfile=/etc/etcd/ssl/etcd.pem \
+                --etcd-keyfile=/etc/etcd/ssl/etcd-key.pem \
+                --etcd-compaction-interval=5m0s \
+                --etcd-count-metric-poll-period=1m0s \
+                --event-ttl=48h0m0s \
+                --kubelet-https=true \
+                --kubelet-timeout=3s \
+                --log-flush-frequency=5s \
+                --token-auth-file=/etc/kubernetes/token.csv \
+                --tls-cert-file=/etc/kubernetes/ssl/kube-apiserver.pem \
+                --tls-private-key-file=/etc/kubernetes/ssl/kube-apiserver-key.pem \
+                --service-node-port-range=30000-50000 \
+                --service-account-key-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                --storage-backend=etcd3 \
+                --enable-swagger-ui=true&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;controller-manager&quot;&gt;controller-manager&lt;/h5&gt;
+&lt;p&gt;controller manager 配置默认开启了证书轮换能力用于自动签署 kueblet 证书，并且证书时间也设置了 10 年，可自行调整；增加了 –controllers 选项以指定开启全部控制器&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;###
+# The following values are used to configure the kubernetes controller-manager
+# defaults from config and apiserver should be adequate
+# Add your own!
+KUBE_CONTROLLER_MANAGER_ARGS=&quot;  --bind-address=0.0.0.0 \
+                                --cluster-name=kubernetes \
+                                --cluster-signing-cert-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --cluster-signing-key-file=/etc/kubernetes/ssl/k8s-root-ca-key.pem \
+                                --controllers=*,bootstrapsigner,tokencleaner \
+                                --deployment-controller-sync-period=10s \
+                                --experimental-cluster-signing-duration=86700h0m0s \
+                                --leader-elect=true \
+                                --node-monitor-grace-period=40s \
+                                --node-monitor-period=5s \
+                                --pod-eviction-timeout=5m0s \
+                                --terminated-pod-gc-threshold=50 \
+                                --root-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --service-account-private-key-file=/etc/kubernetes/ssl/k8s-root-ca-key.pem \
+                                --feature-gates=RotateKubeletServerCertificate=true&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;scheduler&quot;&gt;scheduler&lt;/h5&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;###
+# kubernetes scheduler config
+
+# default config should be adequate
+
+# Add your own!
+KUBE_SCHEDULER_ARGS=&quot;   --address=0.0.0.0 \
+                        --leader-elect=true \
+                        --algorithm-provider=DefaultProvider&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;432-node-节点配置&quot;&gt;4.3.2 node 节点配置&lt;/h4&gt;
+&lt;p&gt;Node 节点上主要有 kubelet、kube-proxy 组件，用到的配置如下&lt;/p&gt;
+
+&lt;h5 id=&quot;kubelet&quot;&gt;kubelet&lt;/h5&gt;
+&lt;p&gt;kubeket 默认也开启了证书轮换能力以保证自动续签相关证书，同时增加了 –node-labels 选项为 node 打一个标签，关于这个标签最后部分会有讨论，如果在 master 上启动 kubelet，请将 node-role.kubernetes.io/k8s-node=true 修改为 node-role.kubernetes.io/k8s-master=true&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;###
+# kubernetes kubelet (minion) config
+# The address for the info server to serve on (set to 0.0.0.0 or &quot;&quot; for all interfaces)
+KUBELET_ADDRESS=&quot;--node-ip=192.168.2.219&quot;
+# The port for the info server to serve on
+# KUBELET_PORT=&quot;--port=10250&quot;
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME=&quot;--hostname-override=master219&quot;
+# location of the api-server
+# KUBELET_API_SERVER=&quot;&quot;
+# Add your own!
+KUBELET_ARGS=&quot;  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+                --cert-dir=/etc/kubernetes/ssl \
+                --cgroup-driver=cgroupfs \
+                --cluster-dns=10.254.0.2 \
+                --cluster-domain=cluster.local. \
+                --fail-swap-on=false \
+                --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true \
+                --node-labels=node-role.kubernetes.io/master=true \
+                --image-gc-high-threshold=70 \
+                --image-gc-low-threshold=50 \
+                --kube-reserved=cpu=500m,memory=512Mi,ephemeral-storage=1Gi \
+                --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
+                --system-reserved=cpu=1000m,memory=1024Mi,ephemeral-storage=1Gi \
+                --serialize-image-pulls=false \
+                --sync-frequency=30s \
+                --pod-infra-container-image=k8s.gcr.io/pause-amd64:3.0 \
+                --resolv-conf=/etc/resolv.conf \
+                --rotate-certificates&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;proxy&quot;&gt;proxy&lt;/h5&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;###
+# kubernetes proxy config
+# default config should be adequate
+# Add your own!
+KUBE_PROXY_ARGS=&quot;--bind-address=0.0.0.0 \
+                 --hostname-override=node219 \
+                 --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig \
+                 --cluster-cidr=10.254.0.0/16&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;44-启动-master-节点&quot;&gt;4.4 启动 Master 节点&lt;/h3&gt;
+&lt;p&gt;创建相关目录否则报错&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir /var/log/kube-audit
+mkdir /var/lib/kubelet
+mkdir /usr/libexec
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp -a conf /etc/kubernetes  
+cp systemd/*.service /lib/systemd/system
+systemctl daemon-reload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;对于 &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; 节点启动无需做过多处理，多个 &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; 只要保证 &lt;code class=&quot;highlighter-rouge&quot;&gt;apiserver&lt;/code&gt; 等配置中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;ip&lt;/code&gt; 地址监听没问题后直接启动即可&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl daemon-reload
+systemctl start kube-apiserver
+systemctl start kube-controller-manager
+systemctl start kube-scheduler
+systemctl enable kube-apiserver
+systemctl enable kube-controller-manager
+systemctl enable kube-scheduler
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;启动后:
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-get-cs.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;45-启动-node-节点&quot;&gt;4.5 启动 Node 节点&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;由于 HA 等功能需要，对于 Node 需要做一些处理才能启动，主要有以下两个地方需要处理&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;451-nginx-proxy-node节点部署&quot;&gt;4.5.1 nginx-proxy (node节点部署)&lt;/h4&gt;
+&lt;p&gt;在启动 kubelet、kube-proxy 服务之前，需要在本地启动 nginx 来 tcp 负载均衡 apiserver 6443 端口，nginx-proxy 使用 docker + systemd 启动，配置如下&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;nginx-proxy.service&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=kubernetes apiserver docker wrapper
+Wants=docker.socket
+After=docker.service
+
+[Service]
+User=root
+PermissionsStartOnly=true
+ExecStart=/usr/bin/docker run -p 127.0.0.1:6443:6443 \
+                              -v /etc/nginx:/etc/nginx \
+                              --name nginx-proxy \
+                              --net=host \
+                              --restart=on-failure:5 \
+                              --memory=512M \
+                              nginx:1.13.12-alpine
+ExecStartPre=-/usr/bin/docker rm -f nginx-proxy
+ExecStop=/usr/bin/docker stop nginx-proxy
+Restart=always
+RestartSec=15s
+TimeoutStartSec=30s
+
+[Install]
+WantedBy=multi-user.target
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;nginx.conf&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;error_log stderr notice;
+
+worker_processes auto;
+events {
+        multi_accept on;
+        use epoll;
+        worker_connections 1024;
+}
+
+stream {
+    upstream kube_apiserver {
+        least_conn;
+        server 192.168.2.219:6443; ## 多个master 依次配置即可
+        # server x.x.x.x:6443;
+    }
+
+    server {
+        listen        0.0.0.0:6443;
+        proxy_pass    kube_apiserver;
+        proxy_timeout 10m;
+        proxy_connect_timeout 1s;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;启动 apiserver 的本地负载均衡&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir /etc/nginx
+cp nginx.conf /etc/nginx
+cp nginx-proxy.service /lib/systemd/system
+
+systemctl daemon-reload
+systemctl start nginx-proxy
+systemctl enable nginx-proxy
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;452-tls-bootstrapping&quot;&gt;4.5.2 TLS bootstrapping&lt;/h4&gt;
+&lt;p&gt;创建好 nginx-proxy 后不要忘记为 TLS Bootstrap 创建相应的 RBAC 规则，这些规则能实现证自动签署 TLS Bootstrap 发出的 CSR 请求，从而实现证书轮换(创建一次即可);&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;tls-bootstrapping-clusterrole.yaml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# A ClusterRole which instructs the CSR approver to approve a node requesting a
+# serving cert matching its client cert.
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: system:certificates.k8s.io:certificatesigningrequests:selfnodeserver
+rules:
+- apiGroups: [&quot;certificates.k8s.io&quot;]
+  resources: [&quot;certificatesigningrequests/selfnodeserver&quot;]
+  verbs: [&quot;create&quot;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在 master 执行创建&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 给与 kubelet-bootstrap 用户进行 node-bootstrapper 的权限
+kubectl create clusterrolebinding kubelet-bootstrap \
+    --clusterrole=system:node-bootstrapper \
+    --user=kubelet-bootstrap
+
+kubectl create -f tls-bootstrapping-clusterrole.yaml
+
+# 自动批准 system:bootstrappers 组用户 TLS bootstrapping 首次申请证书的 CSR 请求
+kubectl create clusterrolebinding node-client-auto-approve-csr \
+        --clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient \
+        --group=system:bootstrappers
+
+# 自动批准 system:nodes 组用户更新 kubelet 自身与 apiserver 通讯证书的 CSR 请求
+kubectl create clusterrolebinding node-client-auto-renew-crt \
+        --clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeclient \
+        --group=system:nodes
+
+# 自动批准 system:nodes 组用户更新 kubelet 10250 api 端口证书的 CSR 请求
+kubectl create clusterrolebinding node-server-auto-renew-crt \
+        --clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeserver \
+        --group=system:nodes
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;453-启动&quot;&gt;4.5.3 启动&lt;/h4&gt;
+&lt;p&gt;多节点部署时先启动好 nginx-proxy，然后修改好相应配置的 ip 地址等配置，最终直接启动即可(master 上启动 kubelet 不要忘了修改 kubeconfig 中的 apiserver 地址，还有对应的 kubelet 的 node label)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl daemon-reload
+systemctl start kubelet
+systemctl start kube-proxy
+systemctl enable kubelet
+systemctl enable kube-proxy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;454-master-节点启动-kubelet&quot;&gt;4.5.4 master 节点启动 kubelet&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;注意: 对于在 master 节点启动 kubelet 来说，只需要修改 kubelet.kubeconfig、kube-proxy.kubeconfig 中的 apiserver 地址为当前 master ip 6443 端口即可&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# grep server kube-proxy.kubeconfig
+server: https://192.168.2.219:6443
+# grep server bootstrap.kubeconfig
+server: https://192.168.2.219:6443
+
+systemctl daemon-reload
+systemctl start kubelet
+systemctl start kube-proxy
+systemctl enable kubelet
+systemctl enable kube-proxy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;最终成功启动后:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-get-node.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;五-calico&quot;&gt;五. Calico&lt;/h2&gt;
+&lt;h3 id=&quot;51-修改calico-配置&quot;&gt;5.1 修改calico 配置&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#wget https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/calico.yaml -O calico.example.yaml
+
+ETCD_CERT=`cat /etc/etcd/ssl/etcd.pem | base64 | tr -d '\n'`
+ETCD_KEY=`cat /etc/etcd/ssl/etcd-key.pem | base64 | tr -d '\n'`
+ETCD_CA=`cat /etc/etcd/ssl/etcd-root-ca.pem | base64 | tr -d '\n'`
+ETCD_ENDPOINTS=&quot;https://192.168.2.219:2379,https://192.168.2.220:2379,https://192.168.2.221:2379&quot;
+
+cp calico.example.yaml calico.yaml
+
+sed -i &quot;s@.*etcd_endpoints:.*@\ \ etcd_endpoints:\ \&quot;${ETCD_ENDPOINTS}\&quot;@gi&quot; calico.yaml
+
+sed -i &quot;s@.*etcd-cert:.*@\ \ etcd-cert:\ ${ETCD_CERT}@gi&quot; calico.yaml
+sed -i &quot;s@.*etcd-key:.*@\ \ etcd-key:\ ${ETCD_KEY}@gi&quot; calico.yaml
+sed -i &quot;s@.*etcd-ca:.*@\ \ etcd-ca:\ ${ETCD_CA}@gi&quot; calico.yaml
+
+sed -i 's@.*etcd_ca:.*@\ \ etcd_ca:\ &quot;/calico-secrets/etcd-ca&quot;@gi' calico.yaml
+sed -i 's@.*etcd_cert:.*@\ \ etcd_cert:\ &quot;/calico-secrets/etcd-cert&quot;@gi' calico.yaml
+sed -i 's@.*etcd_key:.*@\ \ etcd_key:\ &quot;/calico-secrets/etcd-key&quot;@gi' calico.yaml
+
+# 注释掉 calico-node 部分(由 Systemd 接管)
+sed -i '123,219s@.*@#&amp;amp;@gi' calico.yaml
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;52-创建systemd-文件&quot;&gt;5.2 创建systemd 文件&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;需要在每个节点(master和node)执行&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;K8S_MASTER_IP=&quot;192.168.2.219&quot;
+HOSTNAME=`cat /etc/hostname`
+ETCD_ENDPOINTS=&quot;https://192.168.2.219:2379,https://192.168.2.220:2379,https://192.168.2.221:2379&quot;
+
+cat &amp;gt; /lib/systemd/system/calico-node.service &amp;lt;&amp;lt;EOF
+[Unit]
+Description=calico node
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=root
+Environment=ETCD_ENDPOINTS=${ETCD_ENDPOINTS}
+PermissionsStartOnly=true
+ExecStart=/usr/bin/docker run   --net=host --privileged --name=calico-node \\
+                                -e ETCD_ENDPOINTS=${ETCD_ENDPOINTS} \\
+                                -e ETCD_CA_CERT_FILE=/etc/etcd/ssl/etcd-root-ca.pem \\
+                                -e ETCD_CERT_FILE=/etc/etcd/ssl/etcd.pem \\
+                                -e ETCD_KEY_FILE=/etc/etcd/ssl/etcd-key.pem \\
+                                -e NODENAME=${HOSTNAME} \\
+                                -e IP= \\
+                                -e IP_AUTODETECTION_METHOD=can-reach=${K8S_MASTER_IP} \\
+                                -e AS=64512 \\
+                                -e CLUSTER_TYPE=k8s,bgp \\
+                                -e CALICO_IPV4POOL_CIDR=10.20.0.0/16 \\
+                                -e CALICO_IPV4POOL_IPIP=always \\
+                                -e CALICO_LIBNETWORK_ENABLED=true \\
+                                -e CALICO_NETWORKING_BACKEND=bird \\
+                                -e CALICO_DISABLE_FILE_LOGGING=true \\
+                                -e FELIX_IPV6SUPPORT=false \\
+                                -e FELIX_DEFAULTENDPOINTTOHOSTACTION=ACCEPT \\
+                                -e FELIX_LOGSEVERITYSCREEN=info \\
+                                -e FELIX_IPINIPMTU=1440 \\
+                                -e FELIX_HEALTHENABLED=true \\
+                                -e CALICO_K8S_NODE_REF=${HOSTNAME} \\
+                                -v /etc/calico/ssl:/etc/etcd/ssl \\
+                                -v /lib/modules:/lib/modules \\
+                                -v /var/lib/calico:/var/lib/calico \\
+                                -v /var/run/calico:/var/run/calico \\
+                                k8s.yfcloud.com/calico/node:v3.1.0
+ExecStop=/usr/bin/docker rm -f calico-node
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;对于以上脚本中的 K8S_MASTER_IP 变量，只需要填写一个 master ip 即可，这个变量用于 calico 自动选择 IP 使用；在宿主机有多张网卡的情况下，calcio node 会自动获取一个 IP，获取原则就是尝试是否能够联通这个 master ip&lt;/p&gt;
+
+&lt;p&gt;由于 calico 需要使用 etcd 存储数据，所以需要复制 etcd 证书到相关目录，/etc/calico 需要在每个节点都有&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp -r /etc/etcd/ssl /etc/calico
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;53-修改-kubelet-配置&quot;&gt;5.3 修改 kubelet 配置&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;使用 Calico 后需要修改 kubelet 配置增加 CNI 设置(–network-plugin=cni)，修改后配置如下&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;###
+# kubernetes kubelet (minion) config
+# The address for the info server to serve on (set to 0.0.0.0 or &quot;&quot; for all interfaces)
+KUBELET_ADDRESS=&quot;--node-ip=192.168.2.219&quot;
+# The port for the info server to serve on
+# KUBELET_PORT=&quot;--port=10250&quot;
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME=&quot;--hostname-override=master219&quot;
+# location of the api-server
+# KUBELET_API_SERVER=&quot;&quot;
+# Add your own!
+KUBELET_ARGS=&quot;  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+                --cert-dir=/etc/kubernetes/ssl \
+                --cgroup-driver=cgroupfs \
+                --cluster-dns=10.254.0.2 \
+                --network-plugin=cni \
+                --cluster-domain=cluster.local. \
+                --fail-swap-on=false \
+                --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true \
+                --node-labels=node-role.kubernetes.io/master=true \
+                --image-gc-high-threshold=70 \
+                --image-gc-low-threshold=50 \
+                --kube-reserved=cpu=500m,memory=512Mi,ephemeral-storage=1Gi \
+                --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
+                --system-reserved=cpu=1000m,memory=1024Mi,ephemeral-storage=1Gi \
+                --serialize-image-pulls=false \
+                --sync-frequency=30s \
+                --pod-infra-container-image=k8s.gcr.io/pause-amd64:3.0 \
+                --resolv-conf=/etc/resolv.conf \
+                --rotate-certificates&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;54-创建-calico-daemonset&quot;&gt;5.4 创建 Calico Daemonset&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 先创建 RBAC
+kubectl apply -f \
+https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/rbac.yaml
+
+# 再创建 Calico Daemonset
+kubectl create -f calico.yaml
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;55-启动-calico-node&quot;&gt;5.5 启动 Calico Node&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl daemon-reload
+systemctl restart calico-node
+systemctl enable calico-node
+
+# 等待 20s 拉取镜像, 可以提前将镜像拉取
+sleep 20
+systemctl restart kubelet
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;56-测试网络&quot;&gt;5.6 测试网络&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 创建 deployment
+cat &amp;lt;&amp;lt; EOF &amp;gt;&amp;gt; demo.deploy.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo
+        image: mritd/demo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+EOF
+kubectl create -f demo.deploy.yml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;测试结果&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master219 ~]# kubectl get pod -o wide
+NAME                             READY     STATUS    RESTARTS   AGE       IP             NODE
+demo-deployment-566fd7b7-fjg7p   1/1       Running   0          3d        10.20.211.67   node220
+demo-deployment-566fd7b7-qz5q2   1/1       Running   0          3d        10.20.237.5    master219
+demo-deployment-566fd7b7-zzqf9   1/1       Running   0          3d        10.20.206.3    node221
+[root@master219 ~]# kubectl exec -it demo-deployment-566fd7b7-fjg7p ping 10.20.206.3
+PING 10.20.206.3 (10.20.206.3): 56 data bytes
+64 bytes from 10.20.206.3: seq=0 ttl=62 time=0.431 ms
+64 bytes from 10.20.206.3: seq=1 ttl=62 time=0.257 ms
+64 bytes from 10.20.206.3: seq=2 ttl=62 time=0.246 ms
+64 bytes from 10.20.206.3: seq=3 ttl=62 time=0.337 ms
+^C
+--- 10.20.206.3 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max = 0.246/0.317/0.431 ms
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;六-部署dns&quot;&gt;六. 部署DNS&lt;/h2&gt;
+&lt;h3 id=&quot;61-修改配置文件&quot;&gt;6.1 修改配置文件&lt;/h3&gt;
+&lt;p&gt;将下载的 kubernetes-server-linux-amd64.tar.gz 解压后，再解压其中的 kubernetes-src.tar.gz 文件。
+coredns 对应的目录是：&lt;code class=&quot;highlighter-rouge&quot;&gt;cluster/addons/dns&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# diff coredns.yaml coredns.yaml.base
+61c61
+&amp;lt;         kubernetes cluster.local. in-addr.arpa ip6.arpa {
+---
+&amp;gt;         kubernetes __PILLAR__DNS__DOMAIN__ in-addr.arpa ip6.arpa {
+103c103
+&amp;lt;         image: k8s.yfcloud.com/k8s.gcr.io/coredns:1.0.6
+---
+&amp;gt;         image: k8s.gcr.io/coredns:1.0.6
+153c153
+&amp;lt;   clusterIP: 10.254.0.2
+---
+&amp;gt;   clusterIP: __PILLAR__DNS__SERVER__
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;62-检查coredns&quot;&gt;6.2 检查coredns&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl get pod -n kube-system  |grep dns
+coredns-787558c684-6tlwj                   1/1       Running   0          3d
+coredns-787558c684-t4h6j                   1/1       Running   0          3d
+
+# kubectl exec -it demo-deployment-566fd7b7-qz5q2 bash
+bash-4.4# nslookup kubernetes
+nslookup: can't resolve '(null)': Name does not resolve
+
+Name:      kubernetes
+Address 1: 10.254.0.1 kubernetes.default.svc.cluster.local
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;63-dns-自动扩容&quot;&gt;6.3 DNS 自动扩容&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.10.md#downloads-for-v11010&quot;&gt;下载源码文件&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;文件路径: kubernetes/kubernetes-src1.10.1/cluster/addons/dns-horizontal-autoscaler&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f dns-horizontal-autoscaler.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;七-dashboard&quot;&gt;七. Dashboard&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml -O kubernetes-dashboard.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;71-配置端口&quot;&gt;7.1 配置端口&lt;/h3&gt;
+
+&lt;p&gt;便于访问配置为: NodePort, 最后的修改部分如下&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ------------------- Dashboard Service ------------------- #
+
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard
+  namespace: kube-system
+spec:
+  type: NodePort
+  ports:
+    - name: dashboard-tls
+      port: 443
+      targetPort: 8443
+      nodePort: 30000
+      protocol: TCP
+  selector:
+    k8s-app: kubernetes-dashboard
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;执行 kubectl create -f kubernetes-dashboard.yaml 创建即可&lt;/p&gt;
+
+&lt;h3 id=&quot;72-创建admin-账户&quot;&gt;7.2 创建Admin 账户&lt;/h3&gt;
+
+&lt;p&gt;默认情况下部署成功后可以直接访问 https://NODE_IP:30000 访问，但是想要登录进去查看的话需要使用 kubeconfig 或者 access token 的方式；实际上这个就是 RBAC 授权控制，以下提供一个创建 admin access token 的脚本，更细节的权限控制比如只读用户可以参考&lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;kubectl get sa dashboard-admin &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system &amp;amp;&amp;gt; /dev/null&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[33mWARNING: ServiceAccount dashboard-admin exist!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[0m&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;else
+    &lt;/span&gt;kubectl create sa dashboard-admin &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system
+    kubectl create clusterrolebinding dashboard-admin &lt;span class=&quot;nt&quot;&gt;--clusterrole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;cluster-admin &lt;span class=&quot;nt&quot;&gt;--serviceaccount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-system:dashboard-admin
+&lt;span class=&quot;k&quot;&gt;fi
+
+&lt;/span&gt;kubectl describe secret &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;kubectl get secrets &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;dashboard-admin | cut &lt;span class=&quot;nt&quot;&gt;-f1&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;' '&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-E&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'^token'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;成功后访问如下(如果访问不了的话请检查下 iptable FORWARD 默认规则是否为 DROP，如果是将其改为 ACCEPT 即可)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-dashboard-sa.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-dashboard.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;八-部署-heapster&quot;&gt;八. 部署 heapster&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/kubernetes/heapster/blob/master/docs/influxdb.md&quot;&gt;官方说明&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;git clone https://github.com/kubernetes/heapster.git&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;81-grafana-nodeport&quot;&gt;8.1 grafana NodePort&lt;/h3&gt;
+&lt;p&gt;在&lt;a href=&quot;https://github.com/kubernetes/heapster/blob/master/docs/influxdb.md&quot;&gt;官方部署说明&lt;/a&gt;中已经有提示,需要将grafana改为NodePort 进而方可使用各节点IP:Port访问，下面列出修改后的配置&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;.... 省略上面部分 .....
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    # For use as a Cluster add-on (https://github.com/kubernetes/kubernetes/tree/master/cluster/addons)
+    # If you are NOT using this as an addon, you should comment out this line.
+    kubernetes.io/cluster-service: 'true'
+    kubernetes.io/name: monitoring-grafana
+  name: monitoring-grafana
+  namespace: kube-system
+spec:
+  # In a production setup, we recommend accessing Grafana through an external Loadbalancer
+  # or through a public IP.
+  # type: LoadBalancer
+  # You could also use NodePort to expose the service at a randomly-generated port
+  type: NodePort
+  ports:
+  - name: grafana-web  ## 自定义
+    port: 80
+    targetPort: 3000
+    nodePort: 30001 ## 30000-50000 自定义
+    protocol: TCP
+  selector:
+    k8s-app: grafana
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;82-执行部署&quot;&gt;8.2 执行部署&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f deploy/kube-config/influxdb/
+kubectl create -f deploy/kube-config/rbac/heapster-rbac.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;83-查看grafana&quot;&gt;8.3 查看grafana&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;面板需要自己手动添加&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-grafana.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;84-访问dashboard&quot;&gt;8.4 访问Dashboard&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;可以看到界面上面已经显示内存 CPU资源图表&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-dashboard-view01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;九-其他说明&quot;&gt;九. 其他说明:&lt;/h2&gt;
+&lt;h3 id=&quot;91-coredns&quot;&gt;9.1 coredns&lt;/h3&gt;
+
+&lt;p&gt;如果配置失败或者报错请检查 /etc/resolv.conf 域名解析配置&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat /etc/resolv.conf
+# Generated by NetworkManager
+#search lan
+#nameserver 192.168.1.1
+nameserver 223.5.5.5
+nameserver 8.8.8.8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;gcr-镜像被墙&quot;&gt;GCR 镜像被墙&lt;/h3&gt;
+&lt;p&gt;默认kubernetes 镜像被托管在Google仓库无法被正常获取,使用开源社区镜像仓库Pull 即可
+参考&lt;a href=&quot;https://www.jevic.cn/2018/05/25/mirror/&quot;&gt;GCR Google Container Registry 镜像&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;dashboard&quot;&gt;dashboard&lt;/h3&gt;
+&lt;p&gt;直接使用kubernetes-src 里面的yaml文件创建即可,记得修改NodePort&lt;/p&gt;
+
+&lt;h3 id=&quot;heapster&quot;&gt;heapster&lt;/h3&gt;
+&lt;p&gt;同样直接使用github 官方提供的说明配置即可, 其他部署方式都不靠谱&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">通读一遍在实际操作!!! 关于镜像请查看最后的补充说明 部署脚本查看仓库脚本</summary></entry><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
   &quot;order&quot;: 0,
@@ -440,7 +1901,7 @@ kube-scheduler-k1.master            1/1     Running            4          2d14h
 &lt;/blockquote&gt;
 
 &lt;p&gt;国内用户普遍使用互联网提供商 (ISP) 的宽带上网，具体访问流程如下图：
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/cdn_wx01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;用户终端访问 CDN 的过程分两个步骤;
@@ -460,11 +1921,11 @@ kube-scheduler-k1.master            1/1     Running            4          2d14h
 &lt;ul&gt;
   &lt;li&gt;
     &lt;p&gt;HttpDNS ：客户端基于 Http 协议向 CDN 服务商指定的 DNS 服务器发送域名解析请求，从而避免 LocalDNS 造成的域名劫持和跨网访问;
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/cdn_wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Http 302 跳转: CDN 厂商维护 CDN 域名 IP 库，根据用户访问终端的 IP 和 CDN 边缘节点的状态，选择最合适的 CDN 节点，发出 HTTP 的 302 返回码，将用户的请求跳转到合适的 CDN 边缘节点。例如腾讯的下载直通车就使用类似技术。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/cdn_wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -553,7 +2014,7 @@ kube-scheduler-k1.master            1/1     Running            4          2d14h
 &lt;h4 id=&quot;对比结果&quot;&gt;对比结果&lt;/h4&gt;
 
 &lt;p&gt;对十家 CDN 服务商进行打分，结果如下表：
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/cdn_wx05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;腾讯云和网宿科技得分最高，其它厂商各有优劣。 9 分以上的厂商占了前 50%，分别是腾讯云，网宿科技，阿里云，百度云蓝汛。后 50% 的厂商分数在 8-7 分之间。&lt;/p&gt;
 
@@ -564,24 +2025,24 @@ kube-scheduler-k1.master            1/1     Running            4          2d14h
 &lt;hr /&gt;
 
 &lt;p&gt;分布式系统（确切地说应该是分布式计算机系统）从它诞生到现在已经过去了很长的时间。在很久以前，一台电脑一次只能完成一项特定的任务。如果我们需要同时完成多项任务，则需要多台计算机并行运行。但是，并行运行并不足以构建真正的分布式系统，因为它需要一种机制来在不同计算机或者那些运行在计算机上的程序之间进行通信。这种在多台计算机之间交换 / 共享数据的需求催生了面向消息通信的想法，即两台计算机使用包含了数据的消息来共享数据。文件共享、数据库共享等其他机制当时还没有出现。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;接着，我们进入了多任务操作系统和个人电脑的时代。利用 Windows、Unix、Linux 等操作系统，我们可以在同一台计算机上运行多个任务。这使得分布式系统开发人员能够在一台或者几台通过消息传递连接的计算机内构建和运行整个分布式系统。这催生了面向服务的架构（SOA），其中每个分布式系统可以通过一组集成在一台计算机或多台计算机上运行的服务来构建。我们通过 WSDL（用于 SOAP 协议）或 WADL（用于 REST 协议）等语言适当地定义服务接口。接着，服务的使用者将利用这些接口来进行客户端的实现。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;随着计算能力和存储价格的降低，世界各地的组织都开始使用分布式系统和基于 SOA 的企业 IT 系统。但是，一旦服务或系统的数量增加，这些服务之间的点到点连接就不再是可扩展和可维护的了。这催生了集中式“服务总线”概念的产生。服务总线通过类似集线器的架构将所有系统连接在一起。这个组件被称为 ESB（企业服务总线）。它作为一个“语言”翻译者，就像一个中间人在帮助一群使用不同“语言”但希望相互通信的人进行沟通。在企业应用中，“语言”代表着在通信时不同系统的消息传递协议和消息格式。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这种模式工作得很好，即使在今天也能正常工作。随着万维网的普及和模型的简化，基于 REST 的通信比基于 SOAP 的通信模型变得更加流行。这促进了基于应用程序编程接口（API）的 REST 模型通信的发展。由于 REST 模型的简洁特性，我们需要在标准 REST API 实现之上实现安全（身份验证和授权）、缓存、流控和监控等各种类型的功能。但我们并不想独立地在每个 API 上实现这些功能，而是需要一个公共组件将这些功能应用于这些 API 之上。这样的需求催生了 API 管理平台的发展。现在，它已经成为了任何分布式系统的核心功能之一。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;随后，我们见证了分布式系统大爆炸的时代。Facebook、Google、Amazon、Netflix、LinkedIn、Twitter 等互联网公司变得异常庞大。他们开始想要构建跨越多个地理区域和多个数据中心的分布式系统。这样的需求使他们的技术焦点转向了一切开始的地方。工程师们开始思考单台计算机和单个程序的概念。他们不再把一台计算机当作一台计算机来看，而在同一台计算机内创建多台虚拟计算机。这催生了关于虚拟机的想法，即同一台计算机可以充当多台计算机并且全部并行运行。尽管这是一个还不错的主意，但在宿主计算机的资源利用方面，这并不是最好的选择。运行多个操作系统需要更多的资源，但在同一个操作系统里运行多个程序并不需要这些资源。&lt;/p&gt;
 
 &lt;p&gt;这些问题最终催生了关于容器技术的想法。容器只使用一个宿主操作系统（Linux）的内核，就可以运行多个程序并分别依赖于相互独立的运行时。这个概念在 Linux 操作系统上已经有一段时间了。随着基于容器技术的应用程序部署的普及，它变得更加流行并且有了很多改进和提升。容器可以像虚拟机一样工作，却不需要多一个操作系统的开销。您可以将应用程序和所有相关的依赖项放入容器镜像中。它便可以被放在任何可以运行容器的宿主操作系统中运行。Docker 和 Rocket 是两个热门的容器构建平台。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;容器技术为 Netflix、LinkedIn 和 Twitter 等组织提供了底层框架，用于构建他们要求苛刻的永远在线的多区域、多数据中心应用平台。但这并不意味着利用容器技术没有任何难点。基于容器的部署带来的轻量特性让跨多个容器的平台维护和编排变得非常复杂。随着微服务架构（MSA）的出现，单体式应用程序被分成更小块的微服务。这些微服务能够完成整个服务里的某一个特定功能并部署在容器中（在大多数情况下都可以）。这给分布式系统生态系统带来了一系列新的需求。要让系统最终保持一致，并且彼此之间没有太多复杂的通信。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp06.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这些新的需求最终帮助工程师们构建了一个容器编排系统。该系统可用于维护更大规模的容器部署的一致性。毋庸置疑的是，这个领域的顶尖技术来自 Google。因为它们的规模非常大。他们构建了名为“Kubernetes”（又名 k8s）的容器编排平台，并成为大规模容器编排需求的事实标准。k8s 让工程师可以：&lt;/p&gt;
 
@@ -593,7 +2054,7 @@ kube-scheduler-k1.master            1/1     Running            4          2d14h
 &lt;/ul&gt;
 
 &lt;p&gt;Kubernetes 和 Docker 让应用程序员的生活更加轻松。他们不用再考虑他们的应用在不同的环境（操作系统、开发环境、测试环境、生产环境等）下的不同表现。他构建的容器镜像在所有环境中运行表现几乎完全相同，因为所有依赖项都被打包到镜像中了。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/DS_wxp07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/DS_wxp07.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;但是，尽管我们有了容器和编排框架，我们仍然需要一个管理这些服务器的团队。这意味着数据中心需要使用像 Docker 和 Kubernetes 这样的技术进行管理，以确保它对于应用程序来说就像一个单台计算机一样。如果不是你自己来做这些事情，而是别人来为你管理这部分工作，这正是 serverless 架构所带来的便利。您的服务器将由第三方云提供商（如 Amazon（Lambda），Microsoft（Azure Functions）或 Google（Cloud Functions））进行管理。现在，分布式系统将由应用程序员进行编程，而基础设施管理将由云提供商完成。这是分布式系统发展的最新状态，并且会不断地发展下去。&lt;/p&gt;
 
@@ -735,7 +2196,7 @@ helm repo add incubator http://mirror.azure.cn/kubernetes/charts-incubator/
 &lt;h5 id=&quot;top&quot;&gt;top&lt;/h5&gt;
 
 &lt;p&gt;用到的第一个命令自然是 top，top 是 linux 里一个非常强大的命令，通过它基本上能看到系统中的所有指标。
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/docker-error-wx01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;上面是 top 命令运行时的一个示意图，比较重要的指标都已经标了出来：&lt;/p&gt;
 
@@ -762,7 +2223,7 @@ helm repo add incubator http://mirror.azure.cn/kubernetes/charts-incubator/
 &lt;p&gt;使用 top 命令查看了下系统情况，发现一切正常。load average 也不高，task 也不多，cpu 和内存都还很空闲，就连 IO 等待时间都很低，也没有哪个进程的 cpu 和内存使用率偏高，一切都很和谐，没有瓶颈！&lt;/p&gt;
 
 &lt;p&gt;当然，没有瓶颈是不可能的。由于我们的容器都是绑核的，所以很有可能是分配给容器的那些核是处于繁忙状态，而由于总核数较多，将 cpu 的使用率给拉了下来。于是又按下了“1”键，切换到详细模式下：
-&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/docker-error-wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;在这种模式下，可以看到每个 vcpu 的使用情况。一切依然很和谐，诡异的和谐。
 看来从 cpu 这块是看不出来什么了，那就继续看看是不是磁盘搞的鬼吧。&lt;/p&gt;
@@ -824,7 +2285,7 @@ helm repo add incubator http://mirror.azure.cn/kubernetes/charts-incubator/
 
 &lt;p&gt;/flamegraph.pl perf.folded &amp;gt; perf.svg&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://ok6h8mla5.bkt.clouddn.com/docker-error-wx03.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx03.png&quot; alt=&quot;&quot; /&gt;
 最后就能得到像下面这种样子的漂亮图片。通常情况下，如果程序中有一些函数占用了大量的 CPU 时间，则会在图片中以长横条的样式出现，表示该函数占用了大量的 CPU 时间。&lt;/p&gt;
 
 &lt;p&gt;然而，perf+ 火焰图在这次并没有起到太大的作用，反复统计了很多次，并没有出现梦寐以求的“长横条”，还是很和谐。&lt;/p&gt;
@@ -998,77 +2459,4 @@ helm repo add incubator http://mirror.azure.cn/kubernetes/charts-incubator/
 
 &lt;p&gt;Telekube 上的应用程序必须能够在 Kubernetes 容器中运行。他们还必须打包成“Bundle”，然后发布到 Kubernetes 集群中。在部署基于容器的应用程序之前，需要为捆绑做一些额外的工作，不过 Telekube 唯一留给用户的任务是维护 Bundle Manifest。&lt;/p&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">12 款最突出的 Kubernetes 产品，也就是整合了 Kubernetes 和容器工具的发行版。</summary></entry><entry><title type="html">Docker device or resource busy 问题</title><link href="http://0.0.0.0/2018/04/10/docker-device-or-resource-busy/" rel="alternate" type="text/html" title="Docker device or resource busy 问题" /><published>2018-04-10T20:09:12+08:00</published><updated>2018-04-10T20:09:12+08:00</updated><id>http://0.0.0.0/2018/04/10/docker-device-or-resource-busy</id><content type="html" xml:base="http://0.0.0.0/2018/04/10/docker-device-or-resource-busy/">&lt;h2 id=&quot;现象描述&quot;&gt;现象描述&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;查看容器发现 Dead 状态容器&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@node ~]# docker ps -a |grep Dead
-e0fdd4b75b7c        store.jevic.com/fileinject-agents/tcs:a35104a    &quot;/fileinject-agent...&quot;   28 hours ago        Dead                                             r-fileinject-agents-tcs-16-81cfe394
-7d7841c49c7b        store.jevic.com/fileinject-agents/ups:ebb7241    &quot;/fileinject-agent...&quot;   28 hours ago        Dead                                                                                       
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;查看系统挂载
-    &lt;ul&gt;
-      &lt;li&gt;此时有很多Dead 容器依然被挂载中&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@node ~]# df -h|grep docker
-overlay         415G   18G  398G   5% /var/lib/docker/overlay/93b1805f06dda8ae47b762465ca51ec27463fd715d08f91b25ca21ac074d8010/merged
-shm              64M     0   64M   0% /var/lib/docker/containers/420d6805eede457b88f0781f50d8744647d1cdcc535f40207259abdd68f6e31e/shm
-overlay         415G   18G  398G   5% /var/lib/docker/overlay/
-....... 此次省略......
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;删除容器&quot;&gt;删除容器&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@node ~]# docker rm -f 7d7841c49c7b
-Error response from daemon: driver &quot;overlay&quot; failed to remove root filesystem for 7d7841c49c7b4109756274020d93776ce615f0f512c4f21e05b3ac94371b0604: remove /var/lib/docker/overlay/80299696071d4181254a31052dfecea062201905f0b3187ae241575fbc7a059e/merged: device or resource busy
-
-提示: 设备正忙
-
-卸载重新删除
-[root@node ~]# umount var/lib/docker/overlay/80299696071d4181254a31052dfecea062201905f0b3187ae241575fbc7a059e/merged
-[root@node ~]# docker rm -f 7d7841c49c7b
-....
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;最后 重新docker ps 发现 容器已经被删除&lt;/p&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;对于有些应用容器 可能上述步骤依然无法删除掉容器;
-直接重启宿主机也可以恢复正常,当然根据实际情况来判断是否需要此操作毕竟会导致服务中断；
-这种Dead 状态的并不影响docker正常使用，所以可视情况执行操作；&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;问题原因&quot;&gt;问题原因&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;挂载点泄露实际上是 RHEL/CentOS 内核的一个 bug，目前预计会在 RHEL7.4 kernel 中修复。
-因此该问题理论上在 Fedora,ubuntu  等发行版本中是不存在的。
-目前在RHEL/CentOS下需要在 docker.service中增加MountFlags=slave来保证 mount namespace 是私有的，不会造成挂载点泄露。
-另外，挂载点泄露在各种 storage driver 中都存在，比如最常见的 devicemeppaer 和 overlay。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;但是，目前 RHEL/CentOS 版本下 MountFlags=slave 和 –live-restore 两个给力的参数不能同时存在。
-因为 MountFlags=slave 会导致 docker daemon 每次重启时私有挂载命名空间都会发生变化，而 –live-restore 又相当于使得容器持有了变化之前的旧的挂载点信息，因此，当重启 docker daemon 之后，执行 docker exec 试图进入容器时会报错值得一提的是，虽然无法进入容器，但是容器依旧工作正常并且 docker logs 也没问题。&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;对于生产环境，遇到 Device is busy 问题时，使用 docker rm -f [container] 后重新启动新的容器即可；
-对于新的机器，当前版本下为 docker.service 加上 MountFlags=slave 即可。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">现象描述 查看容器发现 Dead 状态容器</summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">12 款最突出的 Kubernetes 产品，也就是整合了 Kubernetes 和容器工具的发行版。</summary></entry></feed>

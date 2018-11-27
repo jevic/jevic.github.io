@@ -35,7 +35,7 @@ keys = [
 ```
 
 ### 模板
-![](http://ok6h8mla5.bkt.clouddn.com/etcd-confd-templates.jpg)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/etcd-confd-templates.jpg)
 
 
 ### 生成配置

@@ -42,12 +42,12 @@ Traefik 拥有一个基于AngularJS编写的简单网站界面。
 
 ## Rancher-Traefik 部署
 ### 添加节点主机标签
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-01-02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-01-02.png)
 ### 安装 Traefik 应用
 - 点击查看详情进入配置界面, http port 端口改为80,其他配置保持默认
 - 最后点击启动；
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-02.png)
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-03.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-03.png)
 #### 修改rancher 默认traefik.domain 
 >由于rancher提供的镜像默认traefik.domain 为: rancher.internal,需要修改为自己所使用的方可
 >如果服务指定了 traefik.frontend.rule = Host:xxxx.com 标签,则会使用自定义前端域名访问
@@ -55,24 +55,24 @@ Traefik 拥有一个基于AngularJS编写的简单网站界面。
 
 - 方式一：
     - 升级服务 加入环境变量: TRAEFIK_RANCHER_DOMAIN = jevic.cn
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-20.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-20.png)
 
 - 方式二:
     - 直接基于社区Dockerfile 修改域名
     - https://github.com/rawmind0/alpine-traefik.git
     - 路径: alpine-traefik/root/opt/traefik/bin/traefik.toml.sh
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-21.png)
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-22.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-21.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-22.png)
 
 - 进入 应用|用户 视图,查看应用；
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-04.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-04.png)
 - 此时可以访问 Traefik_host:8000 管理后台
 
 ### 运行 demo 示例
 - 新建一个名为 demo 的空应用栈；
 - 在 demo 中添加一个名为 nginx 的服务
 - Traefik默认强制开启健康检查，所有只有健康的服务才会被注册到Traefik上。在健康检查中配置健康检查
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-05.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-05.png)
 
 #### 标签设定
 ##### 默认标签设置
@@ -84,7 +84,7 @@ Traefik 拥有一个基于AngularJS编写的简单网站界面。
 - traefik.alias = nginx 服务别名，可以理解为主域名下的二级域名，可以设置多个用逗号隔开；
 - traefik.port = 80 告诉traefik 服务暴露的端口号；
 
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-06.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-06.png)
 
 - 此时 Traefik管理后台 显示的前端访问域名为:
 
@@ -92,20 +92,20 @@ Traefik 拥有一个基于AngularJS编写的简单网站界面。
 http://${service_name}.${stack_name}.${traefik.domain}:${http_port}
 https://${service_name}.${stack_name}.${traefik.domain}:${https_port}
 ```
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-07.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-07.png)
 
 ##### 自定义前端Host [建议使用此方式]
 - traefik.frontend.rule = Host:ops.jevic.cn 直接定义前端访问域名,多个使用','分割
 - traefik.port = 80
 - traefik.enable = true
 
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-06-2.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-06-2.png)
 
 - 前端访问域名:
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-07-02.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-07-02.png)
 
 #### 最终,应用栈如下所示
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-11.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-11.png)
 
 ### 访问测试
 - 如上面图示，控制台显示了当前前端访问host 域名以及后端的节点状态
@@ -113,12 +113,12 @@ https://${service_name}.${stack_name}.${traefik.domain}:${https_port}
     - app.jevic.cn
     - ops.jevic.cn
     - nginx.demo.jevic.cn
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-13.png)
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-12.png)
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-09.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-13.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-12.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-09.png)
 
 - http://192.168.3.27:8000/dashboard/#/health
-![](http://ok6h8mla5.bkt.clouddn.com/traefik-demo-10.png)
+![](https://raw.githubusercontent.com/jevic/images/master/docker/traefik-demo-10.png)
 
 
 ### 参考链接

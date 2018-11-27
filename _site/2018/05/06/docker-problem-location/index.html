@@ -142,7 +142,7 @@
 <h5 id="top">top</h5>
 
 <p>用到的第一个命令自然是 top，top 是 linux 里一个非常强大的命令，通过它基本上能看到系统中的所有指标。
-<img src="http://ok6h8mla5.bkt.clouddn.com/docker-error-wx01.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx01.png" alt="" /></p>
 
 <p>上面是 top 命令运行时的一个示意图，比较重要的指标都已经标了出来：</p>
 
@@ -169,7 +169,7 @@
 <p>使用 top 命令查看了下系统情况，发现一切正常。load average 也不高，task 也不多，cpu 和内存都还很空闲，就连 IO 等待时间都很低，也没有哪个进程的 cpu 和内存使用率偏高，一切都很和谐，没有瓶颈！</p>
 
 <p>当然，没有瓶颈是不可能的。由于我们的容器都是绑核的，所以很有可能是分配给容器的那些核是处于繁忙状态，而由于总核数较多，将 cpu 的使用率给拉了下来。于是又按下了“1”键，切换到详细模式下：
-<img src="http://ok6h8mla5.bkt.clouddn.com/docker-error-wx02.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx02.png" alt="" /></p>
 
 <p>在这种模式下，可以看到每个 vcpu 的使用情况。一切依然很和谐，诡异的和谐。
 看来从 cpu 这块是看不出来什么了，那就继续看看是不是磁盘搞的鬼吧。</p>
@@ -231,7 +231,7 @@
 
 <p>/flamegraph.pl perf.folded &gt; perf.svg</p>
 
-<p><img src="http://ok6h8mla5.bkt.clouddn.com/docker-error-wx03.png" alt="" />
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx03.png" alt="" />
 最后就能得到像下面这种样子的漂亮图片。通常情况下，如果程序中有一些函数占用了大量的 CPU 时间，则会在图片中以长横条的样式出现，表示该函数占用了大量的 CPU 时间。</p>
 
 <p>然而，perf+ 火焰图在这次并没有起到太大的作用，反复统计了很多次，并没有出现梦寐以求的“长横条”，还是很和谐。</p>
