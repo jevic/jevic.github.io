@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-23T16:46:17+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-27T12:11:05+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
   &lt;ul&gt;
     &lt;li&gt;在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档,
       &lt;ul&gt;
@@ -644,7 +644,85 @@ DelConf&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">动态调整kafka 数据保存时间,清理过期数据!!</summary></entry><entry><title type="html">docker 问题定位记述</title><link href="http://0.0.0.0/2018/05/06/docker-problem-location/" rel="alternate" type="text/html" title="docker 问题定位记述" /><published>2018-05-06T17:56:26+08:00</published><updated>2018-05-06T17:56:26+08:00</updated><id>http://0.0.0.0/2018/05/06/docker-problem-location</id><content type="html" xml:base="http://0.0.0.0/2018/05/06/docker-problem-location/">&lt;blockquote&gt;
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">动态调整kafka 数据保存时间,清理过期数据!!</summary></entry><entry><title type="html">mirrors 国内镜像站</title><link href="http://0.0.0.0/2018/05/25/mirror/" rel="alternate" type="text/html" title="mirrors 国内镜像站" /><published>2018-05-25T16:42:16+08:00</published><updated>2018-05-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/05/25/mirror</id><content type="html" xml:base="http://0.0.0.0/2018/05/25/mirror/">&lt;h2 id=&quot;开源镜像站点&quot;&gt;开源镜像站点&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://mirrors.163.com/&quot;&gt;网易开源镜像站&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://opsx.alibaba.com/mirror&quot;&gt;阿里云开源镜像站&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://mirror.azure.cn/&quot;&gt;开源社区镜像站&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://mirror.tuna.tsinghua.edu.cn/&quot;&gt;清华大学开源镜像站&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;docker-镜像加速器&quot;&gt;docker 镜像加速器&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;daocloud: https://www.daocloud.io/mirror&lt;/li&gt;
+  &lt;li&gt;阿里云: https://yq.aliyun.com/articles/29941&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;gcrgoogle-container-registry镜像&quot;&gt;GCR（Google Container Registry）镜像&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;开源社区镜像: https://gcr.akscn.io/google_containers​&lt;/li&gt;
+  &lt;li&gt;阿里云镜像: https://dev.aliyun.com/search.html&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;阿里云镜像比较废材,版本都没有更新,所以这里使用开源社区镜像提供的即可。
+在部署kubernetes时,通常所有用到的镜像都可以在&lt;code class=&quot;highlighter-rouge&quot;&gt;gcr.akscn.io/google_containers&lt;/code&gt; 项目中 直接pull到本地
+修改标签即可或者直接修改yaml 文件中指定的镜像名称为本地镜像名称以便使用。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;使用示例:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker pull gcr.akscn.io/google_containers/kubernetes-dashboard-amd64:v1.10.0
+docker pull gcr.akscn.io/google_containers/pause-amd64:3.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Pull&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# docker images|grep google
+gcr.akscn.io/google_containers/heapster-amd64                          v1.5.4              72d68eecf40c        4 months ago        75.3MB
+gcr.akscn.io/google_containers/heapster-influxdb-amd64                 v1.5.2              eb180058aee0        4 months ago        16.5MB
+gcr.akscn.io/google_containers/heapster-grafana-amd64                  v5.0.4              25e1da333f76        4 months ago        171MB
+gcr.akscn.io/google_containers/coredns                                 1.0.6               d4b7466213fe        9 months ago        39.9MB
+gcr.akscn.io/google_containers/kubernetes-dashboard-amd64              v1.8.3              0c60bcf89900        9 months ago        102MB
+gcr.akscn.io/google_containers/cluster-proportional-autoscaler-amd64   1.1.2-r2            7d892ca550df        17 months ago       49.6MB
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;kubernetes-rpmdeb镜像&quot;&gt;Kubernetes RPM/DEB镜像&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;阿里云镜像&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;示例:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# CentOS
+cat &amp;lt;&amp;lt;EOF &amp;gt; /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF
+​
+# Ubuntu
+cat &amp;lt;&amp;lt;EOF &amp;gt;/etc/apt/sources.list.d/kubernetes.list
+deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;helm-charts-镜像&quot;&gt;Helm Charts 镜像&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Helm: http://mirror.azure.cn/kubernetes/helm/​&lt;/li&gt;
+  &lt;li&gt;Stable Charts: http://mirror.azure.cn/kubernetes/charts/​&lt;/li&gt;
+  &lt;li&gt;Incubator Charts: http://mirror.azure.cn/kubernetes/charts-incubator/​&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo add stable http://mirror.azure.cn/kubernetes/charts/
+helm repo add incubator http://mirror.azure.cn/kubernetes/charts-incubator/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">开源镜像站点 网易开源镜像站 阿里云开源镜像站 开源社区镜像站 清华大学开源镜像站</summary></entry><entry><title type="html">docker 问题定位记述</title><link href="http://0.0.0.0/2018/05/06/docker-problem-location/" rel="alternate" type="text/html" title="docker 问题定位记述" /><published>2018-05-06T17:56:26+08:00</published><updated>2018-05-06T17:56:26+08:00</updated><id>http://0.0.0.0/2018/05/06/docker-problem-location</id><content type="html" xml:base="http://0.0.0.0/2018/05/06/docker-problem-location/">&lt;blockquote&gt;
   &lt;p&gt;性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -993,163 +1071,4 @@ Error response from daemon: driver &quot;overlay&quot; failed to remove root fil
 对于新的机器，当前版本下为 docker.service 加上 MountFlags=slave 即可。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">现象描述 查看容器发现 Dead 状态容器</summary></entry><entry><title type="html">shadowsocks 翻墙</title><link href="http://0.0.0.0/2018/03/19/shadowsock/" rel="alternate" type="text/html" title="shadowsocks 翻墙" /><published>2018-03-19T16:41:59+08:00</published><updated>2018-03-19T16:41:59+08:00</updated><id>http://0.0.0.0/2018/03/19/shadowsock</id><content type="html" xml:base="http://0.0.0.0/2018/03/19/shadowsock/">&lt;blockquote&gt;
-  &lt;p&gt;国外一台机器配置了shadowsocks,以此进行科学上网&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;server-端配置&quot;&gt;Server 端配置&lt;/h2&gt;
-&lt;h3 id=&quot;一键安装脚本&quot;&gt;一键安装脚本&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget --no-check-certificate -O shadowsocks-go.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-go.sh
-chmod +x shadowsocks-go.sh
-./shadowsocks-go.sh 2&amp;gt;&amp;amp;1 | tee shadowsocks-go.log
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;配置文件
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vim /etc/shadowsocks/config.json
-{
-  &quot;server&quot;:&quot;0.0.0.0&quot;,
-  &quot;server_port&quot;:xxxx,
-  &quot;local_port&quot;:1080,
-  &quot;password&quot;:&quot;xxxxx&quot;,
-  &quot;method&quot;:&quot;aes-256-cfb&quot;,
-  &quot;timeout&quot;:600
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;启动
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/init.d/shadowsocks start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;卸载&quot;&gt;卸载&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./shadowsocks-go.sh uninstall
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;客户端&quot;&gt;客户端&lt;/h2&gt;
-&lt;h3 id=&quot;windows-客户端&quot;&gt;Windows 客户端&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;https://github.com/shadowsocks/shadowsocks-windows/releases&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;linux-客户端配置&quot;&gt;Linux 客户端配置&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;安装 扩展源,pip
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install epel-relase
-yum install python-pip
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;安装shadowsocks&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install shadowsocks
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;添加连接配置&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;默认没有配置文件需要手动添加&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vim /etc/shadowsocks/shadowsocks.json
-{
-    &quot;server&quot;:&quot;x.x.x.x&quot;, ## 服务端IP
-    &quot;server_port&quot;:xxxx, ## 服务端口
-    &quot;local_address&quot;: &quot;127.0.0.1&quot;, ## 0.0.0.0
-    &quot;local_port&quot;:1080,
-    &quot;password&quot;:&quot;xxxx&quot;,
-    &quot;method&quot;:&quot;aes-256-cfb&quot;,
-    &quot;timeout&quot;:600
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;启动文件
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat &amp;gt; /lib/systemd/system/shadowsocks.service&amp;lt;&amp;lt;EOF
-[Unit]
-Description=Shadowsocks
-[Service]
-TimeoutStartSec=0
-ExecStart=/usr/bin/sslocal -c /etc/shadowsocks/shadowsocks.json
-[Install]
-WantedBy=multi-user.target
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;启动管理
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl daemon-reload
-systemctl start shadowsocks
-systemctl enable shadowsocks
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;测试连接&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# curl --socks5 127.0.0.1:1080 http://httpbin.org/ip
-{
-  &quot;origin&quot;: &quot;x.x.x.x&quot;  ## 返回你的服务器地址,状态ok
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;privoxy&quot;&gt;Privoxy&lt;/h3&gt;
-&lt;h4 id=&quot;安装&quot;&gt;安装&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y privoxy
-systemctl enable privoxy
-systemctl start privoxy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;修改配置文件&quot;&gt;修改配置文件&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# tail -n 1 /etc/privoxy/config
-forward-socks5t / 127.0.0.1:1080 .
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;配置环境变量&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# vim /etc/profile
-PROXY_HOST=127.0.0.1
-export all_proxy=http://$PROXY_HOST:8118 ## privoxy 默认端口8118
-export ftp_proxy=http://$PROXY_HOST:8118
-export http_proxy=http://$PROXY_HOST:8118
-export https_proxy=http://$PROXY_HOST:8118
-export no_proxy=localhost,172.16.0.0/16,192.168.0.0/16.,127.0.0.1,10.10.0.0/16
-
-[root@master218 ~]# source /etc/profile
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;测试连接&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master218 ~]# curl -I www.google.com
-HTTP/1.1 200 OK
-......
-Accept-Ranges: none
-Vary: Accept-Encoding
-Proxy-Connection: keep-alive
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;取消代理&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;while read var; do unset $var; done &amp;lt; &amp;lt;(env | grep -i proxy | awk -F= '{print $1}')
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;参考链接:&lt;/p&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;https://teddysun.com/392.html&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">国外一台机器配置了shadowsocks,以此进行科学上网</summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">现象描述 查看容器发现 Dead 状态容器</summary></entry></feed>

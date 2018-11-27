@@ -36,6 +36,12 @@
     "category": "Kafka"
   },
   
+  "2018-05-25-mirror": {
+    "title": "mirrors 国内镜像站",
+    "url": " /2018/05/25/mirror/",
+    "category": "Docker"
+  },
+  
   "2018-05-06-docker-problem-location": {
     "title": "docker 问题定位记述",
     "url": " /2018/05/06/docker-problem-location/",
@@ -566,6 +572,12 @@
     "title": "docker 问题定位记述",
     "url": "/2018/05/06/docker-problem-location/",
     "category": "[&quot;Docker&quot;]"
+  },
+  
+  "2018-05-25-mirror": {
+    "title": "mirrors 国内镜像站",
+    "url": "/2018/05/25/mirror/",
+    "category": "[&quot;Docker&quot;, &quot;Kubernetes&quot;]"
   },
   
   "2018-06-07-kafka-data-clear": {
