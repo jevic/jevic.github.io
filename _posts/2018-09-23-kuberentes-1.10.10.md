@@ -1264,7 +1264,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: mritd/demo
+        image: jevic/demo
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
