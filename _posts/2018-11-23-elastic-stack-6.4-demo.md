@@ -1,7 +1,7 @@
 ---
 layout: post
 categories: ELK
-title: elastic staick 6.4数据探索可视化 Demo
+title: Elastic Stack 6.4数据探索可视化 Demo
 date: 2018-11-23 19:56:06 +0800
 description: elk,elasticsearch
 keywords: es,kibana
