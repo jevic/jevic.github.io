@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-27T16:42:21+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-28T10:03:01+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">elastic-stack 6.5</title><link href="http://0.0.0.0/2018/11/22/elastic-stack-6.5/" rel="alternate" type="text/html" title="elastic-stack 6.5" /><published>2018-11-22T19:56:06+08:00</published><updated>2018-11-22T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/22/elastic-stack-6.5</id><content type="html" xml:base="http://0.0.0.0/2018/11/22/elastic-stack-6.5/">&lt;blockquote&gt;
   &lt;ul&gt;
     &lt;li&gt;在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档,
       &lt;ul&gt;
@@ -490,8 +490,13 @@ postinstall
 &lt;p&gt;创建对应目录以及相关文件，保存 install.sh 脚本;将整个目录同步到各个节点执行即可；
 然后在各个节点修改对应的etcd 名称及IP即可；&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start etcd  ## 三个节点同时执行此操作否则单个启动会卡死在那里
-[root@master219 mnt]# cmd systemctl enable  ## 使用前面配置的cmd 命令批量执行
+&lt;ul&gt;
+  &lt;li&gt;注意:三个节点同时执行此操作否则单个启动会卡死在那里;&lt;/li&gt;
+  &lt;li&gt;使用前面配置的&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd&lt;/code&gt; 命令批量执行&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# systemctl start etcd
+# cmd systemctl enable etcd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export ETCDCTL_API=3
@@ -2332,9 +2337,7 @@ helm repo add incubator http://mirror.azure.cn/kubernetes/charts-incubator/
 
 &lt;h5 id=&quot;nsenter&quot;&gt;nsenter&lt;/h5&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;nsenter 是一个 namespace 相关的工具，通过它可以进入某个进程所在的 namespace。在 docker exec 命令出现之前，它唯一一个可以进入 docker 容器的工具，在 docker exec 出现之后，nsenter 也由于其可以选择进入哪些 namespace 而成为 docker 问题定位的一个极其重要的工具。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;nsenter 是一个 namespace 相关的工具，通过它可以进入某个进程所在的 namespace。在 docker exec 命令出现之前，它唯一一个可以进入 docker 容器的工具，在 docker exec 出现之后，nsenter 也由于其可以选择进入哪些 namespace 而成为 docker 问题定位的一个极其重要的工具。&lt;/p&gt;
 
 &lt;p&gt;通过如下命令，即可进入容器所在的 mount namespace。&lt;/p&gt;
 

@@ -144,7 +144,7 @@ cgexec -g *:/system.slice/docker-03c2dd57ba123879abab6f7b6da5192a127840534990c51
 
 ##### nsenter
 
->nsenter 是一个 namespace 相关的工具，通过它可以进入某个进程所在的 namespace。在 docker exec 命令出现之前，它唯一一个可以进入 docker 容器的工具，在 docker exec 出现之后，nsenter 也由于其可以选择进入哪些 namespace 而成为 docker 问题定位的一个极其重要的工具。
+nsenter 是一个 namespace 相关的工具，通过它可以进入某个进程所在的 namespace。在 docker exec 命令出现之前，它唯一一个可以进入 docker 容器的工具，在 docker exec 出现之后，nsenter 也由于其可以选择进入哪些 namespace 而成为 docker 问题定位的一个极其重要的工具。
 
 通过如下命令，即可进入容器所在的 mount namespace。
 

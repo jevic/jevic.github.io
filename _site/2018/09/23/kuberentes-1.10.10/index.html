@@ -509,8 +509,13 @@ postinstall
 <p>创建对应目录以及相关文件，保存 install.sh 脚本;将整个目录同步到各个节点执行即可；
 然后在各个节点修改对应的etcd 名称及IP即可；</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start etcd  ## 三个节点同时执行此操作否则单个启动会卡死在那里
-[root@master219 mnt]# cmd systemctl enable  ## 使用前面配置的cmd 命令批量执行
+<ul>
+  <li>注意:三个节点同时执行此操作否则单个启动会卡死在那里;</li>
+  <li>使用前面配置的<code class="highlighter-rouge">cmd</code> 命令批量执行</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># systemctl start etcd
+# cmd systemctl enable etcd
 </code></pre></div></div>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export ETCDCTL_API=3

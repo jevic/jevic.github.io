@@ -350,9 +350,12 @@ etcd/
 创建对应目录以及相关文件，保存 install.sh 脚本;将整个目录同步到各个节点执行即可；
 然后在各个节点修改对应的etcd 名称及IP即可；
 
+- 注意:三个节点同时执行此操作否则单个启动会卡死在那里;
+- 使用前面配置的`cmd` 命令批量执行
+
 ```
-systemctl start etcd  ## 三个节点同时执行此操作否则单个启动会卡死在那里
-[root@master219 mnt]# cmd systemctl enable  ## 使用前面配置的cmd 命令批量执行
+# systemctl start etcd
+# cmd systemctl enable etcd
 ```
 
 ```
@@ -363,8 +366,6 @@ https://192.168.2.221:2379 is healthy: successfully committed proposal: took = 2
 https://192.168.2.219:2379 is healthy: successfully committed proposal: took = 1.421477ms
 https://192.168.2.220:2379 is healthy: successfully committed proposal: took = 2.222464ms
 ```
-
-
 
 
 ## 四. kubernetes
