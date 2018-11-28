@@ -168,6 +168,10 @@ $LOGSTAH_PATH/bin/logstash -f testnginxlog.conf --log.level=info --path.data=/tm
 >在 elasticsearch 2.x 版本，字符串数据只有string类型
 更新到5.x版本后，取消了string 数据类型，代替它的是 keyword 和 text 数据类型
 
+- Mapping 类似数据库中的表结构定义,主要作用如下:
+	- 定义index 下的字段名(Field Name)
+	- 定义字段的类型,比如: 数值型、字符串型、布尔型等
+	- 定义倒排索引相关配置,比如是否索引、记录position等
 
 >默认: "key":"value" 格式的都默认为text类型
 >而对于"key": value 格式的会根据数值类型进行格式匹配

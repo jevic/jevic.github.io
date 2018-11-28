@@ -299,6 +299,16 @@ $LOGSTAH_PATH/bin/logstash -f testnginxlog.conf --log.level=info --path.data=/tm
 更新到5.x版本后，取消了string 数据类型，代替它的是 keyword 和 text 数据类型</p>
 </blockquote>
 
+<ul>
+  <li>Mapping 类似数据库中的表结构定义,主要作用如下:
+    <ul>
+      <li>定义index 下的字段名(Field Name)</li>
+      <li>定义字段的类型,比如: 数值型、字符串型、布尔型等</li>
+      <li>定义倒排索引相关配置,比如是否索引、记录position等</li>
+    </ul>
+  </li>
+</ul>
+
 <blockquote>
   <p>默认: “key”:”value” 格式的都默认为text类型
 而对于”key”: value 格式的会根据数值类型进行格式匹配</p>
