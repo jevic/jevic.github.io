@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-28T19:50:45+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-28T20:16:22+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
   &lt;p&gt;基础安装配置请参考官网或者&lt;a href=&quot;https://www.jevic.cn/categories/#ELK&quot;&gt;ELK 分类&lt;/a&gt;下其他教程示例&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -81,6 +81,7 @@
   },
   &quot;mappings&quot;: {
     &quot;doc&quot;: {
+    &quot;dynamic&quot;:true,
       &quot;properties&quot;: {
         &quot;clientip&quot;: {
           &quot;type&quot;: &quot;ip&quot;
@@ -98,7 +99,8 @@
           &quot;type&quot;: &quot;long&quot;
         },
         &quot;upstreamtime&quot;: {
-          &quot;type&quot;: &quot;float&quot;
+          &quot;type&quot;: &quot;float&quot;,
+          &quot;index&quot;: false
         }
       }
     }
@@ -106,6 +108,23 @@
   &quot;aliases&quot;: {}
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;通过dynamic 参数来控制字段的新增
+    &lt;ul&gt;
+      &lt;li&gt;true(默认) 允许自动新增字段&lt;/li&gt;
+      &lt;li&gt;false 不允许新增字段,但文档可以正常写入,但无法对字段进行查询等操作&lt;/li&gt;
+      &lt;li&gt;strict 文档不能写入,报错&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;index
+    &lt;ul&gt;
+      &lt;li&gt;控制当前字段是否索引,默认为true,记录索引,false不记录,不可搜索&lt;/li&gt;
+      &lt;li&gt;当索引的某些字段不需要被查询搜索时可标记index 为false,以此来减少存储空间(没有倒排索引)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elasticsearch-template02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;logstash&quot;&gt;logstash&lt;/h2&gt;

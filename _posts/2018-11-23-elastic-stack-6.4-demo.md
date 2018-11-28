@@ -85,6 +85,7 @@ http {
   },
   "mappings": {
     "doc": {
+    "dynamic":true,
       "properties": {
         "clientip": {
           "type": "ip"
@@ -102,7 +103,8 @@ http {
           "type": "long"
         },
         "upstreamtime": {
-          "type": "float"
+          "type": "float",
+          "index": false
         }
       }
     }
@@ -110,6 +112,16 @@ http {
   "aliases": {}
 }
 ```
+
+- 通过dynamic 参数来控制字段的新增
+	- true(默认) 允许自动新增字段
+	- false 不允许新增字段,但文档可以正常写入,但无法对字段进行查询等操作
+	- strict 文档不能写入,报错
+
+- index
+	- 控制当前字段是否索引,默认为true,记录索引,false不记录,不可搜索
+	- 当索引的某些字段不需要被查询搜索时可标记index 为false,以此来减少存储空间(没有倒排索引)
+
 ![](https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elasticsearch-template02.png)
 
 ## logstash
