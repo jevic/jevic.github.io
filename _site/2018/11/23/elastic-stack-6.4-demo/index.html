@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>elastic staick 6.4数据探索可视化 Demo &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/11/23/elastic-stack-6.4-demo/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="elastic staick 6.4数据探索可视化 Demo">
+      
+    <meta name="keywords" content="es,kibana">
+    <meta name="og:keywords" content="es,kibana">
+      
+    <meta name="description" content="  基础安装配置请参考官网或者ELK 分类下其他教程示例">
+    <meta name="og:description" content="  基础安装配置请参考官网或者ELK 分类下其他教程示例">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/11/23/elastic-stack-6.4-demo/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-11-23">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="elastic staick ">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">elastic staick 6.4数据探索可视化 Demo</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/11/23
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>基础安装配置请参考官网或者<a href="https://www.jevic.cn/categories/#ELK">ELK 分类</a>下其他教程示例</p>
+</blockquote>
+
+<h2 id="nginx">nginx</h2>
+<ul>
+  <li>nginx.conf</li>
+</ul>
+
+<p>指定日志格式如下:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    log_format jsonTest '{"@timestamp":"$time_iso8601",'
+                  '"host":"$server_addr",'
+                  '"service":"nginxTest",'
+                  '"trace":"$upstream_http_ctx_transaction_id",'
+                  '"log":"log",'
+                  '"clientip":"$remote_addr",'
+                  '"remote_user":"$remote_user",'
+                  '"request":"$request",'
+                  '"http_user_agent":"$http_user_agent",'
+                  '"size":$body_bytes_sent,'
+                  '"responsetime":$request_time,'
+                  '"upstreamtime":"$upstream_response_time",'
+                  '"upstreamhost":"$upstream_addr",'
+                  '"http_host":"$host",'
+                  '"url":"$uri",'
+                  '"domain":"$host",'
+                  '"xff":"$http_x_forwarded_for",'
+                  '"referer":"$http_referer",'
+                  '"status":"$status"}';
+
+    access_log  /var/log/nginx/access.log  jsonTest;
+</code></pre></div></div>
+<h2 id="elasticsearch">elasticsearch</h2>
+<h3 id="模板配置">模板配置</h3>
+
+<h4 id="template01">template01</h4>
+<ul>
+  <li>没有配置mapping 不指定字段类型</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "order": 0,
+  "index_patterns": [
+    "nginxlog-*"
+  ],
+  "settings": {
+    "index": {
+      "refresh_interval": "60s",
+      "number_of_shards": "1",
+      "auto_expand_replicas": "0-1",
+      "number_of_replicas": "1"
+    }
+  },
+  "mappings": {},
+  "aliases": {}
+}
+</code></pre></div></div>
+
+<h4 id="template02">template02</h4>
+<ul>
+  <li>配置mapping 指定字段类型</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "order": 0,
+  "index_patterns": [
+    "testnginxlog-*"
+  ],
+  "settings": {
+    "index": {
+      "number_of_shards": "1",
+      "auto_expand_replicas": "0-1",
+      "refresh_interval": "60s"
+    }
+  },
+  "mappings": {
+    "doc": {
+      "properties": {
+        "clientip": {
+          "type": "ip"
+        },
+        "host": {
+          "type": "ip"
+        },
+        "responsetime": {
+          "type": "float"
+        },
+        "size": {
+          "type": "long"
+        },
+        "status": {
+          "type": "long"
+        },
+        "upstreamtime": {
+          "type": "float"
+        }
+      }
+    }
+  },
+  "aliases": {}
+}
+</code></pre></div></div>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elasticsearch-template02.png" alt="" /></p>
+
+<h2 id="logstash">logstash</h2>
+<ul>
+  <li>示例中给出了两个索引名称,分别为:
+    <ul>
+      <li>nginxlog_*</li>
+      <li>testnginxlog-*</li>
+    </ul>
+  </li>
+  <li>创建两个配置文件,修改对应的索引名称即可</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input {
+   file {
+    type =&gt; "proxys"
+    path =&gt; ["/var/log/nginx/access.log"]
+    add_field =&gt; { "sip" =&gt; "192.168.2.243" }
+    ## 是否从头读取数据这里注释掉只读取最新数据
+#    start_position =&gt; "beginning"
+#    sincedb_path =&gt; "/dev/null"
+#    ignore_older =&gt; "99999999999"
+    codec =&gt; "json"
+  }
+}
+
+filter {
+date {
+        match =&gt; ["timestamp","UNIX"]
+        target =&gt; "@timestamp"
+ }
+#mutate {
+#        remove_field =&gt; ["path","host","tags","message"]
+#}
+}
+
+output{
+        elasticsearch {
+        hosts =&gt; ["http://192.168.2.221:9200"]
+        #index =&gt; "nginxlog_%{+YYYY.MM.dd}"
+        index =&gt; "testnginxlog-%{+YYYY.MM.dd}"
+    }
+ #      stdout {
+ #           codec =&gt; rubydebug
+ #      }
+}
+</code></pre></div></div>
+
+<p>启动进程</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$LOGSTAH_PATH/bin/logstash -f nginxlog.conf --log.level=info --path.data=/tmp/nginxlog
+
+$LOGSTAH_PATH/bin/logstash -f testnginxlog.conf --log.level=info --path.data=/tmp/testnginxlog
+</code></pre></div></div>
+
+<h2 id="查看索引mapping">查看索引mapping</h2>
+
+<blockquote>
+  <p>在 elasticsearch 2.x 版本，字符串数据只有string类型
+更新到5.x版本后，取消了string 数据类型，代替它的是 keyword 和 text 数据类型</p>
+</blockquote>
+
+<blockquote>
+  <p>默认: “key”:”value” 格式的都默认为text类型
+而对于”key”: value 格式的会根据数值类型进行格式匹配</p>
+</blockquote>
+
+<p>例如:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+....
+"responsetime": 0.001, 
+"upstreamtime": "0.001",
+...
+}
+</code></pre></div></div>
+
+<ul>
+  <li>responsetime: 匹配为fload 类型</li>
+  <li>
+    <p>upstreamtime: 匹配为text类型,此时如果想要做聚合查询以及计算数值需要配置mapping 指定字段类型</p>
+  </li>
+  <li>
+    <ol>
+      <li>text类型：会分词，先把对象进行分词处理，然后再再存入到es中。</li>
+    </ol>
+  </li>
+</ul>
+
+<p>当使用多个单词进行查询的时候，当然查不到已经分词过的内容！</p>
+
+<ul>
+  <li>
+    <ol>
+      <li>keyword：不分词，没有把es中的对象进行分词处理，而是存入了整个对象！</li>
+    </ol>
+  </li>
+</ul>
+
+<p>这时候当然可以进行完整地查询！默认是256个字符！</p>
+
+<ul>
+  <li>“ignore_above”: 256  详情查看<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.5/ignore-above.html">官网文档</a></li>
+</ul>
+
+<h3 id="nginxlog_">nginxlog_*</h3>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/index-mapping01.png" alt="" /></p>
+
+<h3 id="testnginxlog-">testnginxlog-*</h3>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/index-mapping-02.png" alt="" /></p>
+
+<h2 id="kibana">kibana</h2>
+<h3 id="添加索引">添加索引</h3>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/kibana-add-index01.png" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/kibana-add-index02.png" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/kibana-add-index03.png" alt="" /></p>
+
+<h3 id="监控图表">监控图表</h3>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/kibana-monitoring.png" alt="" /></p>
+
+<h2 id="grafana">grafana</h2>
+
+<h3 id="runing-of-docker">runing of docker</h3>
+<p>默认用户名密码: admin:admin</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d \
+--name grafana \
+-p 3000:3000 \
+-v /var/lib/grafana:/var/lib/grafana
+-v /etc/grafana:/etc/grafana
+-v /etc/localtime:/etc/localtime
+grafana/grafana
+</code></pre></div></div>
+
+<h3 id="数据源">数据源</h3>
+<p>这里ES 版本选择5.6+即可</p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-datasource01.png" alt="" /></p>
+
+<h3 id="demo">demo</h3>
+<p>需要注意的是: 对于nginxlog_* 这个索引. Group by 时写入的是 clientip.keyword;
+因为没有指定字段类型,如果直接写入 clientip 则会报错无法显示;</p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-nginx-demo01.png" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-nginx-demo02.png" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-nginx-demo03.png" alt="" /></p>
+
+<h3 id="变量">变量</h3>
+
+<p>配置完成后,点击add 添加即可</p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-variables01.png" alt="" /></p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-var-nodeip.png" alt="" /></p>
+
+<p>变量引用,和shell 变量调用方式一样使用 ${变量名}即可</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clientip: $ip
+</code></pre></div></div>
+
+<p>注意: 这里Group by 时状态码字段 直接指定为: status 即可
+因为根据前面我们的配置,对testnginxlog-* 索引模板中指定了字段类型</p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-testnginxlog.png" alt="" /></p>
+
+<p>图表展示:</p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-demo-last.png" alt="" /></p>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/11/23/elastic-stack-6.4-demo/';
+                    this.page.identifier = '/2018/11/23/elastic-stack-6.4-demo/';
+                    this.page.title = 'elastic staick 6.4数据探索可视化 Demo';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2018
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
