@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-28T20:16:22+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-30T14:37:04+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
   &lt;p&gt;基础安装配置请参考官网或者&lt;a href=&quot;https://www.jevic.cn/categories/#ELK&quot;&gt;ELK 分类&lt;/a&gt;下其他教程示例&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1882,7 +1882,14 @@ nameserver 8.8.8.8
 &lt;p&gt;直接使用kubernetes-src 里面的yaml文件创建即可,记得修改NodePort&lt;/p&gt;
 
 &lt;h3 id=&quot;heapster&quot;&gt;heapster&lt;/h3&gt;
-&lt;p&gt;同样直接使用github 官方提供的说明配置即可, 其他部署方式都不靠谱&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">通读一遍在实际操作!!! 关于镜像请查看最后的补充说明 部署脚本查看仓库脚本</summary></entry><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
+&lt;p&gt;同样直接使用github 官方提供的说明配置即可, 其他部署方式都不靠谱&lt;/p&gt;
+
+&lt;h2 id=&quot;十-参考链接&quot;&gt;十. 参考链接&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://mritd.me/2018/04/19/set-up-kubernetes-1.10.1-cluster-by-hyperkube/&quot;&gt;set-up-kubernetes-1.10.1-cluster-by-hyperkube&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://k8s-install.opsnull.com/&quot;&gt;https://k8s-install.opsnull.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kubernetes.feisky.xyz/&quot;&gt;https://kubernetes.feisky.xyz&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">通读一遍在实际操作!!! 关于镜像请查看最后的补充说明 部署脚本查看仓库脚本</summary></entry><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
   &quot;order&quot;: 0,

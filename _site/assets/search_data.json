@@ -27,7 +27,7 @@
   "2018-07-17-kubeadm-kubernetes1-10-1": {
     "title": "Kubeadm 快速部署kubernetes 1.10.1",
     "url": " /2018/07/17/kubeadm-kubernetes1.10.1/",
-    "category": "kubernetes"
+    "category": "Kubernetes"
   },
   
   "2018-06-10-cdn-choice": {
@@ -166,6 +166,12 @@
     "title": "Linux history 历史命令增强显示",
     "url": " /2017/08/08/linux-history-shell/",
     "category": "Linux"
+  },
+  
+  "2017-08-08-mojo-webqqandwechat": {
+    "title": "微信 以及 WebQQ 客户端框架",
+    "url": " /2017/08/08/Mojo-webqqAndWechat/",
+    "category": "OPS"
   },
   
   "2017-08-03-linux-jstorm-job-shell": {
@@ -350,6 +356,8 @@
   
   
   
+  
+  
 
   
   "2016-07-23-linux-firewalld-iptables": {
@@ -470,6 +478,12 @@
     "title": "Jstorm 多任务管理脚本",
     "url": "/2017/08/03/linux-jstorm-job-shell/",
     "category": "[&quot;Linux&quot;, &quot;Shell&quot;]"
+  },
+  
+  "2017-08-08-mojo-webqqandwechat": {
+    "title": "微信 以及 WebQQ 客户端框架",
+    "url": "/2017/08/08/Mojo-webqqAndWechat/",
+    "category": "[&quot;OPS&quot;]"
   },
   
   "2017-08-08-linux-history-shell": {
@@ -613,7 +627,7 @@
   "2018-07-17-kubeadm-kubernetes1-10-1": {
     "title": "Kubeadm 快速部署kubernetes 1.10.1",
     "url": "/2018/07/17/kubeadm-kubernetes1.10.1/",
-    "category": "[&quot;kubernetes&quot;]"
+    "category": "[&quot;Kubernetes&quot;]"
   },
   
   "2018-08-25-elasticsearch-templates": {

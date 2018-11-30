@@ -1,6 +1,6 @@
 ---
 layout: post
-categories: kubernetes
+categories: Kubernetes
 title: Kubeadm 快速部署kubernetes 1.10.1
 date: 2018-07-17 20:35:46 +0800
 description: Docker,kubernetes,k8s

@@ -1474,3 +1474,8 @@ nameserver 8.8.8.8
 ### heapster
 同样直接使用github 官方提供的说明配置即可, 其他部署方式都不靠谱
 
+
+## 十. 参考链接
+- [set-up-kubernetes-1.10.1-cluster-by-hyperkube](https://mritd.me/2018/04/19/set-up-kubernetes-1.10.1-cluster-by-hyperkube/)
+- [https://k8s-install.opsnull.com](https://k8s-install.opsnull.com/)
+- [https://kubernetes.feisky.xyz](https://kubernetes.feisky.xyz/)
