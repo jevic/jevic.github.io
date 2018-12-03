@@ -1311,7 +1311,7 @@ EOF
 
 <p>由于 calico 需要使用 etcd 存储数据，所以需要复制 etcd 证书到相关目录，/etc/calico 需要在每个节点都有</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -r /etc/etcd/ssl /etc/calico
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -r /etc/etcd/ssl /etc/calico/
 </code></pre></div></div>
 
 <h3 id="53-修改-kubelet-配置">5.3 修改 kubelet 配置</h3>

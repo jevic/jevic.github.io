@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-11-30T14:37:04+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-03T19:10:57+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
   &lt;p&gt;基础安装配置请参考官网或者&lt;a href=&quot;https://www.jevic.cn/categories/#ELK&quot;&gt;ELK 分类&lt;/a&gt;下其他教程示例&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1598,7 +1598,7 @@ EOF
 
 &lt;p&gt;由于 calico 需要使用 etcd 存储数据，所以需要复制 etcd 证书到相关目录，/etc/calico 需要在每个节点都有&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp -r /etc/etcd/ssl /etc/calico
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp -r /etc/etcd/ssl /etc/calico/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;53-修改-kubelet-配置&quot;&gt;5.3 修改 kubelet 配置&lt;/h3&gt;

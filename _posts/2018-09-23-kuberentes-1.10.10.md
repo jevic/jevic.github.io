@@ -1178,7 +1178,7 @@ EOF
 由于 calico 需要使用 etcd 存储数据，所以需要复制 etcd 证书到相关目录，/etc/calico 需要在每个节点都有
 
 ```
-cp -r /etc/etcd/ssl /etc/calico
+cp -r /etc/etcd/ssl /etc/calico/
 ```
 
 
