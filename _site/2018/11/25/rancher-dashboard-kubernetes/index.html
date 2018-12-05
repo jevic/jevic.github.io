@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>Rancher Dashboard 管理kubernetes集群 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2018/11/25/rancher-dashboard-kubernetes/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="Rancher Dashboard 管理kubernetes集群">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="Docker,k8s">
+    <meta name="og:keywords" content="Docker,k8s">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="  相比kubernetes Dashboard Rancher管理面板简化了很多相对比较复杂的操作;">
+    <meta name="og:description" content="  相比kubernetes Dashboard Rancher管理面板简化了很多相对比较复杂的操作;">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2018/11/25/rancher-dashboard-kubernetes/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2018-12-05">
+    <meta property="article:published_time" content="2018-11-25">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="Rancher Dashboa">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">Rancher Dashboard 管理kubernetes集群</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/11/25
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,48 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <blockquote>
+  <p>相比kubernetes Dashboard 
+Rancher管理面板简化了很多相对比较<code class="highlighter-rouge">复杂</code>的操作;</p>
+</blockquote>
+
+<h2 id="导入kubernetes-集群">导入kubernetes 集群</h2>
+<p>这里直接给出截图操作示例</p>
+
+<p>点击导入集群
+配置集群名称,Roles 默认即可,然后点击 Create</p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster01.png" alt="" /></p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster02.png" alt="" /></p>
+
+<p>授权用户:
+根据提示获取kubelet configuration file 中的用户名称</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cat ~/.kube/config|grep user ## /etc/kubernetes/kubelet.kubeconfig
+    user: default-auth
+users:
+  user:
+  
+# kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user default-auth
+</code></pre></div></div>
+
+<p>部署rancher agent</p>
+<blockquote>
+  <p>需要注意的是,如果配置了SSL 认证,则最好使用第二条命令，否则可以使用第一条命令执行部署</p>
+</blockquote>
+
+<blockquote>
+  <p>此次使用第二条命令,以免出现证书不可用时忽略报错</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --insecure -sfL https://192.168.2.218:8443/v3/import/wrmxhfxc7vcfznb9hssmqt9llx278ljqgfj49k5sxhtszrs68r6lmd.yaml | kubectl apply -f -
+</code></pre></div></div>
+
+<p>最后只需要等待agent 部署成功即可</p>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster04.png" alt="" />
+ <img src="https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster03.png" alt="" /></p>
 
     </article>
     <div class="share">
@@ -132,9 +186,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2018/11/25/rancher-dashboard-kubernetes/';
+                    this.page.identifier = '/2018/11/25/rancher-dashboard-kubernetes/';
+                    this.page.title = 'Rancher Dashboard 管理kubernetes集群';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

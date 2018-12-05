@@ -1,4 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-03T19:12:01+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-05T14:43:30+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
+  &lt;p&gt;相比kubernetes Dashboard 
+Rancher管理面板简化了很多相对比较&lt;code class=&quot;highlighter-rouge&quot;&gt;复杂&lt;/code&gt;的操作;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;导入kubernetes-集群&quot;&gt;导入kubernetes 集群&lt;/h2&gt;
+&lt;p&gt;这里直接给出截图操作示例&lt;/p&gt;
+
+&lt;p&gt;点击导入集群
+配置集群名称,Roles 默认即可,然后点击 Create&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;授权用户:
+根据提示获取kubelet configuration file 中的用户名称&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cat ~/.kube/config|grep user ## /etc/kubernetes/kubelet.kubeconfig
+    user: default-auth
+users:
+  user:
+  
+# kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user default-auth
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;部署rancher agent&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;需要注意的是,如果配置了SSL 认证,则最好使用第二条命令，否则可以使用第一条命令执行部署&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;此次使用第二条命令,以免出现证书不可用时忽略报错&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl --insecure -sfL https://192.168.2.218:8443/v3/import/wrmxhfxc7vcfznb9hssmqt9llx278ljqgfj49k5sxhtszrs68r6lmd.yaml | kubectl apply -f -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;最后只需要等待agent 部署成功即可&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster04.png&quot; alt=&quot;&quot; /&gt;
+ &lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">相比kubernetes Dashboard Rancher管理面板简化了很多相对比较复杂的操作;</summary></entry><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
   &lt;p&gt;基础安装配置请参考官网或者&lt;a href=&quot;https://www.jevic.cn/categories/#ELK&quot;&gt;ELK 分类&lt;/a&gt;下其他教程示例&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -417,9 +458,23 @@ xpack.security.enabled: true  ## 开启认证
 &lt;/ul&gt;
 
 &lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档, 类比MySQL index == database _type == table 6.x 版本开始 移除了_type 也就是每个索引只有一种类型！！！ x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!</summary></entry><entry><title type="html">二进制手动部署kubernetes 1.10.10</title><link href="http://0.0.0.0/2018/09/23/kuberentes-1.10.10/" rel="alternate" type="text/html" title="二进制手动部署kubernetes 1.10.10" /><published>2018-09-23T20:35:46+08:00</published><updated>2018-09-23T20:35:46+08:00</updated><id>http://0.0.0.0/2018/09/23/kuberentes-1.10.10</id><content type="html" xml:base="http://0.0.0.0/2018/09/23/kuberentes-1.10.10/">&lt;blockquote&gt;
-  &lt;p&gt;通读一遍在实际操作!!!
-关于镜像请查看最后的补充说明
-部署脚本查看&lt;a href=&quot;https://github.com/jevic/kshell.git&quot;&gt;仓库脚本&lt;/a&gt;&lt;/p&gt;
+  &lt;p&gt;通读一遍先熟悉了过程在实际操作!!!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;通读一遍先熟悉了过程在实际操作!!!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;通读一遍先熟悉了过程在实际操作!!!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;关于镜像请查看最后的补充说明&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;部署脚本查看&lt;a href=&quot;https://github.com/jevic/kshell.git&quot;&gt;仓库脚本&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h2 id=&quot;一-系统环境&quot;&gt;一. 系统环境&lt;/h2&gt;
@@ -1862,9 +1917,16 @@ kubectl create -f deploy/kube-config/rbac/heapster-rbac.yaml
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-dashboard-view01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;九-其他说明&quot;&gt;九. 其他说明:&lt;/h2&gt;
-&lt;h3 id=&quot;91-coredns&quot;&gt;9.1 coredns&lt;/h3&gt;
+&lt;h3 id=&quot;91-命令行自动补全&quot;&gt;9.1 命令行自动补全&lt;/h3&gt;
 
-&lt;p&gt;如果配置失败或者报错请检查 /etc/resolv.conf 域名解析配置&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source &amp;lt;(kubectl completion bash)
+echo &quot;source &amp;lt;(kubectl completion bash)&quot; &amp;gt;&amp;gt; ~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;92-coredns&quot;&gt;9.2 coredns&lt;/h3&gt;
+
+&lt;p&gt;如果配置失败或者报错请检查 /etc/resolv.conf 域名解析配置
+另外请确保已经执行了前面初始化关于内核优化的执行部分!!!&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat /etc/resolv.conf
 # Generated by NetworkManager
@@ -1874,22 +1936,45 @@ nameserver 223.5.5.5
 nameserver 8.8.8.8
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;gcr-镜像被墙&quot;&gt;GCR 镜像被墙&lt;/h3&gt;
+&lt;h3 id=&quot;93-gcr-镜像被墙&quot;&gt;9.3 GCR 镜像被墙&lt;/h3&gt;
 &lt;p&gt;默认kubernetes 镜像被托管在Google仓库无法被正常获取,使用开源社区镜像仓库Pull 即可
+建议再即将部署前将所有用到的镜像提前pull 下来.
 参考&lt;a href=&quot;https://www.jevic.cn/2018/05/25/mirror/&quot;&gt;GCR Google Container Registry 镜像&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;dashboard&quot;&gt;dashboard&lt;/h3&gt;
+&lt;h3 id=&quot;94-dashboard&quot;&gt;9.4 dashboard&lt;/h3&gt;
 &lt;p&gt;直接使用kubernetes-src 里面的yaml文件创建即可,记得修改NodePort&lt;/p&gt;
 
-&lt;h3 id=&quot;heapster&quot;&gt;heapster&lt;/h3&gt;
-&lt;p&gt;同样直接使用github 官方提供的说明配置即可, 其他部署方式都不靠谱&lt;/p&gt;
+&lt;h3 id=&quot;95-heapster&quot;&gt;9.5 heapster&lt;/h3&gt;
+&lt;p&gt;同样直接使用github 官方提供的说明配置即可.无需再百度或者Google其他配置范例.&lt;/p&gt;
+
+&lt;h3 id=&quot;96-善用帮助命令&quot;&gt;9.6 善用帮助命令&lt;/h3&gt;
+
+&lt;p&gt;kubernetes 有着简单易用非常清晰明了的帮助提示命令,这点是绝对备受一致好评的;&lt;/p&gt;
+
+&lt;p&gt;–help 不会哪里就help 哪里&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl expose --help
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;不会写yaml ? 没有关系使用下面这个命令即可获取资源定义帮助
+使用’.’ 分割逐级查看各对象的使用方法&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## 例如这里获取pod 关于spec 的资源定义帮助信息
+kubectl explain pod.spec
+## 获取pod资源中containers的定义
+kubectl explain pod.spec.containers
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;提示: 在帮助信息的最下方也会显示出此命令或资源定义的官网详细文档链接地址,查看官方文档可更快的帮助你理解和学习!!&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h2 id=&quot;十-参考链接&quot;&gt;十. 参考链接&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://mritd.me/2018/04/19/set-up-kubernetes-1.10.1-cluster-by-hyperkube/&quot;&gt;set-up-kubernetes-1.10.1-cluster-by-hyperkube&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://k8s-install.opsnull.com/&quot;&gt;https://k8s-install.opsnull.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://kubernetes.feisky.xyz/&quot;&gt;https://kubernetes.feisky.xyz&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">通读一遍在实际操作!!! 关于镜像请查看最后的补充说明 部署脚本查看仓库脚本</summary></entry><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">通读一遍先熟悉了过程在实际操作!!!</summary></entry><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
   &quot;order&quot;: 0,
@@ -2501,192 +2586,4 @@ EOF
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo add stable http://mirror.azure.cn/kubernetes/charts/
 helm repo add incubator http://mirror.azure.cn/kubernetes/charts-incubator/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">开源镜像站点 网易开源镜像站 阿里云开源镜像站 开源社区镜像站 清华大学开源镜像站</summary></entry><entry><title type="html">docker 问题定位记述</title><link href="http://0.0.0.0/2018/05/06/docker-problem-location/" rel="alternate" type="text/html" title="docker 问题定位记述" /><published>2018-05-06T17:56:26+08:00</published><updated>2018-05-06T17:56:26+08:00</updated><id>http://0.0.0.0/2018/05/06/docker-problem-location</id><content type="html" xml:base="http://0.0.0.0/2018/05/06/docker-problem-location/">&lt;blockquote&gt;
-  &lt;p&gt;性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;周一&quot;&gt;周一&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;先找下游了解了下业务模型，他们说已经把业务模型最简化了，当前的模式是：业务进程运行在容器中，通过与主机共享 IPC namespace 的方式来使用共享内存与宿主机上的 Daemon 进程进行通信，整个过程不涉及磁盘读写、网络交互等。
-撸起袖子开始干，定位第一步，当然是找瓶颈了，分析下到底问题出在哪。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5 id=&quot;top&quot;&gt;top&lt;/h5&gt;
-
-&lt;p&gt;用到的第一个命令自然是 top，top 是 linux 里一个非常强大的命令，通过它基本上能看到系统中的所有指标。
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;上面是 top 命令运行时的一个示意图，比较重要的指标都已经标了出来：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;1 处表示系统负载，它表示当前正在等待被 cpu 调度的进程数量，这个值小于系统 vcpu 数（超线程数）的时候是比较正常的，一旦大于 vcpu 数，则说明并发运行的进程太多了，有进程迟迟得不到 cpu 时间。这种情况给用户的直观感受就是敲任何命令都卡。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;2 处表示当前系统的总进程数，通常该值过大的时候就会导致 load average 过大。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;3 处表示 cpu 的空闲时间，可以反应 cpu 的繁忙程度，该值较高时表示系统 cpu 处于比较清闲的状态，如果该值较低，则说明系统的 cpu 比较繁忙。需要注意的是，有些时候该值比较高，表示 cpu 比较清闲，但是 load average 依然比较高，这种情况很可能就是因为进程数太多，进程切换占用了大量的 cpu 时间，从而挤占了业务运行需要使用的 cpu 时间。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;4 处表示进程 IO 等待的时间，该值较高时表示系统的瓶颈可能出现在磁盘和网络。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;5 处表示系统的剩余内存，反应了系统的内存使用情况。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;6 处表示单个进程的 cpu 和内存使用情况。关于 top 命令中各个指标含义的进一步描述可以参见：&lt;/li&gt;
-  &lt;li&gt;http://www.jb51.net/LINUXjishu/34604.html&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;使用 top 命令查看了下系统情况，发现一切正常。load average 也不高，task 也不多，cpu 和内存都还很空闲，就连 IO 等待时间都很低，也没有哪个进程的 cpu 和内存使用率偏高，一切都很和谐，没有瓶颈！&lt;/p&gt;
-
-&lt;p&gt;当然，没有瓶颈是不可能的。由于我们的容器都是绑核的，所以很有可能是分配给容器的那些核是处于繁忙状态，而由于总核数较多，将 cpu 的使用率给拉了下来。于是又按下了“1”键，切换到详细模式下：
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;在这种模式下，可以看到每个 vcpu 的使用情况。一切依然很和谐，诡异的和谐。
-看来从 cpu 这块是看不出来什么了，那就继续看看是不是磁盘搞的鬼吧。&lt;/p&gt;
-
-&lt;h5 id=&quot;iostate&quot;&gt;iostate&lt;/h5&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;iostate 命令是用来查看磁盘使用情况的一个命令，经验告诉我们，磁盘和网络已经成为影响性能的最大嫌疑犯。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;使用 iostate 工具时，通常只用关注最后一行（%util）即可，它反映了磁盘的繁忙程度。虽然下游部门已经说了他们跑的用例是一个纯内存的场景，不涉及磁盘读写。但是客户的话信得住，母猪也能上树，我还是要跑一下 iostate，看下磁盘情况怎么样。结果，依旧很和谐，磁盘使用率基本为零。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;后面还尝试了观察网络指标，发现确实也没有网络吞吐，完了，看来问题没那么简单。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;周二&quot;&gt;周二&lt;/h4&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;虽然周一看似白忙活了一天，但是也得到了一个重要结论：这个问题不简单！不过简单的在资源层面时分析不出来啥了，得寄出性能分析的大杀器——perf 了。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5 id=&quot;perf-火焰图&quot;&gt;perf+ 火焰图&lt;/h5&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;perf 是 linux 下一个非常强大的性能分析工具，通过它可以分析出进程运行过程中的主要时间都花在了哪些地方。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;之前没太使用过 perf，因此刚开始进行分析，就自然而然地直接使用上了 perf+ 火焰图这种最常见的组合：&lt;/p&gt;
-
-&lt;p&gt;安装 perf。&lt;/p&gt;
-
-&lt;p&gt;yum install perf&lt;/p&gt;
-
-&lt;p&gt;下载火焰图工具。&lt;/p&gt;
-
-&lt;p&gt;git clone https://github.com/brendangregg/FlameGraph.git&lt;/p&gt;
-
-&lt;p&gt;采样。&lt;/p&gt;
-
-&lt;p&gt;perf record -e cpu-clock -g -p 1572（业务进程 id）&lt;/p&gt;
-
-&lt;p&gt;一段时间（通常 20s 足够）之后 ctrl+c，结束采样。&lt;/p&gt;
-
-&lt;p&gt;用 perf script 工具对 perf.data 进行解析。&lt;/p&gt;
-
-&lt;p&gt;perf script -i perf.data &amp;amp;&amp;gt; perf.unfold。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;PS：如果在容器中运行的程序有较多的依赖，则该命令解析出来的符号中可能会有较多的“Unregistered symbol…”错误，此时需要通过–symfs参数指定容器的rootfs位置来解决该问题。获取容器rootfs的方法根据 docker 的 storagedriver 的不同而有所不同，如果是device mapper类型，则可以通过 dockerinspect 找到容器的rootfs所在位置，如果是overlay类型，则需要通过 dockerexport 命令将该容器的rootfs导出来，如果是富容器的话，一般都有外置的rootfs，直接使用即可。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;将 perf.unfold 中的符号进行折叠。&lt;/p&gt;
-
-&lt;p&gt;./stackcollapse-perf.pl perf.unfold &amp;amp;&amp;gt; perf.folded&lt;/p&gt;
-
-&lt;p&gt;最后生成 svg 图。&lt;/p&gt;
-
-&lt;p&gt;/flamegraph.pl perf.folded &amp;gt; perf.svg&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/docker-error-wx03.png&quot; alt=&quot;&quot; /&gt;
-最后就能得到像下面这种样子的漂亮图片。通常情况下，如果程序中有一些函数占用了大量的 CPU 时间，则会在图片中以长横条的样式出现，表示该函数占用了大量的 CPU 时间。&lt;/p&gt;
-
-&lt;p&gt;然而，perf+ 火焰图在这次并没有起到太大的作用，反复统计了很多次，并没有出现梦寐以求的“长横条”，还是很和谐。&lt;/p&gt;
-
-&lt;h5 id=&quot;perf-stat&quot;&gt;perf stat&lt;/h5&gt;
-&lt;p&gt;perf+ 火焰图并没有起到很好的效果，就想换个工具继续试试，但是找来找去、请教大神，也没找到更好的工具，只好继续研究 perf 这个工具。&lt;/p&gt;
-
-&lt;p&gt;perf 除了上面提到的 record（记录事件）、script（解析记录的事件）命令之外，还有其他一些命令，常用的有 report（与 script 类似，都是对 perf record 记录的事件进行解析，不同之处在于 report 直接解析程序中的运行热点，script 的扩展性更强一点，可以调用外部脚本对事件数据进行解析）、stat（记录进程一段时间之内触发的事件数）、top（实时分析程序运行时热点）、list（列出 perf 可以记录的事件数）等命令。&lt;/p&gt;
-
-&lt;p&gt;这些命令挨个试了个遍，终于在 perf stat 命令这块有了突破：&lt;/p&gt;
-
-&lt;p&gt;使用 perf stat 对业务进程运行在物理机和容器上分别进行统计，发现业务进程运行在容器中时，大部分事件（task-clock、context-switches、cycles、instructions 等）的触发次数是运行在物理机上时的百分之一。&lt;/p&gt;
-
-&lt;p&gt;这是什么原因呢？一定是什么东西阻塞住了程序的运转，这个东西是什么呢？&lt;/p&gt;
-
-&lt;p&gt;前面已经分析了，不是磁盘，不是网络，也不是内存，更不是 cpu，那还有什么呢？？&lt;/p&gt;
-
-&lt;h4 id=&quot;周三&quot;&gt;周三&lt;/h4&gt;
-
-&lt;p&gt;是什么原因阻塞住了程序的运转呢？百思不得其解，百问不得其解，百猜不得其解，得，还是得动手，上控制变量法。&lt;/p&gt;
-
-&lt;p&gt;运行在容器中的程序和运行在物理机上有什么区别呢？我们知道，docker 容器 =cgroup+namespace+secomp+capability+selinux，那么就把这些技术一个个都去掉，看到底是哪个特性搞的鬼。&lt;/p&gt;
-
-&lt;p&gt;在这 5 个技术中，后三个都是安全相关的，都有开关可以控制，经过测试，发现把后三个都关掉之后，性能还是很差，说明这 3 个技术是无辜的，开始排查 cgroup 和 namespace。&lt;/p&gt;
-
-&lt;p&gt;首先怀疑的当然是 cgroup，毕竟它就是做资源限制的，很有可能一不小心限制错了，就把业务给限制了。&lt;/p&gt;
-
-&lt;h5 id=&quot;cgexec&quot;&gt;cgexec&lt;/h5&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;cgexec 是 cgroup 提供的一个工具，可以在启动时就将程序运行到某个 cgroup 中，因此我们可以将业务程序运行在物理机上，但是放到业务容器所在的 cgroup 中，看看性能会不会下降。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;具体用法如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cgexec -g *:/system.slice/docker-03c2dd57ba123879abab6f7b6da5192a127840534990c515be325450b7193c11.scope ./run.sh
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;通过该命令即可将 run.sh 运行在与容器 03c2dd57 相同的 cgroup 中。在多次测试之后，发现这种情况下，业务进程的运行速度没有受到影响，cgroup 被洗白，那么真相只有一个——凶手就是 namespace。&lt;/p&gt;
-
-&lt;h4 id=&quot;周四&quot;&gt;周四&lt;/h4&gt;
-
-&lt;p&gt;虽然说凶手已经确定是 namespace，但是 namespace 家族也有一大票人，有 ipc namespace、pid namespace 等等，还需要进一步确定真凶。&lt;/p&gt;
-
-&lt;h5 id=&quot;nsenter&quot;&gt;nsenter&lt;/h5&gt;
-
-&lt;p&gt;nsenter 是一个 namespace 相关的工具，通过它可以进入某个进程所在的 namespace。在 docker exec 命令出现之前，它唯一一个可以进入 docker 容器的工具，在 docker exec 出现之后，nsenter 也由于其可以选择进入哪些 namespace 而成为 docker 问题定位的一个极其重要的工具。&lt;/p&gt;
-
-&lt;p&gt;通过如下命令，即可进入容器所在的 mount namespace。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nsenter --target $(docker inspect --format '' 容器 id) --mount bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;同理，通过如下命令即可进入容器所在的 IPC namespace 和 pid namespace。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nsenter --target $(docker inspect --format '' 容器 id) --ipc --pid bash
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;在不断的将业务进程在各个 namespace 之间切换后，终于进一步锁定了真凶：mount namespace。测试发现，一旦将业务进程放置到容器所在的 mount namespace，性能就会急剧下降。&lt;/p&gt;
-
-&lt;p&gt;这是为什么呢？这是为什么呢？mount namespace 到底做了什么，会有这么大的影响？&lt;/p&gt;
-
-&lt;h4 id=&quot;周五&quot;&gt;周五&lt;/h4&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mount namespace&lt;/code&gt; 为什么有这么大的威力呢？它到底影响什么了呢？实在想不通，就去请教了下大神，大神想了想，回了我句，试试 ldd？&lt;/p&gt;
-
-&lt;h5 id=&quot;ldd&quot;&gt;ldd&lt;/h5&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ldd 是什么？&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;当然这句话我没去问大神，转身自己查去了。&lt;/p&gt;
-
-&lt;p&gt;ldd 是 list, dynamic, dependencies 的缩写，意思是列出动态库依赖关系。顿时豁然开朗，mount namespace 隔离出了自己的文件系统，所以容器内外可以使用不同的依赖库，而不同的依赖库就可能造成无数种影响。&lt;/p&gt;
-
-&lt;p&gt;于是开始通过 ldd 对比容器中业务进程的依赖库与宿主机上业务进程的依赖库，最终发现容器中的 glibc 库与宿主机上的 glibc 库版本不一致，很可能是这个原因导致性能下降的。&lt;/p&gt;
-
-&lt;p&gt;于是将容器中的 glibc 库版本替换为宿主机上的 glibc 库之后，容器内业务的性能终于恢复了，猜想得到证实。&lt;/p&gt;
-
-&lt;h4 id=&quot;后记&quot;&gt;后记&lt;/h4&gt;
-
-&lt;p&gt;为什么容器内外 glibc 版本不一致就导致性能下降了呢？&lt;/p&gt;
-
-&lt;p&gt;这是和业务模型相关的，前面提到，下游的业务模型是通过与主机共享 IPC namespace 的方式来使用共享内存与宿主机上的 daemon 进程进行通信。而 glibc 在一次升级中，更新了信号量的数据结构（如下），就会导致在共享内存通信时，由于数据格式不一致，每次信号量通信都超时，从而影响了程序运行效率。&lt;/p&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">性能测试发现业务进程运行在容器中比业务进程运行在宿主机上吞吐量下降了 100 倍，这让周一显得更加阴暗。</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">开源镜像站点 网易开源镜像站 阿里云开源镜像站 开源社区镜像站 清华大学开源镜像站</summary></entry></feed>

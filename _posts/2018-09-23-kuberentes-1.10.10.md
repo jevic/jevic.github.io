@@ -8,8 +8,15 @@ keywords: Docker,k8s
 ---
 
 
->通读一遍在实际操作!!!
+>通读一遍先熟悉了过程在实际操作!!!
+
+>通读一遍先熟悉了过程在实际操作!!!
+
+>通读一遍先熟悉了过程在实际操作!!!
+
+
 >关于镜像请查看最后的补充说明
+
 >部署脚本查看[仓库脚本](https://github.com/jevic/kshell.git)
 
 ## 一. 系统环境
@@ -1450,9 +1457,17 @@ kubectl create -f deploy/kube-config/rbac/heapster-rbac.yaml
 
 
 ## 九. 其他说明:
-### 9.1 coredns 
+### 9.1 命令行自动补全
+
+```
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+```
+
+### 9.2 coredns 
 
 如果配置失败或者报错请检查 /etc/resolv.conf 域名解析配置
+另外请确保已经执行了前面初始化关于内核优化的执行部分!!! 
 
 ```
 cat /etc/resolv.conf
@@ -1463,16 +1478,39 @@ nameserver 223.5.5.5
 nameserver 8.8.8.8
 ```
 
-### GCR 镜像被墙
+### 9.3 GCR 镜像被墙
 默认kubernetes 镜像被托管在Google仓库无法被正常获取,使用开源社区镜像仓库Pull 即可
+建议再即将部署前将所有用到的镜像提前pull 下来.
 参考[GCR Google Container Registry 镜像](https://www.jevic.cn/2018/05/25/mirror/)
 
 
-### dashboard
+### 9.4 dashboard
 直接使用kubernetes-src 里面的yaml文件创建即可,记得修改NodePort
 
-### heapster
-同样直接使用github 官方提供的说明配置即可, 其他部署方式都不靠谱
+### 9.5 heapster
+同样直接使用github 官方提供的说明配置即可.无需再百度或者Google其他配置范例.
+
+### 9.6 善用帮助命令
+
+kubernetes 有着简单易用非常清晰明了的帮助提示命令,这点是绝对备受一致好评的;
+
+--help 不会哪里就help 哪里
+
+```
+kubectl expose --help
+```
+
+不会写yaml ? 没有关系使用下面这个命令即可获取资源定义帮助
+使用'.' 分割逐级查看各对象的使用方法
+
+```
+## 例如这里获取pod 关于spec 的资源定义帮助信息
+kubectl explain pod.spec
+## 获取pod资源中containers的定义
+kubectl explain pod.spec.containers
+```
+
+>提示: 在帮助信息的最下方也会显示出此命令或资源定义的官网详细文档链接地址,查看官方文档可更快的帮助你理解和学习!!
 
 
 ## 十. 参考链接
