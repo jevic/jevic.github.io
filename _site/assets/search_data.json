@@ -18,6 +18,12 @@
     "category": "ELK"
   },
   
+  "2018-10-13-helm": {
+    "title": "Kubernetes helm 包管理工具",
+    "url": " /2018/10/13/helm/",
+    "category": "Kubernetes"
+  },
+  
   "2018-09-23-kuberentes-1-10-10": {
     "title": "二进制手动部署kubernetes 1.10.10",
     "url": " /2018/09/23/kuberentes-1.10.10/",
@@ -657,6 +663,12 @@
   "2018-09-23-kuberentes-1-10-10": {
     "title": "二进制手动部署kubernetes 1.10.10",
     "url": "/2018/09/23/kuberentes-1.10.10/",
+    "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2018-10-13-helm": {
+    "title": "Kubernetes helm 包管理工具",
+    "url": "/2018/10/13/helm/",
     "category": "[&quot;Kubernetes&quot;]"
   },
   

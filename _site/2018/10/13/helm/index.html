@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Kubernetes helm 包管理工具 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/10/13/helm/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Kubernetes helm 包管理工具">
+      
+    <meta name="keywords" content="Docker,k8s">
+    <meta name="og:keywords" content="Docker,k8s">
+      
+    <meta name="description" content="  helm 简介很多人都使用过Ubuntu下的ap-get或者CentOS下的yum, 这两者都是Linux系统下的包管理工具。采用apt-get/yum,应用开发者可以管理应用包之间的依赖关系，发布应用；用户则可以以简单的方式查找、安装、升级、卸载应用程序。">
+    <meta name="og:description" content="  helm 简介很多人都使用过Ubuntu下的ap-get或者CentOS下的yum, 这两者都是Linux系统下的包管理工具。采用apt-get/yum,应用开发者可以管理应用包之间的依赖关系，发布应用；用户则可以以简单的方式查找、安装、升级、卸载应用程序。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/10/13/helm/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-10-13">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Kubernetes helm">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Kubernetes helm 包管理工具</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/10/13
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>helm 简介
+很多人都使用过Ubuntu下的ap-get或者CentOS下的yum, 这两者都是Linux系统下的包管理工具。采用apt-get/yum,应用开发者可以管理应用包之间的依赖关系，发布应用；用户则可以以简单的方式查找、安装、升级、卸载应用程序。</p>
+</blockquote>
+
+<p>我们可以将Helm看作Kubernetes下的apt-get/yum。Helm是Deis (https://deis.com/) 开发的一个用于kubernetes的包管理器。每个包称为一个Chart，一个Chart是一个目录（一般情况下会将目录进行打包压缩，形成name-version.tgz格式的单一文件，方便传输和存储）。</p>
+
+<p>对于应用发布者而言，可以通过Helm打包应用，管理应用依赖关系，管理应用版本并发布应用到软件仓库。</p>
+
+<p>对于使用者而言，使用Helm后不用需要了解Kubernetes的Yaml语法并编写应用部署文件，可以通过Helm下载并在kubernetes上安装需要的应用。</p>
+
+<p>除此以外，Helm还提供了kubernetes上的软件部署，删除，升级，回滚应用的强大功能。</p>
+
+<h2 id="helm-组件及相关术语">Helm 组件及相关术语</h2>
+<h3 id="helm">Helm</h3>
+<p>Helm 是一个命令行下的客户端工具。主要用于 Kubernetes 应用程序 Chart 的创建、打包、发布以及创建和管理本地和远程的 Chart 仓库。</p>
+
+<h3 id="tiller">Tiller</h3>
+<p>Tiller 是 Helm 的服务端，部署在 Kubernetes 集群中。Tiller 用于接收 Helm 的请求，并根据 Chart 生成 Kubernetes 的部署文件（ Helm 称为 Release ），然后提交给 Kubernetes 创建应用。Tiller 还提供了 Release 的升级、删除、回滚等一系列功能。</p>
+
+<h3 id="chart">Chart</h3>
+<p>Helm 的软件包，采用 TAR 格式。类似于 APT 的 DEB 包或者 YUM 的 RPM 包，其包含了一组定义 Kubernetes 资源相关的 YAML 文件。</p>
+
+<h3 id="repoistory">Repoistory</h3>
+<p>Helm 的软件仓库，Repository 本质上是一个 Web 服务器，该服务器保存了一系列的 Chart 软件包以供用户下载，并且提供了一个该 Repository 的 Chart 包的清单文件以供查询。Helm 可以同时管理多个不同的 Repository。</p>
+
+<h3 id="release">Release</h3>
+<p>使用 helm install 命令在 Kubernetes 集群中部署的 Chart 称为 Release。</p>
+
+<blockquote>
+  <p>注：需要注意的是：Helm 中提到的 Release 和我们通常概念中的版本有所不同，这里的 Release 可以理解为 Helm 使用 Chart 包部署的一个应用实例。</p>
+</blockquote>
+
+<h2 id="helm工作原理">Helm工作原理</h2>
+
+<p><img src="https://www.kubernetes.org.cn/img/2018/05/20180111160842.jpg" alt="" /></p>
+
+<h3 id="chart-install-过程">Chart Install 过程：</h3>
+
+<ol>
+  <li>Helm从指定的目录或者tgz文件中解析出Chart结构信息</li>
+  <li>Helm将指定的Chart结构和Values信息通过gRPC传递给Tiller</li>
+  <li>Tiller根据Chart和Values生成一个Release</li>
+  <li>Tiller将Release发送给Kubernetes用于生成Release</li>
+</ol>
+
+<h3 id="chart-update过程">Chart Update过程：</h3>
+
+<ol>
+  <li>Helm从指定的目录或者tgz文件中解析出Chart结构信息</li>
+  <li>Helm将要更新的Release的名称和Chart结构，Values信息传递给Tiller</li>
+  <li>Tiller生成Release并更新指定名称的Release的History</li>
+  <li>Tiller将Release发送给Kubernetes用于更新Release</li>
+</ol>
+
+<h3 id="chart-rollback过程">Chart Rollback过程：</h3>
+
+<ol>
+  <li>Helm将要回滚的Release的名称传递给Tiller</li>
+  <li>Tiller根据Release的名称查找History</li>
+  <li>Tiller从History中获取上一个Release</li>
+  <li>Tiller将上一个Release发送给Kubernetes用于替换当前Release</li>
+</ol>
+
+<h2 id="helm部署">helm部署</h2>
+
+<h3 id="一-helm-客户端安装">一. Helm 客户端安装</h3>
+<p><a href="https://docs.helm.sh/using_helm/#installing-helm">官方文档</a></p>
+<h4 id="11-脚本一键安装">1.1 脚本一键安装</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/helm/helm/master/scripts/get &gt; get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+</code></pre></div></div>
+
+<h4 id="12-手动安装">1.2 手动安装</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tar -zxf helm-v2.11.0-linux-amd64.tar.gz
+mv linux-amd64/helm /usr/local/bin/helm
+helm help # 验证
+</code></pre></div></div>
+
+<h3 id="二-helm-服务端安装tiller">二. Helm 服务端安装Tiller</h3>
+<h4 id="21-socat">2.1 socat</h4>
+<blockquote>
+  <p>注意：先在 K8S 集群上每个节点安装 socat 软件</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y socat
+</code></pre></div></div>
+
+<h4 id="22-证书配置">2.2 证书配置</h4>
+<p><a href="https://docs.helm.sh/using_helm/#using-ssl-between-helm-and-tiller">官方文档</a></p>
+
+<ul>
+  <li>根据官网文档给出的示例步骤创建证书文件</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># tree /opt/helm/ssl/
+/opt/helm/ssl/
+├── ca.cert.pem
+├── ca.key.pem
+├── ca.srl
+├── get.sh
+├── helm.cert.pem
+├── helm.csr.pem
+├── helm.key.pem
+├── r.sh
+├── tiller.cert.pem
+├── tiller.csr.pem
+└── tiller.key.pem
+
+0 directories, 11 files
+</code></pre></div></div>
+
+<h4 id="23-初始化">2.3 初始化</h4>
+<blockquote>
+  <p>Tiller 是以 Deployment 方式部署在 Kubernetes 集群中的；</p>
+</blockquote>
+
+<h5 id="231-服务端">2.3.1 服务端</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm init --service-account tiller --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.11.0  --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+</code></pre></div></div>
+
+<h5 id="232-tsl-认证服务端">2.3.2 TSL 认证服务端</h5>
+<blockquote>
+  <p>这里使用TSL 认证服务端配置 helm</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm init --service-account tiller --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.11.0 --tiller-tls --tiller-tls-cert /opt/helm/ssl/tiller.cert.pem --tiller-tls-key /opt/helm/ssl/tiller.key.pem --tiller-tls-verify --tls-ca-cert /opt/helm/ssl/ca.cert.pem --tiller-namespace kube-system --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+
+</code></pre></div></div>
+
+<blockquote>
+  <p>-i 指定镜像名称,使用阿里云的.默认google镜像无法访问
+镜像版本必须与客户端版本一致</p>
+</blockquote>
+
+<h3 id="三-tiller-授权">三. Tiller 授权</h3>
+<p>Helm 的服务端 Tiller 是一个部署在 Kubernetes 中 Kube-System Namespace 下 的 Deployment，它会去连接 Kube-Api 在 Kubernetes 里创建和删除应用。</p>
+
+<p>而从 Kubernetes 1.6 版本开始，API Server 启用了 RBAC 授权。目前的 Tiller 部署时默认没有定义授权的 ServiceAccount，这会导致访问 API Server 时被拒绝。所以我们需要明确为 Tiller 部署添加授权。</p>
+
+<h4 id="31-创建-kubernetes-的服务帐号和绑定角色">3.1 创建 Kubernetes 的服务帐号和绑定角色</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+</code></pre></div></div>
+
+<h4 id="32-为-tiller-设置帐号">3.2 为 Tiller 设置帐号</h4>
+<blockquote>
+  <p>使用 kubectl patch 更新 API 对象</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+</code></pre></div></div>
+
+<h4 id="33-查看是否授权成功">3.3 查看是否授权成功</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@master219 ~]# kubectl get deploy --namespace kube-system   tiller-deploy  --output yaml|grep  serviceAccount
+      serviceAccount: tiller
+      serviceAccountName: tiller
+</code></pre></div></div>
+
+<h4 id="34-验证-tiller">3.4 验证 Tiller</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl -n kube-system get pods|grep tiller
+tiller-deploy-69545986bb-gwlfh             1/1       Running   1          3d
+
+
+# helm version
+Client: &amp;version.Version{SemVer:"v2.11.0", GitCommit:"2e55dbe1fdb5fdb96b75ff144a339489417b146b", GitTreeState:"clean"}
+Server: &amp;version.Version{SemVer:"v2.11.0", GitCommit:"2e55dbe1fdb5fdb96b75ff144a339489417b146b", GitTreeState:"clean"}
+</code></pre></div></div>
+
+<h4 id="卸载">卸载</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm reset
+helm reset --force
+</code></pre></div></div>
+
+<h2 id="helm-使用">helm 使用</h2>
+<h3 id="仓库配置">仓库配置</h3>
+<p>使用阿里云仓库</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm repo remove stable
+helm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+helm update
+
+# helm repo list
+NAME     	URL
+stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+local    	http://127.0.0.1:8879/charts
+</code></pre></div></div>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/10/13/helm/';
+                    this.page.identifier = '/2018/10/13/helm/';
+                    this.page.title = 'Kubernetes helm 包管理工具';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2018
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
