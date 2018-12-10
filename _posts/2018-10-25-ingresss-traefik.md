@@ -586,4 +586,7 @@ NAME                 HOSTS               ADDRESS   PORTS     AGE
 nginx-ingress-demo   nginx.jevic.cn             80        21s
 ```
 
+![](https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik01.png)
+![](https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik02.png)
 
+- [配置文件示例](https://github.com/jevic/kshell/tree/master/addon/traefik)

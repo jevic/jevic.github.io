@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-10T15:57:53+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-10T16:08:27+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
   &lt;p&gt;相比kubernetes Dashboard 
 Rancher管理面板简化了很多相对比较&lt;code class=&quot;highlighter-rouge&quot;&gt;复杂&lt;/code&gt;的操作;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1025,7 +1025,14 @@ nginx-demo   ClusterIP   10.254.97.231   &amp;lt;none&amp;gt;        80/TCP,443/
 # kubectl get ingress
 NAME                 HOSTS               ADDRESS   PORTS     AGE
 nginx-ingress-demo   nginx.jevic.cn             80        21s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。</summary></entry><entry><title type="html">Kubernetes helm 包管理工具</title><link href="http://0.0.0.0/2018/10/13/helm/" rel="alternate" type="text/html" title="Kubernetes helm 包管理工具" /><published>2018-10-13T20:35:46+08:00</published><updated>2018-10-13T20:35:46+08:00</updated><id>http://0.0.0.0/2018/10/13/helm</id><content type="html" xml:base="http://0.0.0.0/2018/10/13/helm/">&lt;blockquote&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik01.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jevic/kshell/tree/master/addon/traefik&quot;&gt;配置文件示例&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。</summary></entry><entry><title type="html">Kubernetes helm 包管理工具</title><link href="http://0.0.0.0/2018/10/13/helm/" rel="alternate" type="text/html" title="Kubernetes helm 包管理工具" /><published>2018-10-13T20:35:46+08:00</published><updated>2018-10-13T20:35:46+08:00</updated><id>http://0.0.0.0/2018/10/13/helm</id><content type="html" xml:base="http://0.0.0.0/2018/10/13/helm/">&lt;blockquote&gt;
   &lt;p&gt;helm 简介
 很多人都使用过Ubuntu下的ap-get或者CentOS下的yum, 这两者都是Linux系统下的包管理工具。采用apt-get/yum,应用开发者可以管理应用包之间的依赖关系，发布应用；用户则可以以简单的方式查找、安装、升级、卸载应用程序。&lt;/p&gt;
 &lt;/blockquote&gt;
