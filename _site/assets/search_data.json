@@ -18,6 +18,12 @@
     "category": "ELK"
   },
   
+  "2018-10-25-ingresss-traefik": {
+    "title": "kubernetes nginx-ingress and traefik",
+    "url": " /2018/10/25/ingresss-traefik/",
+    "category": "Kubernetes"
+  },
+  
   "2018-10-13-helm": {
     "title": "Kubernetes helm 包管理工具",
     "url": " /2018/10/13/helm/",
@@ -82,6 +88,12 @@
     "title": "Docker device or resource busy 问题",
     "url": " /2018/04/10/docker-device-or-resource-busy/",
     "category": "Docker"
+  },
+  
+  "2018-03-25-showdoc": {
+    "title": "showdoc",
+    "url": " /2018/03/25/showdoc/",
+    "category": "Tools"
   },
   
   "2018-03-19-shadowsock": {
@@ -606,6 +618,12 @@
     "category": "[&quot;Tools&quot;]"
   },
   
+  "2018-03-25-showdoc": {
+    "title": "showdoc",
+    "url": "/2018/03/25/showdoc/",
+    "category": "[&quot;Tools&quot;]"
+  },
+  
   "2018-04-10-docker-device-or-resource-busy": {
     "title": "Docker device or resource busy 问题",
     "url": "/2018/04/10/docker-device-or-resource-busy/",
@@ -669,6 +687,12 @@
   "2018-10-13-helm": {
     "title": "Kubernetes helm 包管理工具",
     "url": "/2018/10/13/helm/",
+    "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2018-10-25-ingresss-traefik": {
+    "title": "kubernetes nginx-ingress and traefik",
+    "url": "/2018/10/25/ingresss-traefik/",
     "category": "[&quot;Kubernetes&quot;]"
   },
   

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>kubernetes nginx-ingress and traefik &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/10/25/ingresss-traefik/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="kubernetes nginx-ingress and traefik">
+      
+    <meta name="keywords" content="Docker,k8s">
+    <meta name="og:keywords" content="Docker,k8s">
+      
+    <meta name="description" content="在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。">
+    <meta name="og:description" content="在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/10/25/ingresss-traefik/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-10-25">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="kubernetes ngin">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">kubernetes nginx-ingress and traefik</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/10/25
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。</p>
+
+<h2 id="一-证书可选配置">一. 证书(可选配置)</h2>
+<ul>
+  <li>使用已购买的证书</li>
+  <li>配置自签名证书</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># openssl genrsa -out jevic_key.pem 4096
+Generating RSA private key, 4096 bit long modulus
+.....................++
+.....++
+e is 65537 (0x10001)
+[root@master219 ssl]# openssl req -new -x509 -key jevic_key.pem -out root.crt -days 3650
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:GD
+State or Province Name (full name) []:GD
+Locality Name (eg, city) [Default City]:SZ
+Organization Name (eg, company) [Default Company Ltd]:jevic
+Organizational Unit Name (eg, section) []:jevic
+Common Name (eg, your name or your server's hostname) []:jevic.cn
+Email Address []:admin@jevic.cn
+[root@master219 ssl]# ls
+jevic_key.pem  root.crt
+
+</code></pre></div></div>
+
+<h2 id="二-nginx-ingress">二. nginx-ingress</h2>
+<h3 id="21-部署">2.1 部署</h3>
+<p>如果kubernetes 集群启用了RBAC，则一定要加rbac.create=true参数
+helm 安装请参考<a href="https://www.jevic.cn/2018/10/13/helm/">Kubernetes helm 包管理工具</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm install stable/nginx-ingress --set controller.hostNetwork=true，rbac.create=true
+</code></pre></div></div>
+
+<p>查看状态:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># helm list
+NAME            	REVISION	UPDATED                 	STATUS  	CHART              	APP VERSION	NAMESPACE
+quiet-abalone   	1       	Thu Nov 29 19:55:28 2018	DEPLOYED	nginx-ingress-0.9.5	0.10.2     	default
+
+# kubectl get all --all-namespaces -l app=nginx-ingress
+NAMESPACE   NAME                                                               READY     STATUS    RESTARTS   AGE
+default     pod/quiet-abalone-nginx-ingress-controller-7b8b745f96-gczjl        1/1       Running   1          5d
+default     pod/quiet-abalone-nginx-ingress-default-backend-54f4fb569c-ndh4x   1/1       Running   1          5d
+
+NAMESPACE   NAME                                                  TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+default     service/quiet-abalone-nginx-ingress-controller        LoadBalancer   10.254.235.53   &lt;pending&gt;     80:45608/TCP,443:40984/TCP   5d
+default     service/quiet-abalone-nginx-ingress-default-backend   ClusterIP      10.254.20.221   &lt;none&gt;        80/TCP                       5d
+
+NAMESPACE   NAME                                                          DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+default     deployment.apps/quiet-abalone-nginx-ingress-controller        1         1         1            1           5d
+default     deployment.apps/quiet-abalone-nginx-ingress-default-backend   1         1         1            1           5d
+
+NAMESPACE   NAME                                                                     DESIRED   CURRENT   READY     AGE
+default     replicaset.apps/quiet-abalone-nginx-ingress-controller-7b8b745f96        1         1         1         5d
+default     replicaset.apps/quiet-abalone-nginx-ingress-default-backend-54f4fb569c   1         1         1         5d
+</code></pre></div></div>
+
+<h3 id="22-nginx-负载均衡测试">2.2 nginx 负载均衡测试</h3>
+
+<h4 id="221-nginx-demoyaml">2.2.1 nginx-demo.yaml</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-demo
+  labels:
+    app: my-nginx
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: my-nginx
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: my-nginx
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+      - image: nginx/nginx:1.7.9
+        name: nginx-demo
+        ports:
+        - containerPort: 80
+</code></pre></div></div>
+
+<h4 id="222-ingress-nginx-demoyaml">2.2.2 ingress-nginx-demo.yaml</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress-demo
+  namespace: default
+#  annotations:
+#    kubernetes.io/ingress.class: "public"
+#    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: test.nginx.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-demo
+          servicePort: 80
+        path: /
+</code></pre></div></div>
+
+<h2 id="三-traefik">三. traefik</h2>
+<ul>
+  <li><a href="https://github.com/containous/traefik/tree/master/examples/k8s">官网 yaml文档</a></li>
+  <li><a href="https://docs.traefik.io/user-guide/kubernetes/">docs.traefik.io</a></li>
+</ul>
+
+<h3 id="31-traefik-insecureyaml">3.1 traefik-insecure.yaml</h3>
+<ul>
+  <li>只开启了http 请求访问</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: traefik-ingress-controller
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: traefik-ingress-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: traefik-ingress-controller
+subjects:
+- kind: ServiceAccount
+  name: traefik-ingress-controller
+  namespace: kube-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: traefik-ingress-controller
+  namespace: kube-system
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: traefik-conf
+  namespace: kube-system
+data:
+  traefik.toml: |
+    insecureSkipVerify = true
+    defaultEntryPoints = ["http"]
+    [entryPoints]
+      [entryPoints.http]
+      address = ":80"
+---
+kind: DaemonSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: traefik-ingress-controller
+  namespace: kube-system
+  labels:
+    k8s-app: traefik-ingress-lb
+spec:
+  template:
+    metadata:
+      labels:
+        k8s-app: traefik-ingress-lb
+        name: traefik-ingress-lb
+    spec:
+      serviceAccountName: traefik-ingress-controller
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      terminationGracePeriodSeconds: 60
+      hostNetwork: true
+      volumes:
+      - name: config
+        configMap:
+          name: traefik-conf
+      containers:
+      - image: k8s.jevic.cn/kubernetes/traefik:1.7.3
+        name: traefik-ingress-lb
+        ports:
+        - name: http
+          containerPort: 80
+          hostPort: 80
+        - name: admin
+          containerPort: 8080
+        securityContext:
+          privileged: true
+        args:
+        - --configfile=/config/traefik.toml
+        - -d
+        - --web
+        - --kubernetes
+        - --web.address=0.0.0.0:8081
+        volumeMounts:
+        - mountPath: "/config"
+          name: "config"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: traefik-ingress-service
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+    - protocol: TCP
+      port: 80
+      name: web
+    - protocol: TCP
+      port: 8080
+      name: admin
+    - protocol: TCP
+      port: 443
+      name: https
+  type: NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-web-ui
+  namespace: kube-system
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-web-ui
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: ingress.jevic.cn
+    http:
+      paths:
+      - backend:
+          serviceName: traefik-web-ui
+          servicePort: 80
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create -f traefik-insecure.yaml
+</code></pre></div></div>
+
+<p>然后等待服务正常启动即可</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl get pod -n kube-system -l k8s-app=traefik-ingress-lb
+NAME                               READY     STATUS    RESTARTS   AGE
+traefik-ingress-controller-mv8cg   1/1       Running   0          4d
+traefik-ingress-controller-vvfc7   1/1       Running   0          4d
+</code></pre></div></div>
+
+<h3 id="32-traefik-httpsyaml">3.2 traefik-https.yaml</h3>
+<ul>
+  <li>开启http 和 https 访问</li>
+</ul>
+
+<h4 id="321-创建-secret">3.2.1 创建 secret</h4>
+<ul>
+  <li>这里使用购买的证书,也可以使用自签名证书测试；</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create secret tls ssl --cert=jevic.cert --key=jevic.key -n kube-system
+kubectl get secret -n kube-system
+</code></pre></div></div>
+<p>这里注意namespace 一定要配置为kube-system</p>
+
+<h4 id="322-traefik-httpsyaml">3.2.2 traefik-https.yaml</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: traefik-ingress-controller
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: traefik-ingress-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: traefik-ingress-controller
+subjects:
+- kind: ServiceAccount
+  name: traefik-ingress-controller
+  namespace: kube-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: traefik-ingress-controller
+  namespace: kube-system
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: traefik-conf
+  namespace: kube-system
+data:
+  traefik.toml: |
+    insecureSkipVerify = true
+    defaultEntryPoints = ["http","https"]
+    [entryPoints]
+      [entryPoints.http]
+      address = ":80"
+      [entryPoints.https]
+      address = ":443"
+        [entryPoints.https.tls]
+          [[entryPoints.https.tls.certificates]]
+          CertFile = "/ssl/tls.crt"
+          KeyFile = "/ssl/tls.key"
+---
+kind: DaemonSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: traefik-ingress-controller
+  namespace: kube-system
+  labels:
+    k8s-app: traefik-ingress-lb
+spec:
+  template:
+    metadata:
+      labels:
+        k8s-app: traefik-ingress-lb
+        name: traefik-ingress-lb
+    spec:
+      serviceAccountName: traefik-ingress-controller
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      terminationGracePeriodSeconds: 60
+      hostNetwork: true
+      volumes:
+      - name: ssl
+        secret:
+          secretName: ssl
+      - name: config
+        configMap:
+          name: traefik-conf
+      containers:
+      - image: k8s.jevic.cn/kubernetes/traefik:latest
+        name: traefik-ingress-lb
+        ports:
+        - name: http
+          containerPort: 80
+          hostPort: 80
+        - name: admin
+          containerPort: 8081
+        securityContext:
+          privileged: true
+        args:
+        - --configfile=/config/traefik.toml
+        - -d
+        - --web
+        - --kubernetes
+        - --web.address=0.0.0.0:8081
+        volumeMounts:
+        - mountPath: "/ssl"
+          name: "ssl"
+        - mountPath: "/config"
+          name: "config"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: traefik-ingress-service
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+    - protocol: TCP
+      port: 80
+      name: web
+    - protocol: TCP
+      port: 8081
+      name: admin
+    - protocol: TCP
+      port: 443
+      name: https
+  type: NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-web-ui
+  namespace: kube-system
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+  - port: 80
+    targetPort: 8081
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-web-ui
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: ingress.jevic.cn
+    http:
+      paths:
+      - backend:
+          serviceName: traefik-web-ui
+          servicePort: 80
+</code></pre></div></div>
+
+<p>默认端口: 8080 这里手动指定了web-ui端口为:8081</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- --web.address=0.0.0.0:8081
+</code></pre></div></div>
+
+<h3 id="33-目录结构">3.3 目录结构</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── jevic.cert
+├── jevic.key
+├── nginx-demo
+│   ├── ingress-nginx-traefik.yaml
+│   └── nginx-demo.yaml
+├── traefik-https.yaml
+└── traefik-insecure.yaml
+</code></pre></div></div>
+
+<h3 id="34-traefik-nginx-demo">3.4 traefik nginx-demo</h3>
+
+<h4 id="nginx-demoyaml">nginx-demo.yaml</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-demo
+  labels:
+    app: nginx-demo
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    name: http
+  - port: 443
+    protocol: TCP
+    targetPort: 443
+    name: https
+  selector:
+    app: nginx-demo
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-demo
+    spec:
+      containers:
+      - image: k8s.jevic.cn/nginx/nginx:1.7.9
+        name: nginx-demo
+        ports:
+        - name: https
+          containerPort: 443
+        - name: http
+          containerPort: 80
+</code></pre></div></div>
+
+<h4 id="ingress-nginx-traefikyaml">ingress-nginx-traefik.yaml</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress-demo
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: nginx.jevic.cn
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-demo
+          servicePort: 80
+        path: /
+</code></pre></div></div>
+
+<h4 id="部署">部署</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ls
+ingress-nginx-traefik.yaml  nginx-demo.yaml
+# kubectl create -f nginx-demo.yaml
+service "nginx-demo" created
+replicationcontroller "nginx-demo" created
+# kubectl create -f ingress-nginx-traefik.yaml
+ingress.extensions "nginx-ingress-demo" created
+# kubectl get pods -l app=nginx-demo
+NAME               READY     STATUS    RESTARTS   AGE
+nginx-demo-z6gz7   1/1       Running   0          13s
+# kubectl get svc -l app=nginx-demo
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+nginx-demo   ClusterIP   10.254.97.231   &lt;none&gt;        80/TCP,443/TCP   22s
+# kubectl get ingress
+NAME                 HOSTS               ADDRESS   PORTS     AGE
+nginx-ingress-demo   nginx.jevic.cn             80        21s
+</code></pre></div></div>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/10/25/ingresss-traefik/';
+                    this.page.identifier = '/2018/10/25/ingresss-traefik/';
+                    this.page.title = 'kubernetes nginx-ingress and traefik';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2018
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
