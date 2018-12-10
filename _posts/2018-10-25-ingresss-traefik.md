@@ -12,6 +12,8 @@ keywords: Docker,k8s
 在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。
 
 ## 一. 证书(可选配置)
+关于更加详细的证书说明可查看[kubernetes 文档](https://kubernetes.io/zh/docs/concepts/cluster-administration/certificates/)
+
 - 使用已购买的证书
 - 配置自签名证书
 
@@ -311,6 +313,8 @@ traefik-ingress-controller-vvfc7   1/1       Running   0          4d
 - 开启http 和 https 访问
 
 #### 3.2.1 创建 secret 
+关于secret 的更多详细说明请查看[官方文档](https://kubernetes.io/zh/docs/concepts/configuration/secret)
+
 - 这里使用购买的证书,也可以使用自签名证书测试；
 
 ```

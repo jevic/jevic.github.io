@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-10T16:08:27+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-10T17:35:20+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
   &lt;p&gt;相比kubernetes Dashboard 
 Rancher管理面板简化了很多相对比较&lt;code class=&quot;highlighter-rouge&quot;&gt;复杂&lt;/code&gt;的操作;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -460,6 +460,8 @@ xpack.security.enabled: true  ## 开启认证
 &lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档, 类比MySQL index == database _type == table 6.x 版本开始 移除了_type 也就是每个索引只有一种类型！！！ x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!</summary></entry><entry><title type="html">kubernetes nginx-ingress and traefik</title><link href="http://0.0.0.0/2018/10/25/ingresss-traefik/" rel="alternate" type="text/html" title="kubernetes nginx-ingress and traefik" /><published>2018-10-25T22:35:46+08:00</published><updated>2018-10-25T22:35:46+08:00</updated><id>http://0.0.0.0/2018/10/25/ingresss-traefik</id><content type="html" xml:base="http://0.0.0.0/2018/10/25/ingresss-traefik/">&lt;p&gt;在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。&lt;/p&gt;
 
 &lt;h2 id=&quot;一-证书可选配置&quot;&gt;一. 证书(可选配置)&lt;/h2&gt;
+&lt;p&gt;关于更加详细的证书说明可查看&lt;a href=&quot;https://kubernetes.io/zh/docs/concepts/cluster-administration/certificates/&quot;&gt;kubernetes 文档&lt;/a&gt;&lt;/p&gt;
+
 &lt;ul&gt;
   &lt;li&gt;使用已购买的证书&lt;/li&gt;
   &lt;li&gt;配置自签名证书&lt;/li&gt;
@@ -757,6 +759,8 @@ traefik-ingress-controller-vvfc7   1/1       Running   0          4d
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;321-创建-secret&quot;&gt;3.2.1 创建 secret&lt;/h4&gt;
+&lt;p&gt;关于secret 的更多详细说明请查看&lt;a href=&quot;https://kubernetes.io/zh/docs/concepts/configuration/secret&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
+
 &lt;ul&gt;
   &lt;li&gt;这里使用购买的证书,也可以使用自签名证书测试；&lt;/li&gt;
 &lt;/ul&gt;
