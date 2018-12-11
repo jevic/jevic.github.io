@@ -168,6 +168,12 @@
     "category": "Tools"
   },
   
+  "2017-12-28-dockerhub-photo": {
+    "title": "docker hub 头像",
+    "url": " /2017/12/28/dockerhub-photo/",
+    "category": "Docker"
+  },
+  
   "2017-12-26-docker-jenkins-gitlab-images": {
     "title": "jenkens-gitlab-docker 自动化构建镜像(一)",
     "url": " /2017/12/26/docker-jenkins-gitlab-images/",
@@ -543,6 +549,12 @@
   "2017-12-26-docker-jenkins-gitlab-images": {
     "title": "jenkens-gitlab-docker 自动化构建镜像(一)",
     "url": "/2017/12/26/docker-jenkins-gitlab-images/",
+    "category": "[&quot;Docker&quot;]"
+  },
+  
+  "2017-12-28-dockerhub-photo": {
+    "title": "docker hub 头像",
+    "url": "/2017/12/28/dockerhub-photo/",
     "category": "[&quot;Docker&quot;]"
   },
   
