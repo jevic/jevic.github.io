@@ -532,24 +532,23 @@ spec:
 
 ```
 apiVersion: v1
-kind: ReplicationController
+kind: Service
 metadata:
   name: nginx-demo
+  labels:
+    nginx: nginx-demo
 spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: nginx-demo
-    spec:
-      containers:
-      - image: k8s.jevic.cn/nginx/nginx:1.7.9
-        name: nginx-demo
-        ports:
-        - name: https
-          containerPort: 443
-        - name: http
-          containerPort: 80
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    name: http
+  - port: 443
+    protocol: TCP
+    targetPort: 443
+    name: https
+  selector:
+    nginx: nginx-demo
 ```
 
 #### ingress-nginx-traefik.yaml
