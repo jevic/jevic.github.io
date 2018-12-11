@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-11T16:25:41+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-11T17:00:01+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
   &lt;p&gt;相比kubernetes Dashboard 
 Rancher管理面板简化了很多相对比较&lt;code class=&quot;highlighter-rouge&quot;&gt;复杂&lt;/code&gt;的操作;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -2995,7 +2995,7 @@ EOF
   &lt;li&gt;镜像
     &lt;ul&gt;
       &lt;li&gt;出于不可描述的原因获取镜像会遇到困难&lt;/li&gt;
-      &lt;li&gt;从Docker hub FROM 官方镜像再从自己镜像仓库拉取即可&lt;/li&gt;
+      &lt;li&gt;使用开源社区镜像即可&lt;a href=&quot;https://www.jevic.cn/2018/05/25/mirror/&quot;&gt;详情查看&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;具体操作细节在此忽略&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
