@@ -7,13 +7,9 @@ description: Docker,kubernetes,k8s
 keywords: Docker,k8s
 ---
 
-
-
 在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。
 
 ## 一. 证书(可选配置)
-关于更加详细的证书说明可查看[kubernetes 文档](https://kubernetes.io/zh/docs/concepts/cluster-administration/certificates/)
-
 - 使用已购买的证书
 - 配置自签名证书
 
@@ -138,8 +134,8 @@ spec:
 ```
 
 ## 三. traefik
-- [官网 yaml文档](https://github.com/containous/traefik/tree/master/examples/k8s)
-- [docs.traefik.io](https://docs.traefik.io/user-guide/kubernetes/)
+[官网 yaml文档](https://github.com/containous/traefik/tree/master/examples/k8s)
+[docs.traefik.io](https://docs.traefik.io/user-guide/kubernetes/)
 
 ### 3.1 traefik-insecure.yaml
 - 只开启了http 请求访问
@@ -313,8 +309,6 @@ traefik-ingress-controller-vvfc7   1/1       Running   0          4d
 - 开启http 和 https 访问
 
 #### 3.2.1 创建 secret 
-关于secret 的更多详细说明请查看[官方文档](https://kubernetes.io/zh/docs/concepts/configuration/secret)
-
 - 这里使用购买的证书,也可以使用自签名证书测试；
 
 ```
@@ -506,27 +500,37 @@ spec:
 
 ### 3.4 traefik nginx-demo
 
-#### nginx-demo.yaml
+#### nginx-deployment-demo.yaml
 ```
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: nginx-demo
   labels:
-    app: nginx-demo
+    nginx: nginx-demo
 spec:
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-    name: http
-  - port: 443
-    protocol: TCP
-    targetPort: 443
-    name: https
+  replicas: 2
   selector:
-    app: nginx-demo
----
+    matchLabels:
+      nginx: nginx-demo
+  template:
+    metadata:
+      labels:
+        nginx: nginx-demo
+    spec:
+      containers:
+      - name: nginx-demo
+        image: k8s.yfcloud.com/nginx/nginx:1.7.9
+        ports:
+        - name: https
+          containerPort: 443
+        - name: http
+          containerPort: 80
+```
+
+#### nginx-svc-demo.yaml
+
+```
 apiVersion: v1
 kind: ReplicationController
 metadata:
@@ -573,24 +577,24 @@ spec:
 
 ```
 # ls
-ingress-nginx-traefik.yaml  nginx-demo.yaml
-# kubectl create -f nginx-demo.yaml
+ingress-nginx-traefik.yaml  nginx-deployment-demo.yaml  nginx-rc-demo.yaml  nginx-svc-demo.yaml
+# kubectl apply -f nginx-deployment-demo.yaml
+deployment.apps "nginx-demo" created
+# kubectl create -f nginx-svc-demo.yaml
 service "nginx-demo" created
-replicationcontroller "nginx-demo" created
 # kubectl create -f ingress-nginx-traefik.yaml
 ingress.extensions "nginx-ingress-demo" created
-# kubectl get pods -l app=nginx-demo
-NAME               READY     STATUS    RESTARTS   AGE
-nginx-demo-z6gz7   1/1       Running   0          13s
-# kubectl get svc -l app=nginx-demo
-NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-nginx-demo   ClusterIP   10.254.97.231   <none>        80/TCP,443/TCP   22s
-# kubectl get ingress
-NAME                 HOSTS               ADDRESS   PORTS     AGE
-nginx-ingress-demo   nginx.jevic.cn             80        21s
+# kubectl get all -l nginx=nginx-demo
+NAMESPACE   NAME                            READY     STATUS    RESTARTS   AGE
+default     pod/nginx-demo-c8765675-phr2w   1/1       Running   0          1m
+default     pod/nginx-demo-c8765675-z7tgn   1/1       Running   0          1m
+
+NAMESPACE   NAME                         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+default     deployment.apps/nginx-demo   2         2         2            2           1m
+
+NAMESPACE   NAME                                  DESIRED   CURRENT   READY     AGE
+default     replicaset.apps/nginx-demo-c8765675   2         2         2         1m
 ```
 
 ![](https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik01.png)
 ![](https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik02.png)
-
-- [配置文件示例](https://github.com/jevic/kshell/tree/master/addon/traefik)

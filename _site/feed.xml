@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-10T17:35:20+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-11T15:03:45+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
   &lt;p&gt;相比kubernetes Dashboard 
 Rancher管理面板简化了很多相对比较&lt;code class=&quot;highlighter-rouge&quot;&gt;复杂&lt;/code&gt;的操作;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -460,8 +460,6 @@ xpack.security.enabled: true  ## 开启认证
 &lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档, 类比MySQL index == database _type == table 6.x 版本开始 移除了_type 也就是每个索引只有一种类型！！！ x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!</summary></entry><entry><title type="html">kubernetes nginx-ingress and traefik</title><link href="http://0.0.0.0/2018/10/25/ingresss-traefik/" rel="alternate" type="text/html" title="kubernetes nginx-ingress and traefik" /><published>2018-10-25T22:35:46+08:00</published><updated>2018-10-25T22:35:46+08:00</updated><id>http://0.0.0.0/2018/10/25/ingresss-traefik</id><content type="html" xml:base="http://0.0.0.0/2018/10/25/ingresss-traefik/">&lt;p&gt;在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。&lt;/p&gt;
 
 &lt;h2 id=&quot;一-证书可选配置&quot;&gt;一. 证书(可选配置)&lt;/h2&gt;
-&lt;p&gt;关于更加详细的证书说明可查看&lt;a href=&quot;https://kubernetes.io/zh/docs/concepts/cluster-administration/certificates/&quot;&gt;kubernetes 文档&lt;/a&gt;&lt;/p&gt;
-
 &lt;ul&gt;
   &lt;li&gt;使用已购买的证书&lt;/li&gt;
   &lt;li&gt;配置自签名证书&lt;/li&gt;
@@ -583,10 +581,8 @@ spec:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;三-traefik&quot;&gt;三. traefik&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/containous/traefik/tree/master/examples/k8s&quot;&gt;官网 yaml文档&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.traefik.io/user-guide/kubernetes/&quot;&gt;docs.traefik.io&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/containous/traefik/tree/master/examples/k8s&quot;&gt;官网 yaml文档&lt;/a&gt;
+&lt;a href=&quot;https://docs.traefik.io/user-guide/kubernetes/&quot;&gt;docs.traefik.io&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;31-traefik-insecureyaml&quot;&gt;3.1 traefik-insecure.yaml&lt;/h3&gt;
 &lt;ul&gt;
@@ -759,8 +755,6 @@ traefik-ingress-controller-vvfc7   1/1       Running   0          4d
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;321-创建-secret&quot;&gt;3.2.1 创建 secret&lt;/h4&gt;
-&lt;p&gt;关于secret 的更多详细说明请查看&lt;a href=&quot;https://kubernetes.io/zh/docs/concepts/configuration/secret&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
-
 &lt;ul&gt;
   &lt;li&gt;这里使用购买的证书,也可以使用自签名证书测试；&lt;/li&gt;
 &lt;/ul&gt;
@@ -950,27 +944,36 @@ spec:
 
 &lt;h3 id=&quot;34-traefik-nginx-demo&quot;&gt;3.4 traefik nginx-demo&lt;/h3&gt;
 
-&lt;h4 id=&quot;nginx-demoyaml&quot;&gt;nginx-demo.yaml&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: v1
-kind: Service
+&lt;h4 id=&quot;nginx-deployment-demoyaml&quot;&gt;nginx-deployment-demo.yaml&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: nginx-demo
   labels:
-    app: nginx-demo
+    nginx: nginx-demo
 spec:
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-    name: http
-  - port: 443
-    protocol: TCP
-    targetPort: 443
-    name: https
+  replicas: 2
   selector:
-    app: nginx-demo
----
-apiVersion: v1
+    matchLabels:
+      nginx: nginx-demo
+  template:
+    metadata:
+      labels:
+        nginx: nginx-demo
+    spec:
+      containers:
+      - name: nginx-demo
+        image: k8s.yfcloud.com/nginx/nginx:1.7.9
+        ports:
+        - name: https
+          containerPort: 443
+        - name: http
+          containerPort: 80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;nginx-svc-demoyaml&quot;&gt;nginx-svc-demo.yaml&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: v1
 kind: ReplicationController
 metadata:
   name: nginx-demo
@@ -1014,29 +1017,27 @@ spec:
 &lt;h4 id=&quot;部署&quot;&gt;部署&lt;/h4&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ls
-ingress-nginx-traefik.yaml  nginx-demo.yaml
-# kubectl create -f nginx-demo.yaml
+ingress-nginx-traefik.yaml  nginx-deployment-demo.yaml  nginx-rc-demo.yaml  nginx-svc-demo.yaml
+# kubectl apply -f nginx-deployment-demo.yaml
+deployment.apps &quot;nginx-demo&quot; created
+# kubectl create -f nginx-svc-demo.yaml
 service &quot;nginx-demo&quot; created
-replicationcontroller &quot;nginx-demo&quot; created
 # kubectl create -f ingress-nginx-traefik.yaml
 ingress.extensions &quot;nginx-ingress-demo&quot; created
-# kubectl get pods -l app=nginx-demo
-NAME               READY     STATUS    RESTARTS   AGE
-nginx-demo-z6gz7   1/1       Running   0          13s
-# kubectl get svc -l app=nginx-demo
-NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-nginx-demo   ClusterIP   10.254.97.231   &amp;lt;none&amp;gt;        80/TCP,443/TCP   22s
-# kubectl get ingress
-NAME                 HOSTS               ADDRESS   PORTS     AGE
-nginx-ingress-demo   nginx.jevic.cn             80        21s
+# kubectl get all -l nginx=nginx-demo
+NAMESPACE   NAME                            READY     STATUS    RESTARTS   AGE
+default     pod/nginx-demo-c8765675-phr2w   1/1       Running   0          1m
+default     pod/nginx-demo-c8765675-z7tgn   1/1       Running   0          1m
+
+NAMESPACE   NAME                         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+default     deployment.apps/nginx-demo   2         2         2            2           1m
+
+NAMESPACE   NAME                                  DESIRED   CURRENT   READY     AGE
+default     replicaset.apps/nginx-demo-c8765675   2         2         2         1m
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik01.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/jevic/kshell/tree/master/addon/traefik&quot;&gt;配置文件示例&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。</summary></entry><entry><title type="html">Kubernetes helm 包管理工具</title><link href="http://0.0.0.0/2018/10/13/helm/" rel="alternate" type="text/html" title="Kubernetes helm 包管理工具" /><published>2018-10-13T20:35:46+08:00</published><updated>2018-10-13T20:35:46+08:00</updated><id>http://0.0.0.0/2018/10/13/helm</id><content type="html" xml:base="http://0.0.0.0/2018/10/13/helm/">&lt;blockquote&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。</summary></entry><entry><title type="html">Kubernetes helm 包管理工具</title><link href="http://0.0.0.0/2018/10/13/helm/" rel="alternate" type="text/html" title="Kubernetes helm 包管理工具" /><published>2018-10-13T20:35:46+08:00</published><updated>2018-10-13T20:35:46+08:00</updated><id>http://0.0.0.0/2018/10/13/helm</id><content type="html" xml:base="http://0.0.0.0/2018/10/13/helm/">&lt;blockquote&gt;
   &lt;p&gt;helm 简介
 很多人都使用过Ubuntu下的ap-get或者CentOS下的yum, 这两者都是Linux系统下的包管理工具。采用apt-get/yum,应用开发者可以管理应用包之间的依赖关系，发布应用；用户则可以以简单的方式查找、安装、升级、卸载应用程序。&lt;/p&gt;
 &lt;/blockquote&gt;
