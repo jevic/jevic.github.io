@@ -108,6 +108,12 @@
     "category": "Docker"
   },
   
+  "2018-02-22-devops-deployment": {
+    "title": "微服务发布方式",
+    "url": " /2018/02/22/devops-deployment/",
+    "category": "Docker"
+  },
+  
   "2018-02-06-gitlab-cicd-rancher-build": {
     "title": "gitlab CI/CD 自动化构建Rancher容器服务",
     "url": " /2018/02/06/gitlab-cicd-rancher-build/",
@@ -616,6 +622,12 @@
     "title": "gitlab CI/CD 自动化构建Rancher容器服务",
     "url": "/2018/02/06/gitlab-cicd-rancher-build/",
     "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2018-02-22-devops-deployment": {
+    "title": "微服务发布方式",
+    "url": "/2018/02/22/devops-deployment/",
+    "category": "[&quot;Docker&quot;, &quot;Kubernetes&quot;, &quot;OPS&quot;]"
   },
   
   "2018-02-28-traefik-rancher": {
