@@ -42,6 +42,12 @@
     "category": "ELK"
   },
   
+  "2018-08-01-kubernetes": {
+    "title": "kubernetes 核心概念简述",
+    "url": " /2018/08/01/kubernetes/",
+    "category": "Docker"
+  },
+  
   "2018-07-17-kubeadm-kubernetes1-10-1": {
     "title": "Kubeadm 快速部署kubernetes 1.10.1",
     "url": " /2018/07/17/kubeadm-kubernetes1.10.1/",
@@ -400,6 +406,8 @@
   
   
   
+  
+  
 
   
   "2016-07-23-linux-firewalld-iptables": {
@@ -694,6 +702,12 @@
     "title": "Kubeadm 快速部署kubernetes 1.10.1",
     "url": "/2018/07/17/kubeadm-kubernetes1.10.1/",
     "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2018-08-01-kubernetes": {
+    "title": "kubernetes 核心概念简述",
+    "url": "/2018/08/01/kubernetes/",
+    "category": "[&quot;Docker&quot;, &quot;Kubernetes&quot;]"
   },
   
   "2018-08-25-elasticsearch-templates": {

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>kubernetes 核心概念简述 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2018/08/01/kubernetes/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="kubernetes 核心概念简述">
+      
+    <meta name="keywords" content="docker,kubernetes">
+    <meta name="og:keywords" content="docker,kubernetes">
+      
+    <meta name="description" content="  Kubernetes主要由以下几个核心组件组成：">
+    <meta name="og:description" content="  Kubernetes主要由以下几个核心组件组成：">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2018/08/01/kubernetes/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-08-01">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="kubernetes 核心概念">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">kubernetes 核心概念简述</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/08/01
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Docker" title="Docker">Docker</a>
+          </span>
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>Kubernetes主要由以下几个核心组件组成：</p>
+</blockquote>
+
+<ul>
+  <li>etcd保存了整个集群的状态；</li>
+  <li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
+  <li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
+  <li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li>
+  <li>kubelet负责维护容器的生命周期，同时也负责Volume（CVI）和网络（CNI）的管理；</li>
+  <li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
+  <li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/kubernetes/architecture.png" alt="" /></p>
+<h3 id="master">Master</h3>
+<p>Master节点上面主要由四个模块组成：<code class="highlighter-rouge">APIServer</code>、<code class="highlighter-rouge">scheduler</code>、<code class="highlighter-rouge">controller manager</code>、<code class="highlighter-rouge">etcd</code>。</p>
+
+<p><code class="highlighter-rouge">APIServer</code>。APIServer负责对外提供RESTful的Kubernetes API服务，它是系统管理指令的统一入口，任何对资源进行增删改查的操作都要交给APIServer处理后再提交给etcd。如架构图中所示，kubectl（Kubernetes提供的客户端工具，该工具内部就是对Kubernetes API的调用）是直接和APIServer交互的。</p>
+
+<p><code class="highlighter-rouge">schedule</code>。scheduler的职责很明确，就是负责调度pod到合适的Node上。如果把scheduler看成一个黑匣子，那么它的输入是pod和由多个Node组成的列表，输出是Pod和一个Node的绑定，即将这个pod部署到这个Node上。Kubernetes目前提供了调度算法，但是同样也保留了接口，用户可以根据自己的需求定义自己的调度算法。</p>
+
+<p><code class="highlighter-rouge">controller manager</code>。如果说APIServer做的是“前台”的工作的话，那controller manager就是负责“后台”的。每个资源一般都对应有一个控制器，而controller manager就是负责管理这些控制器的。比如我们通过APIServer创建一个pod，当这个pod创建成功后，APIServer的任务就算完成了。而后面保证Pod的状态始终和我们预期的一样的重任就由controller manager去保证了。</p>
+
+<p><code class="highlighter-rouge">etcd</code>。etcd是一个高可用的键值存储系统，Kubernetes使用它来存储各个资源的状态，从而实现了Restful的API。</p>
+
+<h3 id="node">Node</h3>
+<p>每个Node节点主要由三个模块组成：<code class="highlighter-rouge">kubelet</code>、<code class="highlighter-rouge">kube-proxy</code>、<code class="highlighter-rouge">runtime</code>。</p>
+
+<p><code class="highlighter-rouge">runtime</code>。runtime指的是容器运行环境，目前Kubernetes支持docker和rkt两种容器。</p>
+
+<p><code class="highlighter-rouge">kube-proxy</code>。该模块实现了Kubernetes中的服务发现和反向代理功能。反向代理方面：kube-proxy支持TCP和UDP连接转发，默认基于Round Robin算法将客户端流量转发到与service对应的一组后端pod。服务发现方面，kube-proxy使用etcd的watch机制，监控集群中service和endpoint对象数据的动态变化，并且维护一个service到endpoint的映射关系，从而保证了后端pod的IP变化不会对访问者造成影响。另外kube-proxy还支持session affinity。</p>
+
+<p><code class="highlighter-rouge">kubelet</code>。Kubelet是Master在每个Node节点上面的agent，是Node节点上面最重要的模块，它负责维护和管理该Node上面的所有容器，但是如果容器不是通过Kubernetes创建的，它并不会管理。本质上，它负责使Pod得运行状态与期望的状态一致。</p>
+
+<p>至此，Kubernetes的Master和Node就简单介绍完了。下面我们来看Kubernetes中的各种资源/对象。</p>
+
+<h2 id="label">label</h2>
+
+<p>添加</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl label nodes master219 myapp=flask-app
+</code></pre></div></div>
+
+<p>删除</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl label nodes master219 myapp-
+</code></pre></div></div>
+
+<blockquote>
+  <p>许多资源支持内嵌字段定义其使用的标签选择器:</p>
+</blockquote>
+
+<ul>
+  <li>matchLabels:直接给定键值</li>
+  <li>matchExpressions:基于给定的表达式来定义使用标签选择器
+    <ul>
+      <li>{key:”KEY”, operator:”OPERATOR”,</li>
+    </ul>
+  </li>
+  <li>values:[VAL1,VAL2,…]} 操作符:
+    <ul>
+      <li>In, NotIn:  values字段的值必须为非空列表;</li>
+      <li>Exists, NotExists:  values字段的值必须为空列表</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="pod">Pod</h2>
+<h3 id="pod-配置项">Pod 配置项</h3>
+<p>镜像:
+Always：每次都下载最新的镜像
+Never：只使用本地镜像，从不下载
+IfNotPresent：只有当本地没有的时候才下载镜像</p>
+
+<p>Host网络: 
+一些特殊场景下，容器必须要以host方式进行网络设置（如接收物理机网络才能够接收到的组播流），在Pod中也支持host网络的设置，如：kubectl explain Pod.spec.hostNetwork；</p>
+
+<p>affinity: 调度器; kubectl explain Pod.spec.affinity</p>
+
+<h2 id="controllers">Controllers</h2>
+<p>关于pod 目前所支持的控制器请查看<a href="https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/">官网文档</a></p>
+
+<h3 id="replicationcontroller">ReplicationController:</h3>
+
+<p>Replication Controller（RC）是Kubernetes中的另一个核心概念，应用托管在Kubernetes之后，Kubernetes需要保证应用能够持续运行，这是RC的工作内容，它会确保任何时间Kubernetes中都有指定数量的Pod在运行。在此基础上，RC还提供了一些更高级的特性，比如滚动升级、升级回滚等。</p>
+
+<h3 id="replicaset">ReplicaSet:</h3>
+
+<p>这里所说的replica set，可以被认为 是“升级版”的Replication Controller。也就是说。replica set也是用于保证与label selector匹配的pod数量维持在期望状态。区别在于，replica set引入了对基于子集的selector查询条件，而Replication Controller仅支持基于值相等的selecto条件查询。这是目前从用户角度肴，两者唯一的显著差异。 社区引入这一API的初衷是用于取代vl中的Replication Controller，也就是说．当v1版本被废弃时，Replication Controller就完成了它的历史使命，而由replica set来接管其工作。虽然replica set可以被单独使用，但是目前它多被Deployment用于进行pod的创建、更新与删除。　</p>
+
+<h3 id="daemonset">DaemonSet</h3>
+
+<p>DaemonSet能够让所有（或者特定）的节点运行同一个pod。</p>
+
+<p>当节点加入到K8S集群中，pod会被（DaemonSet）调度到该节点上运行，当节点从K8S集群中被移除，被DaemonSet调度的pod会被移除，如果删除DaemonSet，所有跟这个DaemonSet相关的pods都会被删除。</p>
+
+<p>在某种程度上，DaemonSet承担了RC的部分功能，它也能保证相关pods持续运行，如果一个DaemonSet的Pod被杀死、停止、或者崩溃，那么DaemonSet将会重新创建一个新的副本在这台计算节点上。</p>
+
+<p>一般应用于日志收集、监控采集、分布式存储守护进程、ingress等</p>
+
+<h3 id="job">Job</h3>
+
+<p>从程序的运行形态上来区分，我们可以将Pod分为两类：长时运行服务（jboss、mysql等）和一次性任务（数据计算、测试）。RC创建的Pod都是长时运行的服务，而Job创建的Pod都是一次性任务。
+  在Job的定义中，restartPolicy（重启策略）只能是Never和OnFailure。Job可以控制一次性任务的Pod的完成次数（Job–&gt;spec–&gt;completions）和并发执行数（Job–&gt;spec–&gt;parallelism），当Pod成功执行指定次数后，即认为Job执行完毕。
+　　</p>
+<h3 id="cronjob">Cronjob</h3>
+
+<p>Kubernetes集群使用Cron Job管理基于时间的作业，可以在指定的时间点执行一次或在指定时间点执行多次任务。 一个Cron Job就好像Linux crontab中的一行，可以按照Cron定时运行任务</p>
+
+<h3 id="statefulset">StatefulSet</h3>
+
+<p>K8s在1.3版本里发布了Alpha版的PetSet功能。在云原生应用的体系里，有下面两组近义词；第一组是无状态（stateless）、牲畜（cattle）、无名（nameless）、可丢弃（disposable）；第二组是有状态（stateful）、宠物（pet）、有名（having name）、不可丢弃（non-disposable）。RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是随机设置的，一个Pod出故障了就被丢弃掉，在另一个地方重启一个新的Pod，名字变了、名字和启动在哪儿都不重要，重要的只是Pod总数；而PetSet是用来控制有状态服务，PetSet中的每个Pod的名字都是事先确定的，不能更改。PetSet中Pod的名字的作用，是用来关联与该Pod对应的状态。</p>
+
+<p>　　对于RC和RS中的Pod，一般不挂载存储或者挂载共享存储，保存的是所有Pod共享的状态，Pod像牲畜一样没有分别；对于PetSet中的Pod，每个Pod挂载自己独立的存储，如果一个Pod出现故障，从其他节点启动一个同样名字的Pod，要挂在上原来Pod的存储继续以它的状态提供服务。</p>
+
+<p>　　适合于PetSet的业务包括数据库服务MySQL和PostgreSQL，集群化管理服务Zookeeper、etcd等有状态服务。PetSet的另一种典型应用场景是作为一种比普通容器更稳定可靠的模拟虚拟机的机制。传统的虚拟机正是一种有状态的宠物，运维人员需要不断地维护它，容器刚开始流行时，我们用容器来模拟虚拟机使用，所有状态都保存在容器里，而这已被证明是非常不安全、不可靠的。使用PetSet，Pod仍然可以通过漂移到不同节点提供高可用，而存储也可以通过外挂的存储来提供高可靠性，PetSet做的只是将确定的Pod与确定的存储关联起来保证状态的连续性。</p>
+
+<h3 id="deployment">Deployment</h3>
+<ul>
+  <li>基于此强大特性在部署服务轻松执行<a href="https://www.jevic.cn/2018/02/22/devops-deployment/">金丝雀发布</a>以及<a href="https://www.jevic.cn/2018/02/22/devops-deployment/">蓝绿发布</a>…..  强大到没有朋友👬 😄</li>
+</ul>
+
+<p>Kubernetes提供了一种更加简单的更新RC和Pod的机制，叫做Deployment。通过在Deployment中描述你所期望的集群状态，Deployment Controller会将现在的集群状态在一个可控的速度下逐步更新成你所期望的集群状态。Deployment主要职责同样是为了保证pod的数量和健康，90%的功能与Replication Controller完全一样，可以看做新一代的Replication Controller。但是，它又具备了Replication Controller之外的新特性：</p>
+
+<p>Deployment继承了上面描述的Replication Controller全部功能。</p>
+
+<p><code class="highlighter-rouge">事件和状态查看</code>：可以查看Deployment的升级详细进度和状态。</p>
+
+<p><code class="highlighter-rouge">回滚</code>：当升级pod镜像或者相关参数的时候发现问题，可以使用回滚操作回滚到上一个稳定的版本或者指定的版本。</p>
+
+<p><code class="highlighter-rouge">版本记录</code>: 每一次对Deployment的操作，都能保存下来，给予后续可能的回滚使用。</p>
+
+<p><code class="highlighter-rouge">暂停和启动</code>：对于每一次升级，都能够随时暂停和启动。</p>
+
+<p><code class="highlighter-rouge">多种升级方案</code>：
+Recreate—-删除所有已存在的pod,重新创建新的; 
+RollingUpdate—-滚动升级，逐步替换的策略，同时滚动升级时，支持更多的附加参数，例如设置最大不可用pod数量，最小升级间隔时间等等。
+　　　</p>
+
+<h4 id="弹性伸缩">弹性伸缩</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl scale [--resource-version=version] [--current-replicas=count] --replicas=COUNT (-f FILENAME | TYPE NAME)
+</code></pre></div></div>
+
+<p>缩小副本为1</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl scale --replicas=1 deployment flask-app-deploy  
+</code></pre></div></div>
+
+<p>扩容到5</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl scale --replicas=5 deployment flask-app-deploy  
+</code></pre></div></div>
+
+<h4 id="应用升级">应用升级</h4>
+<blockquote>
+  <p>更新镜像</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. kubectl set image deployment flask-app-deploy flask-app=jevic/app:v2
+2. kubectl patch deployment flask-app-deploy -p '{"spec":{"containers":[{"name":"flask-app","image":"jevic/app:v2"}]}}'
+
+暂停
+kubectl rollout pause deployment flask-app-deploy 
+取消暂停
+kubectl pause resume deployment flask-app-deploy
+</code></pre></div></div>
+
+<h4 id="回滚">回滚</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl rollout --help
+# kubectl rollout history deployment flask-app-deploy
+deployments "flask-app-deploy"
+REVISION  CHANGE-CAUSE
+1         &lt;none&gt;
+2         &lt;none&gt;
+3         &lt;none&gt;
+# kubectl get rs -o wide -l app=flask-app
+NAME                          DESIRED   CURRENT   READY     AGE       CONTAINERS   IMAGES         SELECTOR
+flask-app-deploy-5dcb69465c   3         3         3         6m        flask-app    jevic/app:v2   app=flask-app,pod-template-hash=1876250217
+flask-app-deploy-6c4896f74b   0         0         0         9m        flask-app    jevic/app:v1   app=flask-app,pod-template-hash=2704529306
+flask-app-deploy-9c5bc8bd8    0         0         0         13m       flask-app    jevic/app:v1   app=flask-app,pod-template-hash=571674684
+
+# kubectl rollout undo deployment flask-app-deploy --to-revision=1
+# kubectl get rs -o wide -l app=flask-app
+NAME                          DESIRED   CURRENT   READY     AGE       CONTAINERS   IMAGES         SELECTOR
+flask-app-deploy-5dcb69465c   0         0         0         9m        flask-app    jevic/app:v2   app=flask-app,pod-template-hash=1876250217
+flask-app-deploy-6c4896f74b   0         0         0         12m       flask-app    jevic/app:v1   app=flask-app,pod-template-hash=2704529306
+flask-app-deploy-9c5bc8bd8    3         3         3         15m       flask-app    jevic/app:v1   app=flask-app,pod-template-hash=571674684
+</code></pre></div></div>
+
+<p>–to-revision=1 回滚到指定版本,不指定默认回滚到前一个版本</p>
+
+<h2 id="services">Services</h2>
+<p><a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service </a></p>
+
+<p>在Kubernetes中，在受到RC调控的时候，Pod副本是变化的，对于的虚拟IP也是变化的，比如发生迁移或者伸缩的时候。这对于Pod的访问者来说是不可接受的。Kubernetes中的Service是一种抽象概念，它定义了一个Pod逻辑集合以及访问它们的策略，Service同Pod的关联同样是居于Label来完成的。Service的目标是提供一种桥梁， 它会为访问者提供一个固定访问地址，用于在访问时重定向到相应的后端，这使得非 Kubernetes原生应用程序，在无须为Kubemces编写特定代码的前提下，轻松访问后端。</p>
+
+<p>Service同RC一样，都是通过Label来关联Pod的。当你在Service的yaml文件中定义了该Service的selector中的label为app:my-web，那么这个Service会将Pod–&gt;metadata–&gt;labeks中label为app:my-web的Pod作为分发请求的后端。当Pod发生变化时（增加、减少、重建等），Service会及时更新。这样一来，Service就可以作为Pod的访问入口，起到代理服务器的作用，而对于访问者来说，通过Service进行访问，无需直接感知Pod。</p>
+
+<p>需要注意的是，Kubernetes分配给Service的固定IP是一个虚拟IP，并不是一个真实的IP，在外部是无法寻址的。真实的系统实现上，Kubernetes是通过Kube-proxy组件来实现的虚拟IP路由及转发。所以在之前集群部署的环节上，我们在每个Node上均部署了Proxy这个组件，从而实现了Kubernetes层级的虚拟转发网络。</p>
+
+<p>在kubernetes 的版本迭代历史到目前为止有三种工作模式:</p>
+
+<ul>
+  <li>userspace: 1.1 版本之前使用</li>
+  <li>iptables: 1.10 版本之前使用</li>
+  <li>ipvs: 1.11 版本之后使用(如果ipvs 不可用自动降级使用iptables)</li>
+</ul>
+
+<h3 id="创建-services">创建 Services</h3>
+
+<ul>
+  <li>使用 expose</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl expose deployment nginx-demo --name=nginx-demo-svc --port=80,443 
+service "nginx-demo-svc" exposed
+</code></pre></div></div>
+
+<ul>
+  <li>定义资源清单创建</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-demo
+  labels:
+    app: nginx-demo
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: nginx-demo
+</code></pre></div></div>
+
+<p>查看 services</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl get svc -l nginx=nginx-demo
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+nginx-demo       ClusterIP   10.254.20.0     &lt;none&gt;        80/TCP,443/TCP   1d
+nginx-demo-svc   ClusterIP   10.254.41.208   &lt;none&gt;        80/TCP,443/TCP   1m
+</code></pre></div></div>
+
+<ul>
+  <li>解析服务</li>
+</ul>
+
+<p>资源记录: SVC_NAME.NS_NAME.DOMAIN.LTD.</p>
+
+<p>默认为: svc.cluster.local.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl get svc -n kube-system
+NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE
+coredns                ClusterIP   10.254.0.2       &lt;none&gt;        53/UDP,53/TCP   20d
+# dig -t A nginx-demo.default.svc.cluster.local @10.254.0.2
+
+; &lt;&lt;&gt;&gt; DiG 9.9.4-RedHat-9.9.4-29.el7 &lt;&lt;&gt;&gt; -t A nginx-demo.default.svc.cluster.local @10.254.0.2
+....
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;nginx-demo.default.svc.cluster.local. IN A
+
+;; ANSWER SECTION:
+nginx-demo.default.svc.cluster.local. 5	IN A	10.254.20.0
+....
+
+# dig -t A nginx-demo-svc.default.svc.cluster.local @10.254.0.2
+
+; &lt;&lt;&gt;&gt; DiG 9.9.4-RedHat-9.9.4-29.el7 &lt;&lt;&gt;&gt; -t A nginx-demo-svc.default.svc.cluster.local @10.254.0.2
+....
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;nginx-demo-svc.default.svc.cluster.local. IN A
+
+;; ANSWER SECTION:
+nginx-demo-svc.default.svc.cluster.local. 5 IN A 10.254.41.208
+.....
+</code></pre></div></div>
+
+<h2 id="configmap">ConfigMap</h2>
+<p><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/">configmap</a></p>
+
+<p>很多生产环境中的应用程序配置较为复杂，可能需要多个config文件、命令行参数和环境变量的组合。并且，这些配置信息应该从应用程序镜像中解耦出来，以保证镜像的可移植性以及配置信息不被泄露。社区引入ConfigMap这个API资源来满足这一需求。　　</p>
+
+<p>ConfigMap包含了一系列的键值对，用于存储被Pod或者系统组件（如controller）访问的信息。这与secret的设计理念有异曲同工之妙，它们的主要区别在于ConfigMap通常不用于存储敏感信息，而只存储简单的文本信息。</p>
+
+<h2 id="secret">Secret</h2>
+<p><a href="https://kubernetes.io/zh/docs/concepts/configuration/secret/">secret</a></p>
+
+<p>Secret 是一种包含少量敏感信息例如密码、token 或 key 的对象。这样的信息可能会被放在 Pod spec 中或者镜像中；将其放在一个 secret 对象中可以更好地控制它的用途，并降低意外暴露的风险。
+用户可以创建 secret，同时系统也创建了一些 secret。
+要使用 secret，pod 需要引用 secret。Pod 可以用两种方式使用 secret：作为 volume 中的文件被挂载到 pod 中的一个或者多个容器里，或者当 kubelet 为 pod 拉取镜像时使用。</p>
+
+<h2 id="证书">证书</h2>
+<p><a href="https://kubernetes.io/zh/docs/concepts/cluster-administration/certificates/">证书</a></p>
+
+<p>当使用客户端证书进行认证时，用户可以使用现有部署脚本，或者通过 easyrsa、openssl 或 cfssl 手动生成证书。</p>
+
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2018/08/01/kubernetes/';
+                    this.page.identifier = '/2018/08/01/kubernetes/';
+                    this.page.title = 'kubernetes 核心概念简述';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2018
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

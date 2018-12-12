@@ -211,6 +211,82 @@ Service同RC一样，都是通过Label来关联Pod的。当你在Service的yaml�
 - iptables: 1.10 版本之前使用
 - ipvs: 1.11 版本之后使用(如果ipvs 不可用自动降级使用iptables)
 
+### 创建 Services
+
+- 使用 expose 
+
+```
+# kubectl expose deployment nginx-demo --name=nginx-demo-svc --port=80,443 
+service "nginx-demo-svc" exposed
+```
+
+- 定义资源清单创建
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-demo
+  labels:
+    app: nginx-demo
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: nginx-demo
+```
+
+查看 services
+
+```
+# kubectl get svc -l nginx=nginx-demo
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+nginx-demo       ClusterIP   10.254.20.0     <none>        80/TCP,443/TCP   1d
+nginx-demo-svc   ClusterIP   10.254.41.208   <none>        80/TCP,443/TCP   1m
+```
+
+- 解析服务
+
+资源记录: SVC_NAME.NS_NAME.DOMAIN.LTD.
+
+默认为: svc.cluster.local.
+
+```
+# kubectl get svc -n kube-system
+NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE
+coredns                ClusterIP   10.254.0.2       <none>        53/UDP,53/TCP   20d
+# dig -t A nginx-demo.default.svc.cluster.local @10.254.0.2
+
+; <<>> DiG 9.9.4-RedHat-9.9.4-29.el7 <<>> -t A nginx-demo.default.svc.cluster.local @10.254.0.2
+....
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;nginx-demo.default.svc.cluster.local. IN A
+
+;; ANSWER SECTION:
+nginx-demo.default.svc.cluster.local. 5	IN A	10.254.20.0
+....
+
+# dig -t A nginx-demo-svc.default.svc.cluster.local @10.254.0.2
+
+; <<>> DiG 9.9.4-RedHat-9.9.4-29.el7 <<>> -t A nginx-demo-svc.default.svc.cluster.local @10.254.0.2
+....
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;nginx-demo-svc.default.svc.cluster.local. IN A
+
+;; ANSWER SECTION:
+nginx-demo-svc.default.svc.cluster.local. 5 IN A 10.254.41.208
+.....
+```
 
 ## ConfigMap
 [configmap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
@@ -230,3 +306,5 @@ Secret 是一种包含少量敏感信息例如密码、token 或 key 的对象�
 [证书](https://kubernetes.io/zh/docs/concepts/cluster-administration/certificates/)
 
 当使用客户端证书进行认证时，用户可以使用现有部署脚本，或者通过 easyrsa、openssl 或 cfssl 手动生成证书。
+
+
