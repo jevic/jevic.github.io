@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-12T16:54:53+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-12T17:32:21+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
   &lt;p&gt;相比kubernetes Dashboard 
 Rancher管理面板简化了很多相对比较&lt;code class=&quot;highlighter-rouge&quot;&gt;复杂&lt;/code&gt;的操作;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -3073,12 +3073,31 @@ flask-app-deploy-9c5bc8bd8    3         3         3         15m       flask-app 
 
 &lt;p&gt;需要注意的是，Kubernetes分配给Service的固定IP是一个虚拟IP，并不是一个真实的IP，在外部是无法寻址的。真实的系统实现上，Kubernetes是通过Kube-proxy组件来实现的虚拟IP路由及转发。所以在之前集群部署的环节上，我们在每个Node上均部署了Proxy这个组件，从而实现了Kubernetes层级的虚拟转发网络。&lt;/p&gt;
 
+&lt;h3 id=&quot;工作模式&quot;&gt;工作模式&lt;/h3&gt;
 &lt;p&gt;在kubernetes 的版本迭代历史到目前为止有三种工作模式:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;userspace: 1.1 版本之前使用&lt;/li&gt;
   &lt;li&gt;iptables: 1.10 版本之前使用&lt;/li&gt;
   &lt;li&gt;ipvs: 1.11 版本之后使用(如果ipvs 不可用自动降级使用iptables)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;网络模式&quot;&gt;网络模式&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;ClusterIP  集群内部通信&lt;/li&gt;
+  &lt;li&gt;NodePort
+    &lt;ul&gt;
+      &lt;li&gt;外部可访问&lt;/li&gt;
+      &lt;li&gt;Client &amp;gt; NodeIP:NodePort &amp;gt; ClusterIP:svcPort &amp;gt; PodIP:containerPort&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;LoadBalancer 负载均衡器&lt;/li&gt;
+  &lt;li&gt;ExternelName  FQDN&lt;/li&gt;
+  &lt;li&gt;None Headless Service
+    &lt;ul&gt;
+      &lt;li&gt;ServiceName &amp;gt; PodIP:containerPort&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;创建-services&quot;&gt;创建 Services&lt;/h3&gt;

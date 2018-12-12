@@ -205,11 +205,23 @@ Service同RC一样，都是通过Label来关联Pod的。当你在Service的yaml�
 
 需要注意的是，Kubernetes分配给Service的固定IP是一个虚拟IP，并不是一个真实的IP，在外部是无法寻址的。真实的系统实现上，Kubernetes是通过Kube-proxy组件来实现的虚拟IP路由及转发。所以在之前集群部署的环节上，我们在每个Node上均部署了Proxy这个组件，从而实现了Kubernetes层级的虚拟转发网络。
 
+
+### 工作模式
 在kubernetes 的版本迭代历史到目前为止有三种工作模式:
 
 - userspace: 1.1 版本之前使用
 - iptables: 1.10 版本之前使用
 - ipvs: 1.11 版本之后使用(如果ipvs 不可用自动降级使用iptables)
+
+### 网络模式
+- ClusterIP  集群内部通信
+- NodePort 
+    - 外部可访问
+    - Client > NodeIP:NodePort > ClusterIP:svcPort > PodIP:containerPort
+- LoadBalancer 负载均衡器
+- ExternelName  FQDN
+- None Headless Service
+    - ServiceName > PodIP:containerPort 
 
 ### 创建 Services
 
