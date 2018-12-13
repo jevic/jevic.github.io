@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>FPM 制作RPM 安装包 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2017/03/11/linux-rpm/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="FPM 制作RPM 安装包">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="rpm,yum">
+    <meta name="og:keywords" content="rpm,yum">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="  支持的源类型包：          dir: 将目录打包成所需要的类型，可以用于源码编译安装的软件包      rpm: 对rpm进行转换      gem: 对rubygem包进行转换      python: 将Python模块打包成相应的类型      ">
+    <meta name="og:description" content="  支持的源类型包：          dir: 将目录打包成所需要的类型，可以用于源码编译安装的软件包      rpm: 对rpm进行转换      gem: 对rubygem包进行转换      python: 将Python模块打包成相应的类型      ">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2017/03/11/linux-rpm/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2018-12-13">
+    <meta property="article:published_time" content="2017-03-11">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="FPM 制作RPM 安装包">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">FPM 制作RPM 安装包</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/03/11
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Linux" title="Linux">Linux</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,135 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <ul>
+  <li>支持的源类型包：
+    <ul>
+      <li>dir: 将目录打包成所需要的类型，可以用于源码编译安装的软件包</li>
+      <li>rpm: 对rpm进行转换</li>
+      <li>gem: 对rubygem包进行转换</li>
+      <li>python: 将Python模块打包成相应的类型</li>
+    </ul>
+  </li>
+  <li>支持的目标类型包：
+    <ul>
+      <li>rpm: 转换为rpm包</li>
+      <li>deb: 转换为deb包</li>
+      <li>solaris: 转换为solaris包</li>
+      <li>puppet: 转换为puppet包</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="fpm的安装">FPM的安装：</h2>
+
+<p>安装ruby环境和gem命令：
+gem命令是从rubygem仓库安装软件类似yum从yum仓库安装软件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># yum -y install ruby rubygems ruby-devel
+# gem source list
+# gem sources -a http://mirrors.aliyun.com/rubygems/
+# gem sources --remove http://rubygems.org/
+# gem install fpm
+# sed -i 's#keepcache=0#keepcache=1#g' /etc/yum.conf    //开启yum缓存
+</code></pre></div></div>
+
+<ul>
+  <li>FPM常用参数：</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-s:指定源类型
+
+-t:指定目标类型，即想要制作为什么包
+
+-n:指定包的名字
+
+-v:指定包的版本号
+
+-C:指定打包的相对路径
+
+-d:指定依赖于哪些包
+
+-f:第二次包时目录下如果有同名安装包存在，则覆盖它
+
+-p:输出的安装包的目录，不想放在当前目录下就需要指定
+
+--post-install:软件包安装完成之后所要运行的脚本；同--offer-install
+
+--pre-install:软件包安装完成之前所要运行的脚本；同--before-install
+
+--post-uninstall:软件包卸载完成之后所要运行的脚本；同--offer-remove
+
+--pre-uninstall:软件包卸载完成之前所要运行的脚本；同—before-remove
+</code></pre></div></div>
+
+<ul>
+  <li>安装遇到问题：</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.Need executable 'rpmbuild' to convert dir to rpm {:level=&gt;:error}
+解决方法：
+[root@localhost]# yum install -y rpm-build
+ 
+2.如果里面有gcc make的错误.
+解决方法：
+yum install -y gcc　　
+</code></pre></div></div>
+
+<h2 id="fpm打包实例">fpm打包实例：</h2>
+
+<ul>
+  <li>1.fpm打包Nginx</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost opt]# fpm -s dir -t rpm -n nginx -v 1.6.1 -d 'pcre-devel,openssl-devel' --post-install /opt/nginx_rpm.sh -f /opt/nginx/ &lt;br&gt;
+no value for epoch is set, defaulting to nil {:level=&gt;:warn}
+no value for epoch is set, defaulting to nil {:level=&gt;:warn}
+Created package {:path=&gt;"nginx-1.6.1-1.x86_64.rpm"}
+</code></pre></div></div>
+
+<ul>
+  <li>2.fpm相对路径打包：</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost~]# fpm -s dir -t rpm -n opt -v 1.1.1.1 -d 'gcc,gcc+' -C ../opt/   
+no value for epoch is set, defaulting to nil {:level=&gt;:warn}
+no value for epoch is set, defaulting to nil {:level=&gt;:warn}
+Created package {:path=&gt;"opt-1.1.1.1-1.x86_64.rpm"}
+</code></pre></div></div>
+
+<ul>
+  <li>3.使用fpm将生成包指定到/tmp下:</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ ~]# fpm -s dir -t rpm -n ansible-v 1.1.1.1 -d 'gcc,gcc+' -f ansible-p /tmp/
+ 
+no value for epoch is set, defaulting to nil {:level=&gt;:warn}
+no value for epoch is set, defaulting to nil {:level=&gt;:warn}
+Created package {:path=&gt;"/tmp/ansible-1.1.1.1-1.x86_64.rpm"}
+</code></pre></div></div>
+
+<h2 id="查看rpm包信息">查看rpm包信息：</h2>
+
+<ul>
+  <li>1.查看rpm执行的脚本</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost opt]# rpm -qp --scripts nginx-1.6.1-1.x86_64.rpm       
+postinstallscriptlet (using /bin/sh):
+#!/bin/bash
+useraddnginx -M -s /sbin/nologin
+</code></pre></div></div>
+
+<ul>
+  <li>2.查看rpm包的依赖</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost opt]# rpm -qpR nginx-1.6.1-1.x86_64.rpm 
+openssl-devel
+/bin/sh
+rpmlib(PayloadFilesHavePrefix) &lt;= 4.0-1
+rpmlib(CompressedFileNames) &lt;= 3.0.4-1
+</code></pre></div></div>
 
     </article>
     <div class="share">
@@ -132,9 +273,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2017/03/11/linux-rpm/';
+                    this.page.identifier = '/2017/03/11/linux-rpm/';
+                    this.page.title = 'FPM 制作RPM 安装包';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

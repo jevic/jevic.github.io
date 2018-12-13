@@ -252,6 +252,12 @@
     "category": "Bigdata"
   },
   
+  "2017-03-11-linux-rpm": {
+    "title": "FPM 制作RPM 安装包",
+    "url": " /2017/03/11/linux-rpm/",
+    "category": "Linux"
+  },
+  
   "2017-02-07-chatops-hubot": {
     "title": "Chatops 趣味自动化BearyChat-hubot",
     "url": " /2017/02/07/chatops-hubot/",
@@ -498,6 +504,12 @@
     "title": "Chatops 趣味自动化BearyChat-hubot",
     "url": "/2017/02/07/chatops-hubot/",
     "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2017-03-11-linux-rpm": {
+    "title": "FPM 制作RPM 安装包",
+    "url": "/2017/03/11/linux-rpm/",
+    "category": "[&quot;Linux&quot;]"
   },
   
   "2017-04-01-spark-cluster-ha": {
