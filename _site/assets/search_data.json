@@ -204,6 +204,12 @@
     "category": "Linux"
   },
   
+  "2017-09-22-linux-centos-yum": {
+    "title": "centos7 本地内网yum 仓库配置",
+    "url": " /2017/09/22/linux-centos-yum/",
+    "category": "Linux"
+  },
+  
   "2017-09-12-kafka-zk-conf": {
     "title": "Kafka Zookeeper 操作杂录",
     "url": " /2017/09/12/kafka-zk-conf/",
@@ -558,6 +564,12 @@
     "title": "Kafka Zookeeper 操作杂录",
     "url": "/2017/09/12/kafka-zk-conf/",
     "category": "[&quot;Kafka&quot;]"
+  },
+  
+  "2017-09-22-linux-centos-yum": {
+    "title": "centos7 本地内网yum 仓库配置",
+    "url": "/2017/09/22/linux-centos-yum/",
+    "category": "[&quot;Linux&quot;]"
   },
   
   "2017-10-09-linux-kernel-sysctl": {

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>centos7 本地内网yum 仓库配置 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/09/22/linux-centos-yum/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="centos7 本地内网yum 仓库配置">
+      
+    <meta name="keywords" content="rpm,yum">
+    <meta name="og:keywords" content="rpm,yum">
+      
+    <meta name="description" content="依赖组件">
+    <meta name="og:description" content="依赖组件">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/09/22/linux-centos-yum/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-09-22">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="centos7 本地内网yum">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">centos7 本地内网yum 仓库配置</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/09/22
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Linux" title="Linux">Linux</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="依赖组件">依赖组件</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y reposync createrepo nginx
+</code></pre></div></div>
+
+<h2 id="目录规划">目录规划</h2>
+<p>仿照 <a href="http://mirrors.163.com/centos/7/os/x86_64/">163 镜像站点</a>目录即可</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p /usr/share/nginx/Centos/centos/7/os/x86_64/
+mkdir -p /usr/share/nginx/Centos/epel/7/x86_64
+</code></pre></div></div>
+
+<h2 id="仓库配置">仓库配置</h2>
+<h3 id="更换163-yum-源">更换163 Yum 源</h3>
+<ul>
+  <li>
+    <ol>
+      <li>更改系统默认yum 源为163的
+        <ul>
+          <li><a href="http://mirrors.163.com/.help/centos.html">下载repo文件</a> 替换即可</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="同步repo">同步repo</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>reposync -n --repoid=extras --repoid=updates --repoid=base --repoid=centosplus -p /usr/share/nginx/Centos/centos/7/os/x86_64
+reposync -n --repoid=epel -p /usr/share/nginx/Centos/epel/7/x86_64
+</code></pre></div></div>
+
+<blockquote>
+  <p>由于同步的包太多10K+ epel 有12K+ 😱耗时很久,所以手动中断了同步;
+只有下列部分RPM被保存在本地,但是不影响使用!</p>
+</blockquote>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/other/centos-yum-reposync.png" alt="" /></p>
+
+<blockquote>
+  <p>查看仓库目录文件</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ls /usr/share/nginx/Centos/centos/7/os/x86_64/base/Packages/
+389-ds-base-1.3.8.4-15.el7.x86_64.rpm        ElectricFence-2.2.2-39.el7.i686.rpm    GConf2-devel-3.2.6-8.el7.x86_64.rpm  GeoIP-devel-1.5.0-13.el7.x86_64.rpm
+389-ds-base-devel-1.3.8.4-15.el7.x86_64.rpm  ElectricFence-2.2.2-39.el7.x86_64.rpm  GeoIP-1.5.0-13.el7.i686.rpm          GeoIP-update-1.5.0-13.el7.noarch.rpm
+389-ds-base-libs-1.3.8.4-15.el7.x86_64.rpm   GConf2-3.2.6-8.el7.i686.rpm            GeoIP-1.5.0-13.el7.x86_64.rpm        ImageMagick-6.7.8.9-15.el7_2.i686.rpm
+389-ds-base-snmp-1.3.8.4-15.el7.x86_64.rpm   GConf2-3.2.6-8.el7.x86_64.rpm          GeoIP-data-1.5.0-13.el7.noarch.rpm   ImageMagick-6.7.8.9-15.el7_2.x86_64.rpm
+Cython-0.19-5.el7.x86_64.rpm                 GConf2-devel-3.2.6-8.el7.i686.rpm      GeoIP-devel-1.5.0-13.el7.i686.rpm
+</code></pre></div></div>
+
+<h3 id="创建源">创建源</h3>
+<p>createrepo 命令用于创建yum源（软件仓库），即为存放于本地特定位置的众多rpm包建立索引，描述各包所需依赖信息，并形成元数据。</p>
+
+<ul>
+  <li>使用说明:</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-u  --baseurl &lt;url&gt;
+    指定Base URL的地址
+
+-o --outputdir &lt;url&gt;
+    指定元数据的输出位置
+
+-x --excludes &lt;packages&gt;
+    指定在形成元数据时需要排除的包
+
+-i --pkglist &lt;filename&gt;
+    指定一个文件，该文件内的包信息将被包含在即将生成的元数据中，格式为每个包信息独占一行，不含通配符、正则，以及范围表达式。
+
+-n --includepkg
+    通过命令行指定要纳入本地库中的包信息，需要提供URL或本地路径。
+
+-q --quiet
+    安静模式执行操作，不输出任何信息。
+
+-g --groupfile &lt;groupfile&gt;
+    指定本地软件仓库的组划分，范例如下：
+createrepo -g comps.xml /path/to/rpms
+    注意：组文件需要和rpm包放置于同一路径下。
+
+-v --verbose
+    输出详细信息。
+
+-c --cachedir &lt;path&gt;
+    指定一个目录，用作存放软件仓库中软件包的校验和信息。
+    当createrepo在未发生明显改变的相同仓库文件上持续多次运行时，指定cachedir会明显提高其性能。
+
+--update
+    如果元数据已经存在，且软件仓库中只有部分软件发生了改变或增减，
+    则可用update参数直接对原有元数据进行升级，效率比重新分析rpm包依赖并生成新的元数据要高很多。
+
+-p --pretty
+    以整洁的格式输出xml文件。
+
+-d --database
+    该选项指定使用SQLite来存储生成的元数据，默认项。
+</code></pre></div></div>
+
+<ul>
+  <li>创建索引</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># createrepo -po /usr/share/nginx/Centos/centos/7/os/x86_64/base/ /usr/share/nginx/Centos/centos/7/os/x86_64/base/
+Spawning worker 0 with 9 pkgs
+Spawning worker 1 with 9 pkgs
+Workers Finished
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+Generating sqlite DBs
+Sqlite DBs complete
+# createrepo -po /usr/share/nginx/Centos/epel/7/x86_64/epel /usr/share/nginx/Centos/epel/7/x86_64/epel
+Spawning worker 0 with 7 pkgs
+Spawning worker 1 with 7 pkgs
+Workers Finished
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+Generating sqlite DBs
+Sqlite DBs complete
+
+
+## 由于手动中断了同步所以并没有下面两个目录,所以此处不再创建
+createrepo -po /usr/share/nginx/Centos/centos/7/os/x86_64/updates /usr/share/nginx/Centos/centos/7/os/x86_64/updates
+createrepo -po /usr/share/nginx/Centos/centos/7/os/x86_64/extras /usr/share/nginx/Centos/centos/7/os/x86_64/extras
+</code></pre></div></div>
+
+<p>至此仓库已经配置完成,下面开始配置如何公布仓库已便其他节点使用</p>
+
+<h3 id="nginx">nginx</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cat /etc/nginx/conf.d/yum.conf
+server {
+        listen 80;
+        server_name yum.jevic.cn;
+        location / {
+            autoindex on;
+            alias  /usr/share/nginx/Centos/;
+        }
+}
+</code></pre></div></div>
+
+<h3 id="jevicrepo">jevic.repo</h3>
+
+<p>这里为了演示把其他仓库文件已经移动到其他地方</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ls /etc/yum.repos.d/
+jevic.repo
+# cat jevic.repo
+[jevic]
+name=jevic
+baseurl=http://yum.jevic.cn/centos/$releasever/os/$basearch/base/
+enabled=1
+gpgcheck=0
+# yum makecache fast
+Loaded plugins: fastestmirror, langpacks
+jevic                                                                                                                                                     | 2.9 kB  00:00:00
+Loading mirror speeds from cached hostfile
+Metadata Cache Created
+
+# yum list all|grep jevic
+389-ds-base.x86_64                   1.3.8.4-15.el7                 jevic
+389-ds-base-devel.x86_64             1.3.8.4-15.el7                 jevic
+389-ds-base-libs.x86_64              1.3.8.4-15.el7                 jevic
+389-ds-base-snmp.x86_64              1.3.8.4-15.el7                 jevic
+Cython.x86_64                        0.19-5.el7                     jevic
+ElectricFence.i686                   2.2.2-39.el7                   jevic
+ElectricFence.x86_64                 2.2.2-39.el7                   jevic
+GConf2.i686                          3.2.6-8.el7                    jevic
+GConf2.x86_64                        3.2.6-8.el7                    jevic
+GConf2-devel.i686                    3.2.6-8.el7                    jevic
+GConf2-devel.x86_64                  3.2.6-8.el7                    jevic
+GeoIP.i686                           1.5.0-13.el7                   jevic
+GeoIP.x86_64                         1.5.0-13.el7                   jevic
+GeoIP-data.noarch                    1.5.0-13.el7                   jevic
+GeoIP-devel.i686                     1.5.0-13.el7                   jevic
+GeoIP-devel.x86_64                   1.5.0-13.el7                   jevic
+GeoIP-update.noarch                  1.5.0-13.el7                   jevic
+ImageMagick.i686                     6.7.8.9-15.el7_2               jevic
+
+</code></pre></div></div>
+
+<h2 id="安装rpm-包">安装RPM 包</h2>
+
+<p>将自制的RPM 包放到仓库目录下:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cp /tmp/ngxlogserver-1.0-1.x86_64.rpm /usr/share/nginx/Centos/centos/7/os/x86_64/base/Packages/
+</code></pre></div></div>
+
+<p>更新仓库</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># createrepo --update /usr/share/nginx/Centos/centos/7/os/x86_64/base/
+Spawning worker 0 with 1 pkgs
+Spawning worker 1 with 0 pkgs
+Workers Finished
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+Generating sqlite DBs
+Sqlite DBs complete
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>首先 重建缓存
+# yum makecache fast
+# yum list all|grep ngx
+ngxlogserver.x86_64                  1.0-1                          jevic
+# yum install ngxlogserver.x86_64
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+........ 此次省略
+Resolving Dependencies
+--&gt; Running transaction check
+---&gt; Package ngxlogserver.x86_64 0:1.0-1 will be installed
+--&gt; Finished Dependency Resolution
+
+Dependencies Resolved
+
+=================================================================================================================================================================================
+ Package                                        Arch                                     Version                                   Repository                               Size
+=================================================================================================================================================================================
+Installing:
+ ngxlogserver                                   x86_64                                   1.0-1                                     jevic                                   9.3 M
+
+Transaction Summary
+=================================================================================================================================================================================
+Install  1 Package
+
+Total download size: 9.3 M
+Installed size: 29 M
+Is this ok [y/d/N]: y
+Downloading packages:
+ngxlogserver-1.0-1.x86_64.rpm                                                                                                                             | 9.3 MB  00:00:00
+...... 此次省略
+warning: %post(ngxlogserver-1.0-1.x86_64) scriptlet failed, exit status 7
+Non-fatal POSTIN scriptlet failure in rpm package ngxlogserver-1.0-1.x86_64
+  Verifying  : ngxlogserver-1.0-1.x86_64                                                                                                                                     1/1
+
+Installed:
+  ngxlogserver.x86_64 0:1.0-1
+
+Complete!
+</code></pre></div></div>
+
+<p>查看是否正常安装
+<img src="https://raw.githubusercontent.com/jevic/images/master/other/centos-yum-install01.png" alt="" /></p>
+
+<p>Ok!</p>
+
+<h2 id="其他说明">其他说明</h2>
+<ul>
+  <li>1.注意目录的结构可以参考163源的目录结构,但是repo 文件中指定地址时注意后面添加 <code class="highlighter-rouge">base</code> 子目录</li>
+  <li>2.由于同步太耗时而且一般我们也都是通过阿里云或者163的YUM源,所以中断了同步导致update,extras目录没有生成.</li>
+  <li>3.内部打包的RPM 文件直接丢到仓库目录下 更新仓库索引就可以直接被使用</li>
+  <li>4.如何制作RPM包请参考<a href="https://www.jevic.cn/2017/03/11/linux-rpm/">FPM 制作RPM 安装包</a></li>
+  <li>5.对于需要同步阿里云或者163镜像源的 可配置定时任务每天执行更新即可.</li>
+</ul>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/09/22/linux-centos-yum/';
+                    this.page.identifier = '/2017/09/22/linux-centos-yum/';
+                    this.page.title = 'centos7 本地内网yum 仓库配置';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2018
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
