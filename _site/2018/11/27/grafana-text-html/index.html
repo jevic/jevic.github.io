@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Links &mdash; Jevic</title>
+    <title>grafana html 请求显示docker镜像信息 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,26 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/links/">
+    <link rel="canonical" href="http://0.0.0.0:80/2018/11/27/grafana-text-html/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Links">
+    <meta property="og:title" content="grafana html 请求显示docker镜像信息">
       
-    <meta name="keywords" content="友情链接">
-    <meta name="og:keywords" content="友情链接">
+    <meta name="keywords" content="grafana">
+    <meta name="og:keywords" content="grafana">
       
-    <meta name="description" content="Links">
-    <meta name="og:description" content="Links">
+    <meta name="description" content="  通过grafana 请求应用接口显示Docker镜像的构建版本信息..">
+    <meta name="og:description" content="  通过grafana 请求应用接口显示Docker镜像的构建版本信息..">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/links/">
+    <meta property="og:url" content="http://0.0.0.0:80/2018/11/27/grafana-text-html/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2018-11-27">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -89,7 +91,7 @@
                 
                 <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
                 
-                <a href="/links/" class=" selected  site-header-nav-item" target="" title="链接">链接</a>
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
                 
                 <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
                 
@@ -98,46 +100,145 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Links">
-    <div class="container">
-        <div class="collection-title">
-            <h1 class="collection-header">Links</h1>
-            
+    <section class="collection-head small geopattern" data-pattern-id="grafana html 请求">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">grafana html 请求显示docker镜像信息</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2018/11/27
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#OPS" title="OPS">OPS</a>
+          </span>
+          
         </div>
+      </div>
     </div>
+  </div>
+</div>
 </section>
 <!-- / .banner -->
- <section class="container content">
-        <div class="columns">
-            <div class="column two-thirds" >
-                <article class="article-content markdown-body">
-                    <blockquote>
-  <p>Links ……</p>
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>通过grafana 请求应用接口显示Docker镜像的构建版本信息..</p>
 </blockquote>
 
-<ul>
-  <li><a href="http://blog.csdn.net/zxf_668899">CSDN</a></li>
-  <li><a href="http://my.csdn.net/RancherLabs">RancherLabs CSDN</a></li>
-  <li><a href="http://www.xieyuxuan.cc/">谢雨轩</a></li>
-  <li><a href="https://ehlxr.me//">Ehlxr’s Blog</a></li>
-  <li><a href="http://wsgzao.github.io/">HelloDog</a></li>
-  <li><a href="http://www.dearzd.com/DBlog/">咚门</a></li>
-  <li><a href="http://www.codingyun.com/">Coding云</a></li>
-  <li><a href="http://blog.jobbole.com/">伯乐在线</a></li>
-  <li><a href="http://log.zvz.im/">Z的博客</a></li>
-  <li><a href="http://www.iwwenbo.com/">容休的博客</a></li>
-  <li><a href="http://www.webank.pw/">幽鸿居</a></li>
-  <li><a href="http://ephen.me/">Ephen’s Blog</a></li>
-</ul>
+<h3 id="图例">图例</h3>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/other/grafana-text-version01.png" alt="" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/other/grafana-text-version02.png" alt="" /></p>
 
+<h3 id="api">api</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -sL http://192.168.2.146:9010/version |python -mjson.tool
+{
+    "data": {
+        "buildtime": "2018-11-27_17:25:43",
+        "hash": "7cd3a541053a9d67eee1706d380af3fe",
+        "version": "fa92b4d"
+    },
+    "ok": true
+}
+</code></pre></div></div>
 
-                </article>
-                <div class="share">
-                    <div class="share-component"></div>
+<h3 id="html-代码">html 代码</h3>
 
-                </div>
-                <div class="comment">
-                    
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div class="version"&gt;
+
+&lt;/div&gt;
+
+&lt;style&gt;
+    .version ul{
+        list-style:none;
+        padding:0px;
+        margin:0px;
+        width:590px;
+        height:20px;
+        line-height:20px;
+        font-size:12px;
+    }
+    .version ul li{
+        display:block;
+        width:33%;
+        float:left;
+        text-indent:2em
+    }
+    .version .th{
+        background:"gray";
+        font-weight:bold;
+        border-top:0px
+    }
+&lt;/style&gt;
+
+&lt;script&gt;
+    var hosts = ["192.168.2.2","192.168.2.27","192.168.2.23","192.168.2.25"];
+    var port = 6010;
+
+    function fetch(host,port) {
+        $.ajax({
+            type: "GET",
+            url: "http://"+host+":"+port+"/version",
+            dataType: "json",
+            success: function(data){
+                var id = "seg-"+host.replace(/\./g,"")+port;
+                $("#"+id+"&gt;.version").text(data["data"]["version"])
+                $("#"+id+"&gt;.buildtime").text(data["data"]["buildtime"])
+            }
+        });
+    }
+
+    function renderFrame(hosts, port) {
+        var header = "&lt;ul class=\"th\"&gt;\n" +
+            "        &lt;li&gt;Host&lt;/li&gt;\n" +
+            "        &lt;li&gt;版本号&lt;/li&gt;\n" +
+            "        &lt;li&gt;构建时间&lt;/li&gt;\n" +
+            "    &lt;/ul&gt;";
+        var template = "&lt;ul id=\"\"&gt;\n" +
+            "        &lt;li&gt;&lt;/li&gt;\n" +
+            "        &lt;li class=\"version\"&gt;&lt;/li&gt;\n" +
+            "        &lt;li class=\"buildtime\"&gt;&lt;/li&gt;\n" +
+            "    &lt;/ul&gt;";
+
+        var frame = header;
+        for(var i = 0; i &lt; hosts.length; i++){
+            var host = hosts[i];
+            var id = "seg-"+host.replace(/\./g,"")+port;
+            var item = template.replace("",id).replace("",host+":"+port);
+            frame += item
+        }
+
+        $(".version").append(frame);
+    }
+
+    $(document).ready(function () {
+        renderFrame(hosts, port);
+
+        for(var i = 0; i &lt; hosts.length; i++){
+            var host = hosts[i];
+            window.setInterval(function (host) {
+                fetch(host,port)
+            },10000,host)
+        }
+
+    })
+&lt;/script&gt;
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
     
         
         <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
@@ -145,9 +246,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/links/';
-                    this.page.identifier = '/links/';
-                    this.page.title = 'Links';
+                    this.page.url = 'http://0.0.0.0:80/2018/11/27/grafana-text-html/';
+                    this.page.identifier = '/2018/11/27/grafana-text-html/';
+                    this.page.title = 'grafana html 请求显示docker镜像信息';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');
@@ -164,10 +265,10 @@
     
 
 
-                </div>
-            </div>
-            <div class="column one-third">
-                
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
 <h3>Search</h3>
 <div id="site_search">
     <input type="text" id="search_box" placeholder="Search">
@@ -180,161 +281,22 @@
 <script src="/assets/js/lunr.min.js"></script>
 <script src="/assets/js/search.js"></script>
 
-                <h3>My Popular Repositories</h3>
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
 
+<script src="/assets/js/jquery.toc.js"></script>
 
-
-<a href="https://github.com/jevic/wxalarm" target="_blank" class="card text-center">
-    <div class="thumbnail">
-        <div class="card-image geopattern" data-pattern-id="wxalarm">
-            <div class="card-image-cell">
-                <h3 class="card-title">
-                    wxalarm
-                </h3>
-            </div>
-        </div>
-        <div class="caption">
-            <div class="card-description">
-                <p class="card-text">基于企业微信号API接口 二次封装的报警接口调用应用 </p>
-            </div>
-            <div class="card-text">
-                <span class="meta-info" title="2 stars">
-                    <span class="octicon octicon-star"></span> 2
-                </span>
-                <span class="meta-info" title="1 forks">
-                    <span class="octicon octicon-git-branch"></span> 1
-                </span>
-                <span class="meta-info" title="Last updated：2018-11-19 12:13:01 UTC">
-                    <span class="octicon octicon-clock"></span>
-                    <time datetime="2018-11-19 12:13:01 UTC">2018-11-19</time>
-                </span>
-            </div>
-        </div>
-    </div>
-</a>
-
-<a href="https://github.com/jevic/jevic.github.io" target="_blank" class="card text-center">
-    <div class="thumbnail">
-        <div class="card-image geopattern" data-pattern-id="jevic.github.io">
-            <div class="card-image-cell">
-                <h3 class="card-title">
-                    jevic.github.io
-                </h3>
-            </div>
-        </div>
-        <div class="caption">
-            <div class="card-description">
-                <p class="card-text">路漫漫 忆往昔..</p>
-            </div>
-            <div class="card-text">
-                <span class="meta-info" title="0 stars">
-                    <span class="octicon octicon-star"></span> 0
-                </span>
-                <span class="meta-info" title="0 forks">
-                    <span class="octicon octicon-git-branch"></span> 0
-                </span>
-                <span class="meta-info" title="Last updated：2018-12-19 10:19:11 UTC">
-                    <span class="octicon octicon-clock"></span>
-                    <time datetime="2018-12-19 10:19:11 UTC">2018-12-19</time>
-                </span>
-            </div>
-        </div>
-    </div>
-</a>
-
-<a href="https://github.com/jevic/php-nginx" target="_blank" class="card text-center">
-    <div class="thumbnail">
-        <div class="card-image geopattern" data-pattern-id="php-nginx">
-            <div class="card-image-cell">
-                <h3 class="card-title">
-                    php-nginx
-                </h3>
-            </div>
-        </div>
-        <div class="caption">
-            <div class="card-description">
-                <p class="card-text"> Basic environment installation instructions, Source Package!</p>
-            </div>
-            <div class="card-text">
-                <span class="meta-info" title="0 stars">
-                    <span class="octicon octicon-star"></span> 0
-                </span>
-                <span class="meta-info" title="0 forks">
-                    <span class="octicon octicon-git-branch"></span> 0
-                </span>
-                <span class="meta-info" title="Last updated：2017-12-28 11:20:57 UTC">
-                    <span class="octicon octicon-clock"></span>
-                    <time datetime="2017-12-28 11:20:57 UTC">2017-12-28</time>
-                </span>
-            </div>
-        </div>
-    </div>
-</a>
-
-<a href="https://github.com/jevic/php-fpm" target="_blank" class="card text-center">
-    <div class="thumbnail">
-        <div class="card-image geopattern" data-pattern-id="php-fpm">
-            <div class="card-image-cell">
-                <h3 class="card-title">
-                    php-fpm
-                </h3>
-            </div>
-        </div>
-        <div class="caption">
-            <div class="card-description">
-                <p class="card-text">https://hub.docker.com/_/php/</p>
-            </div>
-            <div class="card-text">
-                <span class="meta-info" title="0 stars">
-                    <span class="octicon octicon-star"></span> 0
-                </span>
-                <span class="meta-info" title="0 forks">
-                    <span class="octicon octicon-git-branch"></span> 0
-                </span>
-                <span class="meta-info" title="Last updated：2017-12-20 15:27:14 UTC">
-                    <span class="octicon octicon-clock"></span>
-                    <time datetime="2017-12-20 15:27:14 UTC">2017-12-20</time>
-                </span>
-            </div>
-        </div>
-    </div>
-</a>
-
-<a href="https://github.com/jevic/nginx" target="_blank" class="card text-center">
-    <div class="thumbnail">
-        <div class="card-image geopattern" data-pattern-id="nginx">
-            <div class="card-image-cell">
-                <h3 class="card-title">
-                    nginx
-                </h3>
-            </div>
-        </div>
-        <div class="caption">
-            <div class="card-description">
-                <p class="card-text">基于Nginx官方镜像构建  增加了inotify-tools 工具，自动检测配置文件并加载最新配置</p>
-            </div>
-            <div class="card-text">
-                <span class="meta-info" title="0 stars">
-                    <span class="octicon octicon-star"></span> 0
-                </span>
-                <span class="meta-info" title="0 forks">
-                    <span class="octicon octicon-git-branch"></span> 0
-                </span>
-                <span class="meta-info" title="Last updated：2017-12-27 07:32:49 UTC">
-                    <span class="octicon octicon-clock"></span>
-                    <time datetime="2017-12-27 07:32:49 UTC">2017-12-27</time>
-                </span>
-            </div>
-        </div>
-    </div>
-</a>
-
-
-
-            </div>
-        </div>
-    </section>
-    <!-- /section.content -->
+  </div>
+</div>
+</section>
+<!-- /section.content -->
 
     <footer class="container">
         <div class="site-footer" role="contentinfo">

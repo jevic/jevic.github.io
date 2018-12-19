@@ -1,5 +1,11 @@
 {
   
+  "2018-11-27-grafana-text-html": {
+    "title": "grafana html 请求显示docker镜像信息",
+    "url": " /2018/11/27/grafana-text-html/",
+    "category": "OPS"
+  },
+  
   "2018-11-25-rancher-dashboard-kubernetes": {
     "title": "Rancher Dashboard 管理kubernetes集群",
     "url": " /2018/11/25/rancher-dashboard-kubernetes/",
@@ -774,6 +780,12 @@
     "title": "Rancher Dashboard 管理kubernetes集群",
     "url": "/2018/11/25/rancher-dashboard-kubernetes/",
     "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2018-11-27-grafana-text-html": {
+    "title": "grafana html 请求显示docker镜像信息",
+    "url": "/2018/11/27/grafana-text-html/",
+    "category": "[&quot;OPS&quot;]"
   },
   
   "wiki-template": {

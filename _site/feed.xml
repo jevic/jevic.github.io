@@ -1,4 +1,105 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-19T16:35:00+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2018-12-19T18:53:08+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
+  &lt;p&gt;通过grafana 请求应用接口显示Docker镜像的构建版本信息..&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;图例&quot;&gt;图例&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/other/grafana-text-version01.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/other/grafana-text-version02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;api&quot;&gt;api&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -sL http://192.168.2.146:9010/version |python -mjson.tool
+{
+    &quot;data&quot;: {
+        &quot;buildtime&quot;: &quot;2018-11-27_17:25:43&quot;,
+        &quot;hash&quot;: &quot;7cd3a541053a9d67eee1706d380af3fe&quot;,
+        &quot;version&quot;: &quot;fa92b4d&quot;
+    },
+    &quot;ok&quot;: true
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;html-代码&quot;&gt;html 代码&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;div class=&quot;version&quot;&amp;gt;
+
+&amp;lt;/div&amp;gt;
+
+&amp;lt;style&amp;gt;
+    .version ul{
+        list-style:none;
+        padding:0px;
+        margin:0px;
+        width:590px;
+        height:20px;
+        line-height:20px;
+        font-size:12px;
+    }
+    .version ul li{
+        display:block;
+        width:33%;
+        float:left;
+        text-indent:2em
+    }
+    .version .th{
+        background:&quot;gray&quot;;
+        font-weight:bold;
+        border-top:0px
+    }
+&amp;lt;/style&amp;gt;
+
+&amp;lt;script&amp;gt;
+    var hosts = [&quot;192.168.2.2&quot;,&quot;192.168.2.27&quot;,&quot;192.168.2.23&quot;,&quot;192.168.2.25&quot;];
+    var port = 6010;
+
+    function fetch(host,port) {
+        $.ajax({
+            type: &quot;GET&quot;,
+            url: &quot;http://&quot;+host+&quot;:&quot;+port+&quot;/version&quot;,
+            dataType: &quot;json&quot;,
+            success: function(data){
+                var id = &quot;seg-&quot;+host.replace(/\./g,&quot;&quot;)+port;
+                $(&quot;#&quot;+id+&quot;&amp;gt;.version&quot;).text(data[&quot;data&quot;][&quot;version&quot;])
+                $(&quot;#&quot;+id+&quot;&amp;gt;.buildtime&quot;).text(data[&quot;data&quot;][&quot;buildtime&quot;])
+            }
+        });
+    }
+
+    function renderFrame(hosts, port) {
+        var header = &quot;&amp;lt;ul class=\&quot;th\&quot;&amp;gt;\n&quot; +
+            &quot;        &amp;lt;li&amp;gt;Host&amp;lt;/li&amp;gt;\n&quot; +
+            &quot;        &amp;lt;li&amp;gt;版本号&amp;lt;/li&amp;gt;\n&quot; +
+            &quot;        &amp;lt;li&amp;gt;构建时间&amp;lt;/li&amp;gt;\n&quot; +
+            &quot;    &amp;lt;/ul&amp;gt;&quot;;
+        var template = &quot;&amp;lt;ul id=\&quot;\&quot;&amp;gt;\n&quot; +
+            &quot;        &amp;lt;li&amp;gt;&amp;lt;/li&amp;gt;\n&quot; +
+            &quot;        &amp;lt;li class=\&quot;version\&quot;&amp;gt;&amp;lt;/li&amp;gt;\n&quot; +
+            &quot;        &amp;lt;li class=\&quot;buildtime\&quot;&amp;gt;&amp;lt;/li&amp;gt;\n&quot; +
+            &quot;    &amp;lt;/ul&amp;gt;&quot;;
+
+        var frame = header;
+        for(var i = 0; i &amp;lt; hosts.length; i++){
+            var host = hosts[i];
+            var id = &quot;seg-&quot;+host.replace(/\./g,&quot;&quot;)+port;
+            var item = template.replace(&quot;&quot;,id).replace(&quot;&quot;,host+&quot;:&quot;+port);
+            frame += item
+        }
+
+        $(&quot;.version&quot;).append(frame);
+    }
+
+    $(document).ready(function () {
+        renderFrame(hosts, port);
+
+        for(var i = 0; i &amp;lt; hosts.length; i++){
+            var host = hosts[i];
+            window.setInterval(function (host) {
+                fetch(host,port)
+            },10000,host)
+        }
+
+    })
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">通过grafana 请求应用接口显示Docker镜像的构建版本信息..</summary></entry><entry><title type="html">Rancher Dashboard 管理kubernetes集群</title><link href="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/" rel="alternate" type="text/html" title="Rancher Dashboard 管理kubernetes集群" /><published>2018-11-25T20:35:46+08:00</published><updated>2018-11-25T20:35:46+08:00</updated><id>http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes</id><content type="html" xml:base="http://0.0.0.0/2018/11/25/rancher-dashboard-kubernetes/">&lt;blockquote&gt;
   &lt;p&gt;相比kubernetes Dashboard 
 Rancher管理面板简化了很多相对比较&lt;code class=&quot;highlighter-rouge&quot;&gt;复杂&lt;/code&gt;的操作;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -3373,150 +3474,4 @@ kube-scheduler-k1.master            1/1     Running            4          2d14h
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">系统环境</summary></entry><entry><title type="html">CDN 厂商选择三要素</title><link href="http://0.0.0.0/2018/06/10/cdn-choice/" rel="alternate" type="text/html" title="CDN 厂商选择三要素" /><published>2018-06-10T20:25:16+08:00</published><updated>2018-06-10T20:25:16+08:00</updated><id>http://0.0.0.0/2018/06/10/cdn-choice</id><content type="html" xml:base="http://0.0.0.0/2018/06/10/cdn-choice/">&lt;blockquote&gt;
-  &lt;p&gt;作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;一，哪家的 CDN 更快（速度快，用户体验好）。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;二， 哪家 CDN 功能最全，即使现在用不到也不会给将来业务发展挖坑。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;三，怎么付费最划算。本文通过分析对国内 CDN 市场占有率靠前的十家服务商的网络环境和技术服务，希望给大家提供一些启发和建议。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.idcps.com/idc/china/cdn&quot;&gt;IDC 评述网&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;哪家的-cdn-更快&quot;&gt;哪家的 CDN 更快？&lt;/h2&gt;
-
-&lt;p&gt;CDN 服务商经常引用独立第三方公司的拨测数据来证明自己的 CDN 服务更好。虽然这些数据在某个区域或时间段也许是准确的，实际却是盲人摸象，无法证明全时段和全网 CDN 服务的真实性能。也许从 CDN 服务商所处的网络环境和提供的技术功能入手，会是更科学和公平的对比方法。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;阿里云，腾讯云和网宿科技由于支持 HttpDNS 在技术上有领先优势，可以列为第一梯队。第二梯队的是百度云，蓝讯，Ucloud 和网易云。它们所在 AS 和两个以上运营商主干网 AS 相邻，也具有一定优势。剩下的金山云，七牛云和京东云排在第三梯队。金山云所在 AS 只和电信骨干网 AS 相连，使用其它运营商的用户访问其 CDN 节点理论上会相对电信的慢一些。七牛云和京东云其网络属于北京电信通的 AS，需要穿过两个 AS 才接入骨干网，理论上速度也会比其他 CDN 服务商稍慢。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;国内用户普遍使用互联网提供商 (ISP) 的宽带上网，具体访问流程如下图：
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;用户终端访问 CDN 的过程分两个步骤;
-一是用户通过 DNS 找到最近的 CDN 边缘节点 IP; 
-二是数据在网络中的送达用户终端。
-整个过程中，有三个方面会影响用户访问 CDN 的体验。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h5 id=&quot;一拥有-dns-优化策略的-cdn-提供商会有更好的用户体验&quot;&gt;一，拥有 DNS 优化策略的 CDN 提供商，会有更好的用户体验。&lt;/h5&gt;
-
-&lt;p&gt;从图 1 可见， 客户终端的 DNS Resolver 负责告诉浏览器到哪里去找 CDN 的资源。理论上 ISP 的 DNS 服务器会选择离用户最近 CDN 节点 IP 并返回给用户，但是实际情况并不是这么简单。国内的大城市的 ISP 业务，除了一些区域性的 ISP，基本被联通、电信和移动这样的大运营商所垄断。由于各运营商之间存在着网间费用结算，运营商会想尽一切办法将用户的访问在自己的网内解决掉。比如，广州联调宽带的用户想访问的内容在联通北京的 CDN 节点， 尽管在广东移动的 CDN 节点有用户想访问的资源，联通的 DNS 还是会返回联通北京 CDN 节点的 IP。&lt;/p&gt;
-
-&lt;p&gt;另外，一些 ISP 为了节省网间流量，未经 CDN 服务商同意，自己针对一些 CDN 文件做了一层 CDN 缓存，通过“DNS 劫持”把用户访问 CDN 资源的请求都指到自己网内的非法 CDN 缓存服务器。很多时候这些缓存的内容不能及时和 CDN 节点同步更新，会造成使用该 ISP 的用户终端出现访问 CDN 资源缓慢，失败等现象。同时，国内严重的 DNS 污染问题也影响了用户的上网体验。&lt;/p&gt;
-
-&lt;p&gt;因此，如果能使用一些技术优化用户 DNS 查询，会大幅度提高用户的体验。目前优化 DNS 的技术主要是：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;HttpDNS ：客户端基于 Http 协议向 CDN 服务商指定的 DNS 服务器发送域名解析请求，从而避免 LocalDNS 造成的域名劫持和跨网访问;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Http 302 跳转: CDN 厂商维护 CDN 域名 IP 库，根据用户访问终端的 IP 和 CDN 边缘节点的状态，选择最合适的 CDN 节点，发出 HTTP 的 302 返回码，将用户的请求跳转到合适的 CDN 边缘节点。例如腾讯的下载直通车就使用类似技术。
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;二拥有自治系统autonomous-system-as的-cdn-提供商数据包跨越最少的网络边界能获得更快的传输速度&quot;&gt;二，拥有自治系统（Autonomous system, AS）的 CDN 提供商，数据包跨越最少的网络边界，能获得更快的传输速度。&lt;/h5&gt;
-
-&lt;p&gt;在 BGP 协议中，IP 包从一个 AS 向另一个 AS 传输时，需要经过边界路由器，如果由于网络问题造成 IP 包不可达，则需要边界路由器重新规划线路。如果 CDN 服务商自己拥有自治系统，AS 内部拥有同样的选路策略，数据就能在 CDN 服务商自己的 AS 中高效传输，理论上最终送达用户所花的时间也会最小。 就好比我们开车在省内玩，肯定要比跨多个省经过多个收费站耗时要少。&lt;/p&gt;
-
-&lt;h5 id=&quot;三-cdn-服务商所在自治系统-as-的相邻-as-越多离运营商骨干网越近数据传输也会更有优势&quot;&gt;三， CDN 服务商所在自治系统 AS 的相邻 AS 越多，离运营商骨干网越近，数据传输也会更有优势。&lt;/h5&gt;
-
-&lt;p&gt;CDN 服务商所在的 AS 离运营商骨干网 AS 越近，理论上数据包传输所花时间也越少。另外， CDN 厂商如果同时租用了多个运营商品牌的带宽线路，其服务器的 IP 就会同时属于这几家运营商的 AS，跨运营商的数据传输时间也会比只有一个运营商的相对快些。就如同有多个高速公路的通行证，数据在传输过程中从一家的路面后就可直达用户，而不用来回在多个道路上切换，避免了不必要的时间损耗。&lt;/p&gt;
-
-&lt;h2 id=&quot;哪家-cdn-功能最全&quot;&gt;哪家 CDN 功能最全&lt;/h2&gt;
-
-&lt;p&gt;CDN 服务的功能点非常多，为了比较方便选择了 11 个常用的功能，主要覆盖加速优化，监控和安全三个方面：&lt;/p&gt;
-
-&lt;h4 id=&quot;加速优化&quot;&gt;加速优化&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;HTTP2.0 加速&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;HTTP2.0 和现在的 HTTP1.1 相比，做了很大的改动和优化，例如头部压缩、服务端推送等。因为它要求服务器端和浏览器端都得支持 HTTP2.0 协议，所以在国内获得普遍支持还有一段时间。不过作为互联网下一代 HTTP 协议，即使我们现在用不上，也应考虑为将来的系统升级留下余地。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;文件压缩&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;目前 CDN 节点使用的 WEB 服务器端普遍支持 GZIP 协议的压缩， 当用户浏览器访问静态资源，并且支持 Gzip 压缩时， 服务器端可以把资源压缩打包发送给浏览器，由浏览器进行解压， 减少文件在互联网传输的数据量和时间。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;源站推送&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;为了避免传统的 CDN 节点同时去源站拉数据，造成访问洪峰压垮源站的带宽和服务器。 CDN 厂商使用源站推送功能将源站内容提前推送给边缘 CDN 节点，提前进行刷新预热。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;点播加速&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;CDN 对音视频等流媒体文件进行加速，其背后是一套复杂的技术方案，包括上传，转码，分发，以及 CDN 边缘节点根据用户终端支持协议的情况下发合适的流媒体格式。不同 CDN 服务商对点播加速的技术实现方案不同，不好做量化比较，只用是否支持播加速功能来比较。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;直播加速&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;直播加速如何解决播放延时、连麦时多路音视频的合并、以及突发热点对带宽的冲击等这些技术挑战，对 CDN 服务商的技术、硬件和网络条件都有很高的要求。也用是否支持直播加速来比较。&lt;/p&gt;
-
-&lt;h4 id=&quot;监控统计&quot;&gt;监控统计&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;实时监控&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;CDN 服务商提供图形化工具，对 CDN 的使用情况，例如点击量，命中率，公网下行流量等进行统计和监控。方便客户对于 CDN 使用效率和结果进行评估，及时发现问题和调整网络带宽预算。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;原始日志&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;提供所有客户终端访问 CDN 服务的原始日志 (access log)，这些日志看似没用，其实很有价值。例如，可以通过分析原始日志的数据包总量估算出 CDN 实际的下行流量，作为支付 CDN 服务费的参考。也可以通过分析这些日志的响应时间，结合客户端 IP，评估各地区终端用户实际访问 CDN 的情况&lt;/p&gt;
-
-&lt;h4 id=&quot;安全&quot;&gt;安全&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;防盗链&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;CDN 服务商防盗链的手段很多，例如常用的 http Referer 防盗链，其原理是利用 http header 中的 referer 属性，判断用户提交信息的网站 IP 地址，然后和真正的源站端的地址相比较，如果一致则表明是站内提交，或者为自己信任的站点提交，否则视为盗链。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;IP 黑白名单&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;黑白名单是我们可以根据业务需要对用户请求的源 IP 访问进行管理，为我们提供了主动防御的能力。使用 IP 黑名单的功能，可以有效的帮助我们阻止盗链，和恶意攻击。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;SNI （ 服务器名称指示 Server Name Indication ）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;网站使用 SSL/TSL 协议校验是目前防止盗链，和解决 “DNS 劫持”最好的方式。目前国内外大型网站都已经换成了基于该协议的 HTTPS 通信方式。早期的 SSL 协议默认每个 IP 地址上只能用一个证书。TLSv1z 增加了服务器名称指示（SNI）功能，通过发送虚拟主机名作为 TLS 协商的一部分这使得服务器可以在握手阶段选择正确虚拟域，并发送对应证书。这样每个 IP 上可以部署多张证书，对于运行很多虚机和域名的用户会非常节省资源。如果 CDN 服务商支持该项功能，说明 CDN 服务支持 HTTPS 和 TSL v1 以上版本。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;OCSP 装订（OCSP STAPLING）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;使用 SSL 认证时，客户端会在 TLS 握手阶段，去发证机构对实时查询 OCSP （Online Certificate Status Protocol，在线证书状态协议）接口，来判断服务器端的证书是否作废。在获得获得 OCSP 结果前会阻塞后续流程，通常发证机构都在国外，客户端的访问会延迟整个 TLS 握手的时间。而 OCSP Stapling 功能，是指服务端在证书链中封装了发证书机构对证书的 OCSP 查询结果，从而让客户端浏览器跳过自己去验证的过程。如果 CDN 服务商支持该功能，说明其 CDN 服务支持 HTTPS 加速比较好。&lt;/p&gt;
-
-&lt;h4 id=&quot;对比结果&quot;&gt;对比结果&lt;/h4&gt;
-
-&lt;p&gt;对十家 CDN 服务商进行打分，结果如下表：
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/docker/cdn_wx05.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;腾讯云和网宿科技得分最高，其它厂商各有优劣。 9 分以上的厂商占了前 50%，分别是腾讯云，网宿科技，阿里云，百度云蓝汛。后 50% 的厂商分数在 8-7 分之间。&lt;/p&gt;
-
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">作为技术决策者在选择使用 CDN 服务时最关心的三个问题是：</summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">系统环境</summary></entry></feed>

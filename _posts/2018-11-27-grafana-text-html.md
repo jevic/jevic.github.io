@@ -7,7 +7,7 @@ description: grafana
 keywords: grafana
 ---
 
->通过grafana 请求应用接口显示Docker镜像的构建版本信息
+>通过grafana 请求应用接口显示Docker镜像的构建版本信息..
 
 
 ### 图例
