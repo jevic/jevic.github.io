@@ -3,8 +3,8 @@ layout: post
 categories: ELK
 title: elasticsearch templates 模板配置
 date: 2018-08-25 16:42:16 +0800
-description: es
-keywords: ELK
+description: es,elk
+keywords: ELK,es
 ---
 
 ## 动态模板加载
