@@ -73,6 +73,39 @@ etcd --name etcd${id} \
 +------------------+---------+-------+--------------------------+--------------------------+
 ```
 
+### API
+具体操作参考官方文档即可
+
+- [基本操作](https://github.com/coreos/etcd/blob/6acb3d67fbe131b3b2d5d010e00ec80182be4628/Documentation/v2/api.md)
+- [集群配置](https://github.com/coreos/etcd/blob/6acb3d67fbe131b3b2d5d010e00ec80182be4628/Documentation/v2/members_api.md)
+- [鉴权认证](https://github.com/coreos/etcd/blob/6acb3d67fbe131b3b2d5d010e00ec80182be4628/Documentation/v2/auth_api.md)
+- [配置项](https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/configuration.md)
+
+>示例:
+
+```
+# curl -sL http://183.129.161.81:2379/v2/keys|jq
+{
+  "action": "get",
+  "node": {
+    "dir": true,
+    "nodes": [
+      {
+        "key": "/config",
+        "dir": true,
+        "modifiedIndex": 11,
+        "createdIndex": 11
+      },
+      {
+        "key": "/site",
+        "dir": true,
+        "modifiedIndex": 8,
+        "createdIndex": 8
+      }
+    ]
+  }
+}
+```
 
 ## dcmp
 >提供了一个etcd的管理界面，可通过界面修改配置信息，借助confd可实现配置文件的同步
@@ -96,3 +129,5 @@ jevic/etcd:dcmp
 
 
 转载请注明出处，本文采用 [CC4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/) 协议授权
+
+
