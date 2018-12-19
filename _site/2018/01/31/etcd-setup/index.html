@@ -216,6 +216,43 @@ etcd <span class="nt">--name</span> etcd<span class="k">${</span><span class="nv
 +------------------+---------+-------+--------------------------+--------------------------+
 </code></pre></div></div>
 
+<h3 id="api">API</h3>
+<p>具体操作参考官方文档即可</p>
+
+<ul>
+  <li><a href="https://github.com/coreos/etcd/blob/6acb3d67fbe131b3b2d5d010e00ec80182be4628/Documentation/v2/api.md">基本操作</a></li>
+  <li><a href="https://github.com/coreos/etcd/blob/6acb3d67fbe131b3b2d5d010e00ec80182be4628/Documentation/v2/members_api.md">集群配置</a></li>
+  <li><a href="https://github.com/coreos/etcd/blob/6acb3d67fbe131b3b2d5d010e00ec80182be4628/Documentation/v2/auth_api.md">鉴权认证</a></li>
+  <li><a href="https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/configuration.md">配置项</a></li>
+</ul>
+
+<blockquote>
+  <p>示例:</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># curl -sL http://183.129.161.81:2379/v2/keys|jq
+{
+  "action": "get",
+  "node": {
+    "dir": true,
+    "nodes": [
+      {
+        "key": "/config",
+        "dir": true,
+        "modifiedIndex": 11,
+        "createdIndex": 11
+      },
+      {
+        "key": "/site",
+        "dir": true,
+        "modifiedIndex": 8,
+        "createdIndex": 8
+      }
+    ]
+  }
+}
+</code></pre></div></div>
+
 <h2 id="dcmp">dcmp</h2>
 <blockquote>
   <p>提供了一个etcd的管理界面，可通过界面修改配置信息，借助confd可实现配置文件的同步</p>
@@ -238,6 +275,7 @@ jevic/etcd:dcmp
 <p><img src="https://raw.githubusercontent.com/jevic/images/master/docker/etcd-dcmp.png" alt="" /></p>
 
 <p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
+
 
     </article>
     <div class="share">
