@@ -210,6 +210,12 @@
     "category": "Linux"
   },
   
+  "2017-10-08-ipvs": {
+    "title": "Linux ipvs",
+    "url": " /2017/10/08/ipvs/",
+    "category": "Linux"
+  },
+  
   "2017-09-22-linux-centos-yum": {
     "title": "centos7 本地内网yum 仓库配置",
     "url": " /2017/09/22/linux-centos-yum/",
@@ -267,6 +273,12 @@
   "2017-03-11-linux-rpm": {
     "title": "FPM 制作RPM 安装包",
     "url": " /2017/03/11/linux-rpm/",
+    "category": "Linux"
+  },
+  
+  "2017-02-18-kernel-update": {
+    "title": "CentOS 内核 kernel升级",
+    "url": " /2017/02/18/kernel-update/",
     "category": "Linux"
   },
   
@@ -518,6 +530,12 @@
     "category": "[&quot;OPS&quot;]"
   },
   
+  "2017-02-18-kernel-update": {
+    "title": "CentOS 内核 kernel升级",
+    "url": "/2017/02/18/kernel-update/",
+    "category": "[&quot;Linux&quot;]"
+  },
+  
   "2017-03-11-linux-rpm": {
     "title": "FPM 制作RPM 安装包",
     "url": "/2017/03/11/linux-rpm/",
@@ -575,6 +593,12 @@
   "2017-09-22-linux-centos-yum": {
     "title": "centos7 本地内网yum 仓库配置",
     "url": "/2017/09/22/linux-centos-yum/",
+    "category": "[&quot;Linux&quot;]"
+  },
+  
+  "2017-10-08-ipvs": {
+    "title": "Linux ipvs",
+    "url": "/2017/10/08/ipvs/",
     "category": "[&quot;Linux&quot;]"
   },
   

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Linux ipvs &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/10/08/ipvs/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Linux ipvs">
+      
+    <meta name="keywords" content="ipvs">
+    <meta name="og:keywords" content="ipvs">
+      
+    <meta name="description" content="ipvs称之为IP虚拟服务器（IP Virtual Server，简写为IPVS）。是运行在LVS下的提供负载平衡功能的一种技术">
+    <meta name="og:description" content="ipvs称之为IP虚拟服务器（IP Virtual Server，简写为IPVS）。是运行在LVS下的提供负载平衡功能的一种技术">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/10/08/ipvs/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-10-08">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Linux ipvs">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Linux ipvs</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/10/08
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Linux" title="Linux">Linux</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>ipvs称之为IP虚拟服务器（IP Virtual Server，简写为IPVS）。是运行在LVS下的提供负载平衡功能的一种技术</p>
+
+<h2 id="含义">含义</h2>
+
+<p>IPVS基本上是一种高效的Layer-4交换机，它提供负载平衡的功能。当一个TCP连接的初始SYN报文到达时，IPVS就选择一台服务器，将报文转发给它。此后通过查发报文的IP和TCP报文头地址，保证此连接的后继报文被转发到相同的服务器。这样，IPVS无法检查到请求的内容再选择服务器，这就要求后端的服务器组是提供相同的服务，不管请求被送到哪一台服务器，返回结果都应该是一样的。但是在有一些应用中后端的服务器可能功能不一，有的是提供HTML文档的Web服务器，有的是提供图片的Web服务器，有的是提供CGI的Web服务器。这时，就需要基于内容请求分发 (Content-Based Request Distribution)，同时基于内容请求分发可以提高后端服务器上访问的局部性。</p>
+
+<h2 id="工作原理">工作原理</h2>
+
+<h3 id="lvs">LVS</h3>
+<p>提到IPVS就不得不提LVS（Linux Virtual Server），虚拟服务器是一个高度可扩展性和高可用性的服务器，建立在一个集群的服务器中。服务器集群的架构对用户是完全透明的，并且用户使用起来感觉它只有一个高性能虚拟服务器。
+真正的服务器和负载平衡器之间通过高速局域网或地理上分散的广域网可以相互连接。负载平衡器可以将请求调度到不同的服务器并将并行的集群服务显示的像在一个单一的IP地址上的一个虚拟的服务，请求调度可以使用IP负载平衡技术或应用级负载平衡技术。系统的可扩展性是通过透明地添加或删除集群中的节点来实现的。通过检测节点或守护进程的失败和适当地重新配置系统提供高可用性。</p>
+
+<h3 id="ipvs">IPVS</h3>
+<p>当一个TCP连接的初始SYN报文到达时，IPVS就选择一台服务器，将报文转发给它。此后通过查发报文的IP和TCP报文头地址，保证此连接的后继报文被转发到相同的服务器。这样，IPVS无法检查到请求的内容再选择服务器，这就要求后端的服务器组是提供相同的服务，不管请求被送到哪一台服务器，返回结果都应该是一样的。但是在有一些应用中后端&gt;的服务器可能功能不一，有的是提供HTML文档的Web服务器，有的是提供图片的Web服务器，有的是提供CGI的Web服务器。这时，就需要基于内容请求分发 (Content-Based Request Distribution)，同时基于内容请求分发可以提高后端服务器上访问的局部性。</p>
+
+<ul>
+  <li>上面已经说了IPVS是LVS的关键，因为LVS的IP负载平衡技术就是通过IPVS模块来实现的，IPVS是LVS集群系统的核心软件，它的主要作用是：
+    <ul>
+      <li><code class="highlighter-rouge">安装在Director Server上，同时&gt;在Director Server上虚拟出一个IP地址，用户必须通过这个虚拟的IP地址访问服务。这个虚拟IP一般称为LVS的VIP，即Virtual IP。访问的请求首先经过VIP到达负载调度器，然&gt;后由负载调度器从Real Server列表中选取一个服务节点响应用户的请求。</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="工作模式">工作模式</h2>
+<h3 id="1nat模式">1.NAT模式</h3>
+
+<p>采用双臂模式，数据的进出都经过director；real server只需要内部IP、不需要在real server绑定外部IP；director需要处理返回数据包，容易成为瓶颈；需要后端分布在同一个局域网或者最低限度director需要设定为所有real server的网关；进出director的数据包需要进行请求数据包目的IP的替换和响应数据包的源IP的替换、请求的源IP可以被real server获取；可以进行端口转换；ReqPS和ResPS需要进行平衡。</p>
+
+<h3 id="2tun模式">2.TUN模式</h3>
+
+<p>采用三角模式，数据从director进入，响应从real server直接回到client；real server和director都要配置IP tunnel，real server需要配置外部IP并且绑定VIP；real server可以分布在互联网络的任何位置；请求的源IP可以被real server获取；不可以进行端口转换；director只需要处理请求数据包、ReqPS是最重要的指标。</p>
+
+<h3 id="3dr模式">3.DR模式</h3>
+
+<p>采用三角模式，数据从director进入，响应从real server直接回到client；real server需要配置外部IP并绑定VIP，并且real server需要分布在同一个局域网内；进出director的数据包需要进行请求数据包目的MAC地址的替换、请求的源IP可以被real server获取；不可以进行端口转换；director只需要处理请求数据包、ReqPS是最重要的指标。</p>
+
+<h3 id="4fullnat模式">4.FULLNAT模式</h3>
+
+<p>采用双臂模式，数据的进出都经过director；real server可以使用任何类型IP，只要和director可达即可；director需要处理返回数据包，容易成为瓶颈；real server可以分布在互联网络的任何位置；进出director的数据包需要进行请求数据源IP和包目的IP的替换和响应数据包的源IP和目的IP的替换、请求的源IP丢失(但是可以通过director修改数据包将源IP放在指定区域以被real server获取，但是需要修改director和real server的协议栈)；可以进行端口转换；ReqPS和ResPS需要进行平衡。</p>
+
+<h2 id="ipvs-应用场景">IPVS 应用场景</h2>
+<p>互联网数据传输的一大特点是请求的数据传输量跟返回的数据传输量相比小到可以忽略，尤其是在现在多媒体和高清晰视图片和频的使用率越来越高的情况下，如何在director提高接入能力(处理请求包)的同时能完全发挥后端应用服务器集群的处理能力是一个亟待解决的问题。</p>
+
+<ul>
+  <li>在传统的服务器在内网提供对外网的服务能力的场景中，NAT和FULLNAT是比较合理的选择；</li>
+  <li>在服务视频流的场景中，DR模式是更应该考虑的选择；</li>
+  <li>在基于云提供商的场景中，NAT、FULLNAT或者TUN可能是合适的选择，或者直接使用云提供商的负载均衡服务；</li>
+  <li>在基于容器的服务场景中，根据对于容器管理平台 kubernetes 和容器主机的管理能力的不同，也需要选择合理的负载均衡服务.</li>
+  <li>而在超大型分布式网络服务场景中，不仅后端需要具有集群服务的功能，承担流量接入的director本身也需要具有分布式的能力，并且需要保证后端能不借助director而将数据返回client，例如google的Maglev。</li>
+</ul>
+
+<h2 id="ipvsadm">ipvsadm</h2>
+<p>ipvs具体实现是由ipvsadm这个程序来完成，因此需要安装此服务才可使用ipvs功能</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y ipvsadm
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/10/08/ipvs/';
+                    this.page.identifier = '/2017/10/08/ipvs/';
+                    this.page.title = 'Linux ipvs';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2018
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
