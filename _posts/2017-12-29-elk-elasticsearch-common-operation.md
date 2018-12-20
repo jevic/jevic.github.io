@@ -312,6 +312,31 @@ PUT test/_settings
 # 数据迁移导入导出
 - [elasticsearch-dump](https://github.com/taskrabbit/elasticsearch-dump)
 
+```
+yum install epel-release
+yum install nodejs
+yum install nodejs npm
+npm install elasticdump
+cd node_modules/elasticdump/bin
+```
+
+- 批量执行
+
+```
+#!/bin/bash
+InputES="http://es.jevic.cn"
+OutputES="http://test.es.jevic.cn"
+
+indexs="test-20181010"
+for index in $indexs;do
+/root/node_modules/elasticdump/bin/elasticdump \
+--input=${InputES}/$index \
+--output=${OutputES}/$index \
+--type=data
+done
+```
+>另外 --type=mapping 意思是把原始索引的mapping结构迁移给目标索引(2.x,5.x)
+
 # sql 插件
 - [github](https://github.com/NLPchina/elasticsearch-sql)
 

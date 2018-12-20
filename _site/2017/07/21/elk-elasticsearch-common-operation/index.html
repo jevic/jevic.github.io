@@ -436,6 +436,33 @@ PUT index-test/_settings
   <li><a href="https://github.com/taskrabbit/elasticsearch-dump">elasticsearch-dump</a></li>
 </ul>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install epel-release
+yum install nodejs
+yum install nodejs npm
+npm install elasticdump
+cd node_modules/elasticdump/bin
+</code></pre></div></div>
+
+<ul>
+  <li>批量执行</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">InputES</span><span class="o">=</span><span class="s2">"http://es.jevic.cn"</span>
+<span class="nv">OutputES</span><span class="o">=</span><span class="s2">"http://test.es.jevic.cn"</span>
+
+<span class="nv">indexs</span><span class="o">=</span><span class="s2">"test-20181010"</span>
+<span class="k">for </span>index <span class="k">in</span> <span class="nv">$indexs</span><span class="p">;</span><span class="k">do</span>
+/root/node_modules/elasticdump/bin/elasticdump <span class="se">\</span>
+<span class="nt">--input</span><span class="o">=</span><span class="k">${</span><span class="nv">InputES</span><span class="k">}</span>/<span class="nv">$index</span> <span class="se">\</span>
+<span class="nt">--output</span><span class="o">=</span><span class="k">${</span><span class="nv">OutputES</span><span class="k">}</span>/<span class="nv">$index</span> <span class="se">\</span>
+<span class="nt">--type</span><span class="o">=</span>data
+<span class="k">done</span>
+</code></pre></div></div>
+<blockquote>
+  <p>另外 –type=mapping 意思是把原始索引的mapping结构迁移给目标索引(2.x,5.x)</p>
+</blockquote>
+
 <h1 id="sql-插件">sql 插件</h1>
 <ul>
   <li><a href="https://github.com/NLPchina/elasticsearch-sql">github</a></li>
