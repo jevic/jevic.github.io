@@ -334,15 +334,20 @@ flask-app-deploy-9c5bc8bd8    3         3         3         15m       flask-app 
 
 <p>Service同RC一样，都是通过Label来关联Pod的。当你在Service的yaml文件中定义了该Service的selector中的label为app:my-web，那么这个Service会将Pod–&gt;metadata–&gt;labeks中label为app:my-web的Pod作为分发请求的后端。当Pod发生变化时（增加、减少、重建等），Service会及时更新。这样一来，Service就可以作为Pod的访问入口，起到代理服务器的作用，而对于访问者来说，通过Service进行访问，无需直接感知Pod。</p>
 
-<p>需要注意的是，Kubernetes分配给Service的固定IP是一个虚拟IP，并不是一个真实的IP，在外部是无法寻址的。真实的系统实现上，Kubernetes是通过Kube-proxy组件来实现的虚拟IP路由及转发。所以在之前集群部署的环节上，我们在每个Node上均部署了Proxy这个组件，从而实现了Kubernetes层级的虚拟转发网络。</p>
+<p>需要注意的是，Kubernetes分配给Service的固定IP是一个虚拟IP，并不是一个真实的IP，在外部是无法寻址的。真实的系统实现上，Kubernetes是通过<code class="highlighter-rouge">Kube-proxy</code>组件来实现的虚拟IP路由及转发。所以在之前集群部署的环节上，我们在每个Node上均部署了Proxy这个组件，从而实现了Kubernetes层级的虚拟转发网络。</p>
 
 <h3 id="工作模式">工作模式</h3>
-<p>在kubernetes 的版本迭代历史到目前为止有三种工作模式:</p>
+<p>在kubernetes 的版本迭代历史到目前为止<code class="highlighter-rouge">kube-proxy</code>有三种工作模式:</p>
 
 <ul>
   <li>userspace: 1.1 版本之前使用</li>
   <li>iptables: 1.10 版本之前使用</li>
-  <li>ipvs: 1.11 版本之后使用(如果ipvs 不可用自动降级使用iptables)</li>
+  <li>ipvs: 1.11 版本之后使用(如果ipvs 不可用自动降级使用iptables)
+    <ul>
+      <li><a href="https://github.com/kubernetes/kubernetes/tree/master/pkg/proxy/ipvs">proxy ipvs</a></li>
+      <li>注意: 启用前需要安装依赖和启用相关内核模块</li>
+    </ul>
+  </li>
 </ul>
 
 <h3 id="网络模式">网络模式</h3>
