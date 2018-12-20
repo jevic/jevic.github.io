@@ -309,6 +309,8 @@ PUT test/_settings
 
 - [Index Modules](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html)
 
+# 数据迁移导入导出
+- [elasticsearch-dump](https://github.com/taskrabbit/elasticsearch-dump)
 
 # sql 插件
 - [github](https://github.com/NLPchina/elasticsearch-sql)
