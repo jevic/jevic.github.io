@@ -1,6 +1,6 @@
 ---
 layout: post
-categories: Docker,Kubernetes
+categories: Docker Kubernetes
 title: Docker 配置代理访问
 date: 2017-11-18 19:56:06 +0800
 description: Docker

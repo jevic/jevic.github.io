@@ -207,7 +207,7 @@
   "2017-11-18-docker-proxy": {
     "title": "Docker 配置代理访问",
     "url": " /2017/11/18/docker-proxy/",
-    "category": "Docker,Kubernetes"
+    "category": "Docker"
   },
   
   "2017-10-09-linux-kernel-sysctl": {
@@ -617,7 +617,7 @@
   "2017-11-18-docker-proxy": {
     "title": "Docker 配置代理访问",
     "url": "/2017/11/18/docker-proxy/",
-    "category": "[&quot;Docker,Kubernetes&quot;]"
+    "category": "[&quot;Docker&quot;, &quot;Kubernetes&quot;]"
   },
   
   "2017-12-02-linux-zabbix-docker-install": {
