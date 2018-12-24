@@ -11,6 +11,7 @@ permalink: /links/
 > Links ...... 
 
  * [CSDN](http://blog.csdn.net/zxf_668899)
+ * [frognew](https://blog.frognew.com)
  * [RancherLabs CSDN](http://my.csdn.net/RancherLabs)
  * [谢雨轩](http://www.xieyuxuan.cc/)
  * [Ehlxr's Blog](https://ehlxr.me//)
