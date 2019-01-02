@@ -286,6 +286,12 @@ EOF
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k1 ~]# yum install kubelet kubeadm kubectl
 
 </code></pre></div></div>
+<ul>
+  <li>所有节点配置kubectl 开机自启动</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl enable kubelet
+</code></pre></div></div>
 
 <h2 id="初始化-master">初始化 Master</h2>
 <ul>

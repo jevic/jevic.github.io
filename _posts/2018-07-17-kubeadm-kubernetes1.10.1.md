@@ -134,6 +134,12 @@ EOF
 [root@k1 ~]# yum install kubelet kubeadm kubectl
 
 ```
+- 所有节点配置kubectl 开机自启动
+
+```
+systemctl enable kubelet
+```
+
 
 ## 初始化 Master
 - 镜像
