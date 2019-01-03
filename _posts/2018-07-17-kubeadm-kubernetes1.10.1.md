@@ -56,6 +56,14 @@ EOF
 [root@k1 ~]# yum install -y conntrack ipvsadm ipset jq sysstat curl iptables libseccomp ntpdate
 [root@k1 ~]# ntpdate cn.pool.ntp.org
 ```
+#### 加载内核模块
+```
+modprobe br_netfilter 
+modprobe ip_vs
+
+lsmod |grep ip_vs
+```
+
 
 #### Install Docker
 - 参考 [官方文档](https://docs.docker.com/install/linux/docker-ce/centos/#install-using-the-repository)
