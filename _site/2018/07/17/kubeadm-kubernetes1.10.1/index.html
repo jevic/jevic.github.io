@@ -206,10 +206,34 @@ EOF
 [root@k1 ~]# ntpdate cn.pool.ntp.org
 </code></pre></div></div>
 <h4 id="加载内核模块">加载内核模块</h4>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modprobe br_netfilter 
-modprobe ip_vs
 
-lsmod |grep ip_vs
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># cat &gt; /etc/sysconfig/modules/ipvs.modules &lt;&lt;EOF</span>
+<span class="c">#!/bin/bash</span>
+<span class="nv">ipvs_modules</span><span class="o">=</span><span class="s2">"ip_vs ip_vs_lc ip_vs_wlc ip_vs_rr ip_vs_wrr ip_vs_lblc ip_vs_lblcr ip_vs_dh ip_vs_sh ip_vs_fo ip_vs_nq ip_vs_sed ip_vs_ftp nf_conntrack_ipv4"</span>
+<span class="k">for </span>kernel_module <span class="k">in</span> <span class="se">\$</span><span class="o">{</span>ipvs_modules<span class="o">}</span><span class="p">;</span> <span class="k">do</span>
+    /sbin/modinfo <span class="nt">-F</span> filename <span class="se">\$</span><span class="o">{</span>kernel_module<span class="o">}</span> <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+    <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        /sbin/modprobe <span class="se">\$</span><span class="o">{</span>kernel_module<span class="o">}</span>
+    <span class="k">fi
+done
+</span>EOF
+<span class="c"># chmod 755 /etc/sysconfig/modules/ipvs.modules &amp;&amp; bash /etc/sysconfig/modules/ipvs.modules &amp;&amp; lsmod | grep ip_vs</span>
+ip_vs_ftp              16384  0
+ip_vs_sed              16384  0
+ip_vs_nq               16384  0
+ip_vs_fo               16384  0
+ip_vs_sh               16384  0
+ip_vs_dh               16384  0
+ip_vs_lblcr            16384  0
+ip_vs_lblc             16384  0
+ip_vs_wrr              16384  0
+ip_vs_rr               16384  0
+ip_vs_wlc              16384  0
+ip_vs_lc               16384  0
+ip_vs                 147456  24 ip_vs_lblc,ip_vs_wrr,ip_vs_lc,ip_vs_lblcr,ip_vs_sed,ip_vs_ftp,ip_vs_wlc,ip_vs_rr,ip_vs_dh,ip_vs_sh,ip_vs_fo,ip_vs_nq
+nf_nat                 28672  3 ip_vs_ftp,nf_nat_masquerade_ipv4,nf_nat_ipv4
+nf_conntrack          106496  7 ip_vs,nf_conntrack_ipv4,nf_conntrack_netlink,nf_nat_masquerade_ipv4,xt_conntrack,nf_nat_ipv4,nf_nat
+libcrc32c              16384  3 ip_vs,xfs,dm_persistent_data
 </code></pre></div></div>
 
 <h4 id="install-docker">Install Docker</h4>

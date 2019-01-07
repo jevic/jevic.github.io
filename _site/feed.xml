@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-01-03T13:14:31+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-01-07T17:26:36+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
   &lt;p&gt;通过grafana 请求应用接口显示Docker镜像的构建版本信息..&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -3379,10 +3379,34 @@ EOF
 [root@k1 ~]# ntpdate cn.pool.ntp.org
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h4 id=&quot;加载内核模块&quot;&gt;加载内核模块&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;modprobe br_netfilter 
-modprobe ip_vs
 
-lsmod |grep ip_vs
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# cat &amp;gt; /etc/sysconfig/modules/ipvs.modules &amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;ipvs_modules&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ip_vs ip_vs_lc ip_vs_wlc ip_vs_rr ip_vs_wrr ip_vs_lblc ip_vs_lblcr ip_vs_dh ip_vs_sh ip_vs_fo ip_vs_nq ip_vs_sed ip_vs_ftp nf_conntrack_ipv4&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;kernel_module &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;ipvs_modules&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    /sbin/modinfo &lt;span class=&quot;nt&quot;&gt;-F&lt;/span&gt; filename &lt;span class=&quot;se&quot;&gt;\$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;kernel_module&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /dev/null 2&amp;gt;&amp;amp;1
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$?&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-eq&lt;/span&gt; 0 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt;
+        /sbin/modprobe &lt;span class=&quot;se&quot;&gt;\$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;kernel_module&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;fi
+done
+&lt;/span&gt;EOF
+&lt;span class=&quot;c&quot;&gt;# chmod 755 /etc/sysconfig/modules/ipvs.modules &amp;amp;&amp;amp; bash /etc/sysconfig/modules/ipvs.modules &amp;amp;&amp;amp; lsmod | grep ip_vs&lt;/span&gt;
+ip_vs_ftp              16384  0
+ip_vs_sed              16384  0
+ip_vs_nq               16384  0
+ip_vs_fo               16384  0
+ip_vs_sh               16384  0
+ip_vs_dh               16384  0
+ip_vs_lblcr            16384  0
+ip_vs_lblc             16384  0
+ip_vs_wrr              16384  0
+ip_vs_rr               16384  0
+ip_vs_wlc              16384  0
+ip_vs_lc               16384  0
+ip_vs                 147456  24 ip_vs_lblc,ip_vs_wrr,ip_vs_lc,ip_vs_lblcr,ip_vs_sed,ip_vs_ftp,ip_vs_wlc,ip_vs_rr,ip_vs_dh,ip_vs_sh,ip_vs_fo,ip_vs_nq
+nf_nat                 28672  3 ip_vs_ftp,nf_nat_masquerade_ipv4,nf_nat_ipv4
+nf_conntrack          106496  7 ip_vs,nf_conntrack_ipv4,nf_conntrack_netlink,nf_nat_masquerade_ipv4,xt_conntrack,nf_nat_ipv4,nf_nat
+libcrc32c              16384  3 ip_vs,xfs,dm_persistent_data
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;install-docker&quot;&gt;Install Docker&lt;/h4&gt;

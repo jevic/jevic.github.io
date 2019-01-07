@@ -57,11 +57,35 @@ EOF
 [root@k1 ~]# ntpdate cn.pool.ntp.org
 ```
 #### 加载内核模块
-```
-modprobe br_netfilter 
-modprobe ip_vs
 
-lsmod |grep ip_vs
+```bash
+# cat > /etc/sysconfig/modules/ipvs.modules <<EOF
+#!/bin/bash
+ipvs_modules="ip_vs ip_vs_lc ip_vs_wlc ip_vs_rr ip_vs_wrr ip_vs_lblc ip_vs_lblcr ip_vs_dh ip_vs_sh ip_vs_fo ip_vs_nq ip_vs_sed ip_vs_ftp nf_conntrack_ipv4"
+for kernel_module in \${ipvs_modules}; do
+    /sbin/modinfo -F filename \${kernel_module} > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        /sbin/modprobe \${kernel_module}
+    fi
+done
+EOF
+# chmod 755 /etc/sysconfig/modules/ipvs.modules && bash /etc/sysconfig/modules/ipvs.modules && lsmod | grep ip_vs
+ip_vs_ftp              16384  0
+ip_vs_sed              16384  0
+ip_vs_nq               16384  0
+ip_vs_fo               16384  0
+ip_vs_sh               16384  0
+ip_vs_dh               16384  0
+ip_vs_lblcr            16384  0
+ip_vs_lblc             16384  0
+ip_vs_wrr              16384  0
+ip_vs_rr               16384  0
+ip_vs_wlc              16384  0
+ip_vs_lc               16384  0
+ip_vs                 147456  24 ip_vs_lblc,ip_vs_wrr,ip_vs_lc,ip_vs_lblcr,ip_vs_sed,ip_vs_ftp,ip_vs_wlc,ip_vs_rr,ip_vs_dh,ip_vs_sh,ip_vs_fo,ip_vs_nq
+nf_nat                 28672  3 ip_vs_ftp,nf_nat_masquerade_ipv4,nf_nat_ipv4
+nf_conntrack          106496  7 ip_vs,nf_conntrack_ipv4,nf_conntrack_netlink,nf_nat_masquerade_ipv4,xt_conntrack,nf_nat_ipv4,nf_nat
+libcrc32c              16384  3 ip_vs,xfs,dm_persistent_data
 ```
 
 
