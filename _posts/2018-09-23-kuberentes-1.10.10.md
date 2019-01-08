@@ -1169,7 +1169,7 @@ ExecStart=/usr/bin/docker run   --net=host --privileged --name=calico-node \\
                                 -v /lib/modules:/lib/modules \\
                                 -v /var/lib/calico:/var/lib/calico \\
                                 -v /var/run/calico:/var/run/calico \\
-                                k8s.yfcloud.com/calico/node:v3.1.0
+                                calico/node:v3.1.0
 ExecStop=/usr/bin/docker rm -f calico-node
 Restart=always
 RestartSec=10
@@ -1312,7 +1312,7 @@ coredns 对应的目录是：`cluster/addons/dns`
 ---
 >         kubernetes __PILLAR__DNS__DOMAIN__ in-addr.arpa ip6.arpa {
 103c103
-<         image: k8s.yfcloud.com/k8s.gcr.io/coredns:1.0.6
+<         image: k8s.jevic.cn/k8s.gcr.io/coredns:1.0.6
 ---
 >         image: k8s.gcr.io/coredns:1.0.6
 153c153

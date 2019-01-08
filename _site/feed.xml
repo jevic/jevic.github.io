@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-01-07T17:26:36+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-01-08T18:14:30+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
   &lt;p&gt;通过grafana 请求应用接口显示Docker镜像的构建版本信息..&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1064,7 +1064,7 @@ spec:
     spec:
       containers:
       - name: nginx-demo
-        image: k8s.yfcloud.com/nginx/nginx:1.7.9
+        image: nginx/nginx:1.7.9
         ports:
         - name: https
           containerPort: 443
@@ -2513,7 +2513,7 @@ ExecStart=/usr/bin/docker run   --net=host --privileged --name=calico-node \\
                                 -v /lib/modules:/lib/modules \\
                                 -v /var/lib/calico:/var/lib/calico \\
                                 -v /var/run/calico:/var/run/calico \\
-                                k8s.yfcloud.com/calico/node:v3.1.0
+                                calico/node:v3.1.0
 ExecStop=/usr/bin/docker rm -f calico-node
 Restart=always
 RestartSec=10
@@ -2647,7 +2647,7 @@ coredns 对应的目录是：&lt;code class=&quot;highlighter-rouge&quot;&gt;clu
 ---
 &amp;gt;         kubernetes __PILLAR__DNS__DOMAIN__ in-addr.arpa ip6.arpa {
 103c103
-&amp;lt;         image: k8s.yfcloud.com/k8s.gcr.io/coredns:1.0.6
+&amp;lt;         image: k8s.jevic.cn/k8s.gcr.io/coredns:1.0.6
 ---
 &amp;gt;         image: k8s.gcr.io/coredns:1.0.6
 153c153

@@ -520,7 +520,7 @@ spec:
     spec:
       containers:
       - name: nginx-demo
-        image: k8s.yfcloud.com/nginx/nginx:1.7.9
+        image: nginx/nginx:1.7.9
         ports:
         - name: https
           containerPort: 443
