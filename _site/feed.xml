@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-01-09T10:27:53+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-01-09T14:29:52+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
   &lt;p&gt;通过grafana 请求应用接口显示Docker镜像的构建版本信息..&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -3541,19 +3541,20 @@ k1.master   Ready    master   2d14h   v1.10.1
 k2.master   Ready    &amp;lt;none&amp;gt;   2d14h   v1.10.1
 k3.master   Ready    &amp;lt;none&amp;gt;   2d14h   v1.10.1
 
-[root@k1 ~]# kubectl get pod -n kube-system
-NAME                                READY   STATUS             RESTARTS   AGE
-etcd-k1.master                      1/1     Running            2          2d14h
-kube-apiserver-k1.master            1/1     Running            5          2d14h
-kube-controller-manager-k1.master   1/1     Running            4          2d14h
-kube-flannel-ds-amd64-9xzfl         1/1     Running            2          2d14h
-kube-flannel-ds-amd64-krc4l         1/1     Running            1          2d14h
-kube-flannel-ds-amd64-phhc7         1/1     Running            2          2d14h
-kube-proxy-4vndk                    1/1     Running            3          2d14h
-kube-proxy-f4dqb                    1/1     Running            2          2d14h
-kube-proxy-s6p9z                    1/1     Running            2          2d14h
-kube-scheduler-k1.master            1/1     Running            4          2d14h
-
+[root@k1 ~]# kubectl get pods -n kube-system
+NAME                                   READY   STATUS              RESTARTS   AGE
+coredns-64bb9c68cb-g4qw7               1/1     Running             0          4h1m
+coredns-64bb9c68cb-pjw7m               1/1     Running             0          4h1m
+etcd-k1                                1/1     Running             1          46h
+kube-apiserver-k1                      1/1     Running             1          46h
+kube-controller-manager-k1             1/1     Running             1          46h
+kube-flannel-ds-amd64-b9jf6            1/1     Running             0          4h8m
+kube-flannel-ds-amd64-fmtgz            1/1     Running             0          4h8m
+kube-flannel-ds-amd64-q4m8h            1/1     Running             0          4h8m
+kube-proxy-67jqw                       1/1     Running             1          45h
+kube-proxy-6hztx                       1/1     Running             1          46h
+kube-proxy-ghvv9                       1/1     Running             1          45h
+kube-scheduler-k1                      1/1     Running             1          46h
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">系统环境</summary></entry></feed>
