@@ -191,13 +191,15 @@ KUBE_PROXY_MODE=ipvs,ip_vs,ip_vs_rr,ip_vs_wrr,ip_vs_sh,nf_conntrack_ipv4
 - 初始化
 
 ```
-[root@k1 ~]# kubeadm init --kubernetes-version=v1.10.1 --pod-network-cidr=10.20.0.0/16 --apiserver-advertise-address=192.168.2.65
+[root@k1 ~]# kubeadm init --kubernetes-version=v1.10.1 --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.2.65
 
 记录最后的节点初始化信息，添加节点即可 
 ```
+需要注意的是这里使用了flannel 网络插件所以`--pod-network-cidr`指定为了flannel默认的网段;
+如果此次有更改记得在部署flannel时修改资源清单里面的网络配置!
 
 - 添加flannel网络插件
-    - https://github.com/coreos/flannel   
+	- https://github.com/coreos/flannel   
 
 ## 查看集群状态
 
