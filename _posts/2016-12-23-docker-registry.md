@@ -104,9 +104,10 @@ The push refers to a repository [hub.test.io/pause-amd64]
 3.0: digest: sha256:ec6581792f828ab138bc7ed65205dbd4d7df966249179b7afbb9f6cac729771b size: 939
 ```
 ## 客户端：
+[Test an insecure registry](https://docs.docker.com/registry/insecure/)
 
 ``` sh
-1.仓库配置:
+1.仓库配置(私有证书):
 [root@node1 ]# mkdir /etc/docker/certs.d/hub.test.io 
 [root@node1 ]# scp hub.test.io:/etc/docker/certs.d/hub.test.io/ca.crt /etc/docker/certs.d/hub.test.io
 
