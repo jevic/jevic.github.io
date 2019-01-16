@@ -249,6 +249,13 @@ helm help # 验证
   <p>Tiller 是以 Deployment 方式部署在 Kubernetes 集群中的；</p>
 </blockquote>
 
+<p>由于 Helm 默认会去 storage.googleapis.com 拉取镜像，如果你当前执行的机器不能访问该域名的话可以使用以下命令来安装：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm init --client-only --stable-repo-url https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts/
+helm repo add incubator https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+helm repo update
+</code></pre></div></div>
+
 <h5 id="231-服务端">2.3.1 服务端</h5>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm init --service-account tiller --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.11.0  --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
