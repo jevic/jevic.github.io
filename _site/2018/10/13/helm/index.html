@@ -331,7 +331,62 @@ NAME     	URL
 stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
 local    	http://127.0.0.1:8879/charts
 </code></pre></div></div>
+<h3 id="本地仓库配置">本地仓库配置</h3>
+<h4 id="开启服务">开启服务</h4>
 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir /opt/helm/charts
+helm serve <span class="nt">--address</span> helm.jevic.cn:8879 <span class="nt">--repo-path</span> /opt/helm/charts &amp;&gt;/dev/null &amp;
+</code></pre></div></div>
+
+<h4 id="添加仓库">添加仓库:</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm repo add jevic http://hub.jevic.cn:8879
+</code></pre></div></div>
+
+<p>查看仓库列表</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm repo list
+
+NAME     	URL
+<span class="nb">local    	</span>http://127.0.0.1:8879
+incubator	https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+aliyun   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+jevic    	http://helm.jevic.cn:8879
+</code></pre></div></div>
+
+<h4 id="应用上传">应用上传</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">## 打包应用</span>
+cp <span class="nt">-r</span> demoapp /opt/helm/charts
+<span class="nb">cd</span> /opt/helm/charts
+helm package demoapp <span class="nt">--save</span><span class="o">=</span><span class="nb">false</span>
+<span class="c">## 更新索引</span>
+<span class="nb">cd</span> /opt/helm/charts
+helm repo index <span class="nt">--url</span><span class="o">=</span>http://helm.jevic.cn:8879 <span class="nb">.</span>
+helm repo update
+</code></pre></div></div>
+<h4 id="部署">部署</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## search</span>
+helm search demo
+
+NAME         	CHART VERSION	APP VERSION	DESCRIPTION
+jevic/demoapp	0.3.0        	1.0        	A Helm chart DemoApp <span class="k">for </span>Kubernetes
+
+
+<span class="c">## install</span>
+helm install <span class="nt">-n</span> appv3 jevic/demoapp
+
+<span class="c">## get pods</span>
+kubectl get pods |grep appv3
+
+appv3-demoapp-79b7f754d5-zbkvd                   1/1     Running   0          91s
+
+<span class="c">## list </span>
+helm <span class="nb">ls</span> 
+</code></pre></div></div>
 
     </article>
     <div class="share">

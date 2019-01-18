@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-01-16T16:57:11+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-01-18T17:51:58+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
   &lt;p&gt;通过grafana 请求应用接口显示Docker镜像的构建版本信息..&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1338,6 +1338,62 @@ helm update
 NAME     	URL
 stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
 local    	http://127.0.0.1:8879/charts
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;本地仓库配置&quot;&gt;本地仓库配置&lt;/h3&gt;
+&lt;h4 id=&quot;开启服务&quot;&gt;开启服务&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir /opt/helm/charts
+helm serve &lt;span class=&quot;nt&quot;&gt;--address&lt;/span&gt; helm.jevic.cn:8879 &lt;span class=&quot;nt&quot;&gt;--repo-path&lt;/span&gt; /opt/helm/charts &amp;amp;&amp;gt;/dev/null &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;添加仓库&quot;&gt;添加仓库:&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo add jevic http://hub.jevic.cn:8879
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;查看仓库列表&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo list
+
+NAME     	URL
+&lt;span class=&quot;nb&quot;&gt;local    	&lt;/span&gt;http://127.0.0.1:8879
+incubator	https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+aliyun   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+jevic    	http://helm.jevic.cn:8879
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;应用上传&quot;&gt;应用上传&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;c&quot;&gt;## 打包应用&lt;/span&gt;
+cp &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; demoapp /opt/helm/charts
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/helm/charts
+helm package demoapp &lt;span class=&quot;nt&quot;&gt;--save&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;## 更新索引&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/helm/charts
+helm repo index &lt;span class=&quot;nt&quot;&gt;--url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;http://helm.jevic.cn:8879 &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+helm repo update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;部署&quot;&gt;部署&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;## search&lt;/span&gt;
+helm search demo
+
+NAME         	CHART VERSION	APP VERSION	DESCRIPTION
+jevic/demoapp	0.3.0        	1.0        	A Helm chart DemoApp &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;Kubernetes
+
+
+&lt;span class=&quot;c&quot;&gt;## install&lt;/span&gt;
+helm install &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; appv3 jevic/demoapp
+
+&lt;span class=&quot;c&quot;&gt;## get pods&lt;/span&gt;
+kubectl get pods |grep appv3
+
+appv3-demoapp-79b7f754d5-zbkvd                   1/1     Running   0          91s
+
+&lt;span class=&quot;c&quot;&gt;## list &lt;/span&gt;
+helm &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">helm 简介 很多人都使用过Ubuntu下的ap-get或者CentOS下的yum, 这两者都是Linux系统下的包管理工具。采用apt-get/yum,应用开发者可以管理应用包之间的依赖关系，发布应用；用户则可以以简单的方式查找、安装、升级、卸载应用程序。</summary></entry><entry><title type="html">二进制手动部署kubernetes 1.10.10</title><link href="http://0.0.0.0/2018/09/23/kuberentes-1.10.10/" rel="alternate" type="text/html" title="二进制手动部署kubernetes 1.10.10" /><published>2018-09-23T20:35:46+08:00</published><updated>2018-09-23T20:35:46+08:00</updated><id>http://0.0.0.0/2018/09/23/kuberentes-1.10.10</id><content type="html" xml:base="http://0.0.0.0/2018/09/23/kuberentes-1.10.10/">&lt;blockquote&gt;
   &lt;p&gt;通读一遍先熟悉了过程在实际操作!!!&lt;/p&gt;
 &lt;/blockquote&gt;
