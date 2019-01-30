@@ -1,5 +1,11 @@
 {
   
+  "2019-01-10-helm-repo": {
+    "title": "helm 私有仓库",
+    "url": " /2019/01/10/helm-repo/",
+    "category": "Kubernetes"
+  },
+  
   "2018-11-27-grafana-text-html": {
     "title": "grafana html 请求显示docker镜像信息",
     "url": " /2018/11/27/grafana-text-html/",
@@ -822,6 +828,12 @@
     "title": "grafana html 请求显示docker镜像信息",
     "url": "/2018/11/27/grafana-text-html/",
     "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2019-01-10-helm-repo": {
+    "title": "helm 私有仓库",
+    "url": "/2019/01/10/helm-repo/",
+    "category": "[&quot;Kubernetes&quot;]"
   },
   
   "wiki-template": {
