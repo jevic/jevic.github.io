@@ -48,14 +48,18 @@ keywords: elasticsearch elk ELK
 >跟我们上面操作为索引指定放置节点位置一样，我们也可以在索引分配的时候排除某些节点。
 参照之前的例子，我们新建一个people索引，但是不希望people索引放置到zone_one的ES集群节点服务器上，我们可以运行如下命令操作：
 
+- 根据zone
+
 ```
 # curl -XPOST "http://EScode:9200/people"
 # curl -XPUT "http://EScode:9200/people/_settings" -d '{
   "index.routing.allocation.exclude.zone" : "zone_one"
   }'
-请注意，在这里我们使用的是index.routing.allocation.exclude.zone属性
-而不是index.routing.allocation.include.zone属性。
 ```
+
+请注意:
+在这里我们使用的是index.routing.allocation.`exclude`.zone属性
+而不是index.routing.allocation.`include`.zone属性。
 
 
 ### 使用IP地址进行分配配置
@@ -71,6 +75,11 @@ keywords: elasticsearch elk ELK
   }'
 ```
 
+- 排除指定IP
+
+``` bash
+curl -XPUT http://EScode:9200/indexName/_settings -d '{ "index.routing.allocation.exclude._ip": "1.1.1.1,1.1.1.2"}'
+```
 
 
 ### 集群范围内分配
@@ -86,6 +95,18 @@ keywords: elasticsearch elk ELK
   }'
   
 ```
+
+- 排除指定IP
+
+``` bash
+curl -XPUT http://EScode:9200/_cluster/settings -d '
+{
+  "transient" : {
+    "cluster.routing.allocation.exclude._ip" : "1.1.1.1,1.1.1.2"
+  }
+}'
+```
+
 >集群级别的控制还有transient和persistent属性
 
 
@@ -95,11 +116,12 @@ keywords: elasticsearch elk ELK
 - 例如我们希望ops索引在每个节点上只有一个分片，我们可以运行如下命令：
     
 ``` sh
-  # curl -XPUT "http://ESnode:9200/ops/_settings" -d '{
-  "index.routing.allocation.total_shards_per_node" : 1
-  }'
-  
+curl -XPUT "http://ESnode:9200/ops/_settings" -d '
+{
+"index.routing.allocation.total_shards_per_node" : 1
+}'
 ```
+
 >这个属性也可以直接配置到elasticsearch.ym配置文件中，或者使用上面命令在活动索引上更新。
 >如果配置不当，导致主分片无法分配的话，集群就会处于red状态。
 
@@ -128,16 +150,13 @@ keywords: elasticsearch elk ELK
 我们通过move命令的index属性指定移动哪个索引,通过shard属性指定移动哪个分片，
 最终通过from_node属性指定我们从哪个节点上移动分片，
 通过to_node属性指定我们希望将分片移动到哪个节点。
-
 ```
-    
-
  
 #### 取消分配
 >如果希望取消一个正在进行的分配过程，我们通过运行cancel命令来指定我们希望取消分配的索引、节点以及分片，如下所示：
     
 ``` sh
-# curl -XPOST "http://ESnode:9200/_cluster/reroute" -d '{
+curl -XPOST "http://ESnode:9200/_cluster/reroute" -d '{
   "commands" : [ {
   "cancel" : {
   "index" : "ops",
@@ -146,9 +165,8 @@ keywords: elasticsearch elk ELK
   }
   } ]
   }'
-运行上面的命令将会取消es_node_one节上ops索引的第0个分片的分配
-
 ```
+运行上面的命令将会取消es_node_one节上ops索引的第0个分片的分配
 
  
 #### 分配分片
@@ -157,8 +175,7 @@ keywords: elasticsearch elk ELK
 
     
 ``` sh
-
-# curl -XPOST "http://ESnode:9200/_cluster/reroute' -d '{
+curl -XPOST "http://ESnode:9200/_cluster/reroute' -d '{
   "commands" : [ {
    "allocate" : {
     "index" : "ops",
@@ -171,7 +188,7 @@ keywords: elasticsearch elk ELK
 一次HTTP请求包含多个命令
 我们可以在一次HTTP请求中包含多个命令，例如：
 
-# curl -XPOST "http://ESnode:9200/_cluster/reroute" -d '{
+curl -XPOST "http://ESnode:9200/_cluster/reroute" -d '{
    "commands" : [
      {"move" : 
             {"index" : "ops", 
@@ -187,7 +204,6 @@ keywords: elasticsearch elk ELK
      }
     ]
  }'
-
 ```
 
 
