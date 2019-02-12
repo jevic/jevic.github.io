@@ -13,35 +13,41 @@ keywords: elasticsearch elk ELK
 
 ### 索引创建
 
-``` sh
+``` bash
 # curl -XPOST "http://ESnode:9200/man'
 # curl -XPUT "http://ESnode:9200/man/_settings' -d '{
    "index.routing.allocation.include.zone" : "zone_one"
    }'
 ```
    
->第一条命令是创建man索引；
-第二条命令是发送到_settings REST端点，用来指定这个索引的其他配置信息。我们将index.routing.allocation.include.zone属性设置为zone_one值，就是我们所希望的把man索引放置到node.zone属性值为zone_one的ES集群节点服务器上。
+第一条命令是创建man索引；
 
-同样对woman索引我们做类似操作：
+第二条命令是发送到_settings REST端点，用来指定这个索引的其他配置信息。
 
-``` sh
+我们将index.routing.allocation.include.zone属性设置为zone_one值;
+
+就是我们所希望的把man索引放置到node.zone属性值为zone_one的ES集群节点服务器上。
+
+
+- 同样对woman索引我们做类似操作：
+
+``` bash
 # curl -XPOST "http://ESnode:9200/woman'
 # curl -XPUT "http://ESnode:9200/woman/_settings' -d '{
    "index.routing.allocation.include.zone" : "zone_two"
    }'
 ```
+
 不同的是，这次指定woman索引放置在node.zone属性值为zone_two的ES集群节点服务器上
  
  
 最后我们需要将katoey索引放置到上面所有的ES集群节点上面，配置设置命令如下：
 
-``` sh
+``` bash
 # curl -XPOST "http://ESnode:9200/katoey"
 # curl -XPUT "http://ESnode:9200/katoey/_settings" -d '{
   "index.routing.allocation.include.zone" : "zone_one,zone_two"
   }'
-
 ```
   
 ### 分配时排除节点
@@ -50,7 +56,7 @@ keywords: elasticsearch elk ELK
 
 - 根据zone
 
-```
+``` bash
 # curl -XPOST "http://EScode:9200/people"
 # curl -XPUT "http://EScode:9200/people/_settings" -d '{
   "index.routing.allocation.exclude.zone" : "zone_one"
@@ -64,11 +70,11 @@ keywords: elasticsearch elk ELK
 
 ### 使用IP地址进行分配配置
 
->除了在节点的配置中添加一些特殊的属性参数外，我们还可以使用IP地址来指定你将分片和副本分配或者不分配到哪些节点上面。
->为了做到这点，我们应该使用_ip属性，把zone换成_ip就好了。
->例如我们希望lucky索引分配到IP地址为10.0.1.110和10.0.1.119的节点上，我们可以运行如下命令设置：
+除了在节点的配置中添加一些特殊的属性参数外，我们还可以使用IP地址来指定你将分片和副本分配或者不分配到哪些节点上面。
+为了做到这点，我们应该使用_ip属性，把zone换成_ip就好了。
+例如我们希望lucky索引分配到IP地址为10.0.1.110和10.0.1.119的节点上，我们可以运行如下命令设置：
 
-```
+``` bash
 # curl -XPOST "http://ESnode:9200/lucky"
 # curl -XPUT "http://ESnode:9200/lucky/_settings" -d '{
   "index.routing.allocation.include._ip" "10.0.1.110,10.0.1.119"
@@ -78,9 +84,11 @@ keywords: elasticsearch elk ELK
 - 排除指定IP
 
 ``` bash
-curl -XPUT http://EScode:9200/indexName/_settings -d '{ "index.routing.allocation.exclude._ip": "1.1.1.1,1.1.1.2"}'
+curl -XPUT http://EScode:9200/indexName/_settings -d 
+'{ "index.routing.allocation.exclude._ip": "1.1.1.1,1.1.1.2"}'
 ```
 
+取消配置值配置为: "none" 即可
 
 ### 集群范围内分配
 
@@ -93,7 +101,6 @@ curl -XPUT http://EScode:9200/indexName/_settings -d '{ "index.routing.allocatio
    "cluster.routing.allocation.include._ip" "10.0.1.112,10.0.1.114"
    }
   }'
-  
 ```
 
 - 排除指定IP
