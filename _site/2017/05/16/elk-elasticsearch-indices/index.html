@@ -135,33 +135,38 @@
 
 <h3 id="索引创建">索引创建</h3>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/man'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/man'</span>
 <span class="c"># curl -XPUT "http://ESnode:9200/man/_settings' -d '{</span>
    <span class="s2">"index.routing.allocation.include.zone"</span> : <span class="s2">"zone_one"</span>
    <span class="o">}</span><span class="s1">'
 </span></code></pre></div></div>
 
-<blockquote>
-  <p>第一条命令是创建man索引；
-第二条命令是发送到_settings REST端点，用来指定这个索引的其他配置信息。我们将index.routing.allocation.include.zone属性设置为zone_one值，就是我们所希望的把man索引放置到node.zone属性值为zone_one的ES集群节点服务器上。</p>
-</blockquote>
+<p>第一条命令是创建man索引；</p>
 
-<p>同样对woman索引我们做类似操作：</p>
+<p>第二条命令是发送到_settings REST端点，用来指定这个索引的其他配置信息。</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/woman'</span>
+<p>我们将index.routing.allocation.include.zone属性设置为zone_one值;</p>
+
+<p>就是我们所希望的把man索引放置到node.zone属性值为zone_one的ES集群节点服务器上。</p>
+
+<ul>
+  <li>同样对woman索引我们做类似操作：</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/woman'</span>
 <span class="c"># curl -XPUT "http://ESnode:9200/woman/_settings' -d '{</span>
    <span class="s2">"index.routing.allocation.include.zone"</span> : <span class="s2">"zone_two"</span>
    <span class="o">}</span><span class="s1">'
 </span></code></pre></div></div>
+
 <p>不同的是，这次指定woman索引放置在node.zone属性值为zone_two的ES集群节点服务器上</p>
 
 <p>最后我们需要将katoey索引放置到上面所有的ES集群节点上面，配置设置命令如下：</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/katoey"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/katoey"</span>
 <span class="c"># curl -XPUT "http://ESnode:9200/katoey/_settings" -d '{</span>
   <span class="s2">"index.routing.allocation.include.zone"</span> : <span class="s2">"zone_one,zone_two"</span>
   <span class="o">}</span><span class="s1">'
-
 </span></code></pre></div></div>
 
 <h3 id="分配时排除节点">分配时排除节点</h3>
@@ -174,11 +179,11 @@
   <li>根据zone</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># curl -XPOST "http://EScode:9200/people"
-# curl -XPUT "http://EScode:9200/people/_settings" -d '{
-  "index.routing.allocation.exclude.zone" : "zone_one"
-  }'
-</code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://EScode:9200/people"</span>
+<span class="c"># curl -XPUT "http://EScode:9200/people/_settings" -d '{</span>
+  <span class="s2">"index.routing.allocation.exclude.zone"</span> : <span class="s2">"zone_one"</span>
+  <span class="o">}</span><span class="s1">'
+</span></code></pre></div></div>
 
 <p>请注意:
 在这里我们使用的是index.routing.allocation.<code class="highlighter-rouge">exclude</code>.zone属性
@@ -186,24 +191,25 @@
 
 <h3 id="使用ip地址进行分配配置">使用IP地址进行分配配置</h3>
 
-<blockquote>
-  <p>除了在节点的配置中添加一些特殊的属性参数外，我们还可以使用IP地址来指定你将分片和副本分配或者不分配到哪些节点上面。
+<p>除了在节点的配置中添加一些特殊的属性参数外，我们还可以使用IP地址来指定你将分片和副本分配或者不分配到哪些节点上面。
 为了做到这点，我们应该使用_ip属性，把zone换成_ip就好了。
 例如我们希望lucky索引分配到IP地址为10.0.1.110和10.0.1.119的节点上，我们可以运行如下命令设置：</p>
-</blockquote>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># curl -XPOST "http://ESnode:9200/lucky"
-# curl -XPUT "http://ESnode:9200/lucky/_settings" -d '{
-  "index.routing.allocation.include._ip" "10.0.1.110,10.0.1.119"
-  }'
-</code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># curl -XPOST "http://ESnode:9200/lucky"</span>
+<span class="c"># curl -XPUT "http://ESnode:9200/lucky/_settings" -d '{</span>
+  <span class="s2">"index.routing.allocation.include._ip"</span> <span class="s2">"10.0.1.110,10.0.1.119"</span>
+  <span class="o">}</span><span class="s1">'
+</span></code></pre></div></div>
 
 <ul>
   <li>排除指定IP</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-XPUT</span> http://EScode:9200/indexName/_settings <span class="nt">-d</span> <span class="s1">'{ "index.routing.allocation.exclude._ip": "1.1.1.1,1.1.1.2"}'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-XPUT</span> http://EScode:9200/indexName/_settings <span class="nt">-d</span> 
+<span class="s1">'{ "index.routing.allocation.exclude._ip": "1.1.1.1,1.1.1.2"}'</span>
 </code></pre></div></div>
+
+<p>取消配置值配置为: “none” 即可</p>
 
 <h3 id="集群范围内分配">集群范围内分配</h3>
 
@@ -217,7 +223,6 @@
    <span class="s2">"cluster.routing.allocation.include._ip"</span> <span class="s2">"10.0.1.112,10.0.1.114"</span>
    <span class="o">}</span>
   <span class="o">}</span><span class="s1">'
-  
 </span></code></pre></div></div>
 
 <ul>
