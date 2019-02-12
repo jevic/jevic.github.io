@@ -7,6 +7,8 @@ description: Docker,kubernetes,k8s
 keywords: Docker,k8s
 ---
 
+> 在线测试集群环境(会话时间3小时)
+- [play-with-k8s](https://labs.play-with-k8s.com)
 
 ## 系统环境
 
