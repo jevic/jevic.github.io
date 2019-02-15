@@ -38,7 +38,7 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/page8/">
+    <link rel="canonical" href="http://0.0.0.0:80/page9/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
@@ -48,7 +48,7 @@
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/page8/">
+    <meta property="og:url" content="http://0.0.0.0:80/page9/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
@@ -125,169 +125,19 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
-                      <a href="/2017/01/23/elk-elasticsearch-itom-ops/">ELK elasticsearch 管理优化杂记</a>
+                      <a href="/2016/07/23/linux-firewalld-iptables/">Linux Firewalld 防火墙配置(一)</a>
                     </h3>
                     <p class="repo-list-description">
-                        索引分片： 从策略层面，控制分片分配的选择
-
-  磁盘限额 为了保护节点数据安全，ES 会定时(cluster.info.update.interval，默认 30 秒)检查一下各节点的数据目录磁盘使用情况。
-在达到 cluster.routing.allocation.disk.watermark.low (默认 85%)的时候，新索引分片就不会再分配到这个节点上了。
-在达到 cluster.routing.allocation.disk.watermark.high (默认 90%)的时候，就会触发该节点现存分片的数据均衡，把数据挪到其他节点上去。
-这两个值不但可以写百分比，还可以写具体的字节,有些公司可能出于成本考虑，对磁盘使用率有一定的要求，需要适当抬高这个配置：
+                        firewalld 常用配置
                     </p>
                     <p class="repo-list-meta">
                         <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/23/docker-monitor-cadvisor-grafana/">Docker 监控应用 cAdvisor-InfluxDB-Grafana</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        基础概念
-cAdvisor
-​ cAdvisor 为Docker容器用户提供了了解运行时容器资源使用和性能特征的工具。cAdvisor的容器抽象基于Google的lmctfy容器栈，因此原生支持Docker容器并能够“开箱即用”地支持其他的容器类型。cAdvisor部署为一个运行中的daemon，它会收集、聚集、处理并导出运行中容器的信息。这些信息能够包含容器级别的资源隔离参数、资源的历史使用状况、反映资源使用和网络统计数据完整历史状况的柱状图。
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Docker" title="Docker">Docker</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/12/mysql-basic-conf/">Mysql 操作杂录</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        MySQL 常用操作语句
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/12
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Mysql" title="Mysql">Mysql</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2016/12/23/docker-registry/">docker registry</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        关于私有仓库配置docker官网给出的参考示例 其实已经很详尽了，但是还是不免在配置过程中 踩坑。这里根据官网文档整理了配置示例供大家参考！
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/12/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Docker" title="Docker">Docker</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2016/11/29/linux-ops-zabbix-install/">Zabbix 手动快速安装</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        手动快速安装配置 Zabbix 环境
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/11/29
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#OPS" title="OPS">OPS</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2016/11/09/linux-firewalld-rule/">Linux Firewalld 自定义富规则配置(三)</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        详细的说明自行参考
-firewall-cmd --help
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/11/09
+                          <span class="octicon octicon-calendar"></span> 2016/07/23
                         </span>
                         
                         <span class="meta-info">
                           <span class="octicon octicon-file-directory"></span>
                           <a href="/categories/#Linux" title="Linux">Linux</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2016/10/19/linux-iptables-firewall-xml/">Linux firewalld xml配置文件(二)</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        在 CentOS 6 防火墙 iptables 是以 Rules 写在 Chain 建立规则然后给 kernel 去执行，每次重建规则必须先清除原有规则，这会导致既有连线中断。
-  到 CentOS 7 之后改用 firewalld 以 zone 的区域分割观念来建立，并以动态设定方式执行避免中断的问题。
-  请注意：不能同时执行 iptables 跟 firewalld 这会造成冲突错误。
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/10/19
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Linux" title="Linux">Linux</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2016/09/30/docker-basic-old/">docker 基础知识杂录</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        Docker的主要优点：
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2016/09/30
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Docker" title="Docker">Docker</a>
                         </span>
                         
                     </p>
@@ -466,7 +316,7 @@ firewall-cmd --help
       <div class="btn-group">
         
           
-              <a href="/page7"  class="btn btn-outline">&laquo;</a>
+              <a href="/page8"  class="btn btn-outline">&laquo;</a>
           
         
         
@@ -498,15 +348,15 @@ firewall-cmd --help
           
         
           
-              <a href="javascript:;"  class="active btn btn-outline">8</a>
+              <a href="/page8"  class="btn btn-outline">8</a>
           
         
           
-              <a href="/page9"  class="btn btn-outline">9</a>
+              <a href="javascript:;"  class="active btn btn-outline">9</a>
           
         
         
-            <a href="/page9"  class="btn btn-outline">&raquo;</a>
+            <button disabled="disabled" href="javascript:;" class="btn btn-outline">&raquo;</button>
         
         </div>
     </div>

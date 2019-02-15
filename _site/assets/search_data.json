@@ -1,5 +1,11 @@
 {
   
+  "2019-02-15-java-jvm": {
+    "title": "JVM 内存监控",
+    "url": " /2019/02/15/java-jvm/",
+    "category": "OPS"
+  },
+  
   "2019-01-10-helm-repo": {
     "title": "helm 私有仓库",
     "url": " /2019/01/10/helm-repo/",
@@ -450,6 +456,8 @@
   
   
   
+  
+  
 
   
   "2016-07-23-linux-firewalld-iptables": {
@@ -834,6 +842,12 @@
     "title": "helm 私有仓库",
     "url": "/2019/01/10/helm-repo/",
     "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2019-02-15-java-jvm": {
+    "title": "JVM 内存监控",
+    "url": "/2019/02/15/java-jvm/",
+    "category": "[&quot;OPS&quot;]"
   },
   
   "wiki-template": {
