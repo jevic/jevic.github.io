@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Python ftp 文件操作 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2017/06/19/python-ftp/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Python ftp 文件操作">
+      
+    <meta name="keywords" content="python ftp">
+    <meta name="og:keywords" content="python ftp">
+      
+    <meta name="description" content="Python中默认安装的ftplib模块定义了FTP类,可用来实现简单的ftp客户端，用于上传或下载文件">
+    <meta name="og:description" content="Python中默认安装的ftplib模块定义了FTP类,可用来实现简单的ftp客户端，用于上传或下载文件">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2017/06/19/python-ftp/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2017-06-19">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Python ftp 文件操作">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Python ftp 文件操作</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/06/19
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Python" title="Python">Python</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <p>Python中默认安装的ftplib模块定义了FTP类,可用来实现简单的ftp客户端，用于上传或下载文件</p>
+
+<p><a href="https://docs.python.org/2/library/ftplib.html">官方文档ftplib</a></p>
+
+<h2 id="ftp-连接操作">FTP 连接操作</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from ftplib import FTP            <span class="c">#加载ftp模块</span>
+<span class="nv">ftp</span><span class="o">=</span>FTP<span class="o">()</span>                         <span class="c">#设置变量</span>
+ftp.set_debuglevel<span class="o">(</span>2<span class="o">)</span>             <span class="c">#打开调试级别2，显示详细信息</span>
+ftp.connect<span class="o">(</span><span class="s2">"IP"</span>,<span class="s2">"port"</span><span class="o">)</span>          <span class="c">#连接的ftp sever和端口</span>
+ftp.login<span class="o">(</span><span class="s2">"user"</span>,<span class="s2">"password"</span><span class="o">)</span>      <span class="c">#连接的用户名，密码</span>
+print ftp.getwelcome<span class="o">()</span>            <span class="c">#打印出欢迎信息</span>
+ftp.cmd<span class="o">(</span><span class="s2">"xxx/xxx"</span><span class="o">)</span>                <span class="c">#进入远程目录</span>
+<span class="nv">bufsize</span><span class="o">=</span>1024                      <span class="c">#设置的缓冲区大小</span>
+<span class="nv">filename</span><span class="o">=</span><span class="s2">"filename.txt"</span>           <span class="c">#需要下载的文件</span>
+<span class="nv">file_handle</span><span class="o">=</span>open<span class="o">(</span>filename,<span class="s2">"wb"</span><span class="o">)</span>.write <span class="c">#以写模式在本地打开文件</span>
+ftp.retrbinaly<span class="o">(</span><span class="s2">"RETR filename.txt"</span>,file_handle,bufsize<span class="o">)</span> <span class="c">#接收服务器上文件并写入本地文件</span>
+ftp.set_debuglevel<span class="o">(</span>0<span class="o">)</span>             <span class="c">#关闭调试模式</span>
+ftp.quit<span class="o">()</span>                        <span class="c">#退出ftp</span>
+</code></pre></div></div>
+
+<h2 id="ftp-命令操作">FTP 命令操作</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ftp.cwd<span class="o">(</span>pathname<span class="o">)</span>                 <span class="c">#设置FTP当前操作的路径</span>
+ftp.dir<span class="o">()</span>                         <span class="c">#显示目录下所有目录信息</span>
+ftp.nlst<span class="o">()</span>                        <span class="c">#获取目录下的文件</span>
+ftp.mkd<span class="o">(</span>pathname<span class="o">)</span>                 <span class="c">#新建远程目录</span>
+ftp.pwd<span class="o">()</span>                         <span class="c">#返回当前所在位置</span>
+ftp.rmd<span class="o">(</span>dirname<span class="o">)</span>                  <span class="c">#删除远程目录</span>
+ftp.delete<span class="o">(</span>filename<span class="o">)</span>              <span class="c">#删除远程文件</span>
+ftp.rename<span class="o">(</span>fromname, toname<span class="o">)</span>      <span class="c">#将fromname修改名称为toname。</span>
+ftp.storbinaly<span class="o">(</span><span class="s2">"STOR filename.txt"</span>,file_handel,bufsize<span class="o">)</span>  <span class="c">#上传目标文件</span>
+ftp.retrbinary<span class="o">(</span><span class="s2">"RETR filename.txt"</span>,file_handel,bufsize<span class="o">)</span>  <span class="c">#下载FTP文件</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>FTP.quit()与FTP.close()的区别
+    <ul>
+      <li>FTP.quit():发送QUIT命令给服务器并关闭掉连接。这是一个比较“缓和”的关闭连接方式，但是如果服务器对QUIT命令返回错误时，会抛出异常。</li>
+      <li>FTP.close()：单方面的关闭掉连接，不应该用在已经关闭的连接之后，例如不应用在FTP.quit()之后。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="示例代码">示例代码</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
+<span class="c"># coding: utf-8</span>
+
+<span class="kn">import</span> <span class="nn">os</span><span class="p">,</span><span class="n">sys</span>
+<span class="kn">import</span> <span class="nn">ftplib</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span> <span class="nn">ConfigParser</span> <span class="kn">import</span> <span class="n">ConfigParser</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">ConfigParser</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">'config.ini'</span><span class="p">)</span>
+
+<span class="n">FtpHost</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'FTP'</span><span class="p">,</span><span class="s">'HOST'</span><span class="p">)</span>
+<span class="n">username</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'FTP'</span><span class="p">,</span><span class="s">'USER'</span><span class="p">)</span>
+<span class="n">passwd</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'FTP'</span><span class="p">,</span><span class="s">'PASSWD'</span><span class="p">)</span>
+<span class="n">FtpPort</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'FTP'</span><span class="p">,</span><span class="s">'PORT'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">MyFtp</span><span class="p">():</span>
+    <span class="n">ftp</span> <span class="o">=</span> <span class="n">ftplib</span><span class="o">.</span><span class="n">FTP</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bufsize</span> <span class="o">=</span> <span class="mi">1024</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">FtpHost</span><span class="p">,</span> <span class="n">FtpPort</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">passwd</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">e</span>
+
+    <span class="k">def</span> <span class="nf">List</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s">''</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+            <span class="k">print</span> <span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">" "</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="nb">dir</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">dirs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">cwd</span><span class="p">(</span><span class="n">remote</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ftplib</span><span class="o">.</span><span class="n">error_perm</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">mkd</span><span class="p">(</span><span class="n">remote</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">cwd</span><span class="p">(</span><span class="n">remote</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">ftplib</span><span class="o">.</span><span class="n">error_perm</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">"U have no authority to make dir"</span>
+
+    <span class="k">def</span> <span class="nf">Size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">remote</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">DownFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">,</span> <span class="n">local</span><span class="p">):</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">local</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">retrbinary</span><span class="p">(</span><span class="s">'RETR '</span> <span class="o">+</span> <span class="n">remote</span><span class="p">,</span> <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bufsize</span><span class="p">)</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">Rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">remote</span><span class="p">,</span> <span class="nb">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">remote</span><span class="p">,</span> <span class="s">".tmp"</span><span class="p">,</span> <span class="s">""</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">Upload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">,</span> <span class="n">local</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">" "</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">local</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="n">storbinary</span><span class="p">(</span><span class="s">'STOR '</span> <span class="o">+</span> <span class="n">remote</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bufsize</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ftp</span><span class="o">.</span><span class="nb">dir</span><span class="p">(</span><span class="n">remote</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span>
+        <span class="c"># self.ftp.rename(remote, str.replace(remote, ".tmp", ""))</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><a href="https://github.com/jevic/logcenter/blob/master/logupload/ftp.py">ftp.py</a></p>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2017/06/19/python-ftp/';
+                    this.page.identifier = '/2017/06/19/python-ftp/';
+                    this.page.title = 'Python ftp 文件操作';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2016~2019
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

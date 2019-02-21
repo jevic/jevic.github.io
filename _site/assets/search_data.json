@@ -276,6 +276,12 @@
     "category": "ELK"
   },
   
+  "2017-06-19-python-ftp": {
+    "title": "Python ftp 文件操作",
+    "url": " /2017/06/19/python-ftp/",
+    "category": "Python"
+  },
+  
   "2017-05-16-elk-elasticsearch-indices": {
     "title": "Elasticsearch 索引分片维护操作",
     "url": " /2017/05/16/elk-elasticsearch-indices/",
@@ -572,6 +578,12 @@
     "title": "Elasticsearch 索引分片维护操作",
     "url": "/2017/05/16/elk-elasticsearch-indices/",
     "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2017-06-19-python-ftp": {
+    "title": "Python ftp 文件操作",
+    "url": "/2017/06/19/python-ftp/",
+    "category": "[&quot;Python&quot;]"
   },
   
   "2017-07-21-elk-elasticsearch-common-operation": {
