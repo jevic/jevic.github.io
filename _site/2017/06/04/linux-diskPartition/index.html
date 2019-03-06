@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>磁盘分区fdisk/parted &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2017/06/04/linux-diskPartition/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="磁盘分区fdisk/parted">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="fdisk parted">
+    <meta name="og:keywords" content="fdisk parted">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="fdisk```cat fomat.sh#!/bin/bashdisks=”sdb sdc sdd sde sdf sdg sdh”for disk in $disksdo  fdisk /dev/$disk «EOFdnp">
+    <meta name="og:description" content="fdisk```cat fomat.sh#!/bin/bashdisks=”sdb sdc sdd sde sdf sdg sdh”for disk in $disksdo  fdisk /dev/$disk «EOFdnp">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2017/06/04/linux-diskPartition/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2019-03-06">
+    <meta property="article:published_time" content="2017-06-04">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,30 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="磁盘分区fdisk/parte">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">磁盘分区fdisk/parted</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2017/06/04
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Linux" title="Linux">Linux</a>
+          </span>
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Shell" title="Shell">Shell</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +134,72 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <h2 id="fdisk">fdisk</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cat fomat.sh 
+#!/bin/bash
+disks="sdb sdc sdd sde sdf sdg sdh"
+for disk in $disks
+do
+  fdisk /dev/$disk &lt;&lt;EOF
+d
+n
+p
+
+
+
+w
+EOF
+
+mkfs -t xfs -f -i size=512 /dev/${disk}1
+done
+
+----
+
+#!/bin/bash
+devs="sdb sdc sdd sde sdf sdg sdh"
+
+declare -A m_list
+m_list=([sdb]=/data1 [sdc]=/data2 [sdd]=/data3 [sde]=/data4 [sdf]=/data5 [sdg]=/data6 [sdh]=/data7)
+
+
+for i in $devs;do
+    echo "mount /dev/$i ${m_list[$i]}"
+done
+</code></pre></div></div>
+
+<h2 id="parted">parted</h2>
+<blockquote>
+  <p>GUID分区表(简称GPT。使用GUID分区表的磁盘称为GPT磁盘)是源自EFI标准的一种较新的磁盘分区表结构的标准。与普遍使用的主引导记录(MBR)分区方案相比，GPT提供了更加灵活的磁盘分区机制</p>
+</blockquote>
+
+<p>fdisk不支持<a href="https://wiki.archlinux.org/index.php/Partitioning_(简体中文)">GPT</a>(当硬盘容量大于2TB时候无法使用fdisk进行分区的管理)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ # parted /dev/sdc
+GNU Parted 3.1
+Using /dev/sdc
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) mktable
+New disk label type? gpt
+(parted) mkpart
+Partition name?  []? data
+File system type?  [ext2]? ext4
+Start? 0
+End? 4000G
+Warning: The resulting partition is not properly aligned for best performance.
+Ignore/Cancel? i
+(parted) p
+Model: ATA ST4000NM0033-9ZM (scsi)
+Disk /dev/sdc: 4001GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags:
+
+Number  Start   End     Size    File system  Name   Flags
+ 1      17.4kB  4000GB  4000GB               data2
+(parted) q
+Information: You may need to update /etc/fstab.
+~ # mkfs.ext4 /dev/sdc1
+</code></pre></div></div>
 
     </article>
     <div class="share">
@@ -132,9 +215,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2017/06/04/linux-diskPartition/';
+                    this.page.identifier = '/2017/06/04/linux-diskPartition/';
+                    this.page.title = '磁盘分区fdisk/parted';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

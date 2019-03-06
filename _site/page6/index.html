@@ -277,19 +277,34 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
-                      <a href="/2017/05/16/elk-elasticsearch-indices/">Elasticsearch 索引分片维护操作</a>
+                      <a href="/2017/06/04/linux-diskPartition/">磁盘分区fdisk/parted</a>
                     </h3>
                     <p class="repo-list-description">
-                        索引分片移动 集群数据维护操作
+                        fdisk
+```
+cat fomat.sh
+#!/bin/bash
+disks=”sdb sdc sdd sde sdf sdg sdh”
+for disk in $disks
+do
+  fdisk /dev/$disk «EOF
+d
+n
+p
                     </p>
                     <p class="repo-list-meta">
                         <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/05/16
+                          <span class="octicon octicon-calendar"></span> 2017/06/04
                         </span>
                         
                         <span class="meta-info">
                           <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
+                          <a href="/categories/#Linux" title="Linux">Linux</a>
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Shell" title="Shell">Shell</a>
                         </span>
                         
                     </p>

@@ -282,6 +282,12 @@
     "category": "Python"
   },
   
+  "2017-06-04-linux-diskpartition": {
+    "title": "磁盘分区fdisk/parted",
+    "url": " /2017/06/04/linux-diskPartition/",
+    "category": "Linux"
+  },
+  
   "2017-05-16-elk-elasticsearch-indices": {
     "title": "Elasticsearch 索引分片维护操作",
     "url": " /2017/05/16/elk-elasticsearch-indices/",
@@ -578,6 +584,12 @@
     "title": "Elasticsearch 索引分片维护操作",
     "url": "/2017/05/16/elk-elasticsearch-indices/",
     "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2017-06-04-linux-diskpartition": {
+    "title": "磁盘分区fdisk/parted",
+    "url": "/2017/06/04/linux-diskPartition/",
+    "category": "[&quot;Linux&quot;, &quot;Shell&quot;]"
   },
   
   "2017-06-19-python-ftp": {
