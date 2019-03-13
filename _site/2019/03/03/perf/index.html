@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>火焰图性能分析 perf &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2019/03/03/perf/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="火焰图性能分析 perf">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="perf">
+    <meta name="og:keywords" content="perf">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="  从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。">
+    <meta name="og:description" content="  从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2019/03/03/perf/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2019-03-13">
+    <meta property="article:published_time" content="2019-03-03">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="火焰图性能分析 perf">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">火焰图性能分析 perf</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2019/03/03
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#OPS" title="OPS">OPS</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,123 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <blockquote>
+  <p>从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。</p>
+</blockquote>
+
+<p>通常，它的执行频率是 99Hz（每秒99次），如果99次都返回同一个函数名，那就说明 CPU 这一秒钟都在执行同一个函数，可能存在性能问题。</p>
+
+<p>通过它，应用程序可以利用 PMU，tracepoint 和内核中的特殊计数器来进行性能统计。
+不但可以分析指定应用程序的性能问题，也可以用来分析内核的性能问题，当然也可以同时分析应用代码和内核，从而全面理解应用程序中的性能瓶颈</p>
+
+<h2 id="perf">perf</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install <span class="nt">-y</span> perf 
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">perf top</code></li>
+</ul>
+
+<p>用于实时显示当前系统的性能统计信息。该命令主要用来观察整个系统当前的状态，比如可以通过查看该命令的输出来查看当前系统最耗时的内核函数或某个用户进程</p>
+
+<ul>
+  <li><code class="highlighter-rouge">perf record</code></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perf record -a -e cycles -o cycle.perf -g sleep 10
+</code></pre></div></div>
+<p>-a 对所有 CPU 采样
+-o 输出文件名，如果不指定，默认生成 perf.data
+-g 额外记录函数调用关系
+sleep 10 采样 10s</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perf record -F 99 -p 13204 -g -- sleep 30
+</code></pre></div></div>
+<p>perf record表示记录
+-F 99表示每秒99次 
+-p 13204是进程号，即对哪个进程进行分析
+-g 表示记录调用栈
+sleep 30 如上所述则是持续30秒。</p>
+
+<p>perf record命令可以统计每个调用栈出现的百分比，然后从高到低排列。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perf report -n --stdio
+</code></pre></div></div>
+
+<ul>
+  <li>perf report</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perf report -i &lt;file&gt;
+</code></pre></div></div>
+
+<p>-i 指定 perf record 生成的 perf data 文件，如果不指定 -i 则默认分析 perf.data 文件。
+–max-stack=0 只输出第一层函数调用
+–stdio 输出到标准输出</p>
+
+<h2 id="生成火焰图">生成火焰图</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/brendangregg/FlameGraph.git
+</code></pre></div></div>
+
+<p>1、第一步</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perf record -e cpu-clock -g -p 28591
+</code></pre></div></div>
+
+<p>Ctrl+c结束执行后，在当前目录下会生成采样数据perf.data.</p>
+
+<p>2、第二步
+用perf script工具对perf.data进行解析</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perf script -i perf.data &amp;&gt; perf.unfold
+</code></pre></div></div>
+
+<p>3、第三步</p>
+
+<p>将perf.unfold中的符号进行折叠：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./stackcollapse-perf.pl perf.unfold &amp;&gt; perf.folded
+</code></pre></div></div>
+
+<p>4、最后生成svg图：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./flamegraph.pl perf.folded &gt; perf.svg
+</code></pre></div></div>
+
+<p>使用管道将上面的流程简化为一条命令</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perf script -i perf.data| ./stackcollapse-perf.pl | ./flamegraph.pl &gt; process.svg
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/other/nginx.png" alt="image" /></p>
+
+<h3 id="java-应用火焰图生成">java 应用火焰图生成</h3>
+<ul>
+  <li><a href="https://github.com/jvm-profiling-tools/async-profiler">jvm-profiling-tools</a></li>
+</ul>
+
+<p>获取程序</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://github.com/jvm-profiling-tools/async-profiler/releases/download/v1.5/async-profiler-1.5-linux-x64.tar.gz
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./profiler.sh -d 30 -f /tmp/elasticsearch.svg 48211
+</code></pre></div></div>
+
+<ul>
+  <li>详细使用查看官方介绍即可</li>
+  <li>下图是我获取elasticsearch 进程的性能图例
+<img src="https://raw.githubusercontent.com/jevic/images/master/other/elasticsearch.png" alt="image" /></li>
+</ul>
+
+<h2 id="参考链接">参考链接</h2>
+<ul>
+  <li><a href="http://www.brendangregg.com/perf.html#FlameGraphs">http://www.brendangregg.com</a></li>
+  <li><a href="https://blog.csdn.net/duzilonglove/article/details/79012606">如何读懂火焰图</a></li>
+  <li><a href="https://blog.csdn.net/gatieme/article/details/78885908">用火焰图进行性能分析</a></li>
+</ul>
 
     </article>
     <div class="share">
@@ -132,9 +261,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2019/03/03/perf/';
+                    this.page.identifier = '/2019/03/03/perf/';
+                    this.page.title = '火焰图性能分析 perf';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

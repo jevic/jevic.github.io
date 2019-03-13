@@ -1,4 +1,120 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-06T11:02:00+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">JVM 内存监控</title><link href="http://0.0.0.0/2019/02/15/java-jvm/" rel="alternate" type="text/html" title="JVM 内存监控" /><published>2019-02-15T18:10:46+08:00</published><updated>2019-02-15T18:10:46+08:00</updated><id>http://0.0.0.0/2019/02/15/java-jvm</id><content type="html" xml:base="http://0.0.0.0/2019/02/15/java-jvm/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-13T15:58:08+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">火焰图性能分析 perf</title><link href="http://0.0.0.0/2019/03/03/perf/" rel="alternate" type="text/html" title="火焰图性能分析 perf" /><published>2019-03-03T18:10:46+08:00</published><updated>2019-03-03T18:10:46+08:00</updated><id>http://0.0.0.0/2019/03/03/perf</id><content type="html" xml:base="http://0.0.0.0/2019/03/03/perf/">&lt;blockquote&gt;
+  &lt;p&gt;从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;通常，它的执行频率是 99Hz（每秒99次），如果99次都返回同一个函数名，那就说明 CPU 这一秒钟都在执行同一个函数，可能存在性能问题。&lt;/p&gt;
+
+&lt;p&gt;通过它，应用程序可以利用 PMU，tracepoint 和内核中的特殊计数器来进行性能统计。
+不但可以分析指定应用程序的性能问题，也可以用来分析内核的性能问题，当然也可以同时分析应用代码和内核，从而全面理解应用程序中的性能瓶颈&lt;/p&gt;
+
+&lt;h2 id=&quot;perf&quot;&gt;perf&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; perf 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;perf top&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;用于实时显示当前系统的性能统计信息。该命令主要用来观察整个系统当前的状态，比如可以通过查看该命令的输出来查看当前系统最耗时的内核函数或某个用户进程&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;perf record&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf record -a -e cycles -o cycle.perf -g sleep 10
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-a 对所有 CPU 采样
+-o 输出文件名，如果不指定，默认生成 perf.data
+-g 额外记录函数调用关系
+sleep 10 采样 10s&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf record -F 99 -p 13204 -g -- sleep 30
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;perf record表示记录
+-F 99表示每秒99次 
+-p 13204是进程号，即对哪个进程进行分析
+-g 表示记录调用栈
+sleep 30 如上所述则是持续30秒。&lt;/p&gt;
+
+&lt;p&gt;perf record命令可以统计每个调用栈出现的百分比，然后从高到低排列。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf report -n --stdio
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;perf report&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf report -i &amp;lt;file&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;-i 指定 perf record 生成的 perf data 文件，如果不指定 -i 则默认分析 perf.data 文件。
+–max-stack=0 只输出第一层函数调用
+–stdio 输出到标准输出&lt;/p&gt;
+
+&lt;h2 id=&quot;生成火焰图&quot;&gt;生成火焰图&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/brendangregg/FlameGraph.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;1、第一步&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf record -e cpu-clock -g -p 28591
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Ctrl+c结束执行后，在当前目录下会生成采样数据perf.data.&lt;/p&gt;
+
+&lt;p&gt;2、第二步
+用perf script工具对perf.data进行解析&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf script -i perf.data &amp;amp;&amp;gt; perf.unfold
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;3、第三步&lt;/p&gt;
+
+&lt;p&gt;将perf.unfold中的符号进行折叠：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./stackcollapse-perf.pl perf.unfold &amp;amp;&amp;gt; perf.folded
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;4、最后生成svg图：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./flamegraph.pl perf.folded &amp;gt; perf.svg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用管道将上面的流程简化为一条命令&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf script -i perf.data| ./stackcollapse-perf.pl | ./flamegraph.pl &amp;gt; process.svg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/other/nginx.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;java-应用火焰图生成&quot;&gt;java 应用火焰图生成&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jvm-profiling-tools/async-profiler&quot;&gt;jvm-profiling-tools&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;获取程序&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget https://github.com/jvm-profiling-tools/async-profiler/releases/download/v1.5/async-profiler-1.5-linux-x64.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./profiler.sh -d 30 -f /tmp/elasticsearch.svg 48211
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;详细使用查看官方介绍即可&lt;/li&gt;
+  &lt;li&gt;下图是我获取elasticsearch 进程的性能图例
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/other/elasticsearch.png&quot; alt=&quot;image&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;参考链接&quot;&gt;参考链接&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.brendangregg.com/perf.html#FlameGraphs&quot;&gt;http://www.brendangregg.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/duzilonglove/article/details/79012606&quot;&gt;如何读懂火焰图&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/gatieme/article/details/78885908&quot;&gt;用火焰图进行性能分析&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。</summary></entry><entry><title type="html">JVM 内存监控</title><link href="http://0.0.0.0/2019/02/15/java-jvm/" rel="alternate" type="text/html" title="JVM 内存监控" /><published>2019-02-15T18:10:46+08:00</published><updated>2019-02-15T18:10:46+08:00</updated><id>http://0.0.0.0/2019/02/15/java-jvm</id><content type="html" xml:base="http://0.0.0.0/2019/02/15/java-jvm/">&lt;blockquote&gt;
   &lt;p&gt;系统内存并不能反应JVM内存情况，经常碰到JVM内存满掉而系统内存大量空余的情况,或者是由于没有对JVM内存进行有效的监控导致无法及时获取应用最新使用状态；&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -2982,128 +3098,4 @@ kubectl explain pod.spec.containers
   &lt;li&gt;&lt;a href=&quot;https://mritd.me/2018/04/19/set-up-kubernetes-1.10.1-cluster-by-hyperkube/&quot;&gt;set-up-kubernetes-1.10.1-cluster-by-hyperkube&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://k8s-install.opsnull.com/&quot;&gt;https://k8s-install.opsnull.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://kubernetes.feisky.xyz/&quot;&gt;https://kubernetes.feisky.xyz&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">通读一遍先熟悉了过程在实际操作!!!</summary></entry><entry><title type="html">elasticsearch templates 模板配置</title><link href="http://0.0.0.0/2018/08/25/elasticsearch-templates/" rel="alternate" type="text/html" title="elasticsearch templates 模板配置" /><published>2018-08-25T16:42:16+08:00</published><updated>2018-08-25T16:42:16+08:00</updated><id>http://0.0.0.0/2018/08/25/elasticsearch-templates</id><content type="html" xml:base="http://0.0.0.0/2018/08/25/elasticsearch-templates/">&lt;h2 id=&quot;动态模板加载&quot;&gt;动态模板加载&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-  &quot;order&quot;: 0,
-  &quot;template&quot;: &quot;api-*&quot;,
-  &quot;settings&quot;: {
-    &quot;index&quot;: {
-      &quot;number_of_shards&quot;: &quot;2&quot;,
-      &quot;number_of_replicas&quot;: &quot;1&quot;,
-      &quot;refresh_interval&quot;: &quot;60s&quot;
-    }
-  },
-  &quot;mappings&quot;: {
-    &quot;_default_&quot;: {
-      &quot;dynamic_templates&quot;: [
-        {
-          &quot;message_field&quot;: {
-            &quot;mapping&quot;: {
-              &quot;fielddata&quot;: {
-                &quot;format&quot;: &quot;disabled&quot;
-              },
-              &quot;index&quot;: &quot;not_analyzed&quot;,
-              &quot;omit_norms&quot;: true,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;match_mapping_type&quot;: &quot;string&quot;,
-            &quot;match&quot;: &quot;message&quot;
-          }
-        },
-        {
-          &quot;string_fields&quot;: {
-            &quot;mapping&quot;: {
-              &quot;fielddata&quot;: {
-                &quot;format&quot;: &quot;disabled&quot;
-              },
-              &quot;index&quot;: &quot;not_analyzed&quot;,
-              &quot;omit_norms&quot;: true,
-              &quot;type&quot;: &quot;string&quot;,
-              &quot;fields&quot;: {
-                &quot;raw&quot;: {
-                  &quot;ignore_above&quot;: 256,
-                  &quot;index&quot;: &quot;not_analyzed&quot;,
-                  &quot;type&quot;: &quot;string&quot;
-                }
-              }
-            },
-            &quot;match_mapping_type&quot;: &quot;string&quot;,
-            &quot;match&quot;: &quot;*&quot;
-          }
-        }
-      ],
-      &quot;_all&quot;: {
-        &quot;omit_norms&quot;: true,
-        &quot;enabled&quot;: false
-      },
-      &quot;properties&quot;: {
-        &quot;args&quot;: {
-          &quot;index&quot;: &quot;not_analyzed&quot;,
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;@timestamp&quot;: {
-          &quot;type&quot;: &quot;date&quot;
-        },
-        &quot;request_time&quot;: {
-          &quot;index&quot;: &quot;not_analyzed&quot;,
-          &quot;type&quot;: &quot;float&quot;
-        },
-        &quot;status&quot;: {
-          &quot;index&quot;: &quot;not_analyzed&quot;,
-          &quot;type&quot;: &quot;long&quot;
-        }
-      }
-    }
-  },
-  &quot;aliases&quot;: {}
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;mapping&quot;&gt;mapping&lt;/h2&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;适用于&amp;lt;6.x 版本&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-  &quot;order&quot;: 0,
-  &quot;template&quot;: &quot;test-*&quot;,
-  &quot;settings&quot;: {
-    &quot;index&quot;: {
-      &quot;number_of_shards&quot;: &quot;3&quot;,
-      &quot;number_of_replicas&quot;: &quot;1&quot;,
-      &quot;refresh_interval&quot;: &quot;60s&quot;
-    }
-  },
-  &quot;mappings&quot;: {
-    &quot;test1&quot;: {
-      &quot;properties&quot;: {
-        &quot;ext&quot;: {
-          &quot;index&quot;: &quot;not_analyzed&quot;,
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;id&quot;: {
-          &quot;index&quot;: &quot;not_analyzed&quot;,
-          &quot;type&quot;: &quot;string&quot;
-        }
-      }
-    },
-    &quot;test2&quot;: {
-      &quot;properties&quot;: {
-        &quot;ext&quot;: {
-          &quot;index&quot;: &quot;not_analyzed&quot;,
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;status&quot;: {
-          &quot;index&quot;: &quot;not_analyzed&quot;,
-          &quot;type&quot;: &quot;long&quot;
-        }
-      }
-    }
-  },
-  &quot;aliases&quot;: {}
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">动态模板加载</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">通读一遍先熟悉了过程在实际操作!!!</summary></entry></feed>

@@ -1,5 +1,11 @@
 {
   
+  "2019-03-03-perf": {
+    "title": "火焰图性能分析 perf",
+    "url": " /2019/03/03/perf/",
+    "category": "OPS"
+  },
+  
   "2019-02-15-java-jvm": {
     "title": "JVM 内存监控",
     "url": " /2019/02/15/java-jvm/",
@@ -871,6 +877,12 @@
   "2019-02-15-java-jvm": {
     "title": "JVM 内存监控",
     "url": "/2019/02/15/java-jvm/",
+    "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2019-03-03-perf": {
+    "title": "火焰图性能分析 perf",
+    "url": "/2019/03/03/perf/",
     "category": "[&quot;OPS&quot;]"
   },
   
