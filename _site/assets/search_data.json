@@ -1,5 +1,11 @@
 {
   
+  "2019-03-08-kubernetes-nginxproxy-error": {
+    "title": "kubernetes 高可用集群api-server请求异常",
+    "url": " /2019/03/08/kubernetes-nginxproxy-error/",
+    "category": "Kubernetes"
+  },
+  
   "2019-03-03-perf": {
     "title": "火焰图性能分析 perf",
     "url": " /2019/03/03/perf/",
@@ -896,6 +902,12 @@
     "title": "火焰图性能分析 perf",
     "url": "/2019/03/03/perf/",
     "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2019-03-08-kubernetes-nginxproxy-error": {
+    "title": "kubernetes 高可用集群api-server请求异常",
+    "url": "/2019/03/08/kubernetes-nginxproxy-error/",
+    "category": "[&quot;Kubernetes&quot;]"
   },
   
   "wiki-template": {

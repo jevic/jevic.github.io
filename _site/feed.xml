@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-14T15:13:38+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">火焰图性能分析 perf</title><link href="http://0.0.0.0/2019/03/03/perf/" rel="alternate" type="text/html" title="火焰图性能分析 perf" /><published>2019-03-03T18:10:46+08:00</published><updated>2019-03-03T18:10:46+08:00</updated><id>http://0.0.0.0/2019/03/03/perf</id><content type="html" xml:base="http://0.0.0.0/2019/03/03/perf/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-14T15:35:14+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes 高可用集群api-server请求异常</title><link href="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/" rel="alternate" type="text/html" title="kubernetes 高可用集群api-server请求异常" /><published>2019-03-08T20:10:46+08:00</published><updated>2019-03-08T20:10:46+08:00</updated><id>http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error</id><content type="html" xml:base="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/">&lt;p&gt;高可用kubernetes 集群下关于使用nginx代理服务连接超时错误处理&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;报错信息如下图:
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/k8s-nginx-proxy-error.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/rancher/rancher/issues/14971&quot;&gt;issues&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’ve checked rancher nginx-proxy config and it indeed reports proxy_timeout 5;. When I change the config in-place (setting proxy_timeout to 500) and reload nginx, it works OK.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;通过上面的问题描述可以得出:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;测试发现直连api-server 接口时服务正常。&lt;/p&gt;
+
+&lt;p&gt;由于nginx-proxy &lt;code class=&quot;highlighter-rouge&quot;&gt;proxy_timeout&lt;/code&gt; 默认超时时间太短,导致了连接api-server 超时请求失败;&lt;/p&gt;
+
+&lt;p&gt;所以需要将此 &lt;code class=&quot;highlighter-rouge&quot;&gt;proxy_timeout&lt;/code&gt; 参数适当增大,服务恢复正常;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">高可用kubernetes 集群下关于使用nginx代理服务连接超时错误处理</summary></entry><entry><title type="html">火焰图性能分析 perf</title><link href="http://0.0.0.0/2019/03/03/perf/" rel="alternate" type="text/html" title="火焰图性能分析 perf" /><published>2019-03-03T18:10:46+08:00</published><updated>2019-03-03T18:10:46+08:00</updated><id>http://0.0.0.0/2019/03/03/perf</id><content type="html" xml:base="http://0.0.0.0/2019/03/03/perf/">&lt;blockquote&gt;
   &lt;p&gt;从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1461,205 +1483,4 @@ kafka/libs/kafka_2.11-1.0.0.2.6.5.1050-37-javadoc.jar
 &lt;ul&gt;
   &lt;li&gt;可逐一增大数量级以及消息个数等参数 对比结果;&lt;/li&gt;
   &lt;li&gt;详细的参数信息直接执行脚本查看帮助信息;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">kafka 内置提供了压测脚本</summary></entry><entry><title type="html">Kubernetes helm 包管理工具</title><link href="http://0.0.0.0/2018/10/13/helm/" rel="alternate" type="text/html" title="Kubernetes helm 包管理工具" /><published>2018-10-13T20:35:46+08:00</published><updated>2018-10-13T20:35:46+08:00</updated><id>http://0.0.0.0/2018/10/13/helm</id><content type="html" xml:base="http://0.0.0.0/2018/10/13/helm/">&lt;blockquote&gt;
-  &lt;p&gt;helm 简介
-很多人都使用过Ubuntu下的ap-get或者CentOS下的yum, 这两者都是Linux系统下的包管理工具。采用apt-get/yum,应用开发者可以管理应用包之间的依赖关系，发布应用；用户则可以以简单的方式查找、安装、升级、卸载应用程序。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;我们可以将Helm看作Kubernetes下的apt-get/yum。Helm是Deis (https://deis.com/) 开发的一个用于kubernetes的包管理器。每个包称为一个Chart，一个Chart是一个目录（一般情况下会将目录进行打包压缩，形成name-version.tgz格式的单一文件，方便传输和存储）。&lt;/p&gt;
-
-&lt;p&gt;对于应用发布者而言，可以通过Helm打包应用，管理应用依赖关系，管理应用版本并发布应用到软件仓库。&lt;/p&gt;
-
-&lt;p&gt;对于使用者而言，使用Helm后不用需要了解Kubernetes的Yaml语法并编写应用部署文件，可以通过Helm下载并在kubernetes上安装需要的应用。&lt;/p&gt;
-
-&lt;p&gt;除此以外，Helm还提供了kubernetes上的软件部署，删除，升级，回滚应用的强大功能。&lt;/p&gt;
-
-&lt;h2 id=&quot;helm-组件及相关术语&quot;&gt;Helm 组件及相关术语&lt;/h2&gt;
-&lt;h3 id=&quot;helm&quot;&gt;Helm&lt;/h3&gt;
-&lt;p&gt;Helm 是一个命令行下的客户端工具。主要用于 Kubernetes 应用程序 Chart 的创建、打包、发布以及创建和管理本地和远程的 Chart 仓库。&lt;/p&gt;
-
-&lt;h3 id=&quot;tiller&quot;&gt;Tiller&lt;/h3&gt;
-&lt;p&gt;Tiller 是 Helm 的服务端，部署在 Kubernetes 集群中。Tiller 用于接收 Helm 的请求，并根据 Chart 生成 Kubernetes 的部署文件（ Helm 称为 Release ），然后提交给 Kubernetes 创建应用。Tiller 还提供了 Release 的升级、删除、回滚等一系列功能。&lt;/p&gt;
-
-&lt;h3 id=&quot;chart&quot;&gt;Chart&lt;/h3&gt;
-&lt;p&gt;Helm 的软件包，采用 TAR 格式。类似于 APT 的 DEB 包或者 YUM 的 RPM 包，其包含了一组定义 Kubernetes 资源相关的 YAML 文件。&lt;/p&gt;
-
-&lt;h3 id=&quot;repoistory&quot;&gt;Repoistory&lt;/h3&gt;
-&lt;p&gt;Helm 的软件仓库，Repository 本质上是一个 Web 服务器，该服务器保存了一系列的 Chart 软件包以供用户下载，并且提供了一个该 Repository 的 Chart 包的清单文件以供查询。Helm 可以同时管理多个不同的 Repository。&lt;/p&gt;
-
-&lt;h3 id=&quot;release&quot;&gt;Release&lt;/h3&gt;
-&lt;p&gt;使用 helm install 命令在 Kubernetes 集群中部署的 Chart 称为 Release。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;注：需要注意的是：Helm 中提到的 Release 和我们通常概念中的版本有所不同，这里的 Release 可以理解为 Helm 使用 Chart 包部署的一个应用实例。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;helm工作原理&quot;&gt;Helm工作原理&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://www.kubernetes.org.cn/img/2018/05/20180111160842.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;chart-install-过程&quot;&gt;Chart Install 过程：&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Helm从指定的目录或者tgz文件中解析出Chart结构信息&lt;/li&gt;
-  &lt;li&gt;Helm将指定的Chart结构和Values信息通过gRPC传递给Tiller&lt;/li&gt;
-  &lt;li&gt;Tiller根据Chart和Values生成一个Release&lt;/li&gt;
-  &lt;li&gt;Tiller将Release发送给Kubernetes用于生成Release&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;chart-update过程&quot;&gt;Chart Update过程：&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Helm从指定的目录或者tgz文件中解析出Chart结构信息&lt;/li&gt;
-  &lt;li&gt;Helm将要更新的Release的名称和Chart结构，Values信息传递给Tiller&lt;/li&gt;
-  &lt;li&gt;Tiller生成Release并更新指定名称的Release的History&lt;/li&gt;
-  &lt;li&gt;Tiller将Release发送给Kubernetes用于更新Release&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;chart-rollback过程&quot;&gt;Chart Rollback过程：&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Helm将要回滚的Release的名称传递给Tiller&lt;/li&gt;
-  &lt;li&gt;Tiller根据Release的名称查找History&lt;/li&gt;
-  &lt;li&gt;Tiller从History中获取上一个Release&lt;/li&gt;
-  &lt;li&gt;Tiller将上一个Release发送给Kubernetes用于替换当前Release&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;helm部署&quot;&gt;helm部署&lt;/h2&gt;
-
-&lt;h3 id=&quot;一-helm-客户端安装&quot;&gt;一. Helm 客户端安装&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://docs.helm.sh/using_helm/#installing-helm&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;11-脚本一键安装&quot;&gt;1.1 脚本一键安装&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl https://raw.githubusercontent.com/helm/helm/master/scripts/get &amp;gt; get_helm.sh
-chmod 700 get_helm.sh
-./get_helm.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;12-手动安装&quot;&gt;1.2 手动安装&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tar -zxf helm-v2.11.0-linux-amd64.tar.gz
-mv linux-amd64/helm /usr/local/bin/helm
-helm help # 验证
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;二-helm-服务端安装tiller&quot;&gt;二. Helm 服务端安装Tiller&lt;/h3&gt;
-&lt;h4 id=&quot;21-socat&quot;&gt;2.1 socat&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;注意：先在 K8S 集群上每个节点安装 socat 软件&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y socat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;22-证书配置&quot;&gt;2.2 证书配置&lt;/h4&gt;
-&lt;p&gt;&lt;a href=&quot;https://docs.helm.sh/using_helm/#using-ssl-between-helm-and-tiller&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;根据官网文档给出的示例步骤创建证书文件&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# tree /opt/helm/ssl/
-/opt/helm/ssl/
-├── ca.cert.pem
-├── ca.key.pem
-├── ca.srl
-├── get.sh
-├── helm.cert.pem
-├── helm.csr.pem
-├── helm.key.pem
-├── r.sh
-├── tiller.cert.pem
-├── tiller.csr.pem
-└── tiller.key.pem
-
-0 directories, 11 files
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;23-初始化&quot;&gt;2.3 初始化&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;Tiller 是以 Deployment 方式部署在 Kubernetes 集群中的；&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;由于 Helm 默认会去 storage.googleapis.com 拉取镜像，如果你当前执行的机器不能访问该域名的话可以使用以下命令来安装：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm init --client-only --stable-repo-url https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts/
-helm repo add incubator https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
-helm repo update
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;231-服务端&quot;&gt;2.3.1 服务端&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm init --service-account tiller --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.11.0  --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;232-tsl-认证服务端&quot;&gt;2.3.2 TSL 认证服务端&lt;/h5&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;这里使用TSL 认证服务端配置 helm&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm init --service-account tiller --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.11.0 --tiller-tls --tiller-tls-cert /opt/helm/ssl/tiller.cert.pem --tiller-tls-key /opt/helm/ssl/tiller.key.pem --tiller-tls-verify --tls-ca-cert /opt/helm/ssl/ca.cert.pem --tiller-namespace kube-system --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;-i 指定镜像名称,使用阿里云的.默认google镜像无法访问
-镜像版本必须与客户端版本一致&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;三-tiller-授权&quot;&gt;三. Tiller 授权&lt;/h3&gt;
-&lt;p&gt;Helm 的服务端 Tiller 是一个部署在 Kubernetes 中 Kube-System Namespace 下 的 Deployment，它会去连接 Kube-Api 在 Kubernetes 里创建和删除应用。&lt;/p&gt;
-
-&lt;p&gt;而从 Kubernetes 1.6 版本开始，API Server 启用了 RBAC 授权。目前的 Tiller 部署时默认没有定义授权的 ServiceAccount，这会导致访问 API Server 时被拒绝。所以我们需要明确为 Tiller 部署添加授权。&lt;/p&gt;
-
-&lt;h4 id=&quot;31-创建-kubernetes-的服务帐号和绑定角色&quot;&gt;3.1 创建 Kubernetes 的服务帐号和绑定角色&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create serviceaccount --namespace kube-system tiller
-kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;32-为-tiller-设置帐号&quot;&gt;3.2 为 Tiller 设置帐号&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;使用 kubectl patch 更新 API 对象&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl patch deploy --namespace kube-system tiller-deploy -p '{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;serviceAccount&quot;:&quot;tiller&quot;}}}}'
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;33-查看是否授权成功&quot;&gt;3.3 查看是否授权成功&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@master219 ~]# kubectl get deploy --namespace kube-system   tiller-deploy  --output yaml|grep  serviceAccount
-      serviceAccount: tiller
-      serviceAccountName: tiller
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;34-验证-tiller&quot;&gt;3.4 验证 Tiller&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl -n kube-system get pods|grep tiller
-tiller-deploy-69545986bb-gwlfh             1/1       Running   1          3d
-
-
-# helm version
-Client: &amp;amp;version.Version{SemVer:&quot;v2.11.0&quot;, GitCommit:&quot;2e55dbe1fdb5fdb96b75ff144a339489417b146b&quot;, GitTreeState:&quot;clean&quot;}
-Server: &amp;amp;version.Version{SemVer:&quot;v2.11.0&quot;, GitCommit:&quot;2e55dbe1fdb5fdb96b75ff144a339489417b146b&quot;, GitTreeState:&quot;clean&quot;}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;卸载&quot;&gt;卸载&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm reset
-helm reset --force
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;helm-使用&quot;&gt;helm 使用&lt;/h2&gt;
-&lt;h3 id=&quot;仓库配置&quot;&gt;仓库配置&lt;/h3&gt;
-&lt;p&gt;使用阿里云仓库&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo remove stable
-helm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
-helm update
-
-# helm repo list
-NAME     	URL
-stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
-local    	http://127.0.0.1:8879/charts
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">helm 简介 很多人都使用过Ubuntu下的ap-get或者CentOS下的yum, 这两者都是Linux系统下的包管理工具。采用apt-get/yum,应用开发者可以管理应用包之间的依赖关系，发布应用；用户则可以以简单的方式查找、安装、升级、卸载应用程序。</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">kafka 内置提供了压测脚本</summary></entry></feed>
