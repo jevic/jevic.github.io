@@ -48,6 +48,12 @@
     "category": "Kubernetes"
   },
   
+  "2018-10-21-kafka-perf-test": {
+    "title": "kafka 压力测试",
+    "url": " /2018/10/21/kafka-perf-test/",
+    "category": "Kafka"
+  },
+  
   "2018-10-13-helm": {
     "title": "Kubernetes helm 包管理工具",
     "url": " /2018/10/13/helm/",
@@ -836,6 +842,12 @@
     "title": "Kubernetes helm 包管理工具",
     "url": "/2018/10/13/helm/",
     "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2018-10-21-kafka-perf-test": {
+    "title": "kafka 压力测试",
+    "url": "/2018/10/21/kafka-perf-test/",
+    "category": "[&quot;Kafka&quot;, &quot;Bigdata&quot;]"
   },
   
   "2018-10-25-ingresss-traefik": {
