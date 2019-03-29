@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-29T15:11:17+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK 用户权限管理控制 Search Guard</title><link href="http://0.0.0.0/2019/03/28/elk-search-guard/" rel="alternate" type="text/html" title="ELK 用户权限管理控制 Search Guard" /><published>2019-03-28T19:56:06+08:00</published><updated>2019-03-28T19:56:06+08:00</updated><id>http://0.0.0.0/2019/03/28/elk-search-guard</id><content type="html" xml:base="http://0.0.0.0/2019/03/28/elk-search-guard/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-29T15:26:24+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK 用户权限管理控制 Search Guard</title><link href="http://0.0.0.0/2019/03/28/elk-search-guard/" rel="alternate" type="text/html" title="ELK 用户权限管理控制 Search Guard" /><published>2019-03-28T19:56:06+08:00</published><updated>2019-03-28T19:56:06+08:00</updated><id>http://0.0.0.0/2019/03/28/elk-search-guard</id><content type="html" xml:base="http://0.0.0.0/2019/03/28/elk-search-guard/">&lt;blockquote&gt;
   &lt;p&gt;Search Guard为您提供对整个ElasticSearch环境的完全安全控制!&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -455,6 +455,9 @@ play.ws.ssl.loose.acceptAnyCertificate=true
   &lt;li&gt;_xpack/sql?format=txt&lt;/li&gt;
   &lt;li&gt;_xpack/sql?format=json&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h3 id=&quot;grafana&quot;&gt;Grafana&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-grafana.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;注意事项&quot;&gt;注意事项&lt;/h3&gt;
 &lt;ul&gt;
