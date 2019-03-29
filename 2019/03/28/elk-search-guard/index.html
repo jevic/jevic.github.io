@@ -138,10 +138,6 @@
 </blockquote>
 
 <blockquote>
-  <p><code class="highlighter-rouge">免费版</code> 只允许管理使用10个节点这点需要注意,相比 x-pack 30天试用期还是蛮不错的选择!</p>
-</blockquote>
-
-<blockquote>
   <p>Search Guard 配置(包括用户、权限与角色)是存储在Elasticsearch集群的索引中的。这允许配置热加载，更新配置后不需要重启Elasticsearch节点，并且不需要在每个节点上放置配置文件。</p>
 </blockquote>
 
@@ -304,6 +300,8 @@ Done with success
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -u admin:admin --insecure https://192.168.160.129:9200
 curl -u admin:admin --insecure https://192.168.160.129:9200/_cat/indices
+## license查看
+curl -u admin:admin --insecure https://192.168.160.129:9200/_searchguard/license
 </code></pre></div></div>
 
 <h3 id="kibana">Kibana</h3>
