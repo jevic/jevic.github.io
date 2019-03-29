@@ -1,4 +1,470 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-14T15:35:14+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes 高可用集群api-server请求异常</title><link href="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/" rel="alternate" type="text/html" title="kubernetes 高可用集群api-server请求异常" /><published>2019-03-08T20:10:46+08:00</published><updated>2019-03-08T20:10:46+08:00</updated><id>http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error</id><content type="html" xml:base="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/">&lt;p&gt;高可用kubernetes 集群下关于使用nginx代理服务连接超时错误处理&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-29T14:55:19+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK 用户权限管理控制 Search Guard</title><link href="http://0.0.0.0/2019/03/28/elk-search-guard/" rel="alternate" type="text/html" title="ELK 用户权限管理控制 Search Guard" /><published>2019-03-28T19:56:06+08:00</published><updated>2019-03-28T19:56:06+08:00</updated><id>http://0.0.0.0/2019/03/28/elk-search-guard</id><content type="html" xml:base="http://0.0.0.0/2019/03/28/elk-search-guard/">&lt;blockquote&gt;
+  &lt;p&gt;Search Guard为您提供对整个ElasticSearch环境的完全安全控制!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;目前提供的有三个版本分别是免费版、企业版、定制版&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;免费版&lt;/code&gt; 只允许管理使用10个节点这点需要注意,相比 x-pack 30天试用期还是蛮不错的选择!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Search Guard 配置(包括用户、权限与角色)是存储在Elasticsearch集群的索引中的。这允许配置热加载，更新配置后不需要重启Elasticsearch节点，并且不需要在每个节点上放置配置文件。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;sgadmin&lt;/code&gt; 工具将配置文件中的配置信息加载到searchguard配置索引中。sgadmin需要通过管理员证书来执行命令。管理员证书授予对集群的完全访问权限，包括更改Search Guard配置索引&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;elasticsearch&quot;&gt;elasticsearch&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;关于ELK 安装部署自行参考官网
+本文使用的EFLK 版本为 &lt;code class=&quot;highlighter-rouge&quot;&gt;6.4.2&lt;/code&gt; !!!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;安装search-guard-插件&quot;&gt;安装search guard 插件&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.search-guard.com/latest/search-guard-installation#installing-search-guard&quot;&gt;Installing Search Guard&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.search-guard.com/latest/search-guard-versions&quot;&gt;插件下载&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;此处选择下载zip包后直接本地安装:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 elasticsearch-6.4.2]# pwd
+/usr/local/elasticsearch-6.4.2
+[root@k2 elasticsearch-6.4.2]# ls search-guard-6-6.4.2-24.2.zip
+search-guard-6-6.4.2-24.2.zip
+[root@k2 elasticsearch-6.4.2]# ./bin/elasticsearch-plugin install file:////usr/local/elasticsearch-6.4.2/search-guard-6-6.4.2-24.2.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;在线生成秘钥&quot;&gt;在线生成秘钥&lt;/h4&gt;
+&lt;p&gt;由于ElasticSearch节点之间通讯默值非加密，造成数据不安全，Search Guard强制ElasticSearch节点之间通讯为加密方式;
+Email用来接收密钥，Organization Name可以随便填写，Hostname填写ElasticSearch集群中每个节点的node name;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://search-guard.com/tls-certificate-generator/&quot;&gt;证书申请 tls-cert&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;将邮箱中收到的密钥文件解压，然后得到search-guard-certificates文件夹&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 search-guard-certificates]# tree
+.
+├── chain-ca.pem
+├── client-certificates
+│   ├── CN=demouser.all.pem
+│   ├── CN=demouser.crtfull.pem
+│   ├── CN=demouser.crt.pem
+│   ├── CN=demouser.csr
+│   ├── CN=demouser.key.pem
+│   ├── CN=demouser.key.pkcs12
+│   ├── CN=demouser-keystore.jks
+│   ├── CN=demouser-keystore.p12
+│   ├── CN=demouser-signed.pem
+│   ├── CN=sgadmin.all.pem
+│   ├── CN=sgadmin.crtfull.pem
+│   ├── CN=sgadmin.crt.pem
+│   ├── CN=sgadmin.csr
+│   ├── CN=sgadmin.key.pem
+│   ├── CN=sgadmin.key.pkcs12
+│   ├── CN=sgadmin-keystore.jks
+│   ├── CN=sgadmin-keystore.p12
+│   └── CN=sgadmin-signed.pem
+├── node-certificates
+│   ├── CN=es2.crtfull.pem
+│   ├── CN=es2.csr
+│   ├── CN=es2.key.pem
+│   ├── CN=es2.key.pkcs12
+│   ├── CN=es2-keystore.jks
+│   ├── CN=es2-keystore.p12
+│   └── CN=es2-signed.pem
+├── README.txt
+├── root-ca
+│   ├── root-ca.crt
+│   ├── root-ca.key
+│   └── root-ca.pem
+├── root-ca.pem
+├── signing-ca
+│   ├── signing-ca.crt
+│   ├── signing-ca.key
+│   └── signing-ca.pem
+├── truststore.jks
+└── truststore.p12
+
+4 directories, 36 files
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;配置es证书&quot;&gt;配置ES证书&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;详情查看 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.txt&lt;/code&gt; 文档&lt;/li&gt;
+  &lt;li&gt;通读一遍在进行操作!!!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;此次使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;Using the keystore- and truststore file&lt;/code&gt; 证书配置&lt;/p&gt;
+
+&lt;p&gt;编辑 elasticsearch.yml 在最后部分添加下面配置:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;searchguard.ssl.transport.keystore_filepath: CN=es2-keystore.jks
+searchguard.ssl.transport.keystore_password: d9c13b2c8f5550a62d88
+searchguard.ssl.transport.truststore_filepath: truststore.jks
+searchguard.ssl.transport.truststore_password: 7ef7af8e734522cdba14
+searchguard.ssl.transport.enforce_hostname_verification: false
+searchguard.ssl.http.enabled: true
+searchguard.ssl.http.keystore_filepath: CN=es2-keystore.jks
+searchguard.ssl.http.keystore_password: d9c13b2c8f5550a62d88
+searchguard.ssl.http.truststore_filepath: truststore.jks
+searchguard.ssl.http.truststore_password: 7ef7af8e734522cdba14
+
+searchguard.authcz.admin_dn:
+  - CN=sgadmin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ps:
+    &lt;ul&gt;
+      &lt;li&gt;根据文档里面的提示 cp 复制证书秘钥文件到es config 下即可；&lt;/li&gt;
+      &lt;li&gt;证书及秘钥密码查看 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.txt&lt;/code&gt; 结尾部分都有给出；&lt;/li&gt;
+      &lt;li&gt;请注意文件权限必须为 644 或者 600&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;最后启动elasticsearch 即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;初始化配置&quot;&gt;初始化配置&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[es@k2 tools]$ pwd
+/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/tools
+[es@k2 tools]$ chmod +x sgadmin.sh
+-------
+
+[es@k2 tools]$ ./sgadmin.sh -h 192.168.160.129 -p 9300 -ts truststore.jks -tspass 7ef7af8e734522cdba14 -ks CN=sgadmin-keystore.jks -kspass d1e21acbcb8fdd1362a8 -nhnv -icl -cd ../sgconfig/
+Search Guard Admin v6
+Will connect to 192.168.160.129:9300 ... done
+Elasticsearch Version: 6.4.2
+Search Guard Version: 6.4.2-24.2
+Connected as CN=sgadmin
+Contacting elasticsearch cluster 'elasticsearch' and wait for YELLOW clusterstate ...
+Clustername: my-application
+Clusterstate: GREEN
+Number of nodes: 1
+Number of data nodes: 1
+searchguard index does not exists, attempt to create it ... done (0-all replicas)
+Populate config from /usr/local/elasticsearch-6.4.2/plugins/search-guard-6/sgconfig
+Will update 'sg/config' with ../sgconfig/sg_config.yml
+   SUCC: Configuration for 'config' created or updated
+Will update 'sg/roles' with ../sgconfig/sg_roles.yml
+   SUCC: Configuration for 'roles' created or updated
+Will update 'sg/rolesmapping' with ../sgconfig/sg_roles_mapping.yml
+   SUCC: Configuration for 'rolesmapping' created or updated
+Will update 'sg/internalusers' with ../sgconfig/sg_internal_users.yml
+   SUCC: Configuration for 'internalusers' created or updated
+Will update 'sg/actiongroups' with ../sgconfig/sg_action_groups.yml
+   SUCC: Configuration for 'actiongroups' created or updated
+Done with success
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;测试访问&quot;&gt;测试访问&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;初始管理员用户名密码: admin admin&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--insecure&lt;/code&gt; 为方便调用禁用证书验证&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -u admin:admin --insecure https://192.168.160.129:9200
+curl -u admin:admin --insecure https://192.168.160.129:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;kibana&quot;&gt;Kibana&lt;/h3&gt;
+&lt;h4 id=&quot;安装search-guard-插件-1&quot;&gt;安装search guard 插件&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.search-guard.com/latest/kibana-plugin-installation&quot;&gt;插件安装&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.search-guard.com/latest/search-guard-versions&quot;&gt;插件下载&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;同样使用本地安装方式&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/kibana-plugin install file:///usr/local/kibana-6.4.2-linux-x86_64/search-guard-kibana-plugin-6.4.2-17.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;等待安装初始化完成即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;添加配置&quot;&gt;添加配置&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;复制 &lt;code class=&quot;highlighter-rouge&quot;&gt;root-ca.pem&lt;/code&gt; 到指定目录下&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;编辑kibana.yml&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xpack.security.enabled: false
+elasticsearch.url: &quot;https://es2:9200&quot;
+elasticsearch.username: &quot;kibanaserver&quot;
+elasticsearch.password: &quot;kibanaserver&quot;
+elasticsearch.ssl.certificateAuthorities: &quot;/usr/local/kibana-6.4.2-linux-x86_64/config/root-ca.pem&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;启动kibana&quot;&gt;启动Kibana&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;访问页面&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana.png&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana02.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;授权用户只读权限&quot;&gt;授权用户只读权限&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;下面示例配置 &lt;code class=&quot;highlighter-rouge&quot;&gt;app&lt;/code&gt; 用户只能搜索查看&lt;code class=&quot;highlighter-rouge&quot;&gt;applogs*&lt;/code&gt; 匹配的索引且权限为只读&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;配置文件目录:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 sgconfig]# pwd
+/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/sgconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;sg_internal_users.yml:  存储用户名密码，密码可以使用plugin/search-guard-6/tools/hash.sh生成,用户可以加入一个用户组，后面使用用户组与权限进行映射&lt;/p&gt;
+
+&lt;p&gt;sg_roles.yml：权限设置，定义什么类型的权限&lt;/p&gt;
+
+&lt;p&gt;sg_roles_mapping.yml： 映射角色关系，可以把权限映射给用户，也可以映射给用户组&lt;/p&gt;
+
+&lt;p&gt;sg_action_groups.yml： 定义一些用户动作的权限与es索引之间的关系&lt;/p&gt;
+
+&lt;p&gt;sg_config.yml：全局设置&lt;/p&gt;
+
+&lt;h4 id=&quot;配置用户名密码&quot;&gt;配置用户名密码&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 tools]# bash hash.sh app
+[Password:]  123456
+$2y$12$Ua4xGZYuwCJRY4sqMfi.8.nb.dV94GPuXpaS7mHKrQmFIzwfZOGOW
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;添加用户&quot;&gt;添加用户&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 sgconfig]# pwd
+/opt/es/plugins/search-guard-6/sgconfig
+[root@k2 sgconfig]# vim sg_internal_users.yml
+[root@k2 sgconfig]# tail -n 5 sg_internal_users.yml
+app:
+  hash: $2y$12$Ua4xGZYuwCJRY4sqMfi.8.nb.dV94GPuXpaS7mHKrQmFIzwfZOGOW
+  #password: is 123456
+  roles:
+    - app
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;添加权限&quot;&gt;添加权限&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;编辑 sg_roles.yml&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 sgconfig]# tail -n 11 sg_roles.yml
+sg_app_index:
+  cluster:
+    - CLUSTER_COMPOSITE_OPS_RO
+  indices:
+    '*applogs*':
+      '*':
+        - READ
+        - indices:admin/mappings/fields/get*
+    '?kibana':
+      '*':
+        - INDICES_ALL
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;配置中定义了权限，CLUSTER_COMPOSITE_OPS_RO 权限范围，来自于sg_action_groups.yml&lt;/p&gt;
+
+&lt;h4 id=&quot;映射用户组权限&quot;&gt;映射用户组权限&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 sgconfig]# tail -n 3 sg_roles_mapping.yml
+sg_app_index:
+  backendroles:
+    - app
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;加载配置&quot;&gt;加载配置&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[es@k2 tools]$ pwd
+/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/tools
+[es@k2 tools]$ ./sgadmin.sh -h 192.168.160.129 -p 9300 -ts truststore.jks -tspass 7ef7af8e734522cdba14 -ks CN=sgadmin-keystore.jks -kspass d1e21acbcb8fdd1362a8 -nhnv -icl -cd ../sgconfig/
+..... 此处省略 .....
+Done with success
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;登录验证&quot;&gt;登录验证&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app01.png&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app02.png&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app03.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;logstash&quot;&gt;Logstash&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;input{
+    file {
+        path =&amp;gt; [ &quot;/mnt/logs/b.log&quot; ]
+        start_position =&amp;gt; &quot;beginning&quot;
+        sincedb_path =&amp;gt; &quot;/dev/null&quot;
+        ignore_older =&amp;gt; &quot;99999999999&quot;
+        codec =&amp;gt; &quot;json&quot;
+    }
+}
+
+output{
+        elasticsearch {
+        hosts =&amp;gt; [ &quot;https://es2:9200&quot; ]
+        index =&amp;gt; &quot;applogs_%{+YYYYMMdd}&quot;
+        user =&amp;gt; admin
+        password =&amp;gt; admin
+        ssl =&amp;gt; true
+        ssl_certificate_verification =&amp;gt; true
+        truststore =&amp;gt; &quot;/mnt/logstash-6.4.2/config/truststore.jks&quot;
+        truststore_password =&amp;gt; &quot;7ef7af8e734522cdba14&quot;
+        }
+#       stdout {
+#            codec =&amp;gt; rubydebug
+#       }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;filebeat&quot;&gt;Filebeat&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;线上使用时应该使用模板否则发送到ES的数据全部归到 &lt;code class=&quot;highlighter-rouge&quot;&gt;message&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;对于JAVA等其他不在官方提供的模板内的应用输出的日志,应使用:
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;ol&gt;
+          &lt;li&gt;filebeat &amp;gt; kafka &amp;gt; logstash &amp;gt; elasticsearch &amp;gt; kibana&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;ol&gt;
+          &lt;li&gt;filebeat &amp;gt; logstash &amp;gt; elasticsearch &amp;gt; kibana&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;由logstash 来进行日志的拆分切割处理&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;文本格式&quot;&gt;文本格式&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xpack.monitoring.enabled: true
+filebeat.prospectors:
+- input_type: log
+  fields:
+    namespace: app-test
+  paths:
+    - &quot;/mnt/logs/a.log&quot;
+output.elasticsearch:
+  hosts: [&quot;https://192.168.160.129:9200&quot;]
+  username: &quot;admin&quot;
+  password: &quot;admin&quot;
+  ## 忽略证书验证
+  ssl.verification_mode: none
+logging.level: info
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;josn格式&quot;&gt;JOSN格式&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xpack.monitoring.enabled: true
+filebeat.prospectors:
+- input_type: log
+  json.keys_under_root: true
+  json.add_error_key: true
+  fields:
+    APP: applog
+  paths:
+    - &quot;/mnt/logs/c.log&quot;
+output.elasticsearch:
+  hosts: [&quot;https://192.168.160.129:9200&quot;]
+  username: &quot;admin&quot;
+  password: &quot;admin&quot;
+  ssl.verification_mode: none
+logging.level: info
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;cerebro&quot;&gt;Cerebro&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;编辑 application.conf&lt;/li&gt;
+  &lt;li&gt;增加修改下列配置&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;play.ws.ssl {
+  trustManager = {
+    stores = [
+      { type = &quot;PEM&quot;, path = &quot;/usr/local/elasticsearch-6.4.2/config/root-ca.pem&quot; }
+    ]
+  }
+}
+
+play.ws.ssl.loose.acceptAnyCertificate=true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hosts = [
+  #{
+  #  host = &quot;http://localhost:9200&quot;
+  #  name = &quot;Some Cluster&quot;
+  #},
+  # Example of host with authentication
+  {
+    host = &quot;https://192.168.160.129:9200&quot;
+    name = &quot;Secured Cluster&quot;
+    auth = {
+      username = &quot;admin&quot;
+      password = &quot;admin&quot;
+    }
+  }
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;elasticsearch-sql&quot;&gt;elasticsearch-sql&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;需要单独安装此处不在介绍&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/NLPchina/elasticsearch-sql/wiki&quot;&gt;github elasticsearch-sql&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -sL \
+-u admin:admin \
+--insecure &quot;https://192.168.160.129:9200/_sql&quot; \
+-H 'Content-Type: application/json' \
+-d 'select count(status.keyword) from test-2019.03.25' | python -mjson.tool
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;x-pack-sql&quot;&gt;X-Pack SQL&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -u admin:admin \
+--insecure https://192.168.160.129:9200/_xpack/sql?format=txt \
+-H 'Content-Type: application/json' \
+-d '{
+  &quot;query&quot;: &quot;select host,status,path from testlogs_20190329 limit 10&quot;
+}'
+     host      |    status     |     path
+---------------+---------------+---------------
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;_xpack/sql?format=txt&lt;/li&gt;
+  &lt;li&gt;_xpack/sql?format=json&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;注意事项&quot;&gt;注意事项&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;注意证书的权限以及属主和属组&lt;/li&gt;
+  &lt;li&gt;关于证书通读 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.md&lt;/code&gt; 根据提示逐一将证书/key 文件复制到指定目录下&lt;/li&gt;
+  &lt;li&gt;关于秘钥的密码等,查看 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.md&lt;/code&gt; 在最后有给出,且注意保存&lt;/li&gt;
+  &lt;li&gt;es和kibana 都需要禁用x-pack 认证&lt;code class=&quot;highlighter-rouge&quot;&gt;xpack.security.enabled: false&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">Search Guard为您提供对整个ElasticSearch环境的完全安全控制!</summary></entry><entry><title type="html">kubernetes 高可用集群api-server请求异常</title><link href="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/" rel="alternate" type="text/html" title="kubernetes 高可用集群api-server请求异常" /><published>2019-03-08T20:10:46+08:00</published><updated>2019-03-08T20:10:46+08:00</updated><id>http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error</id><content type="html" xml:base="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/">&lt;p&gt;高可用kubernetes 集群下关于使用nginx代理服务连接超时错误处理&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -1402,85 +1868,4 @@ default     replicaset.apps/nginx-demo-c8765675   2         2         2         
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik01.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。</summary></entry><entry><title type="html">kafka 压力测试</title><link href="http://0.0.0.0/2018/10/21/kafka-perf-test/" rel="alternate" type="text/html" title="kafka 压力测试" /><published>2018-10-21T18:10:46+08:00</published><updated>2018-10-21T18:10:46+08:00</updated><id>http://0.0.0.0/2018/10/21/kafka-perf-test</id><content type="html" xml:base="http://0.0.0.0/2018/10/21/kafka-perf-test/">&lt;p&gt;kafka 内置提供了压测脚本&lt;/p&gt;
-
-&lt;h2 id=&quot;kafka-版本&quot;&gt;kafka 版本&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ find /opt/kafka/libs/ -name \*kafka_\* | head -1 | grep -o '\kafka[^\n]*'
-kafka/libs/kafka_2.11-1.0.0.2.6.5.1050-37-javadoc.jar
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;producer测试&quot;&gt;Producer测试&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ./bin/kafka-producer-perf-test.sh \
---topic test \
---num-records 1000000 \
---record-size 3000 \
---throughput 20000 \
---producer-props bootstrap.servers=192.168.25.198:6667,192.168.25.199:6667,192.168.25.200:6667,192.168.25.201:6667,192.168.25.202:6667
-
-99914 records sent, 19978.8 records/sec (57.16 MB/sec), 124.9 ms avg latency, 566.0 max latency.
-99292 records sent, 19858.4 records/sec (56.82 MB/sec), 7.1 ms avg latency, 214.0 max latency.
-96498 records sent, 19299.6 records/sec (55.22 MB/sec), 117.3 ms avg latency, 1096.0 max latency.
-95601 records sent, 19120.2 records/sec (54.70 MB/sec), 269.1 ms avg latency, 2194.0 max latency.
-108777 records sent, 21755.4 records/sec (62.24 MB/sec), 340.9 ms avg latency, 2665.0 max latency.
-100020 records sent, 20004.0 records/sec (57.23 MB/sec), 1.3 ms avg latency, 20.0 max latency.
-100051 records sent, 20010.2 records/sec (57.25 MB/sec), 1.3 ms avg latency, 20.0 max latency.
-99987 records sent, 19997.4 records/sec (57.21 MB/sec), 1.3 ms avg latency, 27.0 max latency.
-100036 records sent, 20007.2 records/sec (57.24 MB/sec), 1.3 ms avg latency, 21.0 max latency.
-1000000 records sent, 19992.402887 records/sec (57.20 MB/sec), 87.97 ms avg latency, 2665.00 ms max latency, 1 ms 50th, 500 ms 95th, 2202 ms 99th, 2613 ms 99.9th.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;–topic topic名称，本例为test_perf&lt;/p&gt;
-
-&lt;p&gt;–num-records 总共需要发送的消息数，本例为1000000&lt;/p&gt;
-
-&lt;p&gt;–record-size 每个记录的字节数，本例为1000&lt;/p&gt;
-
-&lt;p&gt;–throughput 每秒钟发送的记录数，本例为20000&lt;/p&gt;
-
-&lt;p&gt;–producer-props bootstrap.servers=localhost:9092 发送端的配置信息&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;上面示例可以看出 平均每秒写入57.20MB数据,大概是19992条消息&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;每次写入的平均延迟是: 87.98 毫秒&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;最大延迟是: 2665.00 毫秒&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;consumer-测试&quot;&gt;Consumer 测试&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/kafka-consumer-perf-test.sh 
---topic test \
---fetch-size 1048576 \
---messages 1000000 \
---threads 20 \
---hide-header \
---broker-list 192.168.25.198:6667,192.168.25.199:6667,192.168.25.200:6667,192.168.25.201:6667,192.168.25.202:6667
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;–topic 指定topic的名称，本例为test_perf&lt;/p&gt;
-
-&lt;p&gt;–fetch-size 指定每次fetch的数据的大小，本例为1048576，也就是1M&lt;/p&gt;
-
-&lt;p&gt;–messages 总共要消费的消息个数，本例为1000000，100w&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;删除topic&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./kafka-topics.sh --zookeeper 192.168.25.198:2181 --delete --topic test
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;hr /&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;可逐一增大数量级以及消息个数等参数 对比结果;&lt;/li&gt;
-  &lt;li&gt;详细的参数信息直接执行脚本查看帮助信息;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">kafka 内置提供了压测脚本</summary></entry></feed>
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。</summary></entry></feed>

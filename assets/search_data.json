@@ -1,5 +1,11 @@
 {
   
+  "2019-03-28-elk-search-guard": {
+    "title": "ELK 用户权限管理控制 Search Guard",
+    "url": " /2019/03/28/elk-search-guard/",
+    "category": "ELK"
+  },
+  
   "2019-03-08-kubernetes-nginxproxy-error": {
     "title": "kubernetes 高可用集群api-server请求异常",
     "url": " /2019/03/08/kubernetes-nginxproxy-error/",
@@ -908,6 +914,12 @@
     "title": "kubernetes 高可用集群api-server请求异常",
     "url": "/2019/03/08/kubernetes-nginxproxy-error/",
     "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2019-03-28-elk-search-guard": {
+    "title": "ELK 用户权限管理控制 Search Guard",
+    "url": "/2019/03/28/elk-search-guard/",
+    "category": "[&quot;ELK&quot;]"
   },
   
   "wiki-template": {

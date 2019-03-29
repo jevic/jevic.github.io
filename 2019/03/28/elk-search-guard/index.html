@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>ELK 用户权限管理控制 Search Guard &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2019/03/28/elk-search-guard/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="ELK 用户权限管理控制 Search Guard">
+      
+    <meta name="keywords" content="es,kibana">
+    <meta name="og:keywords" content="es,kibana">
+      
+    <meta name="description" content="  Search Guard为您提供对整个ElasticSearch环境的完全安全控制!">
+    <meta name="og:description" content="  Search Guard为您提供对整个ElasticSearch环境的完全安全控制!">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2019/03/28/elk-search-guard/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2019-03-28">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="ELK 用户权限管理控制 Se">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">ELK 用户权限管理控制 Search Guard</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2019/03/28
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>Search Guard为您提供对整个ElasticSearch环境的完全安全控制!</p>
+</blockquote>
+
+<blockquote>
+  <p>目前提供的有三个版本分别是免费版、企业版、定制版</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="highlighter-rouge">免费版</code> 只允许管理使用10个节点这点需要注意,相比 x-pack 30天试用期还是蛮不错的选择!</p>
+</blockquote>
+
+<blockquote>
+  <p>Search Guard 配置(包括用户、权限与角色)是存储在Elasticsearch集群的索引中的。这允许配置热加载，更新配置后不需要重启Elasticsearch节点，并且不需要在每个节点上放置配置文件。</p>
+</blockquote>
+
+<blockquote>
+  <p>使用 <code class="highlighter-rouge">sgadmin</code> 工具将配置文件中的配置信息加载到searchguard配置索引中。sgadmin需要通过管理员证书来执行命令。管理员证书授予对集群的完全访问权限，包括更改Search Guard配置索引</p>
+</blockquote>
+
+<hr />
+
+<h3 id="elasticsearch">elasticsearch</h3>
+<blockquote>
+  <p>关于ELK 安装部署自行参考官网
+本文使用的EFLK 版本为 <code class="highlighter-rouge">6.4.2</code> !!!</p>
+</blockquote>
+
+<h4 id="安装search-guard-插件">安装search guard 插件</h4>
+<ul>
+  <li><a href="https://docs.search-guard.com/latest/search-guard-installation#installing-search-guard">Installing Search Guard</a></li>
+  <li><a href="https://docs.search-guard.com/latest/search-guard-versions">插件下载</a></li>
+</ul>
+
+<p>此处选择下载zip包后直接本地安装:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k2 elasticsearch-6.4.2]# pwd
+/usr/local/elasticsearch-6.4.2
+[root@k2 elasticsearch-6.4.2]# ls search-guard-6-6.4.2-24.2.zip
+search-guard-6-6.4.2-24.2.zip
+[root@k2 elasticsearch-6.4.2]# ./bin/elasticsearch-plugin install file:////usr/local/elasticsearch-6.4.2/search-guard-6-6.4.2-24.2.zip
+</code></pre></div></div>
+
+<h4 id="在线生成秘钥">在线生成秘钥</h4>
+<p>由于ElasticSearch节点之间通讯默值非加密，造成数据不安全，Search Guard强制ElasticSearch节点之间通讯为加密方式;
+Email用来接收密钥，Organization Name可以随便填写，Hostname填写ElasticSearch集群中每个节点的node name;</p>
+<ul>
+  <li><a href="https://search-guard.com/tls-certificate-generator/">证书申请 tls-cert</a></li>
+</ul>
+
+<p>将邮箱中收到的密钥文件解压，然后得到search-guard-certificates文件夹</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k2 search-guard-certificates]# tree
+.
+├── chain-ca.pem
+├── client-certificates
+│   ├── CN=demouser.all.pem
+│   ├── CN=demouser.crtfull.pem
+│   ├── CN=demouser.crt.pem
+│   ├── CN=demouser.csr
+│   ├── CN=demouser.key.pem
+│   ├── CN=demouser.key.pkcs12
+│   ├── CN=demouser-keystore.jks
+│   ├── CN=demouser-keystore.p12
+│   ├── CN=demouser-signed.pem
+│   ├── CN=sgadmin.all.pem
+│   ├── CN=sgadmin.crtfull.pem
+│   ├── CN=sgadmin.crt.pem
+│   ├── CN=sgadmin.csr
+│   ├── CN=sgadmin.key.pem
+│   ├── CN=sgadmin.key.pkcs12
+│   ├── CN=sgadmin-keystore.jks
+│   ├── CN=sgadmin-keystore.p12
+│   └── CN=sgadmin-signed.pem
+├── node-certificates
+│   ├── CN=es2.crtfull.pem
+│   ├── CN=es2.csr
+│   ├── CN=es2.key.pem
+│   ├── CN=es2.key.pkcs12
+│   ├── CN=es2-keystore.jks
+│   ├── CN=es2-keystore.p12
+│   └── CN=es2-signed.pem
+├── README.txt
+├── root-ca
+│   ├── root-ca.crt
+│   ├── root-ca.key
+│   └── root-ca.pem
+├── root-ca.pem
+├── signing-ca
+│   ├── signing-ca.crt
+│   ├── signing-ca.key
+│   └── signing-ca.pem
+├── truststore.jks
+└── truststore.p12
+
+4 directories, 36 files
+</code></pre></div></div>
+
+<h4 id="配置es证书">配置ES证书</h4>
+<ul>
+  <li>详情查看 <code class="highlighter-rouge">README.txt</code> 文档</li>
+  <li>通读一遍在进行操作!!!</li>
+</ul>
+
+<p>此次使用 <code class="highlighter-rouge">Using the keystore- and truststore file</code> 证书配置</p>
+
+<p>编辑 elasticsearch.yml 在最后部分添加下面配置:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>searchguard.ssl.transport.keystore_filepath: CN=es2-keystore.jks
+searchguard.ssl.transport.keystore_password: d9c13b2c8f5550a62d88
+searchguard.ssl.transport.truststore_filepath: truststore.jks
+searchguard.ssl.transport.truststore_password: 7ef7af8e734522cdba14
+searchguard.ssl.transport.enforce_hostname_verification: false
+searchguard.ssl.http.enabled: true
+searchguard.ssl.http.keystore_filepath: CN=es2-keystore.jks
+searchguard.ssl.http.keystore_password: d9c13b2c8f5550a62d88
+searchguard.ssl.http.truststore_filepath: truststore.jks
+searchguard.ssl.http.truststore_password: 7ef7af8e734522cdba14
+
+searchguard.authcz.admin_dn:
+  - CN=sgadmin
+</code></pre></div></div>
+
+<ul>
+  <li>ps:
+    <ul>
+      <li>根据文档里面的提示 cp 复制证书秘钥文件到es config 下即可；</li>
+      <li>证书及秘钥密码查看 <code class="highlighter-rouge">README.txt</code> 结尾部分都有给出；</li>
+      <li>请注意文件权限必须为 644 或者 600</li>
+    </ul>
+  </li>
+  <li>最后启动elasticsearch 即可</li>
+</ul>
+
+<h4 id="初始化配置">初始化配置</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[es@k2 tools]$ pwd
+/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/tools
+[es@k2 tools]$ chmod +x sgadmin.sh
+-------
+
+[es@k2 tools]$ ./sgadmin.sh -h 192.168.160.129 -p 9300 -ts truststore.jks -tspass 7ef7af8e734522cdba14 -ks CN=sgadmin-keystore.jks -kspass d1e21acbcb8fdd1362a8 -nhnv -icl -cd ../sgconfig/
+Search Guard Admin v6
+Will connect to 192.168.160.129:9300 ... done
+Elasticsearch Version: 6.4.2
+Search Guard Version: 6.4.2-24.2
+Connected as CN=sgadmin
+Contacting elasticsearch cluster 'elasticsearch' and wait for YELLOW clusterstate ...
+Clustername: my-application
+Clusterstate: GREEN
+Number of nodes: 1
+Number of data nodes: 1
+searchguard index does not exists, attempt to create it ... done (0-all replicas)
+Populate config from /usr/local/elasticsearch-6.4.2/plugins/search-guard-6/sgconfig
+Will update 'sg/config' with ../sgconfig/sg_config.yml
+   SUCC: Configuration for 'config' created or updated
+Will update 'sg/roles' with ../sgconfig/sg_roles.yml
+   SUCC: Configuration for 'roles' created or updated
+Will update 'sg/rolesmapping' with ../sgconfig/sg_roles_mapping.yml
+   SUCC: Configuration for 'rolesmapping' created or updated
+Will update 'sg/internalusers' with ../sgconfig/sg_internal_users.yml
+   SUCC: Configuration for 'internalusers' created or updated
+Will update 'sg/actiongroups' with ../sgconfig/sg_action_groups.yml
+   SUCC: Configuration for 'actiongroups' created or updated
+Done with success
+</code></pre></div></div>
+
+<h4 id="测试访问">测试访问</h4>
+<ul>
+  <li>初始管理员用户名密码: admin admin</li>
+  <li><code class="highlighter-rouge">--insecure</code> 为方便调用禁用证书验证</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -u admin:admin --insecure https://192.168.160.129:9200
+curl -u admin:admin --insecure https://192.168.160.129:9200/_cat/indices
+</code></pre></div></div>
+
+<h3 id="kibana">Kibana</h3>
+<h4 id="安装search-guard-插件-1">安装search guard 插件</h4>
+<ul>
+  <li><a href="https://docs.search-guard.com/latest/kibana-plugin-installation">插件安装</a></li>
+  <li><a href="https://docs.search-guard.com/latest/search-guard-versions">插件下载</a></li>
+</ul>
+
+<p>同样使用本地安装方式</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/kibana-plugin install file:///usr/local/kibana-6.4.2-linux-x86_64/search-guard-kibana-plugin-6.4.2-17.zip
+</code></pre></div></div>
+
+<ul>
+  <li>等待安装初始化完成即可</li>
+</ul>
+
+<h4 id="添加配置">添加配置</h4>
+<ul>
+  <li>复制 <code class="highlighter-rouge">root-ca.pem</code> 到指定目录下</li>
+</ul>
+
+<p>编辑kibana.yml</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xpack.security.enabled: false
+elasticsearch.url: "https://es2:9200"
+elasticsearch.username: "kibanaserver"
+elasticsearch.password: "kibanaserver"
+elasticsearch.ssl.certificateAuthorities: "/usr/local/kibana-6.4.2-linux-x86_64/config/root-ca.pem"
+</code></pre></div></div>
+
+<h4 id="启动kibana">启动Kibana</h4>
+<ul>
+  <li>访问页面</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana.png" alt="image" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana02.png" alt="image" /></p>
+
+<h3 id="授权用户只读权限">授权用户只读权限</h3>
+<blockquote>
+  <p>下面示例配置 <code class="highlighter-rouge">app</code> 用户只能搜索查看<code class="highlighter-rouge">applogs*</code> 匹配的索引且权限为只读</p>
+</blockquote>
+
+<ul>
+  <li>配置文件目录:</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k2 sgconfig]# pwd
+/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/sgconfig
+</code></pre></div></div>
+
+<p>sg_internal_users.yml:  存储用户名密码，密码可以使用plugin/search-guard-6/tools/hash.sh生成,用户可以加入一个用户组，后面使用用户组与权限进行映射</p>
+
+<p>sg_roles.yml：权限设置，定义什么类型的权限</p>
+
+<p>sg_roles_mapping.yml： 映射角色关系，可以把权限映射给用户，也可以映射给用户组</p>
+
+<p>sg_action_groups.yml： 定义一些用户动作的权限与es索引之间的关系</p>
+
+<p>sg_config.yml：全局设置</p>
+
+<h4 id="配置用户名密码">配置用户名密码</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k2 tools]# bash hash.sh app
+[Password:]  123456
+$2y$12$Ua4xGZYuwCJRY4sqMfi.8.nb.dV94GPuXpaS7mHKrQmFIzwfZOGOW
+</code></pre></div></div>
+<h4 id="添加用户">添加用户</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k2 sgconfig]# pwd
+/opt/es/plugins/search-guard-6/sgconfig
+[root@k2 sgconfig]# vim sg_internal_users.yml
+[root@k2 sgconfig]# tail -n 5 sg_internal_users.yml
+app:
+  hash: $2y$12$Ua4xGZYuwCJRY4sqMfi.8.nb.dV94GPuXpaS7mHKrQmFIzwfZOGOW
+  #password: is 123456
+  roles:
+    - app
+</code></pre></div></div>
+
+<h4 id="添加权限">添加权限</h4>
+
+<ul>
+  <li>编辑 sg_roles.yml</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k2 sgconfig]# tail -n 11 sg_roles.yml
+sg_app_index:
+  cluster:
+    - CLUSTER_COMPOSITE_OPS_RO
+  indices:
+    '*applogs*':
+      '*':
+        - READ
+        - indices:admin/mappings/fields/get*
+    '?kibana':
+      '*':
+        - INDICES_ALL
+</code></pre></div></div>
+
+<p>配置中定义了权限，CLUSTER_COMPOSITE_OPS_RO 权限范围，来自于sg_action_groups.yml</p>
+
+<h4 id="映射用户组权限">映射用户组权限</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k2 sgconfig]# tail -n 3 sg_roles_mapping.yml
+sg_app_index:
+  backendroles:
+    - app
+</code></pre></div></div>
+
+<h4 id="加载配置">加载配置</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[es@k2 tools]$ pwd
+/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/tools
+[es@k2 tools]$ ./sgadmin.sh -h 192.168.160.129 -p 9300 -ts truststore.jks -tspass 7ef7af8e734522cdba14 -ks CN=sgadmin-keystore.jks -kspass d1e21acbcb8fdd1362a8 -nhnv -icl -cd ../sgconfig/
+..... 此处省略 .....
+Done with success
+</code></pre></div></div>
+
+<h4 id="登录验证">登录验证</h4>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app01.png" alt="image" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app02.png" alt="image" />
+<img src="https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app03.png" alt="image" /></p>
+
+<h3 id="logstash">Logstash</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input{
+    file {
+        path =&gt; [ "/mnt/logs/b.log" ]
+        start_position =&gt; "beginning"
+        sincedb_path =&gt; "/dev/null"
+        ignore_older =&gt; "99999999999"
+        codec =&gt; "json"
+    }
+}
+
+output{
+        elasticsearch {
+        hosts =&gt; [ "https://es2:9200" ]
+        index =&gt; "applogs_%{+YYYYMMdd}"
+        user =&gt; admin
+        password =&gt; admin
+        ssl =&gt; true
+        ssl_certificate_verification =&gt; true
+        truststore =&gt; "/mnt/logstash-6.4.2/config/truststore.jks"
+        truststore_password =&gt; "7ef7af8e734522cdba14"
+        }
+#       stdout {
+#            codec =&gt; rubydebug
+#       }
+}
+</code></pre></div></div>
+
+<h3 id="filebeat">Filebeat</h3>
+<ul>
+  <li>线上使用时应该使用模板否则发送到ES的数据全部归到 <code class="highlighter-rouge">message</code></li>
+  <li>对于JAVA等其他不在官方提供的模板内的应用输出的日志,应使用:
+    <ul>
+      <li>
+        <ol>
+          <li>filebeat &gt; kafka &gt; logstash &gt; elasticsearch &gt; kibana</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>filebeat &gt; logstash &gt; elasticsearch &gt; kibana</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>由logstash 来进行日志的拆分切割处理</li>
+</ul>
+
+<h4 id="文本格式">文本格式</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xpack.monitoring.enabled: true
+filebeat.prospectors:
+- input_type: log
+  fields:
+    namespace: app-test
+  paths:
+    - "/mnt/logs/a.log"
+output.elasticsearch:
+  hosts: ["https://192.168.160.129:9200"]
+  username: "admin"
+  password: "admin"
+  ## 忽略证书验证
+  ssl.verification_mode: none
+logging.level: info
+</code></pre></div></div>
+
+<h4 id="josn格式">JOSN格式</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xpack.monitoring.enabled: true
+filebeat.prospectors:
+- input_type: log
+  json.keys_under_root: true
+  json.add_error_key: true
+  fields:
+    APP: applog
+  paths:
+    - "/mnt/logs/c.log"
+output.elasticsearch:
+  hosts: ["https://192.168.160.129:9200"]
+  username: "admin"
+  password: "admin"
+  ssl.verification_mode: none
+logging.level: info
+</code></pre></div></div>
+
+<h3 id="cerebro">Cerebro</h3>
+<ul>
+  <li>编辑 application.conf</li>
+  <li>增加修改下列配置</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>play.ws.ssl {
+  trustManager = {
+    stores = [
+      { type = "PEM", path = "/usr/local/elasticsearch-6.4.2/config/root-ca.pem" }
+    ]
+  }
+}
+
+play.ws.ssl.loose.acceptAnyCertificate=true
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hosts = [
+  #{
+  #  host = "http://localhost:9200"
+  #  name = "Some Cluster"
+  #},
+  # Example of host with authentication
+  {
+    host = "https://192.168.160.129:9200"
+    name = "Secured Cluster"
+    auth = {
+      username = "admin"
+      password = "admin"
+    }
+  }
+]
+</code></pre></div></div>
+
+<h3 id="elasticsearch-sql">elasticsearch-sql</h3>
+<ul>
+  <li>需要单独安装此处不在介绍</li>
+  <li><a href="https://github.com/NLPchina/elasticsearch-sql/wiki">github elasticsearch-sql</a></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -sL \
+-u admin:admin \
+--insecure "https://192.168.160.129:9200/_sql" \
+-H 'Content-Type: application/json' \
+-d 'select count(status.keyword) from test-2019.03.25' | python -mjson.tool
+</code></pre></div></div>
+
+<h3 id="x-pack-sql">X-Pack SQL</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -u admin:admin \
+--insecure https://192.168.160.129:9200/_xpack/sql?format=txt \
+-H 'Content-Type: application/json' \
+-d '{
+  "query": "select host,status,path from testlogs_20190329 limit 10"
+}'
+     host      |    status     |     path
+---------------+---------------+---------------
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+192.168.160.129 |200            |/mnt/logs/b.log
+</code></pre></div></div>
+
+<ul>
+  <li>_xpack/sql?format=txt</li>
+  <li>_xpack/sql?format=json</li>
+</ul>
+
+<h3 id="注意事项">注意事项</h3>
+<ul>
+  <li>注意证书的权限以及属主和属组</li>
+  <li>关于证书通读 <code class="highlighter-rouge">README.md</code> 根据提示逐一将证书/key 文件复制到指定目录下</li>
+  <li>关于秘钥的密码等,查看 <code class="highlighter-rouge">README.md</code> 在最后有给出,且注意保存</li>
+  <li>es和kibana 都需要禁用x-pack 认证<code class="highlighter-rouge">xpack.security.enabled: false</code></li>
+</ul>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2019/03/28/elk-search-guard/';
+                    this.page.identifier = '/2019/03/28/elk-search-guard/';
+                    this.page.title = 'ELK 用户权限管理控制 Search Guard';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2016~2019
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>
