@@ -1,4 +1,91 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-03-29T15:26:24+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK 用户权限管理控制 Search Guard</title><link href="http://0.0.0.0/2019/03/28/elk-search-guard/" rel="alternate" type="text/html" title="ELK 用户权限管理控制 Search Guard" /><published>2019-03-28T19:56:06+08:00</published><updated>2019-03-28T19:56:06+08:00</updated><id>http://0.0.0.0/2019/03/28/elk-search-guard</id><content type="html" xml:base="http://0.0.0.0/2019/03/28/elk-search-guard/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-11T17:03:18+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes RBAC 用户角色访问控制</title><link href="http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol/" rel="alternate" type="text/html" title="kubernetes RBAC 用户角色访问控制" /><published>2019-04-06T20:10:46+08:00</published><updated>2019-04-06T20:10:46+08:00</updated><id>http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol</id><content type="html" xml:base="http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol/">&lt;h3 id=&quot;配置证书&quot;&gt;配置证书&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;/etc/kubernetes/pki/&lt;/li&gt;
+  &lt;li&gt;二进制手动安装请到指定目录下操作&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## 生成私钥
+(umask 077;openssl genrsa -out devops.key 2048)
+## 证书生成签署请求 CN=用户账号名称
+openssl req -new -key devops.key -out devops.csr -subj &quot;/CN=devops&quot;
+## 签证由ca 签署
+openssl x509 -req -in devops.csr -CA ./ca.crt -CAkey ./ca.key -CAcreateserial -out devops.crt -days 7200
+## 查看证书
+openssl x509 -in devops.crt -text -noout
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;添加用户&quot;&gt;添加用户&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;复制admin.conf 到配置目录为: devops.kubeconfig&lt;/li&gt;
+  &lt;li&gt;这样就无需配置集群参数信息,后面配置完成后再删除admin 所有信息即可&lt;/li&gt;
+  &lt;li&gt;生成 config 配置文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//客户端证书
+# kubectl config set-credentials devops --client-certificate=/etc/kubernetes/pki/devops.crt --client-key=/etc/kubernetes/pki/devops.key --embed-certs=true --kubeconfig=devops.kubeconfig
+
+// 配置上下文
+# kubectl config set-context devops@kubernetes --cluster=kubernetes --user=devops --namespace=devops --kubeconfig=devops.kubeconfig
+
+
+// 默认上下文
+# kubectl config use-context devops@kubernetes --kubeconfig=devops.kubeconfig
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;namespace-权限&quot;&gt;namespace 权限&lt;/h3&gt;
+&lt;h4 id=&quot;role&quot;&gt;role&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl create role pods-reader --verb=get,list,watch --resource=pods --dry-run -o yaml &amp;gt; role-demo.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pods-reader
+  ## 定义名称空间
+  namespace: devops
+rules:
+- apiGroups:
+  - &quot;&quot;
+  resources:
+  - pods
+  - pods/attach
+  - pods/exec
+  - pods/portforward
+  - pods/proxy
+  verbs:
+   - create
+#  - delete
+#  - deletecollection
+  - get
+  - list
+  - watch
+#  - update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;rolebinding&quot;&gt;rolebinding&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl create rolebinding devops-podsreader --role=pods-reader --user=devops --dry-run -o yaml &amp;gt;&amp;gt; role-demo2.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: devops-podsreader
+  ## 定义名称空间
+  namespace: devops
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pods-reader
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: devops
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;应用配置&quot;&gt;应用配置&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f role-demo.yaml
+kubectl create -f role-demo2.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">配置证书 /etc/kubernetes/pki/ 二进制手动安装请到指定目录下操作</summary></entry><entry><title type="html">ELK 用户权限管理控制 Search Guard</title><link href="http://0.0.0.0/2019/03/28/elk-search-guard/" rel="alternate" type="text/html" title="ELK 用户权限管理控制 Search Guard" /><published>2019-03-28T19:56:06+08:00</published><updated>2019-03-28T19:56:06+08:00</updated><id>http://0.0.0.0/2019/03/28/elk-search-guard</id><content type="html" xml:base="http://0.0.0.0/2019/03/28/elk-search-guard/">&lt;blockquote&gt;
   &lt;p&gt;Search Guard为您提供对整个ElasticSearch环境的完全安全控制!&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1290,583 +1377,4 @@ xpack.security.enabled: true  ## 开启认证
   &lt;li&gt;&lt;a href=&quot;https://github.com/NLPchina/elasticsearch-sql&quot;&gt;github&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档, 类比MySQL index == database _type == table 6.x 版本开始 移除了_type 也就是每个索引只有一种类型！！！ x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!</summary></entry><entry><title type="html">kubernetes nginx-ingress and traefik</title><link href="http://0.0.0.0/2018/10/25/ingresss-traefik/" rel="alternate" type="text/html" title="kubernetes nginx-ingress and traefik" /><published>2018-10-25T22:35:46+08:00</published><updated>2018-10-25T22:35:46+08:00</updated><id>http://0.0.0.0/2018/10/25/ingresss-traefik</id><content type="html" xml:base="http://0.0.0.0/2018/10/25/ingresss-traefik/">&lt;p&gt;在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。&lt;/p&gt;
-
-&lt;h2 id=&quot;一-证书可选配置&quot;&gt;一. 证书(可选配置)&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;使用已购买的证书&lt;/li&gt;
-  &lt;li&gt;配置自签名证书&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# openssl genrsa -out jevic_key.pem 4096
-Generating RSA private key, 4096 bit long modulus
-.....................++
-.....++
-e is 65537 (0x10001)
-[root@master219 ssl]# openssl req -new -x509 -key jevic_key.pem -out root.crt -days 3650
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
------
-Country Name (2 letter code) [XX]:GD
-State or Province Name (full name) []:GD
-Locality Name (eg, city) [Default City]:SZ
-Organization Name (eg, company) [Default Company Ltd]:jevic
-Organizational Unit Name (eg, section) []:jevic
-Common Name (eg, your name or your server's hostname) []:jevic.cn
-Email Address []:admin@jevic.cn
-[root@master219 ssl]# ls
-jevic_key.pem  root.crt
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;二-nginx-ingress&quot;&gt;二. nginx-ingress&lt;/h2&gt;
-&lt;h3 id=&quot;21-部署&quot;&gt;2.1 部署&lt;/h3&gt;
-&lt;p&gt;如果kubernetes 集群启用了RBAC，则一定要加rbac.create=true参数
-helm 安装请参考&lt;a href=&quot;https://www.jevic.cn/2018/10/13/helm/&quot;&gt;Kubernetes helm 包管理工具&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm install stable/nginx-ingress --set controller.hostNetwork=true，rbac.create=true
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;查看状态:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# helm list
-NAME            	REVISION	UPDATED                 	STATUS  	CHART              	APP VERSION	NAMESPACE
-quiet-abalone   	1       	Thu Nov 29 19:55:28 2018	DEPLOYED	nginx-ingress-0.9.5	0.10.2     	default
-
-# kubectl get all --all-namespaces -l app=nginx-ingress
-NAMESPACE   NAME                                                               READY     STATUS    RESTARTS   AGE
-default     pod/quiet-abalone-nginx-ingress-controller-7b8b745f96-gczjl        1/1       Running   1          5d
-default     pod/quiet-abalone-nginx-ingress-default-backend-54f4fb569c-ndh4x   1/1       Running   1          5d
-
-NAMESPACE   NAME                                                  TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
-default     service/quiet-abalone-nginx-ingress-controller        LoadBalancer   10.254.235.53   &amp;lt;pending&amp;gt;     80:45608/TCP,443:40984/TCP   5d
-default     service/quiet-abalone-nginx-ingress-default-backend   ClusterIP      10.254.20.221   &amp;lt;none&amp;gt;        80/TCP                       5d
-
-NAMESPACE   NAME                                                          DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-default     deployment.apps/quiet-abalone-nginx-ingress-controller        1         1         1            1           5d
-default     deployment.apps/quiet-abalone-nginx-ingress-default-backend   1         1         1            1           5d
-
-NAMESPACE   NAME                                                                     DESIRED   CURRENT   READY     AGE
-default     replicaset.apps/quiet-abalone-nginx-ingress-controller-7b8b745f96        1         1         1         5d
-default     replicaset.apps/quiet-abalone-nginx-ingress-default-backend-54f4fb569c   1         1         1         5d
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;22-nginx-负载均衡测试&quot;&gt;2.2 nginx 负载均衡测试&lt;/h3&gt;
-
-&lt;h4 id=&quot;221-nginx-demoyaml&quot;&gt;2.2.1 nginx-demo.yaml&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-demo
-  labels:
-    app: my-nginx
-spec:
-  type: NodePort
-  ports:
-  - port: 80
-    protocol: TCP
-    name: http
-  selector:
-    app: my-nginx
----
-apiVersion: v1
-kind: ReplicationController
-metadata:
-  name: my-nginx
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: my-nginx
-    spec:
-      containers:
-      - image: nginx/nginx:1.7.9
-        name: nginx-demo
-        ports:
-        - containerPort: 80
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;222-ingress-nginx-demoyaml&quot;&gt;2.2.2 ingress-nginx-demo.yaml&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: nginx-ingress-demo
-  namespace: default
-#  annotations:
-#    kubernetes.io/ingress.class: &quot;public&quot;
-#    ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:
-  - host: test.nginx.com
-    http:
-      paths:
-      - backend:
-          serviceName: nginx-demo
-          servicePort: 80
-        path: /
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;三-traefik&quot;&gt;三. traefik&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/containous/traefik/tree/master/examples/k8s&quot;&gt;官网 yaml文档&lt;/a&gt;
-&lt;a href=&quot;https://docs.traefik.io/user-guide/kubernetes/&quot;&gt;docs.traefik.io&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;31-traefik-insecureyaml&quot;&gt;3.1 traefik-insecure.yaml&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;只开启了http 请求访问&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;---
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: traefik-ingress-controller
-rules:
-  - apiGroups:
-      - &quot;&quot;
-    resources:
-      - services
-      - endpoints
-      - secrets
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - extensions
-    resources:
-      - ingresses
-    verbs:
-      - get
-      - list
-      - watch
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: traefik-ingress-controller
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: traefik-ingress-controller
-subjects:
-- kind: ServiceAccount
-  name: traefik-ingress-controller
-  namespace: kube-system
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: traefik-ingress-controller
-  namespace: kube-system
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: traefik-conf
-  namespace: kube-system
-data:
-  traefik.toml: |
-    insecureSkipVerify = true
-    defaultEntryPoints = [&quot;http&quot;]
-    [entryPoints]
-      [entryPoints.http]
-      address = &quot;:80&quot;
----
-kind: DaemonSet
-apiVersion: extensions/v1beta1
-metadata:
-  name: traefik-ingress-controller
-  namespace: kube-system
-  labels:
-    k8s-app: traefik-ingress-lb
-spec:
-  template:
-    metadata:
-      labels:
-        k8s-app: traefik-ingress-lb
-        name: traefik-ingress-lb
-    spec:
-      serviceAccountName: traefik-ingress-controller
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        effect: NoSchedule
-      terminationGracePeriodSeconds: 60
-      hostNetwork: true
-      volumes:
-      - name: config
-        configMap:
-          name: traefik-conf
-      containers:
-      - image: k8s.jevic.cn/kubernetes/traefik:1.7.3
-        name: traefik-ingress-lb
-        ports:
-        - name: http
-          containerPort: 80
-          hostPort: 80
-        - name: admin
-          containerPort: 8080
-        securityContext:
-          privileged: true
-        args:
-        - --configfile=/config/traefik.toml
-        - -d
-        - --web
-        - --kubernetes
-        - --web.address=0.0.0.0:8081
-        volumeMounts:
-        - mountPath: &quot;/config&quot;
-          name: &quot;config&quot;
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: traefik-ingress-service
-spec:
-  selector:
-    k8s-app: traefik-ingress-lb
-  ports:
-    - protocol: TCP
-      port: 80
-      name: web
-    - protocol: TCP
-      port: 8080
-      name: admin
-    - protocol: TCP
-      port: 443
-      name: https
-  type: NodePort
-apiVersion: v1
-kind: Service
-metadata:
-  name: traefik-web-ui
-  namespace: kube-system
-spec:
-  selector:
-    k8s-app: traefik-ingress-lb
-  ports:
-  - port: 80
-    targetPort: 8080
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: traefik-web-ui
-  namespace: kube-system
-  annotations:
-    kubernetes.io/ingress.class: traefik
-spec:
-  rules:
-  - host: ingress.jevic.cn
-    http:
-      paths:
-      - backend:
-          serviceName: traefik-web-ui
-          servicePort: 80
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f traefik-insecure.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;然后等待服务正常启动即可&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl get pod -n kube-system -l k8s-app=traefik-ingress-lb
-NAME                               READY     STATUS    RESTARTS   AGE
-traefik-ingress-controller-mv8cg   1/1       Running   0          4d
-traefik-ingress-controller-vvfc7   1/1       Running   0          4d
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;32-traefik-httpsyaml&quot;&gt;3.2 traefik-https.yaml&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;开启http 和 https 访问&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;321-创建-secret&quot;&gt;3.2.1 创建 secret&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;这里使用购买的证书,也可以使用自签名证书测试；&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create secret tls ssl --cert=jevic.cert --key=jevic.key -n kube-system
-kubectl get secret -n kube-system
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;这里注意namespace 一定要配置为kube-system&lt;/p&gt;
-
-&lt;h4 id=&quot;322-traefik-httpsyaml&quot;&gt;3.2.2 traefik-https.yaml&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;---
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: traefik-ingress-controller
-rules:
-  - apiGroups:
-      - &quot;&quot;
-    resources:
-      - services
-      - endpoints
-      - secrets
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - extensions
-    resources:
-      - ingresses
-    verbs:
-      - get
-      - list
-      - watch
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: traefik-ingress-controller
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: traefik-ingress-controller
-subjects:
-- kind: ServiceAccount
-  name: traefik-ingress-controller
-  namespace: kube-system
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: traefik-ingress-controller
-  namespace: kube-system
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: traefik-conf
-  namespace: kube-system
-data:
-  traefik.toml: |
-    insecureSkipVerify = true
-    defaultEntryPoints = [&quot;http&quot;,&quot;https&quot;]
-    [entryPoints]
-      [entryPoints.http]
-      address = &quot;:80&quot;
-      [entryPoints.https]
-      address = &quot;:443&quot;
-        [entryPoints.https.tls]
-          [[entryPoints.https.tls.certificates]]
-          CertFile = &quot;/ssl/tls.crt&quot;
-          KeyFile = &quot;/ssl/tls.key&quot;
----
-kind: DaemonSet
-apiVersion: extensions/v1beta1
-metadata:
-  name: traefik-ingress-controller
-  namespace: kube-system
-  labels:
-    k8s-app: traefik-ingress-lb
-spec:
-  template:
-    metadata:
-      labels:
-        k8s-app: traefik-ingress-lb
-        name: traefik-ingress-lb
-    spec:
-      serviceAccountName: traefik-ingress-controller
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        effect: NoSchedule
-      terminationGracePeriodSeconds: 60
-      hostNetwork: true
-      volumes:
-      - name: ssl
-        secret:
-          secretName: ssl
-      - name: config
-        configMap:
-          name: traefik-conf
-      containers:
-      - image: k8s.jevic.cn/kubernetes/traefik:latest
-        name: traefik-ingress-lb
-        ports:
-        - name: http
-          containerPort: 80
-          hostPort: 80
-        - name: admin
-          containerPort: 8081
-        securityContext:
-          privileged: true
-        args:
-        - --configfile=/config/traefik.toml
-        - -d
-        - --web
-        - --kubernetes
-        - --web.address=0.0.0.0:8081
-        volumeMounts:
-        - mountPath: &quot;/ssl&quot;
-          name: &quot;ssl&quot;
-        - mountPath: &quot;/config&quot;
-          name: &quot;config&quot;
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: traefik-ingress-service
-spec:
-  selector:
-    k8s-app: traefik-ingress-lb
-  ports:
-    - protocol: TCP
-      port: 80
-      name: web
-    - protocol: TCP
-      port: 8081
-      name: admin
-    - protocol: TCP
-      port: 443
-      name: https
-  type: NodePort
-apiVersion: v1
-kind: Service
-metadata:
-  name: traefik-web-ui
-  namespace: kube-system
-spec:
-  selector:
-    k8s-app: traefik-ingress-lb
-  ports:
-  - port: 80
-    targetPort: 8081
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: traefik-web-ui
-  namespace: kube-system
-  annotations:
-    kubernetes.io/ingress.class: traefik
-spec:
-  rules:
-  - host: ingress.jevic.cn
-    http:
-      paths:
-      - backend:
-          serviceName: traefik-web-ui
-          servicePort: 80
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;默认端口: 8080 这里手动指定了web-ui端口为:8081&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- --web.address=0.0.0.0:8081
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;33-目录结构&quot;&gt;3.3 目录结构&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;├── jevic.cert
-├── jevic.key
-├── nginx-demo
-│   ├── ingress-nginx-traefik.yaml
-│   └── nginx-demo.yaml
-├── traefik-https.yaml
-└── traefik-insecure.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;34-traefik-nginx-demo&quot;&gt;3.4 traefik nginx-demo&lt;/h3&gt;
-
-&lt;h4 id=&quot;nginx-deployment-demoyaml&quot;&gt;nginx-deployment-demo.yaml&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-demo
-  labels:
-    nginx: nginx-demo
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      nginx: nginx-demo
-  template:
-    metadata:
-      labels:
-        nginx: nginx-demo
-    spec:
-      containers:
-      - name: nginx-demo
-        image: nginx/nginx:1.7.9
-        ports:
-        - name: https
-          containerPort: 443
-        - name: http
-          containerPort: 80
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;nginx-svc-demoyaml&quot;&gt;nginx-svc-demo.yaml&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-demo
-  labels:
-    nginx: nginx-demo
-spec:
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-    name: http
-  - port: 443
-    protocol: TCP
-    targetPort: 443
-    name: https
-  selector:
-    nginx: nginx-demo
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;ingress-nginx-traefikyaml&quot;&gt;ingress-nginx-traefik.yaml&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: nginx-ingress-demo
-  namespace: default
-  annotations:
-    kubernetes.io/ingress.class: traefik
-spec:
-  rules:
-  - host: nginx.jevic.cn
-    http:
-      paths:
-      - backend:
-          serviceName: nginx-demo
-          servicePort: 80
-        path: /
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;部署&quot;&gt;部署&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ls
-ingress-nginx-traefik.yaml  nginx-deployment-demo.yaml  nginx-rc-demo.yaml  nginx-svc-demo.yaml
-# kubectl apply -f nginx-deployment-demo.yaml
-deployment.apps &quot;nginx-demo&quot; created
-# kubectl create -f nginx-svc-demo.yaml
-service &quot;nginx-demo&quot; created
-# kubectl create -f ingress-nginx-traefik.yaml
-ingress.extensions &quot;nginx-ingress-demo&quot; created
-# kubectl get all -l nginx=nginx-demo
-NAMESPACE   NAME                            READY     STATUS    RESTARTS   AGE
-default     pod/nginx-demo-c8765675-phr2w   1/1       Running   0          1m
-default     pod/nginx-demo-c8765675-z7tgn   1/1       Running   0          1m
-
-NAMESPACE   NAME                         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-default     deployment.apps/nginx-demo   2         2         2            2           1m
-
-NAMESPACE   NAME                                  DESIRED   CURRENT   READY     AGE
-default     replicaset.apps/nginx-demo-c8765675   2         2         2         1m
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik01.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/kubernetes-ingress-traefik02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在Kubernetes中，服务和Pod的IP地址仅可以在集群网络内部使用，对于集群外的应用是不可见的。为了使外部的应用能够访问集群内的服务，在Kubernetes中可以通过NodePort和LoadBalancer这两种类型的服务，或者使用Ingress。Ingress本质是通过http代理服务器将外部的http请求转发到集群内部的后端服务。</summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">在以往的旧版本(2.x,5.x) 每个索引可以存储不同类型的文档, 类比MySQL index == database _type == table 6.x 版本开始 移除了_type 也就是每个索引只有一种类型！！！ x-pack 从6.3版本开始已经内置在elasticsearch,kibana 当中无需另行安装!</summary></entry></feed>

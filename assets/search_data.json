@@ -1,5 +1,11 @@
 {
   
+  "2019-04-06-kubernetes-rbac-useraccesscontrol": {
+    "title": "kubernetes RBAC 用户角色访问控制",
+    "url": " /2019/04/06/kubernetes-rbac-useraccesscontrol/",
+    "category": "Kubernetes"
+  },
+  
   "2019-03-28-elk-search-guard": {
     "title": "ELK 用户权限管理控制 Search Guard",
     "url": " /2019/03/28/elk-search-guard/",
@@ -920,6 +926,12 @@
     "title": "ELK 用户权限管理控制 Search Guard",
     "url": "/2019/03/28/elk-search-guard/",
     "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2019-04-06-kubernetes-rbac-useraccesscontrol": {
+    "title": "kubernetes RBAC 用户角色访问控制",
+    "url": "/2019/04/06/kubernetes-rbac-useraccesscontrol/",
+    "category": "[&quot;Kubernetes&quot;]"
   },
   
   "wiki-template": {

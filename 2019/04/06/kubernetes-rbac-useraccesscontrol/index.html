@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>kubernetes RBAC 用户角色访问控制 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2019/04/06/kubernetes-rbac-useraccesscontrol/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="kubernetes RBAC 用户角色访问控制">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="kubernetes">
+    <meta name="og:keywords" content="kubernetes">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="配置证书  /etc/kubernetes/pki/  二进制手动安装请到指定目录下操作">
+    <meta name="og:description" content="配置证书  /etc/kubernetes/pki/  二进制手动安装请到指定目录下操作">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2019/04/06/kubernetes-rbac-useraccesscontrol/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2019-04-11">
+    <meta property="article:published_time" content="2019-04-06">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="kubernetes RBAC">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">kubernetes RBAC 用户角色访问控制</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2019/04/06
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,94 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <h3 id="配置证书">配置证书</h3>
+<ul>
+  <li>/etc/kubernetes/pki/</li>
+  <li>二进制手动安装请到指定目录下操作</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 生成私钥
+(umask 077;openssl genrsa -out devops.key 2048)
+## 证书生成签署请求 CN=用户账号名称
+openssl req -new -key devops.key -out devops.csr -subj "/CN=devops"
+## 签证由ca 签署
+openssl x509 -req -in devops.csr -CA ./ca.crt -CAkey ./ca.key -CAcreateserial -out devops.crt -days 7200
+## 查看证书
+openssl x509 -in devops.crt -text -noout
+</code></pre></div></div>
+
+<h3 id="添加用户">添加用户</h3>
+<ul>
+  <li>复制admin.conf 到配置目录为: devops.kubeconfig</li>
+  <li>这样就无需配置集群参数信息,后面配置完成后再删除admin 所有信息即可</li>
+  <li>生成 config 配置文件</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//客户端证书
+# kubectl config set-credentials devops --client-certificate=/etc/kubernetes/pki/devops.crt --client-key=/etc/kubernetes/pki/devops.key --embed-certs=true --kubeconfig=devops.kubeconfig
+
+// 配置上下文
+# kubectl config set-context devops@kubernetes --cluster=kubernetes --user=devops --namespace=devops --kubeconfig=devops.kubeconfig
+
+
+// 默认上下文
+# kubectl config use-context devops@kubernetes --kubeconfig=devops.kubeconfig
+
+</code></pre></div></div>
+
+<h3 id="namespace-权限">namespace 权限</h3>
+<h4 id="role">role</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl create role pods-reader --verb=get,list,watch --resource=pods --dry-run -o yaml &gt; role-demo.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pods-reader
+  ## 定义名称空间
+  namespace: devops
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/attach
+  - pods/exec
+  - pods/portforward
+  - pods/proxy
+  verbs:
+   - create
+#  - delete
+#  - deletecollection
+  - get
+  - list
+  - watch
+#  - update
+</code></pre></div></div>
+
+<h4 id="rolebinding">rolebinding</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl create rolebinding devops-podsreader --role=pods-reader --user=devops --dry-run -o yaml &gt;&gt; role-demo2.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: devops-podsreader
+  ## 定义名称空间
+  namespace: devops
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pods-reader
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: devops
+</code></pre></div></div>
+
+<h4 id="应用配置">应用配置</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create -f role-demo.yaml
+kubectl create -f role-demo2.yaml
+</code></pre></div></div>
 
     </article>
     <div class="share">
@@ -132,9 +232,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2019/04/06/kubernetes-rbac-useraccesscontrol/';
+                    this.page.identifier = '/2019/04/06/kubernetes-rbac-useraccesscontrol/';
+                    this.page.title = 'kubernetes RBAC 用户角色访问控制';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');
