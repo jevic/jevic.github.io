@@ -212,10 +212,16 @@ subjects:
   name: devops
 </code></pre></div></div>
 
-<h4 id="应用配置">应用配置</h4>
+<h4 id="创建">创建</h4>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create -f role-demo.yaml
 kubectl create -f role-demo2.yaml
+</code></pre></div></div>
+
+<h4 id="kube-config">kube config</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p ~/.kuber
+cp devops.kubeconfig ~/.kube/config
 </code></pre></div></div>
 
     </article>

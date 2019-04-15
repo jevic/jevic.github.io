@@ -347,6 +347,10 @@ elasticsearch.ssl.certificateAuthorities: "/usr/local/kibana-6.4.2-linux-x86_64/
   <p>下面示例配置 <code class="highlighter-rouge">app</code> 用户只能搜索查看<code class="highlighter-rouge">applogs*</code> 匹配的索引且权限为只读</p>
 </blockquote>
 
+<blockquote>
+  <p>只需要选择其中一个节点进行操作即可,否则会导致数据混乱无法使用;</p>
+</blockquote>
+
 <ul>
   <li>配置文件目录:</li>
 </ul>
@@ -414,6 +418,10 @@ sg_app_index:
 </code></pre></div></div>
 
 <h4 id="加载配置">加载配置</h4>
+<blockquote>
+  <p>只需要选择其中一个节点进行操作即可,否则会导致数据混乱无法使用;</p>
+</blockquote>
+
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[es@k2 tools]$ pwd
 /usr/local/elasticsearch-6.4.2/plugins/search-guard-6/tools
 [es@k2 tools]$ ./sgadmin.sh -h 192.168.160.129 -p 9300 -ts truststore.jks -tspass 7ef7af8e734522cdba14 -ks CN=sgadmin-keystore.jks -kspass d1e21acbcb8fdd1362a8 -nhnv -icl -cd ../sgconfig/
@@ -596,6 +604,8 @@ play.ws.ssl.loose.acceptAnyCertificate=true
   <li>关于证书通读 <code class="highlighter-rouge">README.md</code> 根据提示逐一将证书/key 文件复制到指定目录下</li>
   <li>关于秘钥的密码等,查看 <code class="highlighter-rouge">README.md</code> 在最后有给出,且注意保存</li>
   <li>es和kibana 都需要禁用x-pack 认证<code class="highlighter-rouge">xpack.security.enabled: false</code></li>
+  <li>切记如果证书生成时指定的是域名,在配置logstash/filebeat 时指定主机名切勿使用IP,要记得在各个节点绑定主机名!!!!</li>
+  <li>elasticsearch.yml <code class="highlighter-rouge">discovery.zen.ping.unicast.hosts</code> 最好指定ip地址,否则会报错!!!</li>
 </ul>
 
     </article>

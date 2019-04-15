@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-11T17:03:18+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes RBAC 用户角色访问控制</title><link href="http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol/" rel="alternate" type="text/html" title="kubernetes RBAC 用户角色访问控制" /><published>2019-04-06T20:10:46+08:00</published><updated>2019-04-06T20:10:46+08:00</updated><id>http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol</id><content type="html" xml:base="http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol/">&lt;h3 id=&quot;配置证书&quot;&gt;配置证书&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-15T20:21:46+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes RBAC 用户角色访问控制</title><link href="http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol/" rel="alternate" type="text/html" title="kubernetes RBAC 用户角色访问控制" /><published>2019-04-06T20:10:46+08:00</published><updated>2019-04-06T20:10:46+08:00</updated><id>http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol</id><content type="html" xml:base="http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol/">&lt;h3 id=&quot;配置证书&quot;&gt;配置证书&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;/etc/kubernetes/pki/&lt;/li&gt;
   &lt;li&gt;二进制手动安装请到指定目录下操作&lt;/li&gt;
@@ -81,10 +81,16 @@ subjects:
   name: devops
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;应用配置&quot;&gt;应用配置&lt;/h4&gt;
+&lt;h4 id=&quot;创建&quot;&gt;创建&lt;/h4&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f role-demo.yaml
 kubectl create -f role-demo2.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;kube-config&quot;&gt;kube config&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p ~/.kuber
+cp devops.kubeconfig ~/.kube/config
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">配置证书 /etc/kubernetes/pki/ 二进制手动安装请到指定目录下操作</summary></entry><entry><title type="html">ELK 用户权限管理控制 Search Guard</title><link href="http://0.0.0.0/2019/03/28/elk-search-guard/" rel="alternate" type="text/html" title="ELK 用户权限管理控制 Search Guard" /><published>2019-03-28T19:56:06+08:00</published><updated>2019-03-28T19:56:06+08:00</updated><id>http://0.0.0.0/2019/03/28/elk-search-guard</id><content type="html" xml:base="http://0.0.0.0/2019/03/28/elk-search-guard/">&lt;blockquote&gt;
   &lt;p&gt;Search Guard为您提供对整个ElasticSearch环境的完全安全控制!&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -303,6 +309,10 @@ elasticsearch.ssl.certificateAuthorities: &quot;/usr/local/kibana-6.4.2-linux-x8
   &lt;p&gt;下面示例配置 &lt;code class=&quot;highlighter-rouge&quot;&gt;app&lt;/code&gt; 用户只能搜索查看&lt;code class=&quot;highlighter-rouge&quot;&gt;applogs*&lt;/code&gt; 匹配的索引且权限为只读&lt;/p&gt;
 &lt;/blockquote&gt;
 
+&lt;blockquote&gt;
+  &lt;p&gt;只需要选择其中一个节点进行操作即可,否则会导致数据混乱无法使用;&lt;/p&gt;
+&lt;/blockquote&gt;
+
 &lt;ul&gt;
   &lt;li&gt;配置文件目录:&lt;/li&gt;
 &lt;/ul&gt;
@@ -370,6 +380,10 @@ sg_app_index:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;加载配置&quot;&gt;加载配置&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;只需要选择其中一个节点进行操作即可,否则会导致数据混乱无法使用;&lt;/p&gt;
+&lt;/blockquote&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[es@k2 tools]$ pwd
 /usr/local/elasticsearch-6.4.2/plugins/search-guard-6/tools
 [es@k2 tools]$ ./sgadmin.sh -h 192.168.160.129 -p 9300 -ts truststore.jks -tspass 7ef7af8e734522cdba14 -ks CN=sgadmin-keystore.jks -kspass d1e21acbcb8fdd1362a8 -nhnv -icl -cd ../sgconfig/
@@ -552,6 +566,8 @@ play.ws.ssl.loose.acceptAnyCertificate=true
   &lt;li&gt;关于证书通读 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.md&lt;/code&gt; 根据提示逐一将证书/key 文件复制到指定目录下&lt;/li&gt;
   &lt;li&gt;关于秘钥的密码等,查看 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.md&lt;/code&gt; 在最后有给出,且注意保存&lt;/li&gt;
   &lt;li&gt;es和kibana 都需要禁用x-pack 认证&lt;code class=&quot;highlighter-rouge&quot;&gt;xpack.security.enabled: false&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;切记如果证书生成时指定的是域名,在配置logstash/filebeat 时指定主机名切勿使用IP,要记得在各个节点绑定主机名!!!!&lt;/li&gt;
+  &lt;li&gt;elasticsearch.yml &lt;code class=&quot;highlighter-rouge&quot;&gt;discovery.zen.ping.unicast.hosts&lt;/code&gt; 最好指定ip地址,否则会报错!!!&lt;/li&gt;
 &lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">Search Guard为您提供对整个ElasticSearch环境的完全安全控制!</summary></entry><entry><title type="html">kubernetes 高可用集群api-server请求异常</title><link href="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/" rel="alternate" type="text/html" title="kubernetes 高可用集群api-server请求异常" /><published>2019-03-08T20:10:46+08:00</published><updated>2019-03-08T20:10:46+08:00</updated><id>http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error</id><content type="html" xml:base="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/">&lt;p&gt;高可用kubernetes 集群下关于使用nginx代理服务连接超时错误处理&lt;/p&gt;
 
 &lt;ul&gt;
