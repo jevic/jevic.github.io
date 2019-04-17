@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>ELK filebeat&logstash 收集grok解析Java应用日志 &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2019/04/15/elk-javalog/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="ELK filebeat&logstash 收集grok解析Java应用日志">
+      
+    <meta name="keywords" content="es,kibana">
+    <meta name="og:keywords" content="es,kibana">
+      
+    <meta name="description" content="  由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；">
+    <meta name="og:description" content="  由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2019/04/15/elk-javalog/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2019-04-15">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="ELK filebeat&lo">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">ELK filebeat&logstash 收集grok解析Java应用日志</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2019/04/15
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；</p>
+</blockquote>
+
+<blockquote>
+  <p>建议推动开发人员对日志格式按照统一的分隔符来进行分割,然后使用ruby插件来处理,快速而高效,使用grok 处理效率低且及其容易丢失数据;</p>
+</blockquote>
+
+<h2 id="filebeat">filebeat</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>filebeat.prospectors:
+- input_type: log
+  fields:
+    vpc_ip: LOCAL_IP
+    app_name: APP_NAME
+    index_name: INDEX_NAME
+  paths:
+    - 'LOG_PATH'
+  ignore_older: 1m
+  close_inactive: 50s
+  tail_files: true
+  multiline:
+    pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}'
+    negate: true
+    match: after
+output.kafka:
+  hosts: ["broker1:9092","broker1:9092","broker1:9092"]
+  topic: testlog
+  required_acks: 1
+  compression: gzip
+  compression_level: 1
+  max_message_bytes: 100000000
+logging.level: info
+max_procs: 2
+</code></pre></div></div>
+
+<ul>
+  <li>/usr/bin/filebeat -c /etc/filebeat/filebeat.yml</li>
+  <li><code class="highlighter-rouge">tail_files: true</code> 首次启动从文件结尾开始读取</li>
+  <li>如若重启后依旧希望从文件结尾读取需要删除 /var/lib/filebeat/ 目录下的offset registry 注册文件</li>
+  <li>rm -rf /var/lib/filebeat/*</li>
+</ul>
+
+<h2 id="logstash">logstash</h2>
+
+<ul>
+  <li>默认没有处理前写入ES的数据如下所示</li>
+</ul>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"_index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxxx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"doc"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"t_avD2oBBaewsVVMu4Zz"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"_score"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"_source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"@version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxx.log"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxxxx"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"offset"</span><span class="p">:</span><span class="w"> </span><span class="mi">1680860846</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"@timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-04-01T03:55:35.038Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"namespace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"x-xx"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"service-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxx"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"pod-ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxx"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"beat"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxx"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxxx"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6.0.0"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"@timestamp"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"2019-04-01T03:55:35.038Z"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"sort"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="mi">1555041335038</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input <span class="o">{</span>
+	kafka <span class="o">{</span>
+        	bootstrap_servers <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"xxx:9092"</span><span class="o">]</span>
+        	group_id <span class="o">=&gt;</span> <span class="s2">"logstash_xxxx"</span>
+        	topics <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"xxx"</span><span class="o">]</span>
+        	auto_offset_reset <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"latest"</span><span class="o">]</span>
+        	consumer_threads <span class="o">=&gt;</span> 6
+        	decorate_events <span class="o">=&gt;</span> <span class="nb">true
+        	</span>codec <span class="o">=&gt;</span> <span class="s2">"json"</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+
+
+filter <span class="o">{</span>
+      <span class="k">if</span> <span class="s2">"exception.Exception"</span> <span class="k">in</span> <span class="o">[</span>message] or <span class="s2">"exception.ApiException"</span> <span class="k">in</span> <span class="o">[</span>message] <span class="o">{</span>
+          drop <span class="o">{</span> <span class="o">}</span>
+      <span class="o">}</span>
+      grok <span class="o">{</span>
+           match <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"message"</span>, <span class="s2">"(?&lt;time&gt;^</span><span class="se">\d</span><span class="s2">+-</span><span class="se">\d</span><span class="s2">+-</span><span class="se">\d</span><span class="s2">+</span><span class="se">\s\d</span><span class="s2">+:</span><span class="se">\d</span><span class="s2">+:</span><span class="se">\d</span><span class="s2">+.</span><span class="se">\d</span><span class="s2">+)"</span> <span class="o">]</span>
+         <span class="o">}</span>
+      grok <span class="o">{</span>
+           match <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"message"</span>, <span class="s2">"(?&lt;level&gt;[I|E]</span><span class="se">\w</span><span class="s2">+)"</span> <span class="o">]</span>
+         <span class="o">}</span>
+      grok <span class="o">{</span>
+           match <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"message"</span>, <span class="s2">"(?&lt;tid&gt;[nio|o|io].*-</span><span class="se">\d</span><span class="s2">+)"</span> <span class="o">]</span>
+         <span class="o">}</span>
+      grok <span class="o">{</span>
+           match <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"message"</span>, <span class="s2">"(?&lt;class&gt;[c]</span><span class="se">\w</span><span class="s2">+.</span><span class="se">\w</span><span class="s2">+.</span><span class="se">\w</span><span class="s2">+.</span><span class="se">\w</span><span class="s2">+.</span><span class="se">\w</span><span class="s2">+.</span><span class="se">\w</span><span class="s2">+.</span><span class="se">\w</span><span class="s2">+.)"</span> <span class="o">]</span>
+         <span class="o">}</span>
+      grok <span class="o">{</span>
+           match <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"message"</span>, <span class="s2">"(?&lt;method&gt;</span><span class="se">\[\s\s</span><span class="s2">+.*</span><span class="se">\d\]</span><span class="s2">{1}</span><span class="se">\s</span><span class="s2">)"</span> <span class="o">]</span>
+         <span class="o">}</span>
+      grok <span class="o">{</span>
+           match <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"message"</span>, <span class="s2">"(?&lt;ms&gt;[0-9]+[m][s])"</span> <span class="o">]</span>
+           <span class="c">#match =&gt; [ "message", "(?&lt;ms&gt;\d+)+ms" ]</span>
+         <span class="o">}</span>
+      grok <span class="o">{</span>
+           match <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"message"</span>, <span class="s2">"(?&lt;msg&gt;</span><span class="se">\s</span><span class="s2">:+.*)"</span> <span class="o">]</span>
+         <span class="o">}</span>
+
+      date <span class="o">{</span>
+            match <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"time"</span> , <span class="s2">"yyyy-MM-dd HH:mm:ss.SSS"</span> <span class="o">]</span>
+            target <span class="o">=&gt;</span> <span class="s2">"@timestamp"</span>
+      <span class="o">}</span>
+     <span class="c">## 解析嵌套json格式数据</span>
+      mutate <span class="o">{</span>
+         add_field <span class="o">=&gt;</span> <span class="o">{</span> <span class="s2">"@fields"</span> <span class="o">=&gt;</span> <span class="s2">"%{fields}"</span> <span class="o">}</span>
+      <span class="o">}</span>
+      
+      json <span class="o">{</span>
+         <span class="nb">source</span> <span class="o">=&gt;</span> <span class="s2">"@fields"</span>
+         <span class="c">## 删除filebeat 自带的不需要的元数据</span>
+         remove_field <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"beat"</span>,<span class="s2">"@fields"</span>,<span class="s2">"fields"</span>,<span class="s2">"index_name"</span>,<span class="s2">"offset"</span>,<span class="s2">"source"</span>,<span class="s2">"message"</span>,<span class="s2">"time"</span>,<span class="s2">"tags"</span><span class="o">]</span>
+      <span class="o">}</span>
+      mutate <span class="o">{</span>
+        add_field <span class="o">=&gt;</span> <span class="o">{</span> <span class="s2">"message"</span> <span class="o">=&gt;</span> <span class="s2">"%{msg}"</span> <span class="o">}</span>
+        remove_field <span class="o">=&gt;</span> <span class="o">[</span> <span class="s2">"msg"</span> <span class="o">]</span>
+      <span class="o">}</span>
+<span class="o">}</span>
+<span class="c">#</span>
+
+output <span class="o">{</span>
+        elasticsearch <span class="o">{</span>
+        <span class="c">## 使用Search guard</span>
+        hosts <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"https://es:9200"</span><span class="o">]</span>
+        index <span class="o">=&gt;</span> <span class="s2">"xxxxx_%{+YYYYMMdd}"</span>
+        user <span class="o">=&gt;</span> admin
+        password <span class="o">=&gt;</span> <span class="s2">"xxxxxxxxx"</span>
+        ssl <span class="o">=&gt;</span> <span class="nb">true
+        </span>ssl_certificate_verification <span class="o">=&gt;</span> <span class="nb">true
+        </span>truststore <span class="o">=&gt;</span> <span class="s2">"/opt/logstash/ssl/truststore.jks"</span>
+        truststore_password <span class="o">=&gt;</span> <span class="s2">"xxxxxxxxxx"</span>
+         <span class="o">}</span>
+       
+<span class="c">#stdout { codec =&gt; rubydebug }</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>启动logstash</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/logstash/bin/logstash -f /opt/logstash/etc/test.conf --path.data=/opt/logstash/data/testlog
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2019/04/15/elk-javalog/';
+                    this.page.identifier = '/2019/04/15/elk-javalog/';
+                    this.page.title = 'ELK filebeat&logstash 收集grok解析Java应用日志';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2016~2019
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

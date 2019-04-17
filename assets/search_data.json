@@ -1,5 +1,11 @@
 {
   
+  "2019-04-15-elk-javalog": {
+    "title": "ELK filebeat&amp;logstash 收集grok解析Java应用日志",
+    "url": " /2019/04/15/elk-javalog/",
+    "category": "ELK"
+  },
+  
   "2019-04-06-kubernetes-rbac-useraccesscontrol": {
     "title": "kubernetes RBAC 用户角色访问控制",
     "url": " /2019/04/06/kubernetes-rbac-useraccesscontrol/",
@@ -500,6 +506,8 @@
   
   
   
+  
+  
 
   
   "2016-07-23-linux-firewalld-iptables": {
@@ -932,6 +940,12 @@
     "title": "kubernetes RBAC 用户角色访问控制",
     "url": "/2019/04/06/kubernetes-rbac-useraccesscontrol/",
     "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2019-04-15-elk-javalog": {
+    "title": "ELK filebeat&amp;logstash 收集grok解析Java应用日志",
+    "url": "/2019/04/15/elk-javalog/",
+    "category": "[&quot;ELK&quot;]"
   },
   
   "wiki-template": {
