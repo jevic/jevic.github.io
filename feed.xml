@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-17T20:02:23+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK filebeat&amp;amp;logstash 收集grok解析Java应用日志</title><link href="http://0.0.0.0/2019/04/15/elk-javalog/" rel="alternate" type="text/html" title="ELK filebeat&amp;logstash 收集grok解析Java应用日志" /><published>2019-04-15T19:56:06+08:00</published><updated>2019-04-15T19:56:06+08:00</updated><id>http://0.0.0.0/2019/04/15/elk-javalog</id><content type="html" xml:base="http://0.0.0.0/2019/04/15/elk-javalog/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-17T20:06:36+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK filebeat&amp;amp;logstash 收集grok解析Java应用日志</title><link href="http://0.0.0.0/2019/04/15/elk-javalog/" rel="alternate" type="text/html" title="ELK filebeat&amp;logstash 收集grok解析Java应用日志" /><published>2019-04-15T19:56:06+08:00</published><updated>2019-04-15T19:56:06+08:00</updated><id>http://0.0.0.0/2019/04/15/elk-javalog</id><content type="html" xml:base="http://0.0.0.0/2019/04/15/elk-javalog/">&lt;blockquote&gt;
   &lt;p&gt;由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -256,6 +256,18 @@ kubectl create -f role-demo2.yaml
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p ~/.kuber
 cp devops.kubeconfig ~/.kube/config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;cluster-权限&quot;&gt;Cluster 权限&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;创建集群角色并绑定到对应的用户;&lt;/li&gt;
+  &lt;li&gt;可编辑生成的yaml 文件来增加删除权限配置等;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create clusterrole cluster-reader --verb=get,list,watch --resource=pods,pods/exec,pods/attach,svc --dry-run -o yaml &amp;gt; clusterrole-demo.yaml
+
+kubectl create clusterrolebinding devops-readallpods --clusterrole=cluster-reader --user=devops --dry-run -o yaml &amp;gt;&amp;gt; clusterrole-demo.yaml
+
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">配置证书 /etc/kubernetes/pki/ 二进制手动安装请到指定目录下操作</summary></entry><entry><title type="html">ELK 用户权限管理控制 Search Guard</title><link href="http://0.0.0.0/2019/03/28/elk-search-guard/" rel="alternate" type="text/html" title="ELK 用户权限管理控制 Search Guard" /><published>2019-03-28T19:56:06+08:00</published><updated>2019-03-28T19:56:06+08:00</updated><id>http://0.0.0.0/2019/03/28/elk-search-guard</id><content type="html" xml:base="http://0.0.0.0/2019/03/28/elk-search-guard/">&lt;blockquote&gt;
   &lt;p&gt;Search Guard为您提供对整个ElasticSearch环境的完全安全控制!&lt;/p&gt;
 &lt;/blockquote&gt;

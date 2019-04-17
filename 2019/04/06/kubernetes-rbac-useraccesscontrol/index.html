@@ -224,6 +224,18 @@ kubectl create -f role-demo2.yaml
 cp devops.kubeconfig ~/.kube/config
 </code></pre></div></div>
 
+<h3 id="cluster-权限">Cluster 权限</h3>
+<ul>
+  <li>创建集群角色并绑定到对应的用户;</li>
+  <li>可编辑生成的yaml 文件来增加删除权限配置等;</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create clusterrole cluster-reader --verb=get,list,watch --resource=pods,pods/exec,pods/attach,svc --dry-run -o yaml &gt; clusterrole-demo.yaml
+
+kubectl create clusterrolebinding devops-readallpods --clusterrole=cluster-reader --user=devops --dry-run -o yaml &gt;&gt; clusterrole-demo.yaml
+
+</code></pre></div></div>
+
     </article>
     <div class="share">
       <div class="share-component"></div>
