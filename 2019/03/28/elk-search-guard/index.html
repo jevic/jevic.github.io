@@ -233,7 +233,25 @@ Email用来接收密钥，Organization Name可以随便填写，Hostname填写El
 
 <p>编辑 elasticsearch.yml 在最后部分添加下面配置:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>searchguard.ssl.transport.keystore_filepath: CN=es2-keystore.jks
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cluster.name: elk-cluster
+path.data: /data/elk/elasticsearch
+path.logs: /data/elk/logs
+node.name: es2
+node.master: true
+node.data: true
+http.enabled: true
+network.host: es2
+
+### 集群自动发现设置
+discovery.zen.ping.unicast.hosts: ["192.168.160.129"]
+### 关闭x-pack认证
+xpack.security.enabled: false
+### sql 插件支持
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-credentials: true
+###
+searchguard.ssl.transport.keystore_filepath: CN=es2-keystore.jks
 searchguard.ssl.transport.keystore_password: d9c13b2c8f5550a62d88
 searchguard.ssl.transport.truststore_filepath: truststore.jks
 searchguard.ssl.transport.truststore_password: 7ef7af8e734522cdba14
@@ -246,6 +264,13 @@ searchguard.ssl.http.truststore_password: 7ef7af8e734522cdba14
 
 searchguard.authcz.admin_dn:
   - CN=sgadmin
+
+searchguard.audit.type: internal_elasticsearch
+searchguard.enable_snapshot_restore_privilege: true
+searchguard.check_snapshot_restore_write_privileges: true
+searchguard.restapi.roles_enabled: ["sg_all_access"]
+
+xpack.monitoring.enabled: true
 </code></pre></div></div>
 
 <ul>

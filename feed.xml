@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-17T20:06:36+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK filebeat&amp;amp;logstash 收集grok解析Java应用日志</title><link href="http://0.0.0.0/2019/04/15/elk-javalog/" rel="alternate" type="text/html" title="ELK filebeat&amp;logstash 收集grok解析Java应用日志" /><published>2019-04-15T19:56:06+08:00</published><updated>2019-04-15T19:56:06+08:00</updated><id>http://0.0.0.0/2019/04/15/elk-javalog</id><content type="html" xml:base="http://0.0.0.0/2019/04/15/elk-javalog/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-17T20:13:01+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK filebeat&amp;amp;logstash 收集grok解析Java应用日志</title><link href="http://0.0.0.0/2019/04/15/elk-javalog/" rel="alternate" type="text/html" title="ELK filebeat&amp;logstash 收集grok解析Java应用日志" /><published>2019-04-15T19:56:06+08:00</published><updated>2019-04-15T19:56:06+08:00</updated><id>http://0.0.0.0/2019/04/15/elk-javalog</id><content type="html" xml:base="http://0.0.0.0/2019/04/15/elk-javalog/">&lt;blockquote&gt;
   &lt;p&gt;由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -372,7 +372,25 @@ Email用来接收密钥，Organization Name可以随便填写，Hostname填写El
 
 &lt;p&gt;编辑 elasticsearch.yml 在最后部分添加下面配置:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;searchguard.ssl.transport.keystore_filepath: CN=es2-keystore.jks
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cluster.name: elk-cluster
+path.data: /data/elk/elasticsearch
+path.logs: /data/elk/logs
+node.name: es2
+node.master: true
+node.data: true
+http.enabled: true
+network.host: es2
+
+### 集群自动发现设置
+discovery.zen.ping.unicast.hosts: [&quot;192.168.160.129&quot;]
+### 关闭x-pack认证
+xpack.security.enabled: false
+### sql 插件支持
+http.cors.enabled: true
+http.cors.allow-origin: &quot;*&quot;
+http.cors.allow-credentials: true
+###
+searchguard.ssl.transport.keystore_filepath: CN=es2-keystore.jks
 searchguard.ssl.transport.keystore_password: d9c13b2c8f5550a62d88
 searchguard.ssl.transport.truststore_filepath: truststore.jks
 searchguard.ssl.transport.truststore_password: 7ef7af8e734522cdba14
@@ -385,6 +403,13 @@ searchguard.ssl.http.truststore_password: 7ef7af8e734522cdba14
 
 searchguard.authcz.admin_dn:
   - CN=sgadmin
+
+searchguard.audit.type: internal_elasticsearch
+searchguard.enable_snapshot_restore_privilege: true
+searchguard.check_snapshot_restore_write_privileges: true
+searchguard.restapi.roles_enabled: [&quot;sg_all_access&quot;]
+
+xpack.monitoring.enabled: true
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;ul&gt;
