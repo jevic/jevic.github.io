@@ -1,5 +1,11 @@
 {
   
+  "2019-04-18-elk-disk-storage": {
+    "title": "Elasticsearch 下分布式存储的数据分布",
+    "url": " /2019/04/18/elk-disk-storage/",
+    "category": "ELK"
+  },
+  
   "2019-04-15-elk-javalog": {
     "title": "ELK filebeat&amp;logstash 收集grok解析Java应用日志",
     "url": " /2019/04/15/elk-javalog/",
@@ -945,6 +951,12 @@
   "2019-04-15-elk-javalog": {
     "title": "ELK filebeat&amp;logstash 收集grok解析Java应用日志",
     "url": "/2019/04/15/elk-javalog/",
+    "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2019-04-18-elk-disk-storage": {
+    "title": "Elasticsearch 下分布式存储的数据分布",
+    "url": "/2019/04/18/elk-disk-storage/",
     "category": "[&quot;ELK&quot;]"
   },
   

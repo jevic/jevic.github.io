@@ -1,4 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-17T20:13:01+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">ELK filebeat&amp;amp;logstash 收集grok解析Java应用日志</title><link href="http://0.0.0.0/2019/04/15/elk-javalog/" rel="alternate" type="text/html" title="ELK filebeat&amp;logstash 收集grok解析Java应用日志" /><published>2019-04-15T19:56:06+08:00</published><updated>2019-04-15T19:56:06+08:00</updated><id>http://0.0.0.0/2019/04/15/elk-javalog</id><content type="html" xml:base="http://0.0.0.0/2019/04/15/elk-javalog/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-04-30T18:14:35+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elasticsearch 下分布式存储的数据分布</title><link href="http://0.0.0.0/2019/04/18/elk-disk-storage/" rel="alternate" type="text/html" title="Elasticsearch 下分布式存储的数据分布" /><published>2019-04-18T18:56:06+08:00</published><updated>2019-04-18T18:56:06+08:00</updated><id>http://0.0.0.0/2019/04/18/elk-disk-storage</id><content type="html" xml:base="http://0.0.0.0/2019/04/18/elk-disk-storage/">&lt;p&gt;对于一个分布式存储系统来说，数据是分散存储在多个节点上的。如何让数据均衡的分布在不同节点上，来保证其高可用性？所谓均衡，是指系统中每个节点的负载是均匀的，并且在发现有不均匀的情况或者有节点增加/删除时，能及时进行调整，保持均匀状态。  
+   在Elasticsearch中，以Shard为最小的数据分配/迁移单位。数据到节点的映射分离为两层：一层是数据到Shard的映射（Route），另一层是Shard到节点的映射（Allocate）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk01.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;一方面，插入一条数据时，ES会根据指定的Key来计算应该落到哪个Shard上。默认Key是自动分配的id，可以自定义，比如在我们的业务中采用CompanyID作为Key。因为Primary Shard的个数是不允许改变的，所以同一个Key每次算出来的Shard是一样的，从而保证了准确定位。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shard_num = hash(_routing) % num_primary_shards
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;另一方面，Master会为每个Shard分配相应的Data节点进行存储，并维护相关元信息。通过Route计算出来的Shard序号，在元信息中找到对应的存储节点，便可完成数据分布。Shard Allocate的映射关系并不是完全不变的，当检测到数据分布不均匀、有新节点加入或者有节点挂掉等情况时就会进行调整，称为Relocate。那么，Elasticsearch是根据什么规则来为Shard选取节点，从而保证数据均衡分布的？概括来看，主要有三方面的影响：节点位置、磁盘空间、单个节点上的Index和Shard个数。&lt;/p&gt;
+
+&lt;h3 id=&quot;节点位置&quot;&gt;节点位置&lt;/h3&gt;
+&lt;p&gt;对于一个ES节点来说，它可能是某台物理机器上的一个VM，而这个物理机器位于某个Zone的某个机架（Rack)上。通过将Primary Shard和Replica Shard分散在不同的物理机器、Rack、Zone，可以尽可能的降低数据丢失和系统不可用的风险，这一点几乎在所有的分布式系统中都会考量。
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk01.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Elasticsearch是通过设置&lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/6.4/allocation-awareness.html&quot;&gt;awareness.attribute&lt;/a&gt;对集群中的节点进行分组，从而实现Rack和Zone的发现。比如按照下列方式对elasticsearch.yml进行配置，再启动相应的节点，即可实现Zone的区分。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// elasticsearch.yml
+cluster.routing.allocation.awareness.attributes: zone
+
+// 启动ES
+./bin/elasticsearch -Enode.attr.zone=zone_one
+./bin/elasticsearch -Enode.attr.zone=zone_two
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;实践中，如果使用了这样的Awareness机制，应该保证不同分组类的机器个数一致，不会发生倾斜。比如，在Zone Awareness下，如果集群有10台机器，应该保证每个Zone各有5台机器（2个Zone）&lt;/p&gt;
+
+&lt;h3 id=&quot;磁盘空间&quot;&gt;磁盘空间&lt;/h3&gt;
+&lt;p&gt;  磁盘空间是制约存储的硬性条件，单机的可用磁盘空间决定了能否继续往这个节点写入新数据、分配新Shard以及是否需要迁移数据等。在ES中，有三个参数用来控制与此相关的特性，默认每30秒检查一次。&lt;/p&gt;
+
+&lt;blockquote&gt;
+
+  &lt;p&gt;cluster.routing.allocation.disk.watermark.low: 默认为85%，超过这个阈值后，就不允许往这个节点分配Shard。
+cluster.routing.allocation.disk.watermark.high：默认为90%，超过这个阈值后，就需要将该节点的Shard迁移出去。
+cluster.routing.allocation.disk.watermark.flood_stage：默认为95%，超过这个阈值后，与该节点上的Shard有关的Index都变成只读，不允许写入数据。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk03.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;h4 id=&quot;参数调整&quot;&gt;参数调整&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;一般使用默认即可无需修改,需要注意的是如果使用% 百分比则必须都使用,不能配置gb 又配置百分比参数!!!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;PUT&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;_cluster/settings&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;transient&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.routing.allocation.disk.watermark.low&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;85%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.routing.allocation.disk.watermark.high&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;90%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.routing.allocation.disk.watermark.flood_stage&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;95%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.info.update.interval&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1m&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;取消配置&quot;&gt;取消配置&lt;/h4&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;//通配符匹配配置项&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;PUT&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;_cluster/settings&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;transient&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.routing.allocation.disk.watermark.*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//单个配置项&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;PUT&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;_cluster/settings&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;transient&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.info.update.interval&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;单个节点上的index和shard个数&quot;&gt;单个节点上的Index和Shard个数&lt;/h3&gt;
+&lt;p&gt;  在满足节点位置和磁盘空间的条件后，单个节点上的Index和Shard个数是否均匀，决定了Shard可以分配/迁移到哪个节点。ES通过计算权值来量化这样的分配方式。
+  以检测某个Shard是否需要迁移到其他节点为例，ES会先计算该Shard所在节点（A）的权值，然后依次跟其他节点的权值比较，如果与节点B的差值（Delta-A）超过了阈值，再进一步计算节点A去掉该Shard后的权值与节点B增加该Shard后的权值之间的差值（Delta-B），如果Delta-A大于Delta-B，则表明Shard可以迁移到节点B。
+  这里的权值计算简化如下，其中indexBalance与shardBalance分别由参数控制，而阈值由cluster.routing.allocation.balance.threshold设置，默认为1.0f。当然，这里只描述了核心思想，详细逻辑请阅读&lt;a href=&quot;https://github.com/elastic/elasticsearch/blob/master/server/src/main/java/org/elasticsearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java&quot;&gt;BalancedShardsAllocator.java&lt;/a&gt;中的源码。通过调整三个参数，可以控制策略的松紧。&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// indexBalance = cluster.routing.allocation.balance.index, default is 0.55f&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// shardBalance = cluster.routing.allocation.balance.shard, default is 0.45f&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexBalance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shardBalance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theta0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shardBalance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theta1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexBalance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Balancer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;balancer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ModelNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numAdditionalShards&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weightShard&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;numShards&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numAdditionalShards&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;balancer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;avgShardsPerNode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weightIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;numShards&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numAdditionalShards&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;balancer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;avgShardsPerNode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theta0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weightShard&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theta1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weightIndex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;primary与replica分布&quot;&gt;Primary与Replica分布&lt;/h3&gt;
+&lt;p&gt;  最初关注Elasticsearch的数据分布，是因为在性能调优时遇到了一个与Primary/Replica分布有关的问题。背景是这样的，为了能够复用单个节点上的Disk Cache，我们对查询请求进行了限制，只允许其访问Primary Shard。然而总是有那么一两台机器的查询会被Queue住，通过调研发现，这些机器上面的Primary Shard比其他机器多（对某一个Index而言），即下图中左边所示，而我们希望的是右图所示的均匀分布。
+  引起这个问题的根源是，Elasticsearch中的Shard均匀分布是针对Primary+Replica整体而言的，也就是说没法做到只针对Primary Shard单方面做均匀分布，所以才会出现下图左边所示，某个节点上有3个Primary Shard，而另一个节点只有1个。目前尚未发现可以调节的地方。
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk04.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/6.4/modules.html&quot;&gt;Cluster Modules 配置&lt;/a&gt;
+&lt;a href=&quot;https://blog.csdn.net/zwgdft/article/details/83478241&quot;&gt;原文链接&lt;/a&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">对于一个分布式存储系统来说，数据是分散存储在多个节点上的。如何让数据均衡的分布在不同节点上，来保证其高可用性？所谓均衡，是指系统中每个节点的负载是均匀的，并且在发现有不均匀的情况或者有节点增加/删除时，能及时进行调整，保持均匀状态。   在Elasticsearch中，以Shard为最小的数据分配/迁移单位。数据到节点的映射分离为两层：一层是数据到Shard的映射（Route），另一层是Shard到节点的映射（Allocate）</summary></entry><entry><title type="html">ELK filebeat&amp;amp;logstash 收集grok解析Java应用日志</title><link href="http://0.0.0.0/2019/04/15/elk-javalog/" rel="alternate" type="text/html" title="ELK filebeat&amp;logstash 收集grok解析Java应用日志" /><published>2019-04-15T19:56:06+08:00</published><updated>2019-04-15T19:56:06+08:00</updated><id>http://0.0.0.0/2019/04/15/elk-javalog</id><content type="html" xml:base="http://0.0.0.0/2019/04/15/elk-javalog/">&lt;blockquote&gt;
   &lt;p&gt;由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1177,310 +1275,4 @@ users:
 &lt;p&gt;最后只需要等待agent 部署成功即可&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster04.png&quot; alt=&quot;&quot; /&gt;
- &lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">相比kubernetes Dashboard Rancher管理面板简化了很多相对比较复杂的操作;</summary></entry><entry><title type="html">Elastic Stack 6.4数据探索可视化 Demo</title><link href="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/" rel="alternate" type="text/html" title="Elastic Stack 6.4数据探索可视化 Demo" /><published>2018-11-23T19:56:06+08:00</published><updated>2018-11-23T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo</id><content type="html" xml:base="http://0.0.0.0/2018/11/23/elastic-stack-6.4-demo/">&lt;blockquote&gt;
-  &lt;p&gt;基础安装配置请参考官网或者&lt;a href=&quot;https://www.jevic.cn/categories/#ELK&quot;&gt;ELK 分类&lt;/a&gt;下其他教程示例&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;nginx&quot;&gt;nginx&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;nginx.conf&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;指定日志格式如下:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http {
-    log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
-                      '$status $body_bytes_sent &quot;$http_referer&quot; '
-                      '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;';
-
-    log_format jsonTest '{&quot;@timestamp&quot;:&quot;$time_iso8601&quot;,'
-                  '&quot;host&quot;:&quot;$server_addr&quot;,'
-                  '&quot;service&quot;:&quot;nginxTest&quot;,'
-                  '&quot;trace&quot;:&quot;$upstream_http_ctx_transaction_id&quot;,'
-                  '&quot;log&quot;:&quot;log&quot;,'
-                  '&quot;clientip&quot;:&quot;$remote_addr&quot;,'
-                  '&quot;remote_user&quot;:&quot;$remote_user&quot;,'
-                  '&quot;request&quot;:&quot;$request&quot;,'
-                  '&quot;http_user_agent&quot;:&quot;$http_user_agent&quot;,'
-                  '&quot;size&quot;:$body_bytes_sent,'
-                  '&quot;responsetime&quot;:$request_time,'
-                  '&quot;upstreamtime&quot;:&quot;$upstream_response_time&quot;,'
-                  '&quot;upstreamhost&quot;:&quot;$upstream_addr&quot;,'
-                  '&quot;http_host&quot;:&quot;$host&quot;,'
-                  '&quot;url&quot;:&quot;$uri&quot;,'
-                  '&quot;domain&quot;:&quot;$host&quot;,'
-                  '&quot;xff&quot;:&quot;$http_x_forwarded_for&quot;,'
-                  '&quot;referer&quot;:&quot;$http_referer&quot;,'
-                  '&quot;status&quot;:&quot;$status&quot;}';
-
-    access_log  /var/log/nginx/access.log  jsonTest;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;elasticsearch&quot;&gt;elasticsearch&lt;/h2&gt;
-&lt;h3 id=&quot;模板配置&quot;&gt;模板配置&lt;/h3&gt;
-
-&lt;h4 id=&quot;template01&quot;&gt;template01&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;没有配置mapping 不指定字段类型&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-  &quot;order&quot;: 0,
-  &quot;index_patterns&quot;: [
-    &quot;nginxlog-*&quot;
-  ],
-  &quot;settings&quot;: {
-    &quot;index&quot;: {
-      &quot;refresh_interval&quot;: &quot;60s&quot;,
-      &quot;number_of_shards&quot;: &quot;1&quot;,
-      &quot;auto_expand_replicas&quot;: &quot;0-1&quot;,
-      &quot;number_of_replicas&quot;: &quot;1&quot;
-    }
-  },
-  &quot;mappings&quot;: {},
-  &quot;aliases&quot;: {}
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;template02&quot;&gt;template02&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;配置mapping 指定字段类型&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-  &quot;order&quot;: 0,
-  &quot;index_patterns&quot;: [
-    &quot;testnginxlog-*&quot;
-  ],
-  &quot;settings&quot;: {
-    &quot;index&quot;: {
-      &quot;number_of_shards&quot;: &quot;1&quot;,
-      &quot;auto_expand_replicas&quot;: &quot;0-1&quot;,
-      &quot;refresh_interval&quot;: &quot;60s&quot;
-    }
-  },
-  &quot;mappings&quot;: {
-    &quot;doc&quot;: {
-    &quot;dynamic&quot;:true,
-      &quot;properties&quot;: {
-        &quot;clientip&quot;: {
-          &quot;type&quot;: &quot;ip&quot;
-        },
-        &quot;host&quot;: {
-          &quot;type&quot;: &quot;ip&quot;
-        },
-        &quot;responsetime&quot;: {
-          &quot;type&quot;: &quot;float&quot;
-        },
-        &quot;size&quot;: {
-          &quot;type&quot;: &quot;long&quot;
-        },
-        &quot;status&quot;: {
-          &quot;type&quot;: &quot;long&quot;
-        },
-        &quot;upstreamtime&quot;: {
-          &quot;type&quot;: &quot;float&quot;,
-          &quot;index&quot;: false
-        }
-      }
-    }
-  },
-  &quot;aliases&quot;: {}
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;通过dynamic 参数来控制字段的新增
-    &lt;ul&gt;
-      &lt;li&gt;true(默认) 允许自动新增字段&lt;/li&gt;
-      &lt;li&gt;false 不允许新增字段,但文档可以正常写入,但无法对字段进行查询等操作&lt;/li&gt;
-      &lt;li&gt;strict 文档不能写入,报错&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;index
-    &lt;ul&gt;
-      &lt;li&gt;控制当前字段是否索引,默认为true,记录索引,false不记录,不可搜索&lt;/li&gt;
-      &lt;li&gt;当索引的某些字段不需要被查询搜索时可标记index 为false,以此来减少存储空间(没有倒排索引)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elasticsearch-template02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;logstash&quot;&gt;logstash&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;示例中给出了两个索引名称,分别为:
-    &lt;ul&gt;
-      &lt;li&gt;nginxlog_*&lt;/li&gt;
-      &lt;li&gt;testnginxlog-*&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;创建两个配置文件,修改对应的索引名称即可&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;input {
-   file {
-    type =&amp;gt; &quot;proxys&quot;
-    path =&amp;gt; [&quot;/var/log/nginx/access.log&quot;]
-    add_field =&amp;gt; { &quot;sip&quot; =&amp;gt; &quot;192.168.2.243&quot; }
-    ## 是否从头读取数据这里注释掉只读取最新数据
-#    start_position =&amp;gt; &quot;beginning&quot;
-#    sincedb_path =&amp;gt; &quot;/dev/null&quot;
-#    ignore_older =&amp;gt; &quot;99999999999&quot;
-    codec =&amp;gt; &quot;json&quot;
-  }
-}
-
-filter {
-date {
-        match =&amp;gt; [&quot;timestamp&quot;,&quot;UNIX&quot;]
-        target =&amp;gt; &quot;@timestamp&quot;
- }
-#mutate {
-#        remove_field =&amp;gt; [&quot;path&quot;,&quot;host&quot;,&quot;tags&quot;,&quot;message&quot;]
-#}
-}
-
-output{
-        elasticsearch {
-        hosts =&amp;gt; [&quot;http://192.168.2.221:9200&quot;]
-        #index =&amp;gt; &quot;nginxlog_%{+YYYY.MM.dd}&quot;
-        index =&amp;gt; &quot;testnginxlog-%{+YYYY.MM.dd}&quot;
-    }
- #      stdout {
- #           codec =&amp;gt; rubydebug
- #      }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;启动进程&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$LOGSTAH_PATH/bin/logstash -f nginxlog.conf --log.level=info --path.data=/tmp/nginxlog
-
-$LOGSTAH_PATH/bin/logstash -f testnginxlog.conf --log.level=info --path.data=/tmp/testnginxlog
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;查看索引mapping&quot;&gt;查看索引mapping&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;在 elasticsearch 2.x 版本，字符串数据只有string类型
-更新到5.x版本后，取消了string 数据类型，代替它的是 keyword 和 text 数据类型&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Mapping 类似数据库中的表结构定义,主要作用如下:
-    &lt;ul&gt;
-      &lt;li&gt;定义index 下的字段名(Field Name)&lt;/li&gt;
-      &lt;li&gt;定义字段的类型,比如: 数值型、字符串型、布尔型等&lt;/li&gt;
-      &lt;li&gt;定义倒排索引相关配置,比如是否索引、记录position等&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;默认: “key”:”value” 格式的都默认为text类型
-而对于”key”: value 格式的会根据数值类型进行格式匹配&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;例如:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-....
-&quot;responsetime&quot;: 0.001, 
-&quot;upstreamtime&quot;: &quot;0.001&quot;,
-...
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;responsetime: 匹配为fload 类型&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;upstreamtime: 匹配为text类型,此时如果想要做聚合查询以及计算数值需要配置mapping 指定字段类型&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;text类型：会分词，先把对象进行分词处理，然后再再存入到es中。&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;当使用多个单词进行查询的时候，当然查不到已经分词过的内容！&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;keyword：不分词，没有把es中的对象进行分词处理，而是存入了整个对象！&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;这时候当然可以进行完整地查询！默认是256个字符！&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;“ignore_above”: 256  详情查看&lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/6.5/ignore-above.html&quot;&gt;官网文档&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;nginxlog_&quot;&gt;nginxlog_*&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/index-mapping01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;testnginxlog-&quot;&gt;testnginxlog-*&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/index-mapping-02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;kibana&quot;&gt;kibana&lt;/h2&gt;
-&lt;h3 id=&quot;添加索引&quot;&gt;添加索引&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/kibana-add-index01.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/kibana-add-index02.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/kibana-add-index03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;监控图表&quot;&gt;监控图表&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/kibana-monitoring.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;grafana&quot;&gt;grafana&lt;/h2&gt;
-
-&lt;h3 id=&quot;runing-of-docker&quot;&gt;runing of docker&lt;/h3&gt;
-&lt;p&gt;默认用户名密码: admin:admin&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -d \
---name grafana \
--p 3000:3000 \
--v /var/lib/grafana:/var/lib/grafana
--v /etc/grafana:/etc/grafana
--v /etc/localtime:/etc/localtime
-grafana/grafana
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;数据源&quot;&gt;数据源&lt;/h3&gt;
-&lt;p&gt;这里ES 版本选择5.6+即可&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-datasource01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;demo&quot;&gt;demo&lt;/h3&gt;
-&lt;p&gt;需要注意的是: 对于nginxlog_* 这个索引. Group by 时写入的是 clientip.keyword;
-因为没有指定字段类型,如果直接写入 clientip 则会报错无法显示;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-nginx-demo01.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-nginx-demo02.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-nginx-demo03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;变量&quot;&gt;变量&lt;/h3&gt;
-
-&lt;p&gt;配置完成后,点击add 添加即可&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-variables01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-var-nodeip.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;变量引用,和shell 变量调用方式一样使用 ${变量名}即可&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;clientip: $ip
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;注意: 这里Group by 时状态码字段 直接指定为: status 即可
-因为根据前面我们的配置,对testnginxlog-* 索引模板中指定了字段类型&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-testnginxlog.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;图表展示:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/grafana-demo-last.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">基础安装配置请参考官网或者ELK 分类下其他教程示例</summary></entry></feed>
+ &lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes-cluster03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">相比kubernetes Dashboard Rancher管理面板简化了很多相对比较复杂的操作;</summary></entry></feed>
