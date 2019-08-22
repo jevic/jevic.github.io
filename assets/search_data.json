@@ -1,5 +1,11 @@
 {
   
+  "2019-08-19-kubernetes-1-13-8": {
+    "title": "kubernetes 1.13.8 二进制手动部署",
+    "url": " /2019/08/19/kubernetes-1.13.8/",
+    "category": "Kubernetes"
+  },
+  
   "2019-04-18-elk-disk-storage": {
     "title": "Elasticsearch 下分布式存储的数据分布",
     "url": " /2019/04/18/elk-disk-storage/",
@@ -958,6 +964,12 @@
     "title": "Elasticsearch 下分布式存储的数据分布",
     "url": "/2019/04/18/elk-disk-storage/",
     "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2019-08-19-kubernetes-1-13-8": {
+    "title": "kubernetes 1.13.8 二进制手动部署",
+    "url": "/2019/08/19/kubernetes-1.13.8/",
+    "category": "[&quot;Kubernetes&quot;]"
   },
   
   "wiki-template": {
