@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>kubernetes RBAC 用户角色访问控制（二） &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2019/06/10/kubernetes-rbac/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="kubernetes RBAC 用户角色访问控制（二）">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="kubernetes">
+    <meta name="og:keywords" content="kubernetes">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="  RBAC (基于角色的访问控制)使用 rbac.authorization.k8s.io API 组来实现权限控制，RBAC 允许管理员通过 Kubernetes API 动态的配置权限策略。在 1.8 版本后默认启用,开启 RBAC 授权模式需要在 apiserver 组件中指定 –authorization-mode=RBAC 选项；">
+    <meta name="og:description" content="  RBAC (基于角色的访问控制)使用 rbac.authorization.k8s.io API 组来实现权限控制，RBAC 允许管理员通过 Kubernetes API 动态的配置权限策略。在 1.8 版本后默认启用,开启 RBAC 授权模式需要在 apiserver 组件中指定 –authorization-mode=RBAC 选项；">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2019/06/10/kubernetes-rbac/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2019-08-27">
+    <meta property="article:published_time" content="2019-06-10">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="kubernetes RBAC">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">kubernetes RBAC 用户角色访问控制（二）</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2019/06/10
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,145 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <blockquote>
+  <p>RBAC <code class="highlighter-rouge">(基于角色的访问控制)</code>使用 rbac.authorization.k8s.io API 组来实现权限控制，RBAC 允许管理员通过 Kubernetes API 动态的配置权限策略。在 1.8 版本后默认启用,开启 RBAC 授权模式需要在 apiserver 组件中指定 –authorization-mode=RBAC 选项；</p>
+</blockquote>
+
+<p>关于 kubernetes 手动安装移步查看 <a href="https://www.jevic.cn/2019/08/19/kubernetes-1.13.8/">kubernetes 1.13.8 二进制手动部署</a></p>
+
+<p>关于 RBAC授权的基础概念参考 <a href="http://docs.kubernetes.org.cn/148.html">Kubernetes中使用RBAC授权</a></p>
+
+<h2 id="创建用户">创建用户</h2>
+<h3 id="devops">devops</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#首先先创建一个用于签发证书的 json
+
+{
+  "CN": "devops",
+  "hosts": [],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CN",
+      "ST": "Shenzhen",
+      "L": "Shenzhen",
+      "O": "k8s",
+      "OU": "System"
+    }
+  ]
+}
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cfssl gencert --ca=/etc/kubernetes/ssl/k8s-root-ca.pem --ca-key=/etc/kubernetes/ssl/k8s-root-ca-key.pem --config=/etc/kubernetes/json/k8s-gencert.json -profile=kubernetes devops-csr.json | cfssljson -bare devops
+</code></pre></div></div>
+
+<h3 id="devopskubeconfig">devops.kubeconfig</h3>
+<p>创建一个kubeconfig文件，以供kubectl 使用;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#我这里的server 为127.0.0.1,可根据实际IP修改即可
+
+kubectl config set-cluster kubernetes \
+--certificate-authority=/etc/kubernetes/ssl/k8s-root-ca.pem \
+--embed-certs=true \
+--namespace=default \
+--server=https://127.0.0.1:6443 \
+--kubeconfig=devops.kubeconfig
+
+
+kubectl config set-credentials devops \
+--client-certificate=devops.pem \
+--client-key=devops-key.pem \
+--embed-certs=true \
+--namespace=default \
+--kubeconfig=devops.kubeconfig
+
+kubectl config set-context kubernetes \
+--cluster=kubernetes \
+--user=devops \
+--namespace=default \
+--kubeconfig=devops.kubeconfig
+
+kubectl config use-context kubernetes \
+--namespace=default \
+--kubeconfig=devops.kubeconfig
+</code></pre></div></div>
+
+<h2 id="clusterrole">ClusterRole</h2>
+<p>本示例创建的是一个权限针对 pods 只读且范围为Cluster 集群的用户; 所以需要先创建一个只读的ClusterRole</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create clusterrole cluster-devops-reader --verb=get,list,watch --resource=pods,pods/exec,pods/attach,svc --dry-run -o yaml &gt; clusterrole-demo.yaml
+
+## 可根据需要调整资源和权限 
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: cluster-devops-reader
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/attach
+  - pods/exec
+  - pods/portforward
+  - pods/proxy
+  - services
+  - services/proxy
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+</code></pre></div></div>
+
+<h2 id="clusterrolebinding">ClusterRoleBinding</h2>
+<p>用户以及集群的权限都已经配置, 下面开始绑定 ClusterRoleBinding</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl create clusterrolebinding devops-readallpods --clusterrole=cluster-devops-reader --user=devops --dry-run -o yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: null
+  name: devops-readallpods
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-devops-reader
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: devops
+</code></pre></div></div>
+
+<p>保存为 devops-readallpods.yaml 执行 kubectl create -f devops-readallpods.yaml 创建即可</p>
+
+<h2 id="测试权限">测试权限</h2>
+<p>将 <code class="highlighter-rouge">devops.kubeconfig</code> 文件复制到 任何一个节点 ~/.kube/config 或者直接使用 –kubeconfig 选项测试</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@k8s-node02 .kube]# pwd
+/root/.kube
+[root@k8s-node02 .kube]# ls
+cache  config  http-cache
+[root@k8s-node02 .kube]# cd
+[root@k8s-node02 ~]# kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+apple-app                           1/1     Running   3          11d
+jevic-app-deploy-65df48dfc6-4nzd8   1/1     Running   3          11d
+jevic-app-deploy-65df48dfc6-9d6rw   1/1     Running   0          8d
+jevic-app-deploy-65df48dfc6-nptln   1/1     Running   3          10d
+myapp                               1/1     Running   3          11d
+[root@k8s-node02 ~]# kubectl delete pods/myapp
+Error from server (Forbidden): pods "myapp" is forbidden: User "devops" cannot delete resource "pods" in API group "" in the namespace "default"
+[root@k8s-node02 ~]#
+</code></pre></div></div>
+
+<p>转载请注明出处，本文采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a> 协议授权</p>
 
     </article>
     <div class="share">
@@ -132,9 +283,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2019/06/10/kubernetes-rbac/';
+                    this.page.identifier = '/2019/06/10/kubernetes-rbac/';
+                    this.page.title = 'kubernetes RBAC 用户角色访问控制（二）';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

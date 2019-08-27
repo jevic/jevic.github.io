@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-08-22T19:58:31+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes 1.13.8 二进制手动部署</title><link href="http://0.0.0.0/2019/08/19/kubernetes-1.13.8/" rel="alternate" type="text/html" title="kubernetes 1.13.8 二进制手动部署" /><published>2019-08-19T18:56:06+08:00</published><updated>2019-08-19T18:56:06+08:00</updated><id>http://0.0.0.0/2019/08/19/kubernetes-1.13.8</id><content type="html" xml:base="http://0.0.0.0/2019/08/19/kubernetes-1.13.8/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-08-27T11:38:24+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes 1.13.8 二进制手动部署</title><link href="http://0.0.0.0/2019/08/19/kubernetes-1.13.8/" rel="alternate" type="text/html" title="kubernetes 1.13.8 二进制手动部署" /><published>2019-08-19T18:56:06+08:00</published><updated>2019-08-19T18:56:06+08:00</updated><id>http://0.0.0.0/2019/08/19/kubernetes-1.13.8</id><content type="html" xml:base="http://0.0.0.0/2019/08/19/kubernetes-1.13.8/">&lt;blockquote&gt;
   &lt;p&gt;2019 都过大半了, 一直比较忙,也有点懒…. 1.13 都出来很久了,还是决定折腾一把!&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1904,7 +1904,145 @@ rancher/rancher:stable
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/rancher-kubernetes.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">2019 都过大半了, 一直比较忙,也有点懒…. 1.13 都出来很久了,还是决定折腾一把!</summary></entry><entry><title type="html">Elasticsearch 下分布式存储的数据分布</title><link href="http://0.0.0.0/2019/04/18/elk-disk-storage/" rel="alternate" type="text/html" title="Elasticsearch 下分布式存储的数据分布" /><published>2019-04-18T18:56:06+08:00</published><updated>2019-04-18T18:56:06+08:00</updated><id>http://0.0.0.0/2019/04/18/elk-disk-storage</id><content type="html" xml:base="http://0.0.0.0/2019/04/18/elk-disk-storage/">&lt;p&gt;对于一个分布式存储系统来说，数据是分散存储在多个节点上的。如何让数据均衡的分布在不同节点上，来保证其高可用性？所谓均衡，是指系统中每个节点的负载是均匀的，并且在发现有不均匀的情况或者有节点增加/删除时，能及时进行调整，保持均匀状态。  
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">2019 都过大半了, 一直比较忙,也有点懒…. 1.13 都出来很久了,还是决定折腾一把!</summary></entry><entry><title type="html">kubernetes RBAC 用户角色访问控制（二）</title><link href="http://0.0.0.0/2019/06/10/kubernetes-rbac/" rel="alternate" type="text/html" title="kubernetes RBAC 用户角色访问控制（二）" /><published>2019-06-10T18:56:06+08:00</published><updated>2019-06-10T18:56:06+08:00</updated><id>http://0.0.0.0/2019/06/10/kubernetes-rbac</id><content type="html" xml:base="http://0.0.0.0/2019/06/10/kubernetes-rbac/">&lt;blockquote&gt;
+  &lt;p&gt;RBAC &lt;code class=&quot;highlighter-rouge&quot;&gt;(基于角色的访问控制)&lt;/code&gt;使用 rbac.authorization.k8s.io API 组来实现权限控制，RBAC 允许管理员通过 Kubernetes API 动态的配置权限策略。在 1.8 版本后默认启用,开启 RBAC 授权模式需要在 apiserver 组件中指定 –authorization-mode=RBAC 选项；&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;关于 kubernetes 手动安装移步查看 &lt;a href=&quot;https://www.jevic.cn/2019/08/19/kubernetes-1.13.8/&quot;&gt;kubernetes 1.13.8 二进制手动部署&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;关于 RBAC授权的基础概念参考 &lt;a href=&quot;http://docs.kubernetes.org.cn/148.html&quot;&gt;Kubernetes中使用RBAC授权&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;创建用户&quot;&gt;创建用户&lt;/h2&gt;
+&lt;h3 id=&quot;devops&quot;&gt;devops&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#首先先创建一个用于签发证书的 json
+
+{
+  &quot;CN&quot;: &quot;devops&quot;,
+  &quot;hosts&quot;: [],
+  &quot;key&quot;: {
+    &quot;algo&quot;: &quot;rsa&quot;,
+    &quot;size&quot;: 2048
+  },
+  &quot;names&quot;: [
+    {
+      &quot;C&quot;: &quot;CN&quot;,
+      &quot;ST&quot;: &quot;Shenzhen&quot;,
+      &quot;L&quot;: &quot;Shenzhen&quot;,
+      &quot;O&quot;: &quot;k8s&quot;,
+      &quot;OU&quot;: &quot;System&quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cfssl gencert --ca=/etc/kubernetes/ssl/k8s-root-ca.pem --ca-key=/etc/kubernetes/ssl/k8s-root-ca-key.pem --config=/etc/kubernetes/json/k8s-gencert.json -profile=kubernetes devops-csr.json | cfssljson -bare devops
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;devopskubeconfig&quot;&gt;devops.kubeconfig&lt;/h3&gt;
+&lt;p&gt;创建一个kubeconfig文件，以供kubectl 使用;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#我这里的server 为127.0.0.1,可根据实际IP修改即可
+
+kubectl config set-cluster kubernetes \
+--certificate-authority=/etc/kubernetes/ssl/k8s-root-ca.pem \
+--embed-certs=true \
+--namespace=default \
+--server=https://127.0.0.1:6443 \
+--kubeconfig=devops.kubeconfig
+
+
+kubectl config set-credentials devops \
+--client-certificate=devops.pem \
+--client-key=devops-key.pem \
+--embed-certs=true \
+--namespace=default \
+--kubeconfig=devops.kubeconfig
+
+kubectl config set-context kubernetes \
+--cluster=kubernetes \
+--user=devops \
+--namespace=default \
+--kubeconfig=devops.kubeconfig
+
+kubectl config use-context kubernetes \
+--namespace=default \
+--kubeconfig=devops.kubeconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;clusterrole&quot;&gt;ClusterRole&lt;/h2&gt;
+&lt;p&gt;本示例创建的是一个权限针对 pods 只读且范围为Cluster 集群的用户; 所以需要先创建一个只读的ClusterRole&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create clusterrole cluster-devops-reader --verb=get,list,watch --resource=pods,pods/exec,pods/attach,svc --dry-run -o yaml &amp;gt; clusterrole-demo.yaml
+
+## 可根据需要调整资源和权限 
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: cluster-devops-reader
+rules:
+- apiGroups:
+  - &quot;&quot;
+  resources:
+  - pods
+  - pods/attach
+  - pods/exec
+  - pods/portforward
+  - pods/proxy
+  - services
+  - services/proxy
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;clusterrolebinding&quot;&gt;ClusterRoleBinding&lt;/h2&gt;
+&lt;p&gt;用户以及集群的权限都已经配置, 下面开始绑定 ClusterRoleBinding&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl create clusterrolebinding devops-readallpods --clusterrole=cluster-devops-reader --user=devops --dry-run -o yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: null
+  name: devops-readallpods
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-devops-reader
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: devops
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;保存为 devops-readallpods.yaml 执行 kubectl create -f devops-readallpods.yaml 创建即可&lt;/p&gt;
+
+&lt;h2 id=&quot;测试权限&quot;&gt;测试权限&lt;/h2&gt;
+&lt;p&gt;将 &lt;code class=&quot;highlighter-rouge&quot;&gt;devops.kubeconfig&lt;/code&gt; 文件复制到 任何一个节点 ~/.kube/config 或者直接使用 –kubeconfig 选项测试&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k8s-node02 .kube]# pwd
+/root/.kube
+[root@k8s-node02 .kube]# ls
+cache  config  http-cache
+[root@k8s-node02 .kube]# cd
+[root@k8s-node02 ~]# kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+apple-app                           1/1     Running   3          11d
+jevic-app-deploy-65df48dfc6-4nzd8   1/1     Running   3          11d
+jevic-app-deploy-65df48dfc6-9d6rw   1/1     Running   0          8d
+jevic-app-deploy-65df48dfc6-nptln   1/1     Running   3          10d
+myapp                               1/1     Running   3          11d
+[root@k8s-node02 ~]# kubectl delete pods/myapp
+Error from server (Forbidden): pods &quot;myapp&quot; is forbidden: User &quot;devops&quot; cannot delete resource &quot;pods&quot; in API group &quot;&quot; in the namespace &quot;default&quot;
+[root@k8s-node02 ~]#
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">RBAC (基于角色的访问控制)使用 rbac.authorization.k8s.io API 组来实现权限控制，RBAC 允许管理员通过 Kubernetes API 动态的配置权限策略。在 1.8 版本后默认启用,开启 RBAC 授权模式需要在 apiserver 组件中指定 –authorization-mode=RBAC 选项；</summary></entry><entry><title type="html">Elasticsearch 下分布式存储的数据分布</title><link href="http://0.0.0.0/2019/04/18/elk-disk-storage/" rel="alternate" type="text/html" title="Elasticsearch 下分布式存储的数据分布" /><published>2019-04-18T18:56:06+08:00</published><updated>2019-04-18T18:56:06+08:00</updated><id>http://0.0.0.0/2019/04/18/elk-disk-storage</id><content type="html" xml:base="http://0.0.0.0/2019/04/18/elk-disk-storage/">&lt;p&gt;对于一个分布式存储系统来说，数据是分散存储在多个节点上的。如何让数据均衡的分布在不同节点上，来保证其高可用性？所谓均衡，是指系统中每个节点的负载是均匀的，并且在发现有不均匀的情况或者有节点增加/删除时，能及时进行调整，保持均匀状态。  
    在Elasticsearch中，以Shard为最小的数据分配/迁移单位。数据到节点的映射分离为两层：一层是数据到Shard的映射（Route），另一层是Shard到节点的映射（Allocate）&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk01.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
@@ -3039,105 +3177,4 @@ appv3-demoapp-79b7f754d5-zbkvd                   1/1     Running   0          91
 
 &lt;span class=&quot;c&quot;&gt;## list &lt;/span&gt;
 helm &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">helm 私有本地仓库配置</summary></entry><entry><title type="html">grafana html 请求显示docker镜像信息</title><link href="http://0.0.0.0/2018/11/27/grafana-text-html/" rel="alternate" type="text/html" title="grafana html 请求显示docker镜像信息" /><published>2018-11-27T19:56:06+08:00</published><updated>2018-11-27T19:56:06+08:00</updated><id>http://0.0.0.0/2018/11/27/grafana-text-html</id><content type="html" xml:base="http://0.0.0.0/2018/11/27/grafana-text-html/">&lt;blockquote&gt;
-  &lt;p&gt;通过grafana 请求应用接口显示Docker镜像的构建版本信息..&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;图例&quot;&gt;图例&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/other/grafana-text-version01.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/other/grafana-text-version02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;api&quot;&gt;api&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -sL http://192.168.2.146:9010/version |python -mjson.tool
-{
-    &quot;data&quot;: {
-        &quot;buildtime&quot;: &quot;2018-11-27_17:25:43&quot;,
-        &quot;hash&quot;: &quot;7cd3a541053a9d67eee1706d380af3fe&quot;,
-        &quot;version&quot;: &quot;fa92b4d&quot;
-    },
-    &quot;ok&quot;: true
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;html-代码&quot;&gt;html 代码&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;div class=&quot;version&quot;&amp;gt;
-
-&amp;lt;/div&amp;gt;
-
-&amp;lt;style&amp;gt;
-    .version ul{
-        list-style:none;
-        padding:0px;
-        margin:0px;
-        width:590px;
-        height:20px;
-        line-height:20px;
-        font-size:12px;
-    }
-    .version ul li{
-        display:block;
-        width:33%;
-        float:left;
-        text-indent:2em
-    }
-    .version .th{
-        background:&quot;gray&quot;;
-        font-weight:bold;
-        border-top:0px
-    }
-&amp;lt;/style&amp;gt;
-
-&amp;lt;script&amp;gt;
-    var hosts = [&quot;192.168.2.2&quot;,&quot;192.168.2.27&quot;,&quot;192.168.2.23&quot;,&quot;192.168.2.25&quot;];
-    var port = 6010;
-
-    function fetch(host,port) {
-        $.ajax({
-            type: &quot;GET&quot;,
-            url: &quot;http://&quot;+host+&quot;:&quot;+port+&quot;/version&quot;,
-            dataType: &quot;json&quot;,
-            success: function(data){
-                var id = &quot;seg-&quot;+host.replace(/\./g,&quot;&quot;)+port;
-                $(&quot;#&quot;+id+&quot;&amp;gt;.version&quot;).text(data[&quot;data&quot;][&quot;version&quot;])
-                $(&quot;#&quot;+id+&quot;&amp;gt;.buildtime&quot;).text(data[&quot;data&quot;][&quot;buildtime&quot;])
-            }
-        });
-    }
-
-    function renderFrame(hosts, port) {
-        var header = &quot;&amp;lt;ul class=\&quot;th\&quot;&amp;gt;\n&quot; +
-            &quot;        &amp;lt;li&amp;gt;Host&amp;lt;/li&amp;gt;\n&quot; +
-            &quot;        &amp;lt;li&amp;gt;版本号&amp;lt;/li&amp;gt;\n&quot; +
-            &quot;        &amp;lt;li&amp;gt;构建时间&amp;lt;/li&amp;gt;\n&quot; +
-            &quot;    &amp;lt;/ul&amp;gt;&quot;;
-        var template = &quot;&amp;lt;ul id=\&quot;\&quot;&amp;gt;\n&quot; +
-            &quot;        &amp;lt;li&amp;gt;&amp;lt;/li&amp;gt;\n&quot; +
-            &quot;        &amp;lt;li class=\&quot;version\&quot;&amp;gt;&amp;lt;/li&amp;gt;\n&quot; +
-            &quot;        &amp;lt;li class=\&quot;buildtime\&quot;&amp;gt;&amp;lt;/li&amp;gt;\n&quot; +
-            &quot;    &amp;lt;/ul&amp;gt;&quot;;
-
-        var frame = header;
-        for(var i = 0; i &amp;lt; hosts.length; i++){
-            var host = hosts[i];
-            var id = &quot;seg-&quot;+host.replace(/\./g,&quot;&quot;)+port;
-            var item = template.replace(&quot;&quot;,id).replace(&quot;&quot;,host+&quot;:&quot;+port);
-            frame += item
-        }
-
-        $(&quot;.version&quot;).append(frame);
-    }
-
-    $(document).ready(function () {
-        renderFrame(hosts, port);
-
-        for(var i = 0; i &amp;lt; hosts.length; i++){
-            var host = hosts[i];
-            window.setInterval(function (host) {
-                fetch(host,port)
-            },10000,host)
-        }
-
-    })
-&amp;lt;/script&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">通过grafana 请求应用接口显示Docker镜像的构建版本信息..</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">helm 私有本地仓库配置</summary></entry></feed>

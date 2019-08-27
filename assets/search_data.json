@@ -6,6 +6,12 @@
     "category": "Kubernetes"
   },
   
+  "2019-06-10-kubernetes-rbac": {
+    "title": "kubernetes RBAC 用户角色访问控制（二）",
+    "url": " /2019/06/10/kubernetes-rbac/",
+    "category": "Kubernetes"
+  },
+  
   "2019-04-18-elk-disk-storage": {
     "title": "Elasticsearch 下分布式存储的数据分布",
     "url": " /2019/04/18/elk-disk-storage/",
@@ -964,6 +970,12 @@
     "title": "Elasticsearch 下分布式存储的数据分布",
     "url": "/2019/04/18/elk-disk-storage/",
     "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2019-06-10-kubernetes-rbac": {
+    "title": "kubernetes RBAC 用户角色访问控制（二）",
+    "url": "/2019/06/10/kubernetes-rbac/",
+    "category": "[&quot;Kubernetes&quot;]"
   },
   
   "2019-08-19-kubernetes-1-13-8": {
