@@ -1,5 +1,11 @@
 {
   
+  "2019-08-30-kubernetes-pod-error": {
+    "title": "Kubernetes Pod 异常排查处理",
+    "url": " /2019/08/30/kubernetes-pod-error/",
+    "category": "Kubernetes"
+  },
+  
   "2019-08-19-kubernetes-1-13-8": {
     "title": "kubernetes 1.13.8 二进制手动部署",
     "url": " /2019/08/19/kubernetes-1.13.8/",
@@ -981,6 +987,12 @@
   "2019-08-19-kubernetes-1-13-8": {
     "title": "kubernetes 1.13.8 二进制手动部署",
     "url": "/2019/08/19/kubernetes-1.13.8/",
+    "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2019-08-30-kubernetes-pod-error": {
+    "title": "Kubernetes Pod 异常排查处理",
+    "url": "/2019/08/30/kubernetes-pod-error/",
     "category": "[&quot;Kubernetes&quot;]"
   },
   

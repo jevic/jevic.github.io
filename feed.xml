@@ -1,4 +1,126 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-08-27T11:38:24+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes 1.13.8 二进制手动部署</title><link href="http://0.0.0.0/2019/08/19/kubernetes-1.13.8/" rel="alternate" type="text/html" title="kubernetes 1.13.8 二进制手动部署" /><published>2019-08-19T18:56:06+08:00</published><updated>2019-08-19T18:56:06+08:00</updated><id>http://0.0.0.0/2019/08/19/kubernetes-1.13.8</id><content type="html" xml:base="http://0.0.0.0/2019/08/19/kubernetes-1.13.8/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-09-19T20:59:19+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Kubernetes Pod 异常排查处理</title><link href="http://0.0.0.0/2019/08/30/kubernetes-pod-error/" rel="alternate" type="text/html" title="Kubernetes Pod 异常排查处理" /><published>2019-08-30T18:56:06+08:00</published><updated>2019-08-30T18:56:06+08:00</updated><id>http://0.0.0.0/2019/08/30/kubernetes-pod-error</id><content type="html" xml:base="http://0.0.0.0/2019/08/30/kubernetes-pod-error/">&lt;blockquote&gt;
+  &lt;p&gt;一般来说，无论 Pod 处于什么异常状态，都可以执行以下命令来查看 Pod 的状态&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl get pod &amp;lt;pod-name&amp;gt; -o yaml 查看 Pod 的配置是否正确
+kubectl describe pod &amp;lt;pod-name&amp;gt; 查看 Pod 的事件
+kubectl logs &amp;lt;pod-name&amp;gt; [-c &amp;lt;container-name&amp;gt;] 查看容器日志
+这些事件和日志通常都会有助于排查 Pod 发生的问题。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;pod-一直处于-pending-状态&quot;&gt;Pod 一直处于 Pending 状态&lt;/h3&gt;
+&lt;p&gt;Pending 说明 Pod 还没有调度到某个 Node 上面。可以通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl describe pod &amp;lt;pod-name&amp;gt;&lt;/code&gt;命令查看到当前 Pod 的事件，进而判断为什么没有调度。可能的原因包括&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;资源不足，集群内所有的 Node 都不满足该 Pod 请求的 CPU、内存、GPU 等资源&lt;/li&gt;
+  &lt;li&gt;HostPort 已被占用，通常推荐使用 Service 对外开放服务端口&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;pod-一直处于-waiting-或-containercreating-状态&quot;&gt;Pod 一直处于 Waiting 或 ContainerCreating 状态&lt;/h3&gt;
+&lt;p&gt;首先还是通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl describe pod &amp;lt;pod-name&amp;gt;&lt;/code&gt; 命令查看到当前 Pod 的事件。可能的原因包括&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;镜像拉取失败，比如
+    &lt;ul&gt;
+      &lt;li&gt;配置了错误的镜像&lt;/li&gt;
+      &lt;li&gt;Kubelet 无法访问镜像（国内环境访问 gcr.io 需要特殊处理）&lt;/li&gt;
+      &lt;li&gt;私有镜像的密钥配置错误&lt;/li&gt;
+      &lt;li&gt;镜像太大，拉取超时（可以适当调整 kubelet 的 –image-pull-progress-deadline 和 –runtime-request-timeout 选项）&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;CNI 网络错误，一般需要检查 CNI 网络插件的配置，比如
+    &lt;ul&gt;
+      &lt;li&gt;无法配置 Pod 网络&lt;/li&gt;
+      &lt;li&gt;无法分配 IP 地址&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;容器无法启动，需要检查是否打包了正确的镜像或者是否配置了正确的容器参数&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;pod-处于-imagepullbackoff-状态&quot;&gt;Pod 处于 ImagePullBackOff 状态&lt;/h3&gt;
+&lt;p&gt;这通常是镜像名称配置错误或者私有镜像的密钥配置错误导致。这种情况可以使用 docker pull &lt;image&gt; 来验证镜像是否可以正常拉取。&lt;/image&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果是私有镜像，需要首先创建一个 docker-registry 类型的 Secret&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create secret docker-registry my-secret --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;然后在容器中引用这个 Secret&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;spec:
+  containers:
+  - name: private-reg-container
+    image: &amp;lt;your-private-image&amp;gt;
+  imagePullSecrets:
+  - name: my-secret
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;pod-一直处于-crashloopbackoff-状态&quot;&gt;Pod 一直处于 CrashLoopBackOff 状态&lt;/h3&gt;
+&lt;p&gt;CrashLoopBackOff 状态说明容器曾经启动了，但又异常退出了。此时可以先查看一下容器的日志&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl logs &amp;lt;pod-name&amp;gt;
+kubectl logs --previous &amp;lt;pod-name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;这里可以发现一些容器退出的原因，比如
+    &lt;ul&gt;
+      &lt;li&gt;容器进程退出&lt;/li&gt;
+      &lt;li&gt;健康检查失败退出&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;此时如果还未发现线索，还可以到容器内执行命令来进一步查看退出原因&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl exec cassandra -- cat /var/log/cassandra/system.log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果还是没有线索，那就需要 SSH 登录该 Pod 所在的 Node 上，查看 Kubelet 或者 Docker 的日志进一步排查了&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 查询 Node
+kubectl get pod &amp;lt;pod-name&amp;gt; -o wide
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;pod-处于-error-状态&quot;&gt;Pod 处于 Error 状态&lt;/h3&gt;
+&lt;p&gt;通常处于 Error 状态说明 Pod 启动过程中发生了错误。常见的原因包括&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;依赖的 ConfigMap、Secret 或者 PV 等不存在&lt;/li&gt;
+  &lt;li&gt;请求的资源超过了管理员设置的限制，比如超过了 LimitRange 等&lt;/li&gt;
+  &lt;li&gt;违反集群的安全策略，比如违反了 PodSecurityPolicy 等&lt;/li&gt;
+  &lt;li&gt;容器无权操作集群内的资源，比如开启 RBAC 后，需要为 ServiceAccount 配置角色绑定&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;pod-处于-terminating-或-unknown-状态&quot;&gt;Pod 处于 Terminating 或 Unknown 状态&lt;/h3&gt;
+&lt;p&gt;从 v1.5 开始，Kubernetes 不会因为 Node 失联而删除其上正在运行的 Pod，而是将其标记为 Terminating 或 Unknown 状态。想要删除这些状态的 Pod 有三种方法：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;从集群中删除该 Node。使用公有云时，kube-controller-manager 会在 VM 删除后自动删除对应的 Node。而在物理机部署的集群中，需要管理员手动删除 Node（如 kubectl delete node &lt;node-name&gt;。&lt;/node-name&gt;&lt;/li&gt;
+  &lt;li&gt;Node 恢复正常。Kubelet 会重新跟 kube-apiserver 通信确认这些 Pod 的期待状态，进而再决定删除或者继续运行这些 Pod。&lt;/li&gt;
+  &lt;li&gt;用户强制删除。用户可以执行 &lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl delete pods &amp;lt;pod&amp;gt; --grace-period=0 --force&lt;/code&gt; 强制删除 Pod。除非明确知道 Pod 的确处于停止状态（比如 Node 所在 VM 或物理机已经关机），否则不建议使用该方法。特别是 StatefulSet 管理的 Pod，强制删除容易导致脑裂或者数据丢失等问题。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;pod-行为异常&quot;&gt;Pod 行为异常&lt;/h3&gt;
+&lt;p&gt;这里所说的行为异常是指 Pod 没有按预期的行为执行，比如没有运行 podSpec 里面设置的命令行参数。这一般是 podSpec yaml 文件内容有误，可以尝试使用 –validate 参数重建容器，比如&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl delete pod mypod
+kubectl create --validate -f mypod.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;也可以查看创建后的 podSpec 是否是对的，比如&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl get pod mypod -o yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;修改静态-pod-的-manifest-后未自动重建&quot;&gt;修改静态 Pod 的 Manifest 后未自动重建&lt;/h3&gt;
+&lt;p&gt;Kubelet 使用 inotify 机制检测 /etc/kubernetes/manifests 目录（可通过 Kubelet 的 –pod-manifest-path 选项指定）中静态 Pod 的变化，并在文件发生变化后重新创建相应的 Pod。但有时也会发生修改静态 Pod 的 Manifest 后未自动创建新 Pod 的情景，此时一个简单的修复方法是重启 Kubelet。&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">一般来说，无论 Pod 处于什么异常状态，都可以执行以下命令来查看 Pod 的状态</summary></entry><entry><title type="html">kubernetes 1.13.8 二进制手动部署</title><link href="http://0.0.0.0/2019/08/19/kubernetes-1.13.8/" rel="alternate" type="text/html" title="kubernetes 1.13.8 二进制手动部署" /><published>2019-08-19T18:56:06+08:00</published><updated>2019-08-19T18:56:06+08:00</updated><id>http://0.0.0.0/2019/08/19/kubernetes-1.13.8</id><content type="html" xml:base="http://0.0.0.0/2019/08/19/kubernetes-1.13.8/">&lt;blockquote&gt;
   &lt;p&gt;2019 都过大半了, 一直比较忙,也有点懒…. 1.13 都出来很久了,还是决定折腾一把!&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -3117,64 +3239,4 @@ nt.jmxremote.ssl=false&quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;客户端&quot;&gt;客户端&lt;/h3&gt;
-&lt;p&gt;Mac &amp;amp; Windowns 安装配置jdk 后执行jsconsole 即可&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">系统内存并不能反应JVM内存情况，经常碰到JVM内存满掉而系统内存大量空余的情况,或者是由于没有对JVM内存进行有效的监控导致无法及时获取应用最新使用状态；</summary></entry><entry><title type="html">helm 私有仓库</title><link href="http://0.0.0.0/2019/01/10/helm-repo/" rel="alternate" type="text/html" title="helm 私有仓库" /><published>2019-01-10T20:35:46+08:00</published><updated>2019-01-10T20:35:46+08:00</updated><id>http://0.0.0.0/2019/01/10/helm-repo</id><content type="html" xml:base="http://0.0.0.0/2019/01/10/helm-repo/">&lt;blockquote&gt;
-  &lt;p&gt;helm 私有本地仓库配置&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;关于helm 安装配置参考&lt;a href=&quot;https://www.jevic.cn/2018/10/13/helm/&quot;&gt;Kubernetes helm 包管理工具&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;开启服务&quot;&gt;开启服务&lt;/h4&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir /opt/helm/charts
-helm serve &lt;span class=&quot;nt&quot;&gt;--address&lt;/span&gt; helm.jevic.cn:8879 &lt;span class=&quot;nt&quot;&gt;--repo-path&lt;/span&gt; /opt/helm/charts &amp;amp;&amp;gt;/dev/null &amp;amp;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;添加仓库&quot;&gt;添加仓库:&lt;/h4&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo add jevic http://hub.jevic.cn:8879
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;查看仓库列表&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo list
-
-NAME     	URL
-&lt;span class=&quot;nb&quot;&gt;local    	&lt;/span&gt;http://127.0.0.1:8879
-incubator	https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
-stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
-aliyun   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
-jevic    	http://helm.jevic.cn:8879
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;应用上传&quot;&gt;应用上传&lt;/h4&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;c&quot;&gt;## 打包应用&lt;/span&gt;
-cp &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; demoapp /opt/helm/charts
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/helm/charts
-helm package demoapp &lt;span class=&quot;nt&quot;&gt;--save&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;## 更新索引&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/helm/charts
-helm repo index &lt;span class=&quot;nt&quot;&gt;--url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;http://helm.jevic.cn:8879 &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-helm repo update
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h4 id=&quot;部署&quot;&gt;部署&lt;/h4&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;## search&lt;/span&gt;
-helm search demo
-
-NAME         	CHART VERSION	APP VERSION	DESCRIPTION
-jevic/demoapp	0.3.0        	1.0        	A Helm chart DemoApp &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;Kubernetes
-
-
-&lt;span class=&quot;c&quot;&gt;## install&lt;/span&gt;
-helm install &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; appv3 jevic/demoapp
-
-&lt;span class=&quot;c&quot;&gt;## get pods&lt;/span&gt;
-kubectl get pods |grep appv3
-
-appv3-demoapp-79b7f754d5-zbkvd                   1/1     Running   0          91s
-
-&lt;span class=&quot;c&quot;&gt;## list &lt;/span&gt;
-helm &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">helm 私有本地仓库配置</summary></entry></feed>
+&lt;p&gt;Mac &amp;amp; Windowns 安装配置jdk 后执行jsconsole 即可&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">系统内存并不能反应JVM内存情况，经常碰到JVM内存满掉而系统内存大量空余的情况,或者是由于没有对JVM内存进行有效的监控导致无法及时获取应用最新使用状态；</summary></entry></feed>
