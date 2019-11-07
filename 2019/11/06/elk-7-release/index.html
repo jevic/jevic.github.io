@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>Elastic Stack 7.x 初识 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2019/11/06/elk-7-release/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="Elastic Stack 7.x 初识">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="es,kibana">
+    <meta name="og:keywords" content="es,kibana">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="概述  2019年04月25日 Elastic Stack 7.0.0 重磅发布  2019年10月02日 Elastic Stack 7.4.0 重磅发布">
+    <meta name="og:description" content="概述  2019年04月25日 Elastic Stack 7.0.0 重磅发布  2019年10月02日 Elastic Stack 7.4.0 重磅发布">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2019/11/06/elk-7-release/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2019-11-07">
+    <meta property="article:published_time" content="2019-11-06">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="Elastic Stack 7">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">Elastic Stack 7.x 初识</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2019/11/06
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,203 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <h3 id="概述">概述</h3>
+<ul>
+  <li>2019年04月25日 <a href="https://www.elastic.co/cn/blog/elastic-stack-7-0-0-released">Elastic Stack 7.0.0 重磅发布</a></li>
+  <li>
+    <p>2019年10月02日 <a href="https://www.elastic.co/cn/blog/elastic-stack-7-4-0-released">Elastic Stack 7.4.0 重磅发布</a></p>
+  </li>
+  <li>关系型数据库与 Elasticsearch 的抽象与类比
+    <ul>
+      <li>在7.0 版本之前,一个index 可以设置多个 <code class="highlighter-rouge">Types</code>;</li>
+      <li>7.0 以后一个索引只能创建一个 <code class="highlighter-rouge">Type =&gt; "_doc"</code></li>
+    </ul>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>RDBMS</th>
+      <th>Elasticsearch</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Table</td>
+      <td>Index(Type)</td>
+    </tr>
+    <tr>
+      <td>Row</td>
+      <td>Document</td>
+    </tr>
+    <tr>
+      <td>Column</td>
+      <td>Filed</td>
+    </tr>
+    <tr>
+      <td>Schema</td>
+      <td>Mapping</td>
+    </tr>
+    <tr>
+      <td>SQL</td>
+      <td>DSL</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="关键特性">关键特性</h3>
+<ul>
+  <li>全新设计和导航……还有夜间模式</li>
+  <li><a href="https://www.elastic.co/cn/blog/a-new-era-for-cluster-coordination-in-elasticsearch">Elasticsearch 集群协调迎来新时代</a></li>
+  <li><a href="https://www.elastic.co/cn/blog/improving-node-resiliency-with-the-real-memory-circuit-breaker">使用真实内存断路器提高节点弹性</a></li>
+  <li><a href="https://www.elastic.co/cn/subscriptions">Elastic Stack 订阅</a>
+ 核心安全功能 免费、免费、免费!!</li>
+</ul>
+
+<h3 id="安装配置">安装配置</h3>
+<ul>
+  <li>详细的 安装配置说明可参考 <a href="https://www.jevic.cn/2017/01/23/elk-elasticsearch-install-5x/">Elasticsearch 5.x 集群配置</a></li>
+  <li>Download 7.4.2
+    <ul>
+      <li><a href="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-linux-x86_64.tar.gz">elasticsearch</a></li>
+      <li><a href="https://artifacts.elastic.co/downloads/kibana/kibana-7.4.2-linux-x86_64.tar.gz">kibana</a></li>
+      <li><a href="https://artifacts.elastic.co/downloads/logstash/logstash-7.4.2.tar.gz">logstash</a></li>
+      <li><code class="highlighter-rouge">Beat</code>
+        <ul>
+          <li><a href="https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-linux-x86_64.tar.gz">filebeat</a></li>
+          <li><a href="https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.4.2-linux-x86_64.tar.gz">metricbeat</a></li>
+          <li><a href="https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.4.2-linux-x86_64.tar.gz">auditbeat</a></li>
+          <li><a href="https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-7.4.2-linux-x86_64.tar.gz">heartbeat</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="elasticsearch">Elasticsearch</h4>
+<ul>
+  <li>此处使用的版本为: <code class="highlighter-rouge">7.4.2</code></li>
+  <li>提示: OpenJDK 已经内置 <code class="highlighter-rouge">$ES_PATH/jdk</code> <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html#jvm-version">JAVA (JVM)</a></li>
+</ul>
+
+<h5 id="系统配置">系统配置</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@jevic ~]# cat /etc/security/limits.conf
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc unlimited
+* hard nproc unlimited
+es soft memlock unlimited
+es hard memlock unlimited
+
+[root@jevic ~]# cat /etc/security/limits.d/20-nproc.conf
+# Default limit for number of user's processes to prevent
+# accidental fork bombs.
+# See rhbz #432903 for reasoning.
+
+*          soft    nproc     102400
+root       soft    nproc     unlimited
+</code></pre></div></div>
+
+<h5 id="elasticsearchyml">elasticsearch.yml</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cluster.name: JevicTestDB
+node.name: node194
+node.master: true
+node.data: true
+path.data: /es-data1/data
+bootstrap.memory_lock: true
+network.host: 192.168.0.194
+http.port: 9200
+discovery.zen.minimum_master_nodes: 2
+discovery.seed_hosts: ["node194", "node198", "node204"]
+#discovery.seed_providers: unicast_hosts.txt
+## 重试间隔
+discovery.find_peers_interval: 1s
+cluster.initial_master_nodes: ["node194", "node198", "node204"]
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+#http.cors.allow-headers: Authorization
+### 开启认证:
+### 初始化认证: $ES_PATH/bin/elasticsearch-setup-passwords interactive
+#xpack.security.enabled: true
+</code></pre></div></div>
+
+<h4 id="kibana">Kibana</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server.name: kibana
+server.host: "0"
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+### 开启认证
+#xpack.security.enabled: true
+#elasticsearch.username: "kibana"
+#elasticsearch.password: "123456"
+</code></pre></div></div>
+<h4 id="logstash">Logstash</h4>
+<ul>
+  <li>收集 NGINX 日志</li>
+</ul>
+
+<h5 id="日志格式">日志格式</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log_format  json '{"cip":"$remote_addr",'
+                            '"timestamp":"$time_iso8601",'
+                            '"rtime":$request_time,'
+                            '"upres_time":$upstream_response_time,'
+                            '"sbyte":$body_bytes_sent,'
+                            '"host":"$http_host",'
+                            '"request":"$request",'
+                            '"scheme":"$scheme",'
+                            '"length":"$content_length",'
+                            '"server":"$upstream_addr",'
+                            '"method":"$request_method",'
+                            '"status":$status}';
+</code></pre></div></div>
+
+<h5 id="pipe-配置">pipe 配置</h5>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input{
+    file {
+        path =&gt; [ "/var/log/nginx/es_access.log" ]
+        start_position =&gt; "beginning"
+        codec =&gt; "json"
+    }
+}
+
+filter {
+  date {
+    match =&gt; [ "timestamp", "ISO8601" ]
+    target =&gt; "@timestamp"
+  }
+  mutate {
+    split =&gt; { "request" =&gt; " " }
+    add_field =&gt; { "url" =&gt; "%{[request][1]}"}
+  }
+  mutate {
+    remove_field =&gt; [ "path", "tags", "request"]
+  }
+}
+
+output {
+    #elasticsearch {
+    #    hosts =&gt; [ "192.168.0.194:9200" ]
+    #    index =&gt; "nginx-%{+YYYY.MM.dd}"
+    #}
+     stdout {
+	       codec =&gt; rubydebug
+     }
+}
+</code></pre></div></div>
+
+<ul>
+  <li>ps: <a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html">filters-mutate</a></li>
+</ul>
+
+<h3 id="扩展阅读">扩展阅读</h3>
+<ul>
+  <li><a href="https://www.elastic.co/cn/blog/how-to-monitor-nginx-web-servers-with-the-elastic-stack">如何使用 Elastic Stack 监测 Nginx Web 服务器</a></li>
+  <li><a href="https://www.elastic.co/cn/blog/monitoring-kafka-with-elasticsearch-kibana-and-beats">通过 Elasticsearch、Kibana 和 Beats 监测 Kafka</a></li>
+</ul>
 
     </article>
     <div class="share">
@@ -132,9 +341,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2019/11/06/elk-7-release/';
+                    this.page.identifier = '/2019/11/06/elk-7-release/';
+                    this.page.title = 'Elastic Stack 7.x 初识';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

@@ -1,4 +1,200 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-09-19T20:59:19+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Kubernetes Pod 异常排查处理</title><link href="http://0.0.0.0/2019/08/30/kubernetes-pod-error/" rel="alternate" type="text/html" title="Kubernetes Pod 异常排查处理" /><published>2019-08-30T18:56:06+08:00</published><updated>2019-08-30T18:56:06+08:00</updated><id>http://0.0.0.0/2019/08/30/kubernetes-pod-error</id><content type="html" xml:base="http://0.0.0.0/2019/08/30/kubernetes-pod-error/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-11-07T15:00:50+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 7.x 初识</title><link href="http://0.0.0.0/2019/11/06/elk-7-release/" rel="alternate" type="text/html" title="Elastic Stack 7.x 初识" /><published>2019-11-06T18:56:06+08:00</published><updated>2019-11-06T18:56:06+08:00</updated><id>http://0.0.0.0/2019/11/06/elk-7-release</id><content type="html" xml:base="http://0.0.0.0/2019/11/06/elk-7-release/">&lt;h3 id=&quot;概述&quot;&gt;概述&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;2019年04月25日 &lt;a href=&quot;https://www.elastic.co/cn/blog/elastic-stack-7-0-0-released&quot;&gt;Elastic Stack 7.0.0 重磅发布&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;2019年10月02日 &lt;a href=&quot;https://www.elastic.co/cn/blog/elastic-stack-7-4-0-released&quot;&gt;Elastic Stack 7.4.0 重磅发布&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;关系型数据库与 Elasticsearch 的抽象与类比
+    &lt;ul&gt;
+      &lt;li&gt;在7.0 版本之前,一个index 可以设置多个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Types&lt;/code&gt;;&lt;/li&gt;
+      &lt;li&gt;7.0 以后一个索引只能创建一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Type =&amp;gt; &quot;_doc&quot;&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;RDBMS&lt;/th&gt;
+      &lt;th&gt;Elasticsearch&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Table&lt;/td&gt;
+      &lt;td&gt;Index(Type)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Row&lt;/td&gt;
+      &lt;td&gt;Document&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Column&lt;/td&gt;
+      &lt;td&gt;Filed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Schema&lt;/td&gt;
+      &lt;td&gt;Mapping&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SQL&lt;/td&gt;
+      &lt;td&gt;DSL&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;关键特性&quot;&gt;关键特性&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;全新设计和导航……还有夜间模式&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/a-new-era-for-cluster-coordination-in-elasticsearch&quot;&gt;Elasticsearch 集群协调迎来新时代&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/improving-node-resiliency-with-the-real-memory-circuit-breaker&quot;&gt;使用真实内存断路器提高节点弹性&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/subscriptions&quot;&gt;Elastic Stack 订阅&lt;/a&gt;
+ 核心安全功能 免费、免费、免费!!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;安装配置&quot;&gt;安装配置&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;详细的 安装配置说明可参考 &lt;a href=&quot;https://www.jevic.cn/2017/01/23/elk-elasticsearch-install-5x/&quot;&gt;Elasticsearch 5.x 集群配置&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Download 7.4.2
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-linux-x86_64.tar.gz&quot;&gt;elasticsearch&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/kibana/kibana-7.4.2-linux-x86_64.tar.gz&quot;&gt;kibana&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/logstash/logstash-7.4.2.tar.gz&quot;&gt;logstash&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Beat&lt;/code&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-linux-x86_64.tar.gz&quot;&gt;filebeat&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.4.2-linux-x86_64.tar.gz&quot;&gt;metricbeat&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.4.2-linux-x86_64.tar.gz&quot;&gt;auditbeat&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-7.4.2-linux-x86_64.tar.gz&quot;&gt;heartbeat&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;elasticsearch&quot;&gt;Elasticsearch&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;此处使用的版本为: &lt;code class=&quot;highlighter-rouge&quot;&gt;7.4.2&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;提示: OpenJDK 已经内置 &lt;code class=&quot;highlighter-rouge&quot;&gt;$ES_PATH/jdk&lt;/code&gt; &lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html#jvm-version&quot;&gt;JAVA (JVM)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;系统配置&quot;&gt;系统配置&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@jevic ~]# cat /etc/security/limits.conf
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc unlimited
+* hard nproc unlimited
+es soft memlock unlimited
+es hard memlock unlimited
+
+[root@jevic ~]# cat /etc/security/limits.d/20-nproc.conf
+# Default limit for number of user's processes to prevent
+# accidental fork bombs.
+# See rhbz #432903 for reasoning.
+
+*          soft    nproc     102400
+root       soft    nproc     unlimited
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;elasticsearchyml&quot;&gt;elasticsearch.yml&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cluster.name: JevicTestDB
+node.name: node194
+node.master: true
+node.data: true
+path.data: /es-data1/data
+bootstrap.memory_lock: true
+network.host: 192.168.0.194
+http.port: 9200
+discovery.zen.minimum_master_nodes: 2
+discovery.seed_hosts: [&quot;node194&quot;, &quot;node198&quot;, &quot;node204&quot;]
+#discovery.seed_providers: unicast_hosts.txt
+## 重试间隔
+discovery.find_peers_interval: 1s
+cluster.initial_master_nodes: [&quot;node194&quot;, &quot;node198&quot;, &quot;node204&quot;]
+http.cors.enabled: true
+http.cors.allow-origin: &quot;*&quot;
+#http.cors.allow-headers: Authorization
+### 开启认证:
+### 初始化认证: $ES_PATH/bin/elasticsearch-setup-passwords interactive
+#xpack.security.enabled: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;kibana&quot;&gt;Kibana&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;server.name: kibana
+server.host: &quot;0&quot;
+elasticsearch.hosts: [ &quot;http://elasticsearch:9200&quot; ]
+### 开启认证
+#xpack.security.enabled: true
+#elasticsearch.username: &quot;kibana&quot;
+#elasticsearch.password: &quot;123456&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;logstash&quot;&gt;Logstash&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;收集 NGINX 日志&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;日志格式&quot;&gt;日志格式&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;log_format  json '{&quot;cip&quot;:&quot;$remote_addr&quot;,'
+                            '&quot;timestamp&quot;:&quot;$time_iso8601&quot;,'
+                            '&quot;rtime&quot;:$request_time,'
+                            '&quot;upres_time&quot;:$upstream_response_time,'
+                            '&quot;sbyte&quot;:$body_bytes_sent,'
+                            '&quot;host&quot;:&quot;$http_host&quot;,'
+                            '&quot;request&quot;:&quot;$request&quot;,'
+                            '&quot;scheme&quot;:&quot;$scheme&quot;,'
+                            '&quot;length&quot;:&quot;$content_length&quot;,'
+                            '&quot;server&quot;:&quot;$upstream_addr&quot;,'
+                            '&quot;method&quot;:&quot;$request_method&quot;,'
+                            '&quot;status&quot;:$status}';
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;pipe-配置&quot;&gt;pipe 配置&lt;/h5&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;input{
+    file {
+        path =&amp;gt; [ &quot;/var/log/nginx/es_access.log&quot; ]
+        start_position =&amp;gt; &quot;beginning&quot;
+        codec =&amp;gt; &quot;json&quot;
+    }
+}
+
+filter {
+  date {
+    match =&amp;gt; [ &quot;timestamp&quot;, &quot;ISO8601&quot; ]
+    target =&amp;gt; &quot;@timestamp&quot;
+  }
+  mutate {
+    split =&amp;gt; { &quot;request&quot; =&amp;gt; &quot; &quot; }
+    add_field =&amp;gt; { &quot;url&quot; =&amp;gt; &quot;%{[request][1]}&quot;}
+  }
+  mutate {
+    remove_field =&amp;gt; [ &quot;path&quot;, &quot;tags&quot;, &quot;request&quot;]
+  }
+}
+
+output {
+    #elasticsearch {
+    #    hosts =&amp;gt; [ &quot;192.168.0.194:9200&quot; ]
+    #    index =&amp;gt; &quot;nginx-%{+YYYY.MM.dd}&quot;
+    #}
+     stdout {
+	       codec =&amp;gt; rubydebug
+     }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ps: &lt;a href=&quot;https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html&quot;&gt;filters-mutate&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;扩展阅读&quot;&gt;扩展阅读&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/how-to-monitor-nginx-web-servers-with-the-elastic-stack&quot;&gt;如何使用 Elastic Stack 监测 Nginx Web 服务器&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/monitoring-kafka-with-elasticsearch-kibana-and-beats&quot;&gt;通过 Elasticsearch、Kibana 和 Beats 监测 Kafka&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">概述 2019年04月25日 Elastic Stack 7.0.0 重磅发布 2019年10月02日 Elastic Stack 7.4.0 重磅发布</summary></entry><entry><title type="html">Kubernetes Pod 异常排查处理</title><link href="http://0.0.0.0/2019/08/30/kubernetes-pod-error/" rel="alternate" type="text/html" title="Kubernetes Pod 异常排查处理" /><published>2019-08-30T18:56:06+08:00</published><updated>2019-08-30T18:56:06+08:00</updated><id>http://0.0.0.0/2019/08/30/kubernetes-pod-error</id><content type="html" xml:base="http://0.0.0.0/2019/08/30/kubernetes-pod-error/">&lt;blockquote&gt;
   &lt;p&gt;一般来说，无论 Pod 处于什么异常状态，都可以执行以下命令来查看 Pod 的状态&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -3172,71 +3368,4 @@ sleep 30 如上所述则是持续30秒。&lt;/p&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.brendangregg.com/perf.html#FlameGraphs&quot;&gt;http://www.brendangregg.com&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/duzilonglove/article/details/79012606&quot;&gt;如何读懂火焰图&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/gatieme/article/details/78885908&quot;&gt;用火焰图进行性能分析&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。</summary></entry><entry><title type="html">JVM 内存监控</title><link href="http://0.0.0.0/2019/02/15/java-jvm/" rel="alternate" type="text/html" title="JVM 内存监控" /><published>2019-02-15T18:10:46+08:00</published><updated>2019-02-15T18:10:46+08:00</updated><id>http://0.0.0.0/2019/02/15/java-jvm</id><content type="html" xml:base="http://0.0.0.0/2019/02/15/java-jvm/">&lt;blockquote&gt;
-  &lt;p&gt;系统内存并不能反应JVM内存情况，经常碰到JVM内存满掉而系统内存大量空余的情况,或者是由于没有对JVM内存进行有效的监控导致无法及时获取应用最新使用状态；&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;jstat&quot;&gt;jstat&lt;/h2&gt;
-&lt;h3 id=&quot;gcutil&quot;&gt;gcutil&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;$JAVA_HOME/bin/jstat -gcutil VMID interval count&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;每隔1毫秒输出&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$JAVA_HOME&lt;/span&gt;/bin/jstat &lt;span class=&quot;nt&quot;&gt;-gcutil&lt;/span&gt; 3548 1    
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;每隔1秒输出,且统计五次&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$JAVA_HOME&lt;/span&gt;/bin/jstat &lt;span class=&quot;nt&quot;&gt;-gcutil&lt;/span&gt; 3548 1000 5
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜  ~ &lt;span class=&quot;nv&quot;&gt;$JAVA_HOME&lt;/span&gt;/bin/jstat &lt;span class=&quot;nt&quot;&gt;-gcutil&lt;/span&gt; 3548
-  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
-  0.00 100.00  34.69  78.45  96.39  91.25 881491 30503.989     9  350.987 30854.976
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;取heap-size-已使用量百分比值&quot;&gt;取heap size 已使用量百分比值&lt;/h4&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜  ~ &lt;span class=&quot;nv&quot;&gt;$JAVA_HOME&lt;/span&gt;/bin/jstat &lt;span class=&quot;nt&quot;&gt;-gcutil&lt;/span&gt; 3548|awk &lt;span class=&quot;s1&quot;&gt;'NR==2 {print $3}'&lt;/span&gt;
-63.28
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;gccause&quot;&gt;gccause&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$JAVA_HOME/bin/jstat -gccause VMID interval count
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;gccapacity&quot;&gt;gccapacity&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$JAVA_HOME/bin/jstat -gccapacity VMID interval count
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;jconsole&quot;&gt;Jconsole&lt;/h2&gt;
-&lt;h3 id=&quot;认证连接&quot;&gt;认证连接&lt;/h3&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;JAVA_OPTS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=21812 &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;
--Dcom.sun.management.jmxremote.authenticate=true &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;
--Dcom.sun.management.jmxremote.password.file=/etc/jmx/jmx-spark.password &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;
--Dcom.sun.management.jmxremote.access.file=/etc/jmx/jmx-spark.access &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;
--Dcom.sun.management.jmxremote.ssl=false&quot;&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;密码文件示例：
-$JAVA_HOME/jre/lib/management&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;无认证连接&quot;&gt;无认证连接&lt;/h3&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;JAVA_OPTS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;-Dcom.sun.management.jmxremote.port=8999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.manageme
-nt.jmxremote.ssl=false&quot;&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;客户端&quot;&gt;客户端&lt;/h3&gt;
-&lt;p&gt;Mac &amp;amp; Windowns 安装配置jdk 后执行jsconsole 即可&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">系统内存并不能反应JVM内存情况，经常碰到JVM内存满掉而系统内存大量空余的情况,或者是由于没有对JVM内存进行有效的监控导致无法及时获取应用最新使用状态；</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。</summary></entry></feed>

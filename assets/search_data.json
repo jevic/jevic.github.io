@@ -1,5 +1,11 @@
 {
   
+  "2019-11-06-elk-7-release": {
+    "title": "Elastic Stack 7.x 初识",
+    "url": " /2019/11/06/elk-7-release/",
+    "category": "ELK"
+  },
+  
   "2019-08-30-kubernetes-pod-error": {
     "title": "Kubernetes Pod 异常排查处理",
     "url": " /2019/08/30/kubernetes-pod-error/",
@@ -994,6 +1000,12 @@
     "title": "Kubernetes Pod 异常排查处理",
     "url": "/2019/08/30/kubernetes-pod-error/",
     "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2019-11-06-elk-7-release": {
+    "title": "Elastic Stack 7.x 初识",
+    "url": "/2019/11/06/elk-7-release/",
+    "category": "[&quot;ELK&quot;]"
   },
   
   "wiki-template": {
