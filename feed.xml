@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-11-07T15:00:50+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 7.x 初识</title><link href="http://0.0.0.0/2019/11/06/elk-7-release/" rel="alternate" type="text/html" title="Elastic Stack 7.x 初识" /><published>2019-11-06T18:56:06+08:00</published><updated>2019-11-06T18:56:06+08:00</updated><id>http://0.0.0.0/2019/11/06/elk-7-release</id><content type="html" xml:base="http://0.0.0.0/2019/11/06/elk-7-release/">&lt;h3 id=&quot;概述&quot;&gt;概述&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-11-08T10:32:54+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 7.x 初识</title><link href="http://0.0.0.0/2019/11/06/elk-7-release/" rel="alternate" type="text/html" title="Elastic Stack 7.x 初识" /><published>2019-11-06T18:56:06+08:00</published><updated>2019-11-06T18:56:06+08:00</updated><id>http://0.0.0.0/2019/11/06/elk-7-release</id><content type="html" xml:base="http://0.0.0.0/2019/11/06/elk-7-release/">&lt;h3 id=&quot;概述&quot;&gt;概述&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;2019年04月25日 &lt;a href=&quot;https://www.elastic.co/cn/blog/elastic-stack-7-0-0-released&quot;&gt;Elastic Stack 7.0.0 重磅发布&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;
@@ -113,9 +113,11 @@ discovery.seed_hosts: [&quot;node194&quot;, &quot;node198&quot;, &quot;node204&q
 ## 重试间隔
 discovery.find_peers_interval: 1s
 cluster.initial_master_nodes: [&quot;node194&quot;, &quot;node198&quot;, &quot;node204&quot;]
+### sql插件支持
 http.cors.enabled: true
 http.cors.allow-origin: &quot;*&quot;
-#http.cors.allow-headers: Authorization
+#### 必须停用xpack sql才可以使用elasticsearch-sql
+xpack.sql.enabled: false
 ### 开启认证:
 ### 初始化认证: $ES_PATH/bin/elasticsearch-setup-passwords interactive
 #xpack.security.enabled: true
@@ -194,6 +196,7 @@ output {
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/how-to-monitor-nginx-web-servers-with-the-elastic-stack&quot;&gt;如何使用 Elastic Stack 监测 Nginx Web 服务器&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/monitoring-kafka-with-elasticsearch-kibana-and-beats&quot;&gt;通过 Elasticsearch、Kibana 和 Beats 监测 Kafka&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;关于 &lt;a href=&quot;https://github.com/NLPchina/elasticsearch-sql/wiki&quot;&gt;elasticsearch-sql&lt;/a&gt; 和 &lt;a href=&quot;https://github.com/lmenezes/cerebro&quot;&gt;cerebro&lt;/a&gt; 插件的安装部署请移步Github&lt;/li&gt;
 &lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">概述 2019年04月25日 Elastic Stack 7.0.0 重磅发布 2019年10月02日 Elastic Stack 7.4.0 重磅发布</summary></entry><entry><title type="html">Kubernetes Pod 异常排查处理</title><link href="http://0.0.0.0/2019/08/30/kubernetes-pod-error/" rel="alternate" type="text/html" title="Kubernetes Pod 异常排查处理" /><published>2019-08-30T18:56:06+08:00</published><updated>2019-08-30T18:56:06+08:00</updated><id>http://0.0.0.0/2019/08/30/kubernetes-pod-error</id><content type="html" xml:base="http://0.0.0.0/2019/08/30/kubernetes-pod-error/">&lt;blockquote&gt;
   &lt;p&gt;一般来说，无论 Pod 处于什么异常状态，都可以执行以下命令来查看 Pod 的状态&lt;/p&gt;
 &lt;/blockquote&gt;

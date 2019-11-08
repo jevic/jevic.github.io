@@ -244,9 +244,11 @@ discovery.seed_hosts: ["node194", "node198", "node204"]
 ## 重试间隔
 discovery.find_peers_interval: 1s
 cluster.initial_master_nodes: ["node194", "node198", "node204"]
+### sql插件支持
 http.cors.enabled: true
 http.cors.allow-origin: "*"
-#http.cors.allow-headers: Authorization
+#### 必须停用xpack sql才可以使用elasticsearch-sql
+xpack.sql.enabled: false
 ### 开启认证:
 ### 初始化认证: $ES_PATH/bin/elasticsearch-setup-passwords interactive
 #xpack.security.enabled: true
@@ -325,6 +327,7 @@ output {
 <ul>
   <li><a href="https://www.elastic.co/cn/blog/how-to-monitor-nginx-web-servers-with-the-elastic-stack">如何使用 Elastic Stack 监测 Nginx Web 服务器</a></li>
   <li><a href="https://www.elastic.co/cn/blog/monitoring-kafka-with-elasticsearch-kibana-and-beats">通过 Elasticsearch、Kibana 和 Beats 监测 Kafka</a></li>
+  <li>关于 <a href="https://github.com/NLPchina/elasticsearch-sql/wiki">elasticsearch-sql</a> 和 <a href="https://github.com/lmenezes/cerebro">cerebro</a> 插件的安装部署请移步Github</li>
 </ul>
 
     </article>
