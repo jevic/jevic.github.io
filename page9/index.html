@@ -125,6 +125,99 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
+                      <a href="/2017/04/01/spark-cluster-ha/">Spark HA 高可用集群</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        环境准备
+
+  Java环境
+zookeeper集群
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/04/01
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Spark" title="Spark">Spark</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/03/11/linux-rpm/">FPM 制作RPM 安装包</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        支持的源类型包：
+    
+      dir: 将目录打包成所需要的类型，可以用于源码编译安装的软件包
+      rpm: 对rpm进行转换
+      gem: 对rubygem包进行转换
+      python: 将Python模块打包成相应的类型
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/03/11
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Linux" title="Linux">Linux</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/02/18/kernel-update/">CentOS 内核 kernel升级</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        CentOS 7.2 默认内核版本为3.10
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/02/18
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Linux" title="Linux">Linux</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2017/02/07/chatops-hubot/">Chatops 趣味自动化BearyChat-hubot</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        ChatOps 在 GitHub 上广受赞誉，是指由对话驱动的开发。将工具植入到对话当中，使用被关键插件和脚本改良过的聊天机器人，团队能够自动执行任务和协作，效果更好、成本更低、速度更快…..
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2017/02/07
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#OPS" title="OPS">OPS</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
                       <a href="/2017/01/23/docker-registry-shell/">自动构建docker registry仓库 shell</a>
                     </h3>
                     <p class="repo-list-description">
@@ -218,93 +311,6 @@ Python对SMTP支持有smtplib和email两个模块，email负责构造邮件，sm
                         <span class="meta-info">
                           <span class="octicon octicon-file-directory"></span>
                           <a href="/categories/#Python" title="Python">Python</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/23/elk-elasticsearch-install-5x/">Elasticsearch 5.x 集群配置</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/23/elk-elasticsearch-itom-ops/">ELK elasticsearch 管理优化杂记</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        索引分片： 从策略层面，控制分片分配的选择
-
-  磁盘限额 为了保护节点数据安全，ES 会定时(cluster.info.update.interval，默认 30 秒)检查一下各节点的数据目录磁盘使用情况。
-在达到 cluster.routing.allocation.disk.watermark.low (默认 85%)的时候，新索引分片就不会再分配到这个节点上了。
-在达到 cluster.routing.allocation.disk.watermark.high (默认 90%)的时候，就会触发该节点现存分片的数据均衡，把数据挪到其他节点上去。
-这两个值不但可以写百分比，还可以写具体的字节,有些公司可能出于成本考虑，对磁盘使用率有一定的要求，需要适当抬高这个配置：
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/23/docker-monitor-cadvisor-grafana/">Docker 监控应用 cAdvisor-InfluxDB-Grafana</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        基础概念
-cAdvisor
-​ cAdvisor 为Docker容器用户提供了了解运行时容器资源使用和性能特征的工具。cAdvisor的容器抽象基于Google的lmctfy容器栈，因此原生支持Docker容器并能够“开箱即用”地支持其他的容器类型。cAdvisor部署为一个运行中的daemon，它会收集、聚集、处理并导出运行中容器的信息。这些信息能够包含容器级别的资源隔离参数、资源的历史使用状况、反映资源使用和网络统计数据完整历史状况的柱状图。
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/23
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Docker" title="Docker">Docker</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2017/01/12/mysql-basic-conf/">Mysql 操作杂录</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        MySQL 常用操作语句
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2017/01/12
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Mysql" title="Mysql">Mysql</a>
                         </span>
                         
                     </p>
@@ -466,9 +472,9 @@ cAdvisor
                 <span class="meta-info" title="0 forks">
                     <span class="octicon octicon-git-branch"></span> 0
                 </span>
-                <span class="meta-info" title="Last updated：2019-09-19 13:05:41 UTC">
+                <span class="meta-info" title="Last updated：2019-11-08 02:35:25 UTC">
                     <span class="octicon octicon-clock"></span>
-                    <time datetime="2019-09-19 13:05:41 UTC">2019-09-19</time>
+                    <time datetime="2019-11-08 02:35:25 UTC">2019-11-08</time>
                 </span>
             </div>
         </div>
@@ -524,6 +530,10 @@ cAdvisor
         
           
               <a href="/page10" class="btn btn-outline">10</a>
+          
+        
+          
+              <a href="/page11" class="btn btn-outline">11</a>
           
         
         

@@ -1,5 +1,29 @@
 {
   
+  "2020-03-16-hue": {
+    "title": "Hue",
+    "url": " /2020/03/16/hue/",
+    "category": "Bigdata"
+  },
+  
+  "2020-03-07-ambari-cluster": {
+    "title": "Ambari-Cluster配置(三)",
+    "url": " /2020/03/07/ambari-cluster/",
+    "category": "Bigdata"
+  },
+  
+  "2020-03-07-ambari-server-install": {
+    "title": "Ambari-Server&amp;agent安装配置(二)",
+    "url": " /2020/03/07/ambari-server-install/",
+    "category": "Bigdata"
+  },
+  
+  "2020-03-06-ambari-yum": {
+    "title": "Ambari-本地Yum源配置(一)",
+    "url": " /2020/03/06/ambari-yum/",
+    "category": "Bigdata"
+  },
+  
   "2019-11-06-elk-7-release": {
     "title": "Elastic Stack 7.x 初识",
     "url": " /2019/11/06/elk-7-release/",
@@ -538,6 +562,8 @@
   
   
   
+  
+  
 
   
   "2016-07-23-linux-firewalld-iptables": {
@@ -1006,6 +1032,30 @@
     "title": "Elastic Stack 7.x 初识",
     "url": "/2019/11/06/elk-7-release/",
     "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2020-03-06-ambari-yum": {
+    "title": "Ambari-本地Yum源配置(一)",
+    "url": "/2020/03/06/ambari-yum/",
+    "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2020-03-07-ambari-server-install": {
+    "title": "Ambari-Server&amp;agent安装配置(二)",
+    "url": "/2020/03/07/ambari-server-install/",
+    "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2020-03-07-ambari-cluster": {
+    "title": "Ambari-Cluster配置(三)",
+    "url": "/2020/03/07/ambari-cluster/",
+    "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2020-03-16-hue": {
+    "title": "Hue",
+    "url": "/2020/03/16/hue/",
+    "category": "[&quot;Bigdata&quot;]"
   },
   
   "wiki-template": {

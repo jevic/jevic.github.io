@@ -1,4 +1,654 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2019-11-08T10:32:54+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Elastic Stack 7.x 初识</title><link href="http://0.0.0.0/2019/11/06/elk-7-release/" rel="alternate" type="text/html" title="Elastic Stack 7.x 初识" /><published>2019-11-06T18:56:06+08:00</published><updated>2019-11-06T18:56:06+08:00</updated><id>http://0.0.0.0/2019/11/06/elk-7-release</id><content type="html" xml:base="http://0.0.0.0/2019/11/06/elk-7-release/">&lt;h3 id=&quot;概述&quot;&gt;概述&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-03-20T11:29:50+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Hue</title><link href="http://0.0.0.0/2020/03/16/hue/" rel="alternate" type="text/html" title="Hue" /><published>2020-03-16T18:56:06+08:00</published><updated>2020-03-16T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/16/hue</id><content type="html" xml:base="http://0.0.0.0/2020/03/16/hue/">&lt;p&gt;HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等&lt;/p&gt;
+
+&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;官网提供的只是源码只能编译安装(太耗时)&lt;/li&gt;
+  &lt;li&gt;直接使用CDH 的发行版本&lt;a href=&quot;https://docs.cloudera.com/documentation/enterprise/6/release-notes/topics/rg_cm_6_version_download.html#cm_6_version_download&quot;&gt;cm_6_version_download&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Docker 或者 kubernetes 部署 (优选)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;docker-方式部署&quot;&gt;Docker 方式部署&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;关于镜像
+    &lt;ul&gt;
+      &lt;li&gt;由于官方镜像实在是太大网络不好的根本很难正常下载;&lt;/li&gt;
+      &lt;li&gt;这里使用阿里云镜像仓库进行FROM 构建&lt;/li&gt;
+      &lt;li&gt;在从阿里云镜像拉取会快很多&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cat Dockerfile
+FROM gethue/hue:latest
+ENV US jevic
+
+....
+docker pull registry.cn-shenzhen.aliyuncs.com/jevic/hue:v1
+docker tag registry.cn-shenzhen.aliyuncs.com/jevic/hue:v1 hue
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;为了修改配置文件方便,可将配置文件进行挂载；&lt;/li&gt;
+  &lt;li&gt;挂载之前先将镜像的配置文件目录拷贝出来&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# docker run -it hue /bin/bash
+另外打开一个终端: 
+# docker cp hue:/usr/share/hue/desktop/conf /opt/hue/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;启动hue
+    &lt;ul&gt;
+      &lt;li&gt;如果使用默认桥接网络你需要显示的指明hostname:&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--add-host=db1.jevic.cn:192.168.1.1&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;否则容器内部无法进行域名解析&lt;/li&gt;
+      &lt;li&gt;这里使用host 模式所以无需指定&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cat run.hue.sh
+docker run -it -d \
+--name hue \
+--network host \
+-v /opt/hue/conf:/usr/share/hue/desktop/conf \
+hue
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;修改hue的元数据库为mysql&quot;&gt;修改hue的元数据库为mysql&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;默认使用sqlite&lt;/li&gt;
+  &lt;li&gt;如果不修改为Mysql hue 访问是会出现 &lt;code class=&quot;highlighter-rouge&quot;&gt;Database is locked&lt;/code&gt; 错误&lt;/li&gt;
+  &lt;li&gt;需要注意: 一定要提前创建好 hue 数据库;之前在安装Ambari 时已经创建了所以此处不再列出;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;修改hueini-配置&quot;&gt;修改hue.ini 配置&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;需要修改两处配置项,参考图例&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hue-mysql.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    name=mysqldb
+    engine=mysql
+    host=db1.jevic.cn
+    port=3306
+    user=hue
+    password=Hue@123456
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hue-mysql02.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    engine=mysql
+    host=db1.jevic.cn
+    port=3306
+    user=hue
+    password=Hue@123456
+    name=hue
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;初始化数据库&quot;&gt;初始化数据库&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@mdb2:/usr/share/hue/build/env# ./bin/hue syncdb
+root@mdb2:/usr/share/hue/build/env# ./bin/hue migrate
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hue-init-mysql.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;重启服务:
+ docker restart hue&lt;/p&gt;
+
+&lt;p&gt;其他的配置项根据需要逐一调整即可,具体参数示例可参考&lt;a href=&quot;https://docs.gethue.com/administrator/configuration/connectors/&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;参考文档
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.jianshu.com/p/087404300cda&quot;&gt;Hue&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.cnblogs.com/zlslch/p/6819622.html?utm_source=itdadao&amp;amp;utm_medium=referral&quot;&gt;Hue 问题汇总&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等</summary></entry><entry><title type="html">Ambari-Cluster配置(三)</title><link href="http://0.0.0.0/2020/03/07/ambari-cluster/" rel="alternate" type="text/html" title="Ambari-Cluster配置(三)" /><published>2020-03-07T20:35:06+08:00</published><updated>2020-03-07T20:35:06+08:00</updated><id>http://0.0.0.0/2020/03/07/ambari-cluster</id><content type="html" xml:base="http://0.0.0.0/2020/03/07/ambari-cluster/">&lt;h1 id=&quot;ambari-集群配置&quot;&gt;Ambari 集群配置&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-01.png&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-02.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;选择你需要安装的服务然后进入到配置界面&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;调整配置项&quot;&gt;调整配置项&lt;/h2&gt;
+&lt;h3 id=&quot;hadoop-hue-依赖配置&quot;&gt;hadoop hue 依赖配置&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;检查确认是否有下列配置项,后面hue 要使用;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.gethue.com/administrator/configuration/connectors/#hdfs&quot;&gt;hue for HDFS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## core-site.xml
+hadoop.proxyuser.ambari.groups=*
+hadoop.proxyuser.ambari.hosts=*
+hadoop.proxyuser.falcon.groups=*
+hadoop.proxyuser.falcon.hosts=*
+hadoop.proxyuser.hbase.groups=*
+hadoop.proxyuser.hbase.hosts=*
+hadoop.proxyuser.hcat.groups=*
+hadoop.proxyuser.hcat.hosts=*
+hadoop.proxyuser.hdfs.groups=*
+hadoop.proxyuser.hdfs.hosts=*
+hadoop.proxyuser.hive.groups=*
+hadoop.proxyuser.hive.hosts=*
+hadoop.proxyuser.httpfs.groups=*
+hadoop.proxyuser.httpfs.hosts=*
+hadoop.proxyuser.hue.groups=*
+hadoop.proxyuser.hue.hosts=*
+hadoop.proxyuser.livy.groups=*
+hadoop.proxyuser.livy.hosts=*
+hadoop.proxyuser.oozie.groups=*
+hadoop.proxyuser.oozie.hosts=*
+hadoop.proxyuser.root.hosts=*
+hadoop.proxyuser.root.groups=*
+hadoop.proxyuser.yarn.hosts=*
+
+## hdfs-site.xml
+&amp;lt;property&amp;gt;
+  &amp;lt;name&amp;gt;dfs.webhdfs.enable&amp;lt;/name&amp;gt;
+  &amp;lt;value&amp;gt;true&amp;lt;/value&amp;gt;
+&amp;lt;/property&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-hadoop.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;hive&quot;&gt;Hive&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;连接数据库时使用,ambari 页面会有提示根据提示进行操作即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@dt1 ~]# ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java-5.1.48-bin.jar
+Using python  /usr/bin/python
+Setup ambari-server
+Copying /usr/share/java/mysql-connector-java-5.1.48-bin.jar to /var/lib/ambari-server/resources
+If you are updating existing jdbc driver jar for mysql with mysql-connector-java-5.1.48-bin.jar. Please remove the old driver jar, from all hosts. Restarting services that need the driver, will automatically copy the new jar to the hosts.
+JDBC driver was successfully initialized.
+Ambari Server 'setup' completed successfully.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-hive.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;oozie&quot;&gt;Oozie&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.gethue.com/administrator/configuration/connectors/#apache-oozie&quot;&gt;hue oozie&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ambari 初始化安装时添加下列参数&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## oozie-site.xml
+&amp;lt;property&amp;gt;
+    &amp;lt;name&amp;gt;oozie.service.ProxyUserService.proxyuser.hue.hosts&amp;lt;/name&amp;gt;
+    &amp;lt;value&amp;gt;*&amp;lt;/value&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;property&amp;gt;
+    &amp;lt;name&amp;gt;oozie.service.ProxyUserService.proxyuser.hue.groups&amp;lt;/name&amp;gt;
+    &amp;lt;value&amp;gt;*&amp;lt;/value&amp;gt;
+&amp;lt;/property&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-oozie.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;最终安装结果如下图&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-end.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;hadoop-ha&quot;&gt;Hadoop HA&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;ambari 默认安装hadoop时,没有启用HA 高可用,所以当安装完成后需要再次点击启用HA&lt;/li&gt;
+  &lt;li&gt;参考&lt;a href=&quot;http://www.louisvv.com/archives/1490.html&quot;&gt;Ambari Hadoop安装启用HA&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-01.png&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-02.png&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-03.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;剩下的步骤根据提示一步步操作即可!&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">Ambari 集群配置</summary></entry><entry><title type="html">Ambari-Server&amp;amp;agent安装配置(二)</title><link href="http://0.0.0.0/2020/03/07/ambari-server-install/" rel="alternate" type="text/html" title="Ambari-Server&amp;agent安装配置(二)" /><published>2020-03-07T18:56:06+08:00</published><updated>2020-03-07T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/07/ambari-server-install</id><content type="html" xml:base="http://0.0.0.0/2020/03/07/ambari-server-install/">&lt;h2 id=&quot;数据库配置&quot;&gt;数据库配置&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可
+
+# mysql -u root -p123456 -e &quot;show variables like 'lower_case_table_names';&quot;
+mysql: [Warning] Using a password on the command line interface can be insecure.
++------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| lower_case_table_names | 1     |
++------------------------+-------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;创建数据库&quot;&gt;创建数据库&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;根据你需要安装的服务创建对应的数据库及配置访问信息;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;create database ambari character set utf8;
+GRANT ALL PRIVILEGES ON ambari.* TO 'ambari'@'%' IDENTIFIED BY 'Ambari_123';
+FLUSH PRIVILEGES;
+create database hive character set latin1;
+GRANT ALL PRIVILEGES ON hive.* TO 'hive'@'%' IDENTIFIED BY 'Hive@123';
+FLUSH PRIVILEGES;
+create database oozie character set utf8;
+GRANT ALL PRIVILEGES ON oozie.* TO 'oozie'@'%' IDENTIFIED BY 'Oozie@123';
+FLUSH PRIVILEGES;
+create database ranger character set utf8;
+GRANT ALL PRIVILEGES ON rangeradmin.* TO 'rangeradmin'@'%' IDENTIFIED BY 'Ranger@123';
+FLUSH PRIVILEGES;
+create database superset character set utf8;
+GRANT ALL PRIVILEGES ON superset.* TO 'superset'@'%' IDENTIFIED BY 'Superset@123';
+FLUSH PRIVILEGES;
+create database hbase character set latin1;
+GRANT ALL PRIVILEGES ON hbase.* TO 'hbase'@'%' IDENTIFIED BY 'Hbase@123';
+FLUSH PRIVILEGES;
+
+## hue 
+create database hue character set utf8;
+GRANT ALL PRIVILEGES ON hue.* TO 'hue'@'%' IDENTIFIED BY 'Hue@123456';
+FLUSH PRIVILEGES;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;主机初始化&quot;&gt;主机初始化&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jdk
+双机免秘钥互信(具体操作略去):
+[root@jevic-t01 .ssh]# pwd
+/root/.ssh
+[root@jevic-t01 .ssh]# cat config 
+Host *
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  LogLevel quiet
+  Port 22
+
+
+selinux disabled
+防火墙关闭
+sysctl.conf 优化
+ulimit 限制取消
+各个依赖组件安装
+主机名配置:
+192.168.13.91 dt1.jevic.cn dt1
+192.168.13.92 dt2.jevic.cn dt2
+192.168.13.93 dt3.jevic.cn dt3
+192.168.13.94 dt4.jevic.cn dt4
+192.168.13.95 dt5.jevic.cn dt5
+hostname 也要一一对应!
+hostname xxxx 并修改 /etc/hostname！！！！
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;初始化脚本仅供参考&quot;&gt;初始化脚本仅供参考:&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash &lt;/span&gt;
+
+systemctl get-default
+systemctl set-default multi-user.target
+
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;NETWORKING=yes&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;HOSTNAME=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;hostname&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;/etc/sysconfig/network
+
+
+systemctl disable firewalld
+systemctl stop fiewalld 
+
+sed &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; s#SELINUX&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;enforcing#SELINUX&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;disabled# /etc/selinux/config
+setenforce 0
+
+yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install ntp
+systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;ntpd
+systemctl restart ntpd
+
+&lt;span class=&quot;c&quot;&gt;#7.Disabled THP &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#echo &quot;never&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/enabled&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#echo &quot;never&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/defrag&lt;/span&gt;
+
+chmod +x /etc/rc.local
+&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt;  &lt;span class=&quot;s1&quot;&gt;'^echo \&quot;never\&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/defrag'&lt;/span&gt; /etc/rc.local  &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'echo &quot;never&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/defrag'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; /etc/rc.local
+&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'^echo \&quot;never\&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/enabled'&lt;/span&gt; /etc/rc.local &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'echo &quot;never&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/enabled'&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; /etc/rc.local
+
+&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;^transparent_hugepage=never&quot;&lt;/span&gt; /etc/default/grub &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;transparent_hugepage=never&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; /etc/default/grub
+grub2-mkconfig &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /boot/grub2/grub.cfg
+
+
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /etc/sysctl.conf &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+fs.file-max=65535
+vm.swappiness=1
+net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_syncookies = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 4294967296
+net.ipv4.tcp_max_syn_backlog = 262144
+net.core.netdev_max_backlog = 262144
+net.core.somaxconn = 262144
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_fin_timeout = 1
+net.ipv4.tcp_keepalive_time = 30
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 16384 4194304
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.ipv4.tcp_mem = 94500000 915000000 927000000
+net.nf_conntrack_max = 6553500
+net.netfilter.nf_conntrack_max = 6553500
+net.netfilter.nf_conntrack_tcp_timeout_close_wait = 60
+net.netfilter.nf_conntrack_tcp_timeout_fin_wait = 120
+net.netfilter.nf_conntrack_tcp_timeout_time_wait = 120
+net.netfilter.nf_conntrack_tcp_timeout_established = 3600
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
+
+&lt;/span&gt;sysctl &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 
+
+/etc/init.d/network restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;ambari-server&quot;&gt;ambari-server&lt;/h2&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Current Version: 2.6.5.0-292 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;公共仓库]
+http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.5.0
+http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
+
+
+&lt;span class=&quot;c&quot;&gt;## &lt;/span&gt;
+yum install ambari-server &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;## jdbc 驱动下载地址 &lt;/span&gt;
+https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-5.1.48.tar.gz
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@jevic-t01 ~]# &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;server.jdbc.driver.path /etc/ambari-server/conf/ambari.properties 
+server.jdbc.driver.path&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/share/java/mysql-connector-java-5.1.48-bin.jar
+
+
+&lt;span class=&quot;c&quot;&gt;## 初始化安装&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@dt1 ~]# ambari-server setup
+Using python  /usr/bin/python
+Setup ambari-server
+Checking SELinux...
+SELinux status is &lt;span class=&quot;s1&quot;&gt;'disabled'&lt;/span&gt;
+Customize user account &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;ambari-server daemon &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/n] &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;? y
+Enter user account &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;ambari-server daemon &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;root&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:ambari
+Adjusting ambari-server permissions and ownership...
+Checking firewall status...
+Checking JDK...
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1] Oracle JDK 1.8 + Java Cryptography Extension &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;JCE&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; Policy Files 8
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;2] Oracle JDK 1.7 + Java Cryptography Extension &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;JCE&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; Policy Files 7
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;3] Custom JDK
+&lt;span class=&quot;o&quot;&gt;==============================================================================&lt;/span&gt;
+Enter choice &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: 3
+WARNING: JDK must be installed on all hosts and JAVA_HOME must be valid on all hosts.
+WARNING: JCE Policy files are required &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;configuring Kerberos security. If you plan to use Kerberos,please make sure JCE Unlimited Strength Jurisdiction Policy Files are valid on all hosts.
+Path to JAVA_HOME: /usr/local/java
+Validating JDK on Ambari Server...done.
+Checking GPL software agreement...
+GPL License &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;LZO: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+Enable Ambari Server to download and install GPL Licensed LZO packages &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/n] &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;? n
+Completing setup...
+Configuring database...
+Enter advanced database configuration &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/n] &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;? y
+Configuring database...
+&lt;span class=&quot;o&quot;&gt;==============================================================================&lt;/span&gt;
+Choose one of the following options:
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1] - PostgreSQL &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Embedded&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;2] - Oracle
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;3] - MySQL / MariaDB
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;4] - PostgreSQL
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;5] - Microsoft SQL Server &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Tech Preview&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;6] - SQL Anywhere
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;7] - BDB
+&lt;span class=&quot;o&quot;&gt;==============================================================================&lt;/span&gt;
+Enter choice &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: 3
+Hostname &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;localhost&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: db1.jevic.cn
+Port &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;3306&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
+Database name &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ambari&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: ambari
+Username &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ambari&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
+Enter Database Password &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;bigdata&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
+Re-enter password:
+Configuring ambari database...
+Configuring remote database connection properties...
+WARNING: Before starting Ambari Server, you must run the following DDL against the database to create the schema: /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
+Proceed with configuring remote database connection properties &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/n] &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;y&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;?
+Extracting system views...
+ambari-admin-2.6.2.2.1.jar
+...........
+Adjusting ambari-server permissions and ownership...
+Ambari Server &lt;span class=&quot;s1&quot;&gt;'setup'&lt;/span&gt; completed successfully.
+
+
+
+
+&lt;span class=&quot;c&quot;&gt;## 将Ambari数据库脚本导入到数据库&lt;/span&gt;
+mysql &lt;span class=&quot;nt&quot;&gt;-uambari&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-pxxx&lt;/span&gt;
+use ambari&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
+
+
+&lt;span class=&quot;c&quot;&gt;## 启动ambari server&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ambari-server start&lt;/span&gt;
+
+在浏览器中访问ip:8080，默认登录名：admin 密码:admin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;ambari-agent&quot;&gt;ambari-agent&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;配置yum 源
+yum -y install ambari-agent
+
+#ambari-agent 打ssl认证有问题，需要关闭
+if hash /usr/sbin/ambari-agent &amp;gt;/dev/null ; then
+
+	grep -q &quot;^force_https_protocol=PROTOCOL_TLSv1_2&quot; /etc/ambari-agent/conf/ambari-agent.ini ||sed -i 's@\[security\]@&amp;amp;\nforce_https_protocol=PROTOCOL_TLSv1_2@g' /etc/ambari-agent/conf/ambari-agent.ini
+
+	grep -q &quot;^verify=diable&quot; /etc/python/cert-verification.cfg || sed -i 's@\[https\]@&amp;amp;\nverify=diable@g' /etc/python/cert-verification.cfg 
+
+	/usr/sbin/ambari-agent stop
+	echo -ne &quot;\033[36m please enter ambari-server host ,like ambari.oa.com (请输入ambari-server地址,如ambari.oa.com): \033[0m&quot;
+    read ambariServerName
+
+	/usr/sbin/ambari-agent reset $ambariServerName
+	/usr/sbin/ambari-agent start 
+	
+fi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">数据库配置 ``` 说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可</summary></entry><entry><title type="html">Ambari-本地Yum源配置(一)</title><link href="http://0.0.0.0/2020/03/06/ambari-yum/" rel="alternate" type="text/html" title="Ambari-本地Yum源配置(一)" /><published>2020-03-06T18:56:06+08:00</published><updated>2020-03-06T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/06/ambari-yum</id><content type="html" xml:base="http://0.0.0.0/2020/03/06/ambari-yum/">&lt;h2 id=&quot;ambari概述&quot;&gt;Ambari概述&lt;/h2&gt;
+&lt;p&gt;Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。&lt;/p&gt;
+
+&lt;p&gt;Apache Ambari 从集群节点和服务收集大量信息，并把它们表现为容易使用的，集中化的接口：Ambari Web.&lt;/p&gt;
+
+&lt;p&gt;Ambari Web显示诸如服务特定的摘要、图表以及警报信息。可通过Ambari Web对Hadoop集群进行创建、管理、监视、添加主机、更新服务配置等；也可以利用Ambari Web执行集群管理任务，例如启用 Kerberos 安全以及执行Stack升级。任何用户都可以查看Ambari Web特性。拥有administrator-level 角色的用户可以访问比 operator-level 或 view-only 的用户能访问的更多选项。例如，Ambari administrator 可以管理集群安全，一个 operator 用户可以监控集群，而 view-only 用户只能访问系统管理员授予他的必要的权限。&lt;/p&gt;
+
+&lt;h2 id=&quot;ambari体系结构&quot;&gt;Ambari体系结构&lt;/h2&gt;
+&lt;p&gt;Ambari 自身也是一个分布式架构的软件，主要由两部分组成：Ambari Server 和 Ambari Agent。简单来说，用户通过Ambari Server通知 Ambari Agent 安装对应的软件；Agent 会定时地发送各个机器每个软件模块的状态给 Ambari Server，最终这些状态信息会呈现在 Ambari 的 GUI，方便用户了解到集群的各种状态，并进行相应的维护。&lt;/p&gt;
+
+&lt;p&gt;Ambari Server 从整个集群上收集信息。每个主机上都有 Ambari Agent, Ambari Server 通过 Ambari Agent 控制每部主机。&lt;/p&gt;
+
+&lt;h2 id=&quot;配置本地yum源&quot;&gt;配置本地YUM源&lt;/h2&gt;
+&lt;h2 id=&quot;参考文档&quot;&gt;参考文档&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://docs.cloudera.com/HDPDocuments&lt;/li&gt;
+  &lt;li&gt;https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/bk_ambari-installation/content/ambari_repositories.html&lt;/li&gt;
+  &lt;li&gt;https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/bk_ambari-installation/content/hdp_315_repositories.html&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;目录结构&quot;&gt;目录结构&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@192-168-5-12 ~]# mkdir -p /tmp/temp
+ 
+ 
+wget -N http://192.168.12.62/ambari/ambari2.6.2.2/HDP-2.6.5.0-centos7-rpm.tar.gz -P /tmp/temp/
+wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/HDP-GPL-2.6.5.0-centos7-gpl.tar.gz -P /tmp/temp/
+wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/HDP-UTILS-1.1.0.22-centos7.tar.gz -P /tmp/temp/
+wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/ambari-2.6.2.2-centos7.tar.gz -P /tmp/temp/
+ 
+ 
+[root@192-168-5-12 ~]# for file in `ls -1 /tmp/temp/*.tar.gz` ; do tar -xzvf $file -C /tmp/temp/ ; done ;
+ 
+ 
+ 
+[root@192-168-5-12 ~]#  mkdir -p /data/wwwroot/yum/{ambari,hdp,hdp-utils,hdp-gpl}
+ 
+ 
+mv /tmp/temp/ambari/centos7/2.6.2.2-1/* /data/wwwroot/yum/ambari/
+mv /tmp/temp/HDP/centos7/2.6.5.0-292/* /data/wwwroot/yum/hdp/
+mv /tmp/temp/HDP-GPL/centos7/2.6.5.0-292/* /data/wwwroot/yum/hdp-gpl/
+mv /tmp/temp/HDP-UTILS/centos7/1.1.0.22/* /data/wwwroot/yum//hdp-utils/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@yum ambari2.7.4]# pwd
+/data/wwwroot/yum/ambari2.7.4
+[root@yum ambari2.7.4]# tree -d -L 2
+.
+├── ambari
+│   ├── ambari
+│   ├── repodata
+│   ├── RPM-GPG-KEY
+│   ├── smartsense
+│   └── tars
+├── hdp
+│   ├── accumulo
+│   ├── atlas
+│   ├── bigtop-jsvc
+│   ├── bigtop-tomcat
+│   ├── datafu
+│   ├── druid
+│   ├── hadoop
+│   ├── hbase
+│   ├── hdp-select
+│   ├── hive
+│   ├── hive_warehouse_connector
+│   ├── kafka
+│   ├── knox
+│   ├── livy
+│   ├── oozie
+│   ├── phoenix
+│   ├── pig
+│   ├── ranger
+│   ├── repodata
+│   ├── RPM-GPG-KEY
+│   ├── shc
+│   ├── spark2
+│   ├── spark_atlas_connector
+│   ├── spark_schema_registry
+│   ├── sqoop
+│   ├── storm
+│   ├── superset
+│   ├── tez
+│   ├── vrpms
+│   ├── zeppelin
+│   └── zookeeper
+├── hdp-gpl
+│   ├── hadooplzo
+│   ├── repodata
+│   ├── RPM-GPG-KEY
+│   └── vrpms
+└── hdp-utils
+    ├── openblas
+    ├── repodata
+    ├── RPM-GPG-KEY
+    └── snappy
+
+48 directories
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;nginx-server配置&quot;&gt;nginx server配置&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+server {
+        listen       80;
+        server_name  localhost;
+        location / {
+            #root   /data/wwwroot/yum;
+	    root /data/wwwroot/yum ;
+            charset utf-8;
+	    autoindex on;
+            # set to on means use localtime
+            autoindex_localtime on;
+            # show size with unit 'MB' instead of 'Byte'
+            autoindex_exact_size off;
+            index  index.html index.htm;
+        }
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;repo文件&quot;&gt;repo文件&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@s03 yum.repos.d]# cat ambari.repo
+#VERSION_NUMBER=2.7.4.0-118
+[ambari-2.7.4.0]
+#json.url = http://public-repo-1.hortonworks.com/HDP/hdp_urlinfo.json
+name=ambari Version - ambari-2.7.4.0
+#baseurl=http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0
+baseurl=http://192.168.12.70/ambari2.7.4/ambari/
+gpgcheck=1
+#gpgkey=http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://192.168.12.70/ambari2.7.4/ambari/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+
+[root@s03 yum.repos.d]# cat hdp*repo
+
+#VERSION_NUMBER=3.1.4.0-315
+[HDP-GPL-3.1.4.0]
+name=HDP-GPL Version - HDP-GPL-3.1.4.0
+#baseurl=http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0
+baseurl=http://192.168.12.70/ambari2.7.4/hdp-gpl
+gpgcheck=1
+#gpgkey=http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://192.168.12.70/ambari2.7.4/hdp-gpl/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+#VERSION_NUMBER=3.1.4.0-315
+[HDP-3.1.4.0]
+name=HDP Version - HDP-3.1.4.0
+#baseurl=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0
+baseurl=http://192.168.12.70/ambari2.7.4/hdp/
+gpgcheck=1
+#gpgkey=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://192.168.12.70/ambari2.7.4/hdp/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+
+[HDP-UTILS-1.1.0.22]
+name=HDP-UTILS Version - HDP-UTILS-1.1.0.22
+#baseurl=http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
+baseurl=http://192.168.12.70/ambari2.7.4/hdp-utils
+gpgcheck=1
+#gpgkey=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://192.168.12.70/ambari2.7.4/hdp-utils/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+[HDP-UTILS-1.1.0.22]
+name=Hortonworks Data Platform Utils Version - HDP-UTILS-1.1.0.22
+#baseurl=http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
+baseurl=http://192.168.12.70/ambari2.7.4/hdp-utils
+gpgcheck=1
+enabled=0
+priority=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">Ambari概述 Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。</summary></entry><entry><title type="html">Elastic Stack 7.x 初识</title><link href="http://0.0.0.0/2019/11/06/elk-7-release/" rel="alternate" type="text/html" title="Elastic Stack 7.x 初识" /><published>2019-11-06T18:56:06+08:00</published><updated>2019-11-06T18:56:06+08:00</updated><id>http://0.0.0.0/2019/11/06/elk-7-release</id><content type="html" xml:base="http://0.0.0.0/2019/11/06/elk-7-release/">&lt;h3 id=&quot;概述&quot;&gt;概述&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;2019年04月25日 &lt;a href=&quot;https://www.elastic.co/cn/blog/elastic-stack-7-0-0-released&quot;&gt;Elastic Stack 7.0.0 重磅发布&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;
@@ -2626,749 +3276,4 @@ output &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/opt/logstash/bin/logstash -f /opt/logstash/etc/test.conf --path.data=/opt/logstash/data/testlog
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；</summary></entry><entry><title type="html">kubernetes RBAC 用户角色访问控制</title><link href="http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol/" rel="alternate" type="text/html" title="kubernetes RBAC 用户角色访问控制" /><published>2019-04-06T20:10:46+08:00</published><updated>2019-04-06T20:10:46+08:00</updated><id>http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol</id><content type="html" xml:base="http://0.0.0.0/2019/04/06/kubernetes-rbac-useraccesscontrol/">&lt;h3 id=&quot;配置证书&quot;&gt;配置证书&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;/etc/kubernetes/pki/&lt;/li&gt;
-  &lt;li&gt;二进制手动安装请到指定目录下操作&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## 生成私钥
-(umask 077;openssl genrsa -out devops.key 2048)
-## 证书生成签署请求 CN=用户账号名称
-openssl req -new -key devops.key -out devops.csr -subj &quot;/CN=devops&quot;
-## 签证由ca 签署
-openssl x509 -req -in devops.csr -CA ./ca.crt -CAkey ./ca.key -CAcreateserial -out devops.crt -days 7200
-## 查看证书
-openssl x509 -in devops.crt -text -noout
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;添加用户&quot;&gt;添加用户&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;复制admin.conf 到配置目录为: devops.kubeconfig&lt;/li&gt;
-  &lt;li&gt;这样就无需配置集群参数信息,后面配置完成后再删除admin 所有信息即可&lt;/li&gt;
-  &lt;li&gt;生成 config 配置文件&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//客户端证书
-# kubectl config set-credentials devops --client-certificate=/etc/kubernetes/pki/devops.crt --client-key=/etc/kubernetes/pki/devops.key --embed-certs=true --kubeconfig=devops.kubeconfig
-
-// 配置上下文
-# kubectl config set-context devops@kubernetes --cluster=kubernetes --user=devops --namespace=devops --kubeconfig=devops.kubeconfig
-
-
-// 默认上下文
-# kubectl config use-context devops@kubernetes --kubeconfig=devops.kubeconfig
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;namespace-权限&quot;&gt;namespace 权限&lt;/h3&gt;
-&lt;h4 id=&quot;role&quot;&gt;role&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl create role pods-reader --verb=get,list,watch --resource=pods --dry-run -o yaml &amp;gt; role-demo.yaml
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: pods-reader
-  ## 定义名称空间
-  namespace: devops
-rules:
-- apiGroups:
-  - &quot;&quot;
-  resources:
-  - pods
-  - pods/attach
-  - pods/exec
-  - pods/portforward
-  - pods/proxy
-  verbs:
-   - create
-#  - delete
-#  - deletecollection
-  - get
-  - list
-  - watch
-#  - update
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;rolebinding&quot;&gt;rolebinding&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl create rolebinding devops-podsreader --role=pods-reader --user=devops --dry-run -o yaml &amp;gt;&amp;gt; role-demo2.yaml
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: devops-podsreader
-  ## 定义名称空间
-  namespace: devops
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: pods-reader
-subjects:
-- apiGroup: rbac.authorization.k8s.io
-  kind: User
-  name: devops
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;创建&quot;&gt;创建&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create -f role-demo.yaml
-kubectl create -f role-demo2.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;kube-config&quot;&gt;kube config&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p ~/.kuber
-cp devops.kubeconfig ~/.kube/config
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;cluster-权限&quot;&gt;Cluster 权限&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;创建集群角色并绑定到对应的用户;&lt;/li&gt;
-  &lt;li&gt;可编辑生成的yaml 文件来增加删除权限配置等;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create clusterrole cluster-reader --verb=get,list,watch --resource=pods,pods/exec,pods/attach,svc --dry-run -o yaml &amp;gt; clusterrole-demo.yaml
-
-kubectl create clusterrolebinding devops-readallpods --clusterrole=cluster-reader --user=devops --dry-run -o yaml &amp;gt;&amp;gt; clusterrole-demo.yaml
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">配置证书 /etc/kubernetes/pki/ 二进制手动安装请到指定目录下操作</summary></entry><entry><title type="html">ELK 用户权限管理控制 Search Guard</title><link href="http://0.0.0.0/2019/03/28/elk-search-guard/" rel="alternate" type="text/html" title="ELK 用户权限管理控制 Search Guard" /><published>2019-03-28T19:56:06+08:00</published><updated>2019-03-28T19:56:06+08:00</updated><id>http://0.0.0.0/2019/03/28/elk-search-guard</id><content type="html" xml:base="http://0.0.0.0/2019/03/28/elk-search-guard/">&lt;blockquote&gt;
-  &lt;p&gt;Search Guard为您提供对整个ElasticSearch环境的完全安全控制!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;目前提供的有三个版本分别是免费版、企业版、定制版&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Search Guard 配置(包括用户、权限与角色)是存储在Elasticsearch集群的索引中的。这允许配置热加载，更新配置后不需要重启Elasticsearch节点，并且不需要在每个节点上放置配置文件。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;sgadmin&lt;/code&gt; 工具将配置文件中的配置信息加载到searchguard配置索引中。sgadmin需要通过管理员证书来执行命令。管理员证书授予对集群的完全访问权限，包括更改Search Guard配置索引&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;elasticsearch&quot;&gt;elasticsearch&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;关于ELK 安装部署自行参考官网
-本文使用的EFLK 版本为 &lt;code class=&quot;highlighter-rouge&quot;&gt;6.4.2&lt;/code&gt; !!!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;安装search-guard-插件&quot;&gt;安装search guard 插件&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.search-guard.com/latest/search-guard-installation#installing-search-guard&quot;&gt;Installing Search Guard&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.search-guard.com/latest/search-guard-versions&quot;&gt;插件下载&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;此处选择下载zip包后直接本地安装:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 elasticsearch-6.4.2]# pwd
-/usr/local/elasticsearch-6.4.2
-[root@k2 elasticsearch-6.4.2]# ls search-guard-6-6.4.2-24.2.zip
-search-guard-6-6.4.2-24.2.zip
-[root@k2 elasticsearch-6.4.2]# ./bin/elasticsearch-plugin install file:////usr/local/elasticsearch-6.4.2/search-guard-6-6.4.2-24.2.zip
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;在线生成秘钥&quot;&gt;在线生成秘钥&lt;/h4&gt;
-&lt;p&gt;由于ElasticSearch节点之间通讯默值非加密，造成数据不安全，Search Guard强制ElasticSearch节点之间通讯为加密方式;
-Email用来接收密钥，Organization Name可以随便填写，Hostname填写ElasticSearch集群中每个节点的node name;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://search-guard.com/tls-certificate-generator/&quot;&gt;证书申请 tls-cert&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;将邮箱中收到的密钥文件解压，然后得到search-guard-certificates文件夹&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 search-guard-certificates]# tree
-.
-├── chain-ca.pem
-├── client-certificates
-│   ├── CN=demouser.all.pem
-│   ├── CN=demouser.crtfull.pem
-│   ├── CN=demouser.crt.pem
-│   ├── CN=demouser.csr
-│   ├── CN=demouser.key.pem
-│   ├── CN=demouser.key.pkcs12
-│   ├── CN=demouser-keystore.jks
-│   ├── CN=demouser-keystore.p12
-│   ├── CN=demouser-signed.pem
-│   ├── CN=sgadmin.all.pem
-│   ├── CN=sgadmin.crtfull.pem
-│   ├── CN=sgadmin.crt.pem
-│   ├── CN=sgadmin.csr
-│   ├── CN=sgadmin.key.pem
-│   ├── CN=sgadmin.key.pkcs12
-│   ├── CN=sgadmin-keystore.jks
-│   ├── CN=sgadmin-keystore.p12
-│   └── CN=sgadmin-signed.pem
-├── node-certificates
-│   ├── CN=es2.crtfull.pem
-│   ├── CN=es2.csr
-│   ├── CN=es2.key.pem
-│   ├── CN=es2.key.pkcs12
-│   ├── CN=es2-keystore.jks
-│   ├── CN=es2-keystore.p12
-│   └── CN=es2-signed.pem
-├── README.txt
-├── root-ca
-│   ├── root-ca.crt
-│   ├── root-ca.key
-│   └── root-ca.pem
-├── root-ca.pem
-├── signing-ca
-│   ├── signing-ca.crt
-│   ├── signing-ca.key
-│   └── signing-ca.pem
-├── truststore.jks
-└── truststore.p12
-
-4 directories, 36 files
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;配置es证书&quot;&gt;配置ES证书&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;详情查看 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.txt&lt;/code&gt; 文档&lt;/li&gt;
-  &lt;li&gt;通读一遍在进行操作!!!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;此次使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;Using the keystore- and truststore file&lt;/code&gt; 证书配置&lt;/p&gt;
-
-&lt;p&gt;编辑 elasticsearch.yml 在最后部分添加下面配置:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cluster.name: elk-cluster
-path.data: /data/elk/elasticsearch
-path.logs: /data/elk/logs
-node.name: es2
-node.master: true
-node.data: true
-http.enabled: true
-network.host: es2
-
-### 集群自动发现设置
-discovery.zen.ping.unicast.hosts: [&quot;192.168.160.129&quot;]
-### 关闭x-pack认证
-xpack.security.enabled: false
-### sql 插件支持
-http.cors.enabled: true
-http.cors.allow-origin: &quot;*&quot;
-http.cors.allow-credentials: true
-###
-searchguard.ssl.transport.keystore_filepath: CN=es2-keystore.jks
-searchguard.ssl.transport.keystore_password: d9c13b2c8f5550a62d88
-searchguard.ssl.transport.truststore_filepath: truststore.jks
-searchguard.ssl.transport.truststore_password: 7ef7af8e734522cdba14
-searchguard.ssl.transport.enforce_hostname_verification: false
-searchguard.ssl.http.enabled: true
-searchguard.ssl.http.keystore_filepath: CN=es2-keystore.jks
-searchguard.ssl.http.keystore_password: d9c13b2c8f5550a62d88
-searchguard.ssl.http.truststore_filepath: truststore.jks
-searchguard.ssl.http.truststore_password: 7ef7af8e734522cdba14
-
-searchguard.authcz.admin_dn:
-  - CN=sgadmin
-
-searchguard.audit.type: internal_elasticsearch
-searchguard.enable_snapshot_restore_privilege: true
-searchguard.check_snapshot_restore_write_privileges: true
-searchguard.restapi.roles_enabled: [&quot;sg_all_access&quot;]
-
-xpack.monitoring.enabled: true
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ps:
-    &lt;ul&gt;
-      &lt;li&gt;根据文档里面的提示 cp 复制证书秘钥文件到es config 下即可；&lt;/li&gt;
-      &lt;li&gt;证书及秘钥密码查看 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.txt&lt;/code&gt; 结尾部分都有给出；&lt;/li&gt;
-      &lt;li&gt;请注意文件权限必须为 644 或者 600&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;最后启动elasticsearch 即可&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;初始化配置&quot;&gt;初始化配置&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[es@k2 tools]$ pwd
-/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/tools
-[es@k2 tools]$ chmod +x sgadmin.sh
--------
-
-[es@k2 tools]$ ./sgadmin.sh -h 192.168.160.129 -p 9300 -ts truststore.jks -tspass 7ef7af8e734522cdba14 -ks CN=sgadmin-keystore.jks -kspass d1e21acbcb8fdd1362a8 -nhnv -icl -cd ../sgconfig/
-Search Guard Admin v6
-Will connect to 192.168.160.129:9300 ... done
-Elasticsearch Version: 6.4.2
-Search Guard Version: 6.4.2-24.2
-Connected as CN=sgadmin
-Contacting elasticsearch cluster 'elasticsearch' and wait for YELLOW clusterstate ...
-Clustername: my-application
-Clusterstate: GREEN
-Number of nodes: 1
-Number of data nodes: 1
-searchguard index does not exists, attempt to create it ... done (0-all replicas)
-Populate config from /usr/local/elasticsearch-6.4.2/plugins/search-guard-6/sgconfig
-Will update 'sg/config' with ../sgconfig/sg_config.yml
-   SUCC: Configuration for 'config' created or updated
-Will update 'sg/roles' with ../sgconfig/sg_roles.yml
-   SUCC: Configuration for 'roles' created or updated
-Will update 'sg/rolesmapping' with ../sgconfig/sg_roles_mapping.yml
-   SUCC: Configuration for 'rolesmapping' created or updated
-Will update 'sg/internalusers' with ../sgconfig/sg_internal_users.yml
-   SUCC: Configuration for 'internalusers' created or updated
-Will update 'sg/actiongroups' with ../sgconfig/sg_action_groups.yml
-   SUCC: Configuration for 'actiongroups' created or updated
-Done with success
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;测试访问&quot;&gt;测试访问&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;初始管理员用户名密码: admin admin&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--insecure&lt;/code&gt; 为方便调用禁用证书验证&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -u admin:admin --insecure https://192.168.160.129:9200
-curl -u admin:admin --insecure https://192.168.160.129:9200/_cat/indices
-## license查看
-curl -u admin:admin --insecure https://192.168.160.129:9200/_searchguard/license
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;kibana&quot;&gt;Kibana&lt;/h3&gt;
-&lt;h4 id=&quot;安装search-guard-插件-1&quot;&gt;安装search guard 插件&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.search-guard.com/latest/kibana-plugin-installation&quot;&gt;插件安装&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.search-guard.com/latest/search-guard-versions&quot;&gt;插件下载&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;同样使用本地安装方式&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/kibana-plugin install file:///usr/local/kibana-6.4.2-linux-x86_64/search-guard-kibana-plugin-6.4.2-17.zip
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;等待安装初始化完成即可&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;添加配置&quot;&gt;添加配置&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;复制 &lt;code class=&quot;highlighter-rouge&quot;&gt;root-ca.pem&lt;/code&gt; 到指定目录下&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;编辑kibana.yml&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xpack.security.enabled: false
-elasticsearch.url: &quot;https://es2:9200&quot;
-elasticsearch.username: &quot;kibanaserver&quot;
-elasticsearch.password: &quot;kibanaserver&quot;
-elasticsearch.ssl.certificateAuthorities: &quot;/usr/local/kibana-6.4.2-linux-x86_64/config/root-ca.pem&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;启动kibana&quot;&gt;启动Kibana&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;访问页面&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana.png&quot; alt=&quot;image&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana02.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;授权用户只读权限&quot;&gt;授权用户只读权限&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;下面示例配置 &lt;code class=&quot;highlighter-rouge&quot;&gt;app&lt;/code&gt; 用户只能搜索查看&lt;code class=&quot;highlighter-rouge&quot;&gt;applogs*&lt;/code&gt; 匹配的索引且权限为只读&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;只需要选择其中一个节点进行操作即可,否则会导致数据混乱无法使用;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;配置文件目录:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 sgconfig]# pwd
-/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/sgconfig
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;sg_internal_users.yml:  存储用户名密码，密码可以使用plugin/search-guard-6/tools/hash.sh生成,用户可以加入一个用户组，后面使用用户组与权限进行映射&lt;/p&gt;
-
-&lt;p&gt;sg_roles.yml：权限设置，定义什么类型的权限&lt;/p&gt;
-
-&lt;p&gt;sg_roles_mapping.yml： 映射角色关系，可以把权限映射给用户，也可以映射给用户组&lt;/p&gt;
-
-&lt;p&gt;sg_action_groups.yml： 定义一些用户动作的权限与es索引之间的关系&lt;/p&gt;
-
-&lt;p&gt;sg_config.yml：全局设置&lt;/p&gt;
-
-&lt;h4 id=&quot;配置用户名密码&quot;&gt;配置用户名密码&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 tools]# bash hash.sh app
-[Password:]  123456
-$2y$12$Ua4xGZYuwCJRY4sqMfi.8.nb.dV94GPuXpaS7mHKrQmFIzwfZOGOW
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h4 id=&quot;添加用户&quot;&gt;添加用户&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 sgconfig]# pwd
-/opt/es/plugins/search-guard-6/sgconfig
-[root@k2 sgconfig]# vim sg_internal_users.yml
-[root@k2 sgconfig]# tail -n 5 sg_internal_users.yml
-app:
-  hash: $2y$12$Ua4xGZYuwCJRY4sqMfi.8.nb.dV94GPuXpaS7mHKrQmFIzwfZOGOW
-  #password: is 123456
-  roles:
-    - app
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;添加权限&quot;&gt;添加权限&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;编辑 sg_roles.yml&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 sgconfig]# tail -n 11 sg_roles.yml
-sg_app_index:
-  cluster:
-    - CLUSTER_COMPOSITE_OPS_RO
-  indices:
-    '*applogs*':
-      '*':
-        - READ
-        - indices:admin/mappings/fields/get*
-    '?kibana':
-      '*':
-        - INDICES_ALL
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;配置中定义了权限，CLUSTER_COMPOSITE_OPS_RO 权限范围，来自于sg_action_groups.yml&lt;/p&gt;
-
-&lt;h4 id=&quot;映射用户组权限&quot;&gt;映射用户组权限&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@k2 sgconfig]# tail -n 3 sg_roles_mapping.yml
-sg_app_index:
-  backendroles:
-    - app
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;加载配置&quot;&gt;加载配置&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;只需要选择其中一个节点进行操作即可,否则会导致数据混乱无法使用;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[es@k2 tools]$ pwd
-/usr/local/elasticsearch-6.4.2/plugins/search-guard-6/tools
-[es@k2 tools]$ ./sgadmin.sh -h 192.168.160.129 -p 9300 -ts truststore.jks -tspass 7ef7af8e734522cdba14 -ks CN=sgadmin-keystore.jks -kspass d1e21acbcb8fdd1362a8 -nhnv -icl -cd ../sgconfig/
-..... 此处省略 .....
-Done with success
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;登录验证&quot;&gt;登录验证&lt;/h4&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app01.png&quot; alt=&quot;image&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app02.png&quot; alt=&quot;image&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-app03.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;logstash&quot;&gt;Logstash&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;input{
-    file {
-        path =&amp;gt; [ &quot;/mnt/logs/b.log&quot; ]
-        start_position =&amp;gt; &quot;beginning&quot;
-        sincedb_path =&amp;gt; &quot;/dev/null&quot;
-        ignore_older =&amp;gt; &quot;99999999999&quot;
-        codec =&amp;gt; &quot;json&quot;
-    }
-}
-
-output{
-        elasticsearch {
-        hosts =&amp;gt; [ &quot;https://es2:9200&quot; ]
-        index =&amp;gt; &quot;applogs_%{+YYYYMMdd}&quot;
-        user =&amp;gt; admin
-        password =&amp;gt; admin
-        ssl =&amp;gt; true
-        ssl_certificate_verification =&amp;gt; true
-        truststore =&amp;gt; &quot;/mnt/logstash-6.4.2/config/truststore.jks&quot;
-        truststore_password =&amp;gt; &quot;7ef7af8e734522cdba14&quot;
-        }
-#       stdout {
-#            codec =&amp;gt; rubydebug
-#       }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;filebeat&quot;&gt;Filebeat&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;线上使用时应该使用模板否则发送到ES的数据全部归到 &lt;code class=&quot;highlighter-rouge&quot;&gt;message&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;对于JAVA等其他不在官方提供的模板内的应用输出的日志,应使用:
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;ol&gt;
-          &lt;li&gt;filebeat &amp;gt; kafka &amp;gt; logstash &amp;gt; elasticsearch &amp;gt; kibana&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;ol&gt;
-          &lt;li&gt;filebeat &amp;gt; logstash &amp;gt; elasticsearch &amp;gt; kibana&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;由logstash 来进行日志的拆分切割处理&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;文本格式&quot;&gt;文本格式&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xpack.monitoring.enabled: true
-filebeat.prospectors:
-- input_type: log
-  fields:
-    namespace: app-test
-  paths:
-    - &quot;/mnt/logs/a.log&quot;
-output.elasticsearch:
-  hosts: [&quot;https://192.168.160.129:9200&quot;]
-  username: &quot;admin&quot;
-  password: &quot;admin&quot;
-  ## 忽略证书验证
-  ssl.verification_mode: none
-logging.level: info
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;josn格式&quot;&gt;JOSN格式&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xpack.monitoring.enabled: true
-filebeat.prospectors:
-- input_type: log
-  json.keys_under_root: true
-  json.add_error_key: true
-  fields:
-    APP: applog
-  paths:
-    - &quot;/mnt/logs/c.log&quot;
-output.elasticsearch:
-  hosts: [&quot;https://192.168.160.129:9200&quot;]
-  username: &quot;admin&quot;
-  password: &quot;admin&quot;
-  ssl.verification_mode: none
-logging.level: info
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;cerebro&quot;&gt;Cerebro&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;编辑 application.conf&lt;/li&gt;
-  &lt;li&gt;增加修改下列配置&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;play.ws.ssl {
-  trustManager = {
-    stores = [
-      { type = &quot;PEM&quot;, path = &quot;/usr/local/elasticsearch-6.4.2/config/root-ca.pem&quot; }
-    ]
-  }
-}
-
-play.ws.ssl.loose.acceptAnyCertificate=true
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hosts = [
-  #{
-  #  host = &quot;http://localhost:9200&quot;
-  #  name = &quot;Some Cluster&quot;
-  #},
-  # Example of host with authentication
-  {
-    host = &quot;https://192.168.160.129:9200&quot;
-    name = &quot;Secured Cluster&quot;
-    auth = {
-      username = &quot;admin&quot;
-      password = &quot;admin&quot;
-    }
-  }
-]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;elasticsearch-sql&quot;&gt;elasticsearch-sql&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;需要单独安装此处不在介绍&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/NLPchina/elasticsearch-sql/wiki&quot;&gt;github elasticsearch-sql&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -sL \
--u admin:admin \
---insecure &quot;https://192.168.160.129:9200/_sql&quot; \
--H 'Content-Type: application/json' \
--d 'select count(status.keyword) from test-2019.03.25' | python -mjson.tool
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;x-pack-sql&quot;&gt;X-Pack SQL&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -u admin:admin \
---insecure https://192.168.160.129:9200/_xpack/sql?format=txt \
--H 'Content-Type: application/json' \
--d '{
-  &quot;query&quot;: &quot;select host,status,path from testlogs_20190329 limit 10&quot;
-}'
-     host      |    status     |     path
----------------+---------------+---------------
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-192.168.160.129 |200            |/mnt/logs/b.log
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;_xpack/sql?format=txt&lt;/li&gt;
-  &lt;li&gt;_xpack/sql?format=json&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;grafana&quot;&gt;Grafana&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/search-guard-kibana-grafana.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;注意事项&quot;&gt;注意事项&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;注意证书的权限以及属主和属组&lt;/li&gt;
-  &lt;li&gt;关于证书通读 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.md&lt;/code&gt; 根据提示逐一将证书/key 文件复制到指定目录下&lt;/li&gt;
-  &lt;li&gt;关于秘钥的密码等,查看 &lt;code class=&quot;highlighter-rouge&quot;&gt;README.md&lt;/code&gt; 在最后有给出,且注意保存&lt;/li&gt;
-  &lt;li&gt;es和kibana 都需要禁用x-pack 认证&lt;code class=&quot;highlighter-rouge&quot;&gt;xpack.security.enabled: false&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;切记如果证书生成时指定的是域名,在配置logstash/filebeat 时指定主机名切勿使用IP,要记得在各个节点绑定主机名!!!!&lt;/li&gt;
-  &lt;li&gt;elasticsearch.yml &lt;code class=&quot;highlighter-rouge&quot;&gt;discovery.zen.ping.unicast.hosts&lt;/code&gt; 最好指定ip地址,否则会报错!!!&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">Search Guard为您提供对整个ElasticSearch环境的完全安全控制!</summary></entry><entry><title type="html">kubernetes 高可用集群api-server请求异常</title><link href="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/" rel="alternate" type="text/html" title="kubernetes 高可用集群api-server请求异常" /><published>2019-03-08T20:10:46+08:00</published><updated>2019-03-08T20:10:46+08:00</updated><id>http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error</id><content type="html" xml:base="http://0.0.0.0/2019/03/08/kubernetes-nginxproxy-error/">&lt;p&gt;高可用kubernetes 集群下关于使用nginx代理服务连接超时错误处理&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;报错信息如下图:
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/k8s-nginx-proxy-error.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://github.com/rancher/rancher/issues/14971&quot;&gt;issues&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I’ve checked rancher nginx-proxy config and it indeed reports proxy_timeout 5;. When I change the config in-place (setting proxy_timeout to 500) and reload nginx, it works OK.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;通过上面的问题描述可以得出:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;测试发现直连api-server 接口时服务正常。&lt;/p&gt;
-
-&lt;p&gt;由于nginx-proxy &lt;code class=&quot;highlighter-rouge&quot;&gt;proxy_timeout&lt;/code&gt; 默认超时时间太短,导致了连接api-server 超时请求失败;&lt;/p&gt;
-
-&lt;p&gt;所以需要将此 &lt;code class=&quot;highlighter-rouge&quot;&gt;proxy_timeout&lt;/code&gt; 参数适当增大,服务恢复正常;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">高可用kubernetes 集群下关于使用nginx代理服务连接超时错误处理</summary></entry><entry><title type="html">火焰图性能分析 perf</title><link href="http://0.0.0.0/2019/03/03/perf/" rel="alternate" type="text/html" title="火焰图性能分析 perf" /><published>2019-03-03T18:10:46+08:00</published><updated>2019-03-03T18:10:46+08:00</updated><id>http://0.0.0.0/2019/03/03/perf</id><content type="html" xml:base="http://0.0.0.0/2019/03/03/perf/">&lt;blockquote&gt;
-  &lt;p&gt;从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;通常，它的执行频率是 99Hz（每秒99次），如果99次都返回同一个函数名，那就说明 CPU 这一秒钟都在执行同一个函数，可能存在性能问题。&lt;/p&gt;
-
-&lt;p&gt;通过它，应用程序可以利用 PMU，tracepoint 和内核中的特殊计数器来进行性能统计。
-不但可以分析指定应用程序的性能问题，也可以用来分析内核的性能问题，当然也可以同时分析应用代码和内核，从而全面理解应用程序中的性能瓶颈&lt;/p&gt;
-
-&lt;h2 id=&quot;perf&quot;&gt;perf&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; perf 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;perf top&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;用于实时显示当前系统的性能统计信息。该命令主要用来观察整个系统当前的状态，比如可以通过查看该命令的输出来查看当前系统最耗时的内核函数或某个用户进程&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;perf record&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf record -a -e cycles -o cycle.perf -g sleep 10
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-a 对所有 CPU 采样
--o 输出文件名，如果不指定，默认生成 perf.data
--g 额外记录函数调用关系
-sleep 10 采样 10s&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf record -F 99 -p 13204 -g -- sleep 30
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;perf record表示记录
--F 99表示每秒99次 
--p 13204是进程号，即对哪个进程进行分析
--g 表示记录调用栈
-sleep 30 如上所述则是持续30秒。&lt;/p&gt;
-
-&lt;p&gt;perf record命令可以统计每个调用栈出现的百分比，然后从高到低排列。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf report -n --stdio
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;perf report&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf report -i &amp;lt;file&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;-i 指定 perf record 生成的 perf data 文件，如果不指定 -i 则默认分析 perf.data 文件。
-–max-stack=0 只输出第一层函数调用
-–stdio 输出到标准输出&lt;/p&gt;
-
-&lt;h2 id=&quot;生成火焰图&quot;&gt;生成火焰图&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/brendangregg/FlameGraph.git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;1、第一步&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf record -e cpu-clock -g -p 28591
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Ctrl+c结束执行后，在当前目录下会生成采样数据perf.data.&lt;/p&gt;
-
-&lt;p&gt;2、第二步
-用perf script工具对perf.data进行解析&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf script -i perf.data &amp;amp;&amp;gt; perf.unfold
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;3、第三步&lt;/p&gt;
-
-&lt;p&gt;将perf.unfold中的符号进行折叠：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./stackcollapse-perf.pl perf.unfold &amp;amp;&amp;gt; perf.folded
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;4、最后生成svg图：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./flamegraph.pl perf.folded &amp;gt; perf.svg
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;使用管道将上面的流程简化为一条命令&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perf script -i perf.data| ./stackcollapse-perf.pl | ./flamegraph.pl &amp;gt; process.svg
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/other/nginx.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;java-应用火焰图生成&quot;&gt;java 应用火焰图生成&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/jvm-profiling-tools/async-profiler&quot;&gt;jvm-profiling-tools&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;获取程序&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget https://github.com/jvm-profiling-tools/async-profiler/releases/download/v1.5/async-profiler-1.5-linux-x64.tar.gz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./profiler.sh -d 30 -f /tmp/elasticsearch.svg 48211
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;详细使用查看官方介绍即可&lt;/li&gt;
-  &lt;li&gt;下图是我获取elasticsearch 进程的性能图例
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/other/elasticsearch.png&quot; alt=&quot;image&quot; /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;参考链接&quot;&gt;参考链接&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.brendangregg.com/perf.html#FlameGraphs&quot;&gt;http://www.brendangregg.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/duzilonglove/article/details/79012606&quot;&gt;如何读懂火焰图&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/gatieme/article/details/78885908&quot;&gt;用火焰图进行性能分析&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">从 perf 命令（performance 的缩写）讲起，它是 Linux 系统原生提供的性能分析工具，会返回 CPU 正在执行的函数名以及调用栈（stack）。</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；</summary></entry></feed>

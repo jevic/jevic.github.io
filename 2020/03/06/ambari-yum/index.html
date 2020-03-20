@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Ambari-本地Yum源配置(一) &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2020/03/06/ambari-yum/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Ambari-本地Yum源配置(一)">
+      
+    <meta name="keywords" content="hadoop,spark">
+    <meta name="og:keywords" content="hadoop,spark">
+      
+    <meta name="description" content="Ambari概述Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。">
+    <meta name="og:description" content="Ambari概述Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2020/03/06/ambari-yum/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2020-03-06">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Ambari-本地Yum源配置">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Ambari-本地Yum源配置(一)</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/03/06
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="ambari概述">Ambari概述</h2>
+<p>Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。</p>
+
+<p>Apache Ambari 从集群节点和服务收集大量信息，并把它们表现为容易使用的，集中化的接口：Ambari Web.</p>
+
+<p>Ambari Web显示诸如服务特定的摘要、图表以及警报信息。可通过Ambari Web对Hadoop集群进行创建、管理、监视、添加主机、更新服务配置等；也可以利用Ambari Web执行集群管理任务，例如启用 Kerberos 安全以及执行Stack升级。任何用户都可以查看Ambari Web特性。拥有administrator-level 角色的用户可以访问比 operator-level 或 view-only 的用户能访问的更多选项。例如，Ambari administrator 可以管理集群安全，一个 operator 用户可以监控集群，而 view-only 用户只能访问系统管理员授予他的必要的权限。</p>
+
+<h2 id="ambari体系结构">Ambari体系结构</h2>
+<p>Ambari 自身也是一个分布式架构的软件，主要由两部分组成：Ambari Server 和 Ambari Agent。简单来说，用户通过Ambari Server通知 Ambari Agent 安装对应的软件；Agent 会定时地发送各个机器每个软件模块的状态给 Ambari Server，最终这些状态信息会呈现在 Ambari 的 GUI，方便用户了解到集群的各种状态，并进行相应的维护。</p>
+
+<p>Ambari Server 从整个集群上收集信息。每个主机上都有 Ambari Agent, Ambari Server 通过 Ambari Agent 控制每部主机。</p>
+
+<h2 id="配置本地yum源">配置本地YUM源</h2>
+<h2 id="参考文档">参考文档</h2>
+
+<ul>
+  <li>https://docs.cloudera.com/HDPDocuments</li>
+  <li>https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/bk_ambari-installation/content/ambari_repositories.html</li>
+  <li>https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/bk_ambari-installation/content/hdp_315_repositories.html</li>
+</ul>
+
+<h2 id="目录结构">目录结构</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@192-168-5-12 ~]# mkdir -p /tmp/temp
+ 
+ 
+wget -N http://192.168.12.62/ambari/ambari2.6.2.2/HDP-2.6.5.0-centos7-rpm.tar.gz -P /tmp/temp/
+wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/HDP-GPL-2.6.5.0-centos7-gpl.tar.gz -P /tmp/temp/
+wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/HDP-UTILS-1.1.0.22-centos7.tar.gz -P /tmp/temp/
+wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/ambari-2.6.2.2-centos7.tar.gz -P /tmp/temp/
+ 
+ 
+[root@192-168-5-12 ~]# for file in `ls -1 /tmp/temp/*.tar.gz` ; do tar -xzvf $file -C /tmp/temp/ ; done ;
+ 
+ 
+ 
+[root@192-168-5-12 ~]#  mkdir -p /data/wwwroot/yum/{ambari,hdp,hdp-utils,hdp-gpl}
+ 
+ 
+mv /tmp/temp/ambari/centos7/2.6.2.2-1/* /data/wwwroot/yum/ambari/
+mv /tmp/temp/HDP/centos7/2.6.5.0-292/* /data/wwwroot/yum/hdp/
+mv /tmp/temp/HDP-GPL/centos7/2.6.5.0-292/* /data/wwwroot/yum/hdp-gpl/
+mv /tmp/temp/HDP-UTILS/centos7/1.1.0.22/* /data/wwwroot/yum//hdp-utils/
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@yum ambari2.7.4]# pwd
+/data/wwwroot/yum/ambari2.7.4
+[root@yum ambari2.7.4]# tree -d -L 2
+.
+├── ambari
+│   ├── ambari
+│   ├── repodata
+│   ├── RPM-GPG-KEY
+│   ├── smartsense
+│   └── tars
+├── hdp
+│   ├── accumulo
+│   ├── atlas
+│   ├── bigtop-jsvc
+│   ├── bigtop-tomcat
+│   ├── datafu
+│   ├── druid
+│   ├── hadoop
+│   ├── hbase
+│   ├── hdp-select
+│   ├── hive
+│   ├── hive_warehouse_connector
+│   ├── kafka
+│   ├── knox
+│   ├── livy
+│   ├── oozie
+│   ├── phoenix
+│   ├── pig
+│   ├── ranger
+│   ├── repodata
+│   ├── RPM-GPG-KEY
+│   ├── shc
+│   ├── spark2
+│   ├── spark_atlas_connector
+│   ├── spark_schema_registry
+│   ├── sqoop
+│   ├── storm
+│   ├── superset
+│   ├── tez
+│   ├── vrpms
+│   ├── zeppelin
+│   └── zookeeper
+├── hdp-gpl
+│   ├── hadooplzo
+│   ├── repodata
+│   ├── RPM-GPG-KEY
+│   └── vrpms
+└── hdp-utils
+    ├── openblas
+    ├── repodata
+    ├── RPM-GPG-KEY
+    └── snappy
+
+48 directories
+</code></pre></div></div>
+
+<h2 id="nginx-server配置">nginx server配置</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+server {
+        listen       80;
+        server_name  localhost;
+        location / {
+            #root   /data/wwwroot/yum;
+	    root /data/wwwroot/yum ;
+            charset utf-8;
+	    autoindex on;
+            # set to on means use localtime
+            autoindex_localtime on;
+            # show size with unit 'MB' instead of 'Byte'
+            autoindex_exact_size off;
+            index  index.html index.htm;
+        }
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+</code></pre></div></div>
+
+<h2 id="repo文件">repo文件</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@s03 yum.repos.d]# cat ambari.repo
+#VERSION_NUMBER=2.7.4.0-118
+[ambari-2.7.4.0]
+#json.url = http://public-repo-1.hortonworks.com/HDP/hdp_urlinfo.json
+name=ambari Version - ambari-2.7.4.0
+#baseurl=http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0
+baseurl=http://192.168.12.70/ambari2.7.4/ambari/
+gpgcheck=1
+#gpgkey=http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://192.168.12.70/ambari2.7.4/ambari/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+
+[root@s03 yum.repos.d]# cat hdp*repo
+
+#VERSION_NUMBER=3.1.4.0-315
+[HDP-GPL-3.1.4.0]
+name=HDP-GPL Version - HDP-GPL-3.1.4.0
+#baseurl=http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0
+baseurl=http://192.168.12.70/ambari2.7.4/hdp-gpl
+gpgcheck=1
+#gpgkey=http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://192.168.12.70/ambari2.7.4/hdp-gpl/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+#VERSION_NUMBER=3.1.4.0-315
+[HDP-3.1.4.0]
+name=HDP Version - HDP-3.1.4.0
+#baseurl=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0
+baseurl=http://192.168.12.70/ambari2.7.4/hdp/
+gpgcheck=1
+#gpgkey=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://192.168.12.70/ambari2.7.4/hdp/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+
+[HDP-UTILS-1.1.0.22]
+name=HDP-UTILS Version - HDP-UTILS-1.1.0.22
+#baseurl=http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
+baseurl=http://192.168.12.70/ambari2.7.4/hdp-utils
+gpgcheck=1
+#gpgkey=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://192.168.12.70/ambari2.7.4/hdp-utils/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+[HDP-UTILS-1.1.0.22]
+name=Hortonworks Data Platform Utils Version - HDP-UTILS-1.1.0.22
+#baseurl=http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
+baseurl=http://192.168.12.70/ambari2.7.4/hdp-utils
+gpgcheck=1
+enabled=0
+priority=1
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2020/03/06/ambari-yum/';
+                    this.page.identifier = '/2020/03/06/ambari-yum/';
+                    this.page.title = 'Ambari-本地Yum源配置(一)';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2016~2019
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

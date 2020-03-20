@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Ambari-Server&agent安装配置(二) &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2020/03/07/ambari-server-install/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="Ambari-Server&agent安装配置(二)">
+      
+    <meta name="keywords" content="hadoop,spark">
+    <meta name="og:keywords" content="hadoop,spark">
+      
+    <meta name="description" content="数据库配置```说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可">
+    <meta name="og:description" content="数据库配置```说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2020/03/07/ambari-server-install/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2020-03-07">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="Ambari-Server&a">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">Ambari-Server&agent安装配置(二)</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/03/07
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <h2 id="数据库配置">数据库配置</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可
+
+# mysql -u root -p123456 -e "show variables like 'lower_case_table_names';"
+mysql: [Warning] Using a password on the command line interface can be insecure.
++------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| lower_case_table_names | 1     |
++------------------------+-------+
+</code></pre></div></div>
+
+<h3 id="创建数据库">创建数据库</h3>
+<ul>
+  <li>根据你需要安装的服务创建对应的数据库及配置访问信息;</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>create database ambari character set utf8;
+GRANT ALL PRIVILEGES ON ambari.* TO 'ambari'@'%' IDENTIFIED BY 'Ambari_123';
+FLUSH PRIVILEGES;
+create database hive character set latin1;
+GRANT ALL PRIVILEGES ON hive.* TO 'hive'@'%' IDENTIFIED BY 'Hive@123';
+FLUSH PRIVILEGES;
+create database oozie character set utf8;
+GRANT ALL PRIVILEGES ON oozie.* TO 'oozie'@'%' IDENTIFIED BY 'Oozie@123';
+FLUSH PRIVILEGES;
+create database ranger character set utf8;
+GRANT ALL PRIVILEGES ON rangeradmin.* TO 'rangeradmin'@'%' IDENTIFIED BY 'Ranger@123';
+FLUSH PRIVILEGES;
+create database superset character set utf8;
+GRANT ALL PRIVILEGES ON superset.* TO 'superset'@'%' IDENTIFIED BY 'Superset@123';
+FLUSH PRIVILEGES;
+create database hbase character set latin1;
+GRANT ALL PRIVILEGES ON hbase.* TO 'hbase'@'%' IDENTIFIED BY 'Hbase@123';
+FLUSH PRIVILEGES;
+
+## hue 
+create database hue character set utf8;
+GRANT ALL PRIVILEGES ON hue.* TO 'hue'@'%' IDENTIFIED BY 'Hue@123456';
+FLUSH PRIVILEGES;
+
+</code></pre></div></div>
+
+<h2 id="主机初始化">主机初始化</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jdk
+双机免秘钥互信(具体操作略去):
+[root@jevic-t01 .ssh]# pwd
+/root/.ssh
+[root@jevic-t01 .ssh]# cat config 
+Host *
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  LogLevel quiet
+  Port 22
+
+
+selinux disabled
+防火墙关闭
+sysctl.conf 优化
+ulimit 限制取消
+各个依赖组件安装
+主机名配置:
+192.168.13.91 dt1.jevic.cn dt1
+192.168.13.92 dt2.jevic.cn dt2
+192.168.13.93 dt3.jevic.cn dt3
+192.168.13.94 dt4.jevic.cn dt4
+192.168.13.95 dt5.jevic.cn dt5
+hostname 也要一一对应!
+hostname xxxx 并修改 /etc/hostname！！！！
+</code></pre></div></div>
+
+<h3 id="初始化脚本仅供参考">初始化脚本仅供参考:</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash </span>
+
+systemctl get-default
+systemctl set-default multi-user.target
+
+
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"NETWORKING=yes</span><span class="se">\n</span><span class="s2">HOSTNAME=</span><span class="k">$(</span>hostname<span class="k">)</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;</span>/etc/sysconfig/network
+
+
+systemctl disable firewalld
+systemctl stop fiewalld 
+
+sed <span class="nt">-i</span> s#SELINUX<span class="o">=</span>enforcing#SELINUX<span class="o">=</span>disabled# /etc/selinux/config
+setenforce 0
+
+yum <span class="nt">-y</span> install ntp
+systemctl <span class="nb">enable </span>ntpd
+systemctl restart ntpd
+
+<span class="c">#7.Disabled THP </span>
+<span class="c">#echo "never" &gt; /sys/kernel/mm/transparent_hugepage/enabled</span>
+<span class="c">#echo "never" &gt; /sys/kernel/mm/transparent_hugepage/defrag</span>
+
+chmod +x /etc/rc.local
+<span class="nb">grep</span> <span class="nt">-q</span>  <span class="s1">'^echo \"never\" &gt; /sys/kernel/mm/transparent_hugepage/defrag'</span> /etc/rc.local  <span class="o">||</span> <span class="nb">echo</span> <span class="s1">'echo "never" &gt; /sys/kernel/mm/transparent_hugepage/defrag'</span> <span class="o">&gt;&gt;</span> /etc/rc.local
+<span class="nb">grep</span>  <span class="nt">-q</span> <span class="s1">'^echo \"never\" &gt; /sys/kernel/mm/transparent_hugepage/enabled'</span> /etc/rc.local <span class="o">||</span> <span class="nb">echo</span> <span class="s1">'echo "never" &gt; /sys/kernel/mm/transparent_hugepage/enabled'</span>  <span class="o">&gt;&gt;</span> /etc/rc.local
+
+<span class="nb">grep</span> <span class="nt">-q</span> <span class="s2">"^transparent_hugepage=never"</span> /etc/default/grub <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"transparent_hugepage=never"</span> <span class="o">&gt;&gt;</span> /etc/default/grub
+grub2-mkconfig <span class="nt">-o</span> /boot/grub2/grub.cfg
+
+
+<span class="nb">cat</span> <span class="o">&gt;</span> /etc/sysctl.conf <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+fs.file-max=65535
+vm.swappiness=1
+net.ipv4.ip_forward = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+net.ipv4.tcp_max_tw_buckets = 6000
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_syncookies = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 4294967296
+net.ipv4.tcp_max_syn_backlog = 262144
+net.core.netdev_max_backlog = 262144
+net.core.somaxconn = 262144
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_fin_timeout = 1
+net.ipv4.tcp_keepalive_time = 30
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 16384 4194304
+net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.ipv4.tcp_mem = 94500000 915000000 927000000
+net.nf_conntrack_max = 6553500
+net.netfilter.nf_conntrack_max = 6553500
+net.netfilter.nf_conntrack_tcp_timeout_close_wait = 60
+net.netfilter.nf_conntrack_tcp_timeout_fin_wait = 120
+net.netfilter.nf_conntrack_tcp_timeout_time_wait = 120
+net.netfilter.nf_conntrack_tcp_timeout_established = 3600
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+</span><span class="no">EOF
+
+</span>sysctl <span class="nt">-p</span> 
+
+/etc/init.d/network restart
+</code></pre></div></div>
+
+<h2 id="ambari-server">ambari-server</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Current Version: 2.6.5.0-292 <span class="o">[</span>公共仓库]
+http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.5.0
+http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
+
+
+<span class="c">## </span>
+yum install ambari-server <span class="nt">-y</span>
+
+<span class="c">## jdbc 驱动下载地址 </span>
+https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-5.1.48.tar.gz
+<span class="o">[</span>root@jevic-t01 ~]# <span class="nb">grep </span>server.jdbc.driver.path /etc/ambari-server/conf/ambari.properties 
+server.jdbc.driver.path<span class="o">=</span>/usr/share/java/mysql-connector-java-5.1.48-bin.jar
+
+
+<span class="c">## 初始化安装</span>
+<span class="o">[</span>root@dt1 ~]# ambari-server setup
+Using python  /usr/bin/python
+Setup ambari-server
+Checking SELinux...
+SELinux status is <span class="s1">'disabled'</span>
+Customize user account <span class="k">for </span>ambari-server daemon <span class="o">[</span>y/n] <span class="o">(</span>n<span class="o">)</span>? y
+Enter user account <span class="k">for </span>ambari-server daemon <span class="o">(</span>root<span class="o">)</span>:ambari
+Adjusting ambari-server permissions and ownership...
+Checking firewall status...
+Checking JDK...
+<span class="o">[</span>1] Oracle JDK 1.8 + Java Cryptography Extension <span class="o">(</span>JCE<span class="o">)</span> Policy Files 8
+<span class="o">[</span>2] Oracle JDK 1.7 + Java Cryptography Extension <span class="o">(</span>JCE<span class="o">)</span> Policy Files 7
+<span class="o">[</span>3] Custom JDK
+<span class="o">==============================================================================</span>
+Enter choice <span class="o">(</span>1<span class="o">)</span>: 3
+WARNING: JDK must be installed on all hosts and JAVA_HOME must be valid on all hosts.
+WARNING: JCE Policy files are required <span class="k">for </span>configuring Kerberos security. If you plan to use Kerberos,please make sure JCE Unlimited Strength Jurisdiction Policy Files are valid on all hosts.
+Path to JAVA_HOME: /usr/local/java
+Validating JDK on Ambari Server...done.
+Checking GPL software agreement...
+GPL License <span class="k">for </span>LZO: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+Enable Ambari Server to download and install GPL Licensed LZO packages <span class="o">[</span>y/n] <span class="o">(</span>n<span class="o">)</span>? n
+Completing setup...
+Configuring database...
+Enter advanced database configuration <span class="o">[</span>y/n] <span class="o">(</span>n<span class="o">)</span>? y
+Configuring database...
+<span class="o">==============================================================================</span>
+Choose one of the following options:
+<span class="o">[</span>1] - PostgreSQL <span class="o">(</span>Embedded<span class="o">)</span>
+<span class="o">[</span>2] - Oracle
+<span class="o">[</span>3] - MySQL / MariaDB
+<span class="o">[</span>4] - PostgreSQL
+<span class="o">[</span>5] - Microsoft SQL Server <span class="o">(</span>Tech Preview<span class="o">)</span>
+<span class="o">[</span>6] - SQL Anywhere
+<span class="o">[</span>7] - BDB
+<span class="o">==============================================================================</span>
+Enter choice <span class="o">(</span>1<span class="o">)</span>: 3
+Hostname <span class="o">(</span>localhost<span class="o">)</span>: db1.jevic.cn
+Port <span class="o">(</span>3306<span class="o">)</span>:
+Database name <span class="o">(</span>ambari<span class="o">)</span>: ambari
+Username <span class="o">(</span>ambari<span class="o">)</span>:
+Enter Database Password <span class="o">(</span>bigdata<span class="o">)</span>:
+Re-enter password:
+Configuring ambari database...
+Configuring remote database connection properties...
+WARNING: Before starting Ambari Server, you must run the following DDL against the database to create the schema: /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
+Proceed with configuring remote database connection properties <span class="o">[</span>y/n] <span class="o">(</span>y<span class="o">)</span>?
+Extracting system views...
+ambari-admin-2.6.2.2.1.jar
+...........
+Adjusting ambari-server permissions and ownership...
+Ambari Server <span class="s1">'setup'</span> completed successfully.
+
+
+
+
+<span class="c">## 将Ambari数据库脚本导入到数据库</span>
+mysql <span class="nt">-uambari</span> <span class="nt">-pxxx</span>
+use ambari<span class="p">;</span>
+<span class="nb">source</span> /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
+
+
+<span class="c">## 启动ambari server</span>
+<span class="c"># ambari-server start</span>
+
+在浏览器中访问ip:8080，默认登录名：admin 密码:admin
+</code></pre></div></div>
+
+<h2 id="ambari-agent">ambari-agent</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>配置yum 源
+yum -y install ambari-agent
+
+#ambari-agent 打ssl认证有问题，需要关闭
+if hash /usr/sbin/ambari-agent &gt;/dev/null ; then
+
+	grep -q "^force_https_protocol=PROTOCOL_TLSv1_2" /etc/ambari-agent/conf/ambari-agent.ini ||sed -i 's@\[security\]@&amp;\nforce_https_protocol=PROTOCOL_TLSv1_2@g' /etc/ambari-agent/conf/ambari-agent.ini
+
+	grep -q "^verify=diable" /etc/python/cert-verification.cfg || sed -i 's@\[https\]@&amp;\nverify=diable@g' /etc/python/cert-verification.cfg 
+
+	/usr/sbin/ambari-agent stop
+	echo -ne "\033[36m please enter ambari-server host ,like ambari.oa.com (请输入ambari-server地址,如ambari.oa.com): \033[0m"
+    read ambariServerName
+
+	/usr/sbin/ambari-agent reset $ambariServerName
+	/usr/sbin/ambari-agent start 
+	
+fi
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2020/03/07/ambari-server-install/';
+                    this.page.identifier = '/2020/03/07/ambari-server-install/';
+                    this.page.title = 'Ambari-Server&agent安装配置(二)';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2016~2019
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

@@ -125,6 +125,89 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
+                      <a href="/2020/03/16/hue/">Hue</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2020/03/16
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2020/03/07/ambari-cluster/">Ambari-Cluster配置(三)</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        Ambari 集群配置
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2020/03/07
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2020/03/07/ambari-server-install/">Ambari-Server&amp;agent安装配置(二)</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        数据库配置
+```
+说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2020/03/07
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2020/03/06/ambari-yum/">Ambari-本地Yum源配置(一)</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        Ambari概述
+Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2020/03/06
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
                       <a href="/2019/11/06/elk-7-release/">Elastic Stack 7.x 初识</a>
                     </h3>
                     <p class="repo-list-description">
@@ -201,90 +284,6 @@
                         <span class="meta-info">
                           <span class="octicon octicon-file-directory"></span>
                           <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2019/04/18/elk-disk-storage/">Elasticsearch 下分布式存储的数据分布</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        对于一个分布式存储系统来说，数据是分散存储在多个节点上的。如何让数据均衡的分布在不同节点上，来保证其高可用性？所谓均衡，是指系统中每个节点的负载是均匀的，并且在发现有不均匀的情况或者有节点增加/删除时，能及时进行调整，保持均匀状态。  
-   在Elasticsearch中，以Shard为最小的数据分配/迁移单位。数据到节点的映射分离为两层：一层是数据到Shard的映射（Route），另一层是Shard到节点的映射（Allocate）
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2019/04/18
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2019/04/15/elk-javalog/">ELK filebeat&amp;logstash 收集grok解析Java应用日志</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2019/04/15
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2019/04/06/kubernetes-rbac-useraccesscontrol/">kubernetes RBAC 用户角色访问控制</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        配置证书
-
-  /etc/kubernetes/pki/
-  二进制手动安装请到指定目录下操作
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2019/04/06
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2019/03/28/elk-search-guard/">ELK 用户权限管理控制 Search Guard</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        Search Guard为您提供对整个ElasticSearch环境的完全安全控制!
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2019/03/28
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#ELK" title="ELK">ELK</a>
                         </span>
                         
                     </p>
@@ -446,9 +445,9 @@
                 <span class="meta-info" title="0 forks">
                     <span class="octicon octicon-git-branch"></span> 0
                 </span>
-                <span class="meta-info" title="Last updated：2019-09-19 13:05:41 UTC">
+                <span class="meta-info" title="Last updated：2019-11-08 02:35:25 UTC">
                     <span class="octicon octicon-clock"></span>
-                    <time datetime="2019-09-19 13:05:41 UTC">2019-09-19</time>
+                    <time datetime="2019-11-08 02:35:25 UTC">2019-11-08</time>
                 </span>
             </div>
         </div>
@@ -502,6 +501,10 @@
         
           
               <a href="/page10" class="btn btn-outline">10</a>
+          
+        
+          
+              <a href="/page11" class="btn btn-outline">11</a>
           
         
         
