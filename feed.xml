@@ -1,4 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-03-20T11:29:50+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Hue</title><link href="http://0.0.0.0/2020/03/16/hue/" rel="alternate" type="text/html" title="Hue" /><published>2020-03-16T18:56:06+08:00</published><updated>2020-03-16T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/16/hue</id><content type="html" xml:base="http://0.0.0.0/2020/03/16/hue/">&lt;p&gt;HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-04-01T17:55:15+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Oozie-YARN异常YarnException:Failed while publishing entity的解决方案</title><link href="http://0.0.0.0/2020/03/30/oozie-yarn-error/" rel="alternate" type="text/html" title="Oozie-YARN异常YarnException:Failed while publishing entity的解决方案" /><published>2020-03-30T18:56:06+08:00</published><updated>2020-03-30T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/30/oozie-yarn-error</id><content type="html" xml:base="http://0.0.0.0/2020/03/30/oozie-yarn-error/">&lt;p&gt;版本: HDP 3.1.4
+Mapreduce提交任务计算时，job已经结束，但是容器仍不能关闭持续等待五分钟;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2020-03-30 21:09:30,393 INFO [Thread-75] org.apache.hadoop.yarn.event.AsyncDispatcher: Waiting for AsyncDispatcher to drain. Thread state is :WAITING
+2020-03-30 21:09:30,494 INFO [Thread-75] org.apache.hadoop.yarn.event.AsyncDispatcher: Waiting for AsyncDispatcher to drain. Thread state is :WAITING
+2020-03-30 21:09:30,594 INFO [Thread-75] org.apache.hadoop.yarn.event.AsyncDispatcher: Waiting for AsyncDispatcher to drain. Thread state is :WAITING
+2020-03-30 21:09:30,694 INFO [Thread-75] org.apache.hadoop.yarn.event.AsyncDispatcher: Waiting for AsyncDispatcher to drain. Thread state is :WAITING
+2020-03-30 21:09:30,794 INFO [Thread-75] org.apache.hadoop.yarn.event.AsyncDispatcher: Waiting for AsyncDispatcher to drain. Thread state is :WAITING
+2020-03-30 21:09:30,819 ERROR [Job ATS Event Dispatcher] org.apache.hadoop.mapreduce.jobhistory.JobHistoryEventHandler: Failed to process Event JOB_FINISHED for the job : job_1585569116633_0009
+org.apache.hadoop.yarn.exceptions.YarnException: Failed while publishing entity
+	at org.apache.hadoop.yarn.client.api.impl.TimelineV2ClientImpl$TimelineEntityDispatcher.dispatchEntities(TimelineV2ClientImpl.java:548)
+	at org.apache.hadoop.yarn.client.api.impl.TimelineV2ClientImpl.putEntities(TimelineV2ClientImpl.java:149)
+	at org.apache.hadoop.mapreduce.jobhistory.JobHistoryEventHandler.processEventForNewTimelineService(JobHistoryEventHandler.java:1405)
+	at org.apache.hadoop.mapreduce.jobhistory.JobHistoryEventHandler.handleTimelineEvent(JobHistoryEventHandler.java:742)
+	at org.apache.hadoop.mapreduce.jobhistory.JobHistoryEventHandler.access$1200(JobHistoryEventHandler.java:93)
+	at org.apache.hadoop.mapreduce.jobhistory.JobHistoryEventHandler$ForwardingEventHandler.handle(JobHistoryEventHandler.java:1795)
+	at org.apache.hadoop.mapreduce.jobhistory.JobHistoryEventHandler$ForwardingEventHandler.handle(JobHistoryEventHandler.java:1791)
+	at org.apache.hadoop.yarn.event.AsyncDispatcher.dispatch(AsyncDispatcher.java:197)
+	at org.apache.hadoop.yarn.event.AsyncDispatcher$1.run(AsyncDispatcher.java:126)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.sun.jersey.api.client.ClientHandlerException: java.net.SocketTimeoutException: Read timed out
+	at com.sun.jersey.client.urlconnection.URLConnectionClientHandler.handle(URLConnectionClientHandler.java:155)
+	at com.sun.jersey.api.client.Client.handle(Client.java:652)
+	at com.sun.jersey.api.client.WebResource.handle(WebResource.java:682)
+	at com.sun.jersey.api.client.WebResource.access$200(WebResource.java:74)
+	at com.sun.jersey.api.client.WebResource$Builder.put(WebResource.java:539)
+	at org.apache.hadoop.yarn.client.api.impl.TimelineV2ClientImpl.doPutObjects(TimelineV2ClientImpl.java:291)
+	at org.apache.hadoop.yarn.client.api.impl.TimelineV2ClientImpl.access$000(TimelineV2ClientImpl.java:66)
+	at org.apache.hadoop.yarn.client.api.impl.TimelineV2ClientImpl$1.run(TimelineV2ClientImpl.java:302)
+	at org.apache.hadoop.yarn.client.api.impl.TimelineV2ClientImpl$1.run(TimelineV2ClientImpl.java:299)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hue-oozie01.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hue-oozie02.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hue-oozie3.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hue-oozie03.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;发生这种情况是因为来自ATSv2的嵌入式HBASE崩溃。
+需要重置ATsv2内嵌HBASE数据库&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;停止yarn服务&quot;&gt;停止Yarn服务&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Ambari - &amp;gt; Yarn-Actions- &amp;gt; Stop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;删除zookeeper-上的atsv2-znode&quot;&gt;删除zookeeper 上的ATSv2 Znode&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@ ~]# cd /usr/hdp/3.1.4.0-315/zookeeper/bin
+[root@ bin]# ./zkCli.sh
+......
+[zk: localhost:2181(CONNECTED) 1] rmr /atsv2-hbase-unsecure
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;删除hdfs时间线服务目录内的hbase数据&quot;&gt;删除HDFS时间线服务目录内的hbase数据&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[hdfs@s05 ~]$ hdfs dfs -rm -r /atsv2/hbase
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;启动yarn服务&quot;&gt;启动Yarn服务&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Ambari - &amp;gt; Yarn-Actions- &amp;gt; Start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;再次提交服务&quot;&gt;再次提交服务&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hue-oozie04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">版本: HDP 3.1.4 Mapreduce提交任务计算时，job已经结束，但是容器仍不能关闭持续等待五分钟;</summary></entry><entry><title type="html">Ambari安装oozie UI无法显示</title><link href="http://0.0.0.0/2020/03/17/oozie-ui/" rel="alternate" type="text/html" title="Ambari安装oozie UI无法显示" /><published>2020-03-17T18:56:06+08:00</published><updated>2020-03-17T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/17/oozie-ui</id><content type="html" xml:base="http://0.0.0.0/2020/03/17/oozie-ui/">&lt;blockquote&gt;
+  &lt;p&gt;如下图所示,无法正常显示UI界面&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/oozie-web.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;1-停止oozie-服务&quot;&gt;1. 停止oozie 服务&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/oozie02.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;2-下载扩展包&quot;&gt;2. 下载扩展包&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@dt-hdp01 libext]# pwd
+/usr/hdp/3.1.4.0-315/oozie/libext
+[root@dt-hdp01 libext]# rm -rf ext-2.2  #如果已经存在的删除即可
+[root@dt-hdp01 libext]# wget http://archive.cloudera.com/gplextras/misc/ext-2.2.zip
+[root@dt-hdp01 libext]# unzip -q ext-2.2.zip 
+[root@dt-hdp01 libext]# chown oozie.hadoop ext-2.2 -R
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;3-删除旧页面文件&quot;&gt;3. 删除旧页面文件&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@dt-hdp01 webapps]# pwd
+/usr/hdp/current/oozie-server/oozie-server/webapps
+[root@dt-hdp01 webapps]# rm -rf oozie oozie.war 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;4-重新编译生成war包&quot;&gt;4. 重新编译生成war包&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@dt-hdp01 bin]# pwd
+/usr/hdp/current/oozie-server/bin
+[root@dt-hdp01 bin]# ./oozie-setup.sh prepare-war
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/oozie01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;5-启动oozie访问web页面即可&quot;&gt;5. 启动oozie,访问web页面即可&lt;/h3&gt;
+
+&lt;h3 id=&quot;其他说明&quot;&gt;其他说明:&lt;/h3&gt;
+&lt;p&gt;关于ext-2.2 目录的位置;
+根据步骤3 当中所示的软连接地址把下载的包放置到对应位置即可;
+其他集群管理工具安装的oozie大致一样;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">如下图所示,无法正常显示UI界面</summary></entry><entry><title type="html">Hue</title><link href="http://0.0.0.0/2020/03/16/hue/" rel="alternate" type="text/html" title="Hue" /><published>2020-03-16T18:56:06+08:00</published><updated>2020-03-16T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/16/hue</id><content type="html" xml:base="http://0.0.0.0/2020/03/16/hue/">&lt;p&gt;HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等&lt;/p&gt;
 
 &lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
 &lt;ul&gt;
@@ -123,40 +221,31 @@ root@mdb2:/usr/share/hue/build/env# ./bin/hue migrate
 &lt;/ul&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## core-site.xml
-hadoop.proxyuser.ambari.groups=*
-hadoop.proxyuser.ambari.hosts=*
 hadoop.proxyuser.falcon.groups=*
 hadoop.proxyuser.falcon.hosts=*
 hadoop.proxyuser.hbase.groups=*
 hadoop.proxyuser.hbase.hosts=*
 hadoop.proxyuser.hcat.groups=*
 hadoop.proxyuser.hcat.hosts=*
-hadoop.proxyuser.hdfs.groups=*
-hadoop.proxyuser.hdfs.hosts=*
-hadoop.proxyuser.hive.groups=*
-hadoop.proxyuser.hive.hosts=*
 hadoop.proxyuser.httpfs.groups=*
 hadoop.proxyuser.httpfs.hosts=*
 hadoop.proxyuser.hue.groups=*
 hadoop.proxyuser.hue.hosts=*
-hadoop.proxyuser.livy.groups=*
-hadoop.proxyuser.livy.hosts=*
-hadoop.proxyuser.oozie.groups=*
-hadoop.proxyuser.oozie.hosts=*
 hadoop.proxyuser.root.hosts=*
 hadoop.proxyuser.root.groups=*
 hadoop.proxyuser.yarn.hosts=*
+hadoop.proxyuser.yarn.groups=*
+hadoop.proxyuser.mapred.hosts=*
+hadoop.proxyuser.mapred.groups=*
 
 ## hdfs-site.xml
-&amp;lt;property&amp;gt;
-  &amp;lt;name&amp;gt;dfs.webhdfs.enable&amp;lt;/name&amp;gt;
-  &amp;lt;value&amp;gt;true&amp;lt;/value&amp;gt;
-&amp;lt;/property&amp;gt;
+# 关闭权限
+dfs.permissions.enabled=false
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-hadoop.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;hive&quot;&gt;Hive&lt;/h2&gt;
+&lt;h3 id=&quot;hive&quot;&gt;Hive&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;连接数据库时使用,ambari 页面会有提示根据提示进行操作即可&lt;/li&gt;
 &lt;/ul&gt;
@@ -171,7 +260,7 @@ Ambari Server 'setup' completed successfully.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-hive.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;oozie&quot;&gt;Oozie&lt;/h2&gt;
+&lt;h3 id=&quot;oozie&quot;&gt;Oozie&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://docs.gethue.com/administrator/configuration/connectors/#apache-oozie&quot;&gt;hue oozie&lt;/a&gt;&lt;/p&gt;
 
 &lt;ul&gt;
@@ -179,14 +268,11 @@ Ambari Server 'setup' completed successfully.
 &lt;/ul&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## oozie-site.xml
-&amp;lt;property&amp;gt;
-    &amp;lt;name&amp;gt;oozie.service.ProxyUserService.proxyuser.hue.hosts&amp;lt;/name&amp;gt;
-    &amp;lt;value&amp;gt;*&amp;lt;/value&amp;gt;
-&amp;lt;/property&amp;gt;
-&amp;lt;property&amp;gt;
-    &amp;lt;name&amp;gt;oozie.service.ProxyUserService.proxyuser.hue.groups&amp;lt;/name&amp;gt;
-    &amp;lt;value&amp;gt;*&amp;lt;/value&amp;gt;
-&amp;lt;/property&amp;gt;
+oozie.service.ProxyUserService.proxyuser.hive.groups=*
+oozie.service.ProxyUserService.proxyuser.hive.hosts=*
+oozie.service.ProxyUserService.proxyuser.hue.groups=*
+oozie.service.ProxyUserService.proxyuser.hue.hosts=*
+oozie.processing.timezone=GMT+0800
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-oozie.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
@@ -197,7 +283,7 @@ Ambari Server 'setup' completed successfully.
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-end.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
-&lt;h1 id=&quot;hadoop-ha&quot;&gt;Hadoop HA&lt;/h1&gt;
+&lt;h2 id=&quot;hadoop-ha&quot;&gt;Hadoop HA&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;ambari 默认安装hadoop时,没有启用HA 高可用,所以当安装完成后需要再次点击启用HA&lt;/li&gt;
   &lt;li&gt;参考&lt;a href=&quot;http://www.louisvv.com/archives/1490.html&quot;&gt;Ambari Hadoop安装启用HA&lt;/a&gt;&lt;/li&gt;
@@ -207,7 +293,36 @@ Ambari Server 'setup' completed successfully.
 &lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-02.png&quot; alt=&quot;image&quot; /&gt;
 &lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-03.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;剩下的步骤根据提示一步步操作即可!&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">Ambari 集群配置</summary></entry><entry><title type="html">Ambari-Server&amp;amp;agent安装配置(二)</title><link href="http://0.0.0.0/2020/03/07/ambari-server-install/" rel="alternate" type="text/html" title="Ambari-Server&amp;agent安装配置(二)" /><published>2020-03-07T18:56:06+08:00</published><updated>2020-03-07T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/07/ambari-server-install</id><content type="html" xml:base="http://0.0.0.0/2020/03/07/ambari-server-install/">&lt;h2 id=&quot;数据库配置&quot;&gt;数据库配置&lt;/h2&gt;
+&lt;p&gt;剩下的步骤根据提示一步步操作即可!&lt;/p&gt;
+
+&lt;h2 id=&quot;yarn-ha&quot;&gt;yarn HA&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;与hadoop ha 一样点击开启HA,根据步骤操作即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;hadoop-httpfs&quot;&gt;hadoop-httpfs&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y hadoop-httpfs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;安装完成后,无法正常启动;原因是由于缺失相关目录:
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hadoop-httpfs-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;打补丁:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;下载 &lt;a href=&quot;https://github.com/jevic/bigdata/blob/master/ambari/hadoop-httpfs_3.x_patch.tar.gz&quot;&gt;hadoop-httpfs_3.x_patch.tar.gz&lt;/a&gt;;解压后执行patch.sh&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;启动hadoop-httpfs&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## root用户操作
+# mkdir -p /var/run/hadoop/httpfs
+# chmod 777 /var/run/hadoop/httpfs
+# /usr/hdp/current/hadoop-httpfs/etc/rc.d/init.d/hadoop-httpfs start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">Ambari 集群配置</summary></entry><entry><title type="html">Ambari-Server&amp;amp;agent安装配置(二)</title><link href="http://0.0.0.0/2020/03/07/ambari-server-install/" rel="alternate" type="text/html" title="Ambari-Server&amp;agent安装配置(二)" /><published>2020-03-07T18:56:06+08:00</published><updated>2020-03-07T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/07/ambari-server-install</id><content type="html" xml:base="http://0.0.0.0/2020/03/07/ambari-server-install/">&lt;h2 id=&quot;数据库配置&quot;&gt;数据库配置&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可
 
 # mysql -u root -p123456 -e &quot;show variables like 'lower_case_table_names';&quot;
@@ -251,114 +366,42 @@ FLUSH PRIVILEGES;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;主机初始化&quot;&gt;主机初始化&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;JDK 安装&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;主机名配置
+        &lt;ul&gt;
+          &lt;li&gt;1.1.1.1 node.xxx.xx&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;双机互相&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jdk
-双机免秘钥互信(具体操作略去):
-[root@jevic-t01 .ssh]# pwd
-/root/.ssh
-[root@jevic-t01 .ssh]# cat config 
-Host *
-  UserKnownHostsFile /dev/null
-  StrictHostKeyChecking no
-  LogLevel quiet
-  Port 22
-
-
-selinux disabled
-防火墙关闭
-sysctl.conf 优化
-ulimit 限制取消
-各个依赖组件安装
-主机名配置:
-192.168.13.91 dt1.jevic.cn dt1
-192.168.13.92 dt2.jevic.cn dt2
-192.168.13.93 dt3.jevic.cn dt3
-192.168.13.94 dt4.jevic.cn dt4
-192.168.13.95 dt5.jevic.cn dt5
-hostname 也要一一对应!
-hostname xxxx 并修改 /etc/hostname！！！！
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ssh-keygen -t rsa
+    ssh-copy-id NODE_NAME
+    ## 也可以使用sshpass 去除密码输入提示
+    yum install -y sshpass
+    sshpass PASSWORD -e ssh-copy-id NODE_NAME 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;初始化脚本仅供参考&quot;&gt;初始化脚本仅供参考:&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash &lt;/span&gt;
-
-systemctl get-default
-systemctl set-default multi-user.target
-
-
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;NETWORKING=yes&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;HOSTNAME=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;hostname&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;/etc/sysconfig/network
-
-
-systemctl disable firewalld
-systemctl stop fiewalld 
-
-sed &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; s#SELINUX&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;enforcing#SELINUX&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;disabled# /etc/selinux/config
-setenforce 0
-
-yum &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; install ntp
-systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;ntpd
-systemctl restart ntpd
-
-&lt;span class=&quot;c&quot;&gt;#7.Disabled THP &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#echo &quot;never&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/enabled&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#echo &quot;never&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/defrag&lt;/span&gt;
-
-chmod +x /etc/rc.local
-&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt;  &lt;span class=&quot;s1&quot;&gt;'^echo \&quot;never\&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/defrag'&lt;/span&gt; /etc/rc.local  &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'echo &quot;never&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/defrag'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; /etc/rc.local
-&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'^echo \&quot;never\&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/enabled'&lt;/span&gt; /etc/rc.local &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'echo &quot;never&quot; &amp;gt; /sys/kernel/mm/transparent_hugepage/enabled'&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; /etc/rc.local
-
-&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;^transparent_hugepage=never&quot;&lt;/span&gt; /etc/default/grub &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;transparent_hugepage=never&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; /etc/default/grub
-grub2-mkconfig &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /boot/grub2/grub.cfg
-
-
-&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /etc/sysctl.conf &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
-fs.file-max=65535
-vm.swappiness=1
-net.ipv4.ip_forward = 1
-net.ipv4.conf.default.rp_filter = 1
-net.ipv4.conf.default.accept_source_route = 0
-net.ipv4.tcp_max_tw_buckets = 6000
-net.ipv4.ip_local_port_range = 1024 65000
-net.ipv4.tcp_timestamps = 1
-net.ipv4.tcp_tw_recycle = 0
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_syncookies = 1
-kernel.msgmnb = 65536
-kernel.msgmax = 65536
-kernel.shmmax = 68719476736
-kernel.shmall = 4294967296
-net.ipv4.tcp_max_syn_backlog = 262144
-net.core.netdev_max_backlog = 262144
-net.core.somaxconn = 262144
-net.ipv4.tcp_max_orphans = 262144
-net.ipv4.tcp_synack_retries = 1
-net.ipv4.tcp_syn_retries = 1
-net.ipv4.tcp_fin_timeout = 1
-net.ipv4.tcp_keepalive_time = 30
-net.ipv4.tcp_sack = 1
-net.ipv4.tcp_window_scaling = 1
-net.ipv4.tcp_rmem = 4096 87380 4194304
-net.ipv4.tcp_wmem = 4096 16384 4194304
-net.core.wmem_default = 8388608
-net.core.rmem_default = 8388608
-net.core.rmem_max = 16777216
-net.core.wmem_max = 16777216
-net.ipv4.tcp_mem = 94500000 915000000 927000000
-net.nf_conntrack_max = 6553500
-net.netfilter.nf_conntrack_max = 6553500
-net.netfilter.nf_conntrack_tcp_timeout_close_wait = 60
-net.netfilter.nf_conntrack_tcp_timeout_fin_wait = 120
-net.netfilter.nf_conntrack_tcp_timeout_time_wait = 120
-net.netfilter.nf_conntrack_tcp_timeout_established = 3600
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1
-&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
-
-&lt;/span&gt;sysctl &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 
-
-/etc/init.d/network restart
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;初始化脚本:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/jevic/bigdata/blob/master/ambari/initos.sh&quot;&gt;initos.sh&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&quot;ambari-server&quot;&gt;ambari-server&lt;/h2&gt;
 
@@ -432,7 +475,6 @@ Ambari Server &lt;span class=&quot;s1&quot;&gt;'setup'&lt;/span&gt; completed su
 
 
 
-
 &lt;span class=&quot;c&quot;&gt;## 将Ambari数据库脚本导入到数据库&lt;/span&gt;
 mysql &lt;span class=&quot;nt&quot;&gt;-uambari&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-pxxx&lt;/span&gt;
 use ambari&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -451,21 +493,54 @@ use ambari&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 yum -y install ambari-agent
 
 #ambari-agent 打ssl认证有问题，需要关闭
-if hash /usr/sbin/ambari-agent &amp;gt;/dev/null ; then
+grep -q &quot;^force_https_protocol=PROTOCOL_TLSv1_2&quot; /etc/ambari-agent/conf/ambari-agent.ini ||sed -i 's@\[security\]@&amp;amp;\nforce_https_protocol=PROTOCOL_TLSv1_2@g' /etc/ambari-agent/conf/ambari-agent.ini
 
-	grep -q &quot;^force_https_protocol=PROTOCOL_TLSv1_2&quot; /etc/ambari-agent/conf/ambari-agent.ini ||sed -i 's@\[security\]@&amp;amp;\nforce_https_protocol=PROTOCOL_TLSv1_2@g' /etc/ambari-agent/conf/ambari-agent.ini
+grep -q &quot;^verify=diable&quot; /etc/python/cert-verification.cfg || sed -i 's@\[https\]@&amp;amp;\nverify=diable@g' /etc/python/cert-verification.cfg 
 
-	grep -q &quot;^verify=diable&quot; /etc/python/cert-verification.cfg || sed -i 's@\[https\]@&amp;amp;\nverify=diable@g' /etc/python/cert-verification.cfg 
+/usr/sbin/ambari-agent reset ServiceNAME
+/usr/sbin/ambari-agent start 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-	/usr/sbin/ambari-agent stop
-	echo -ne &quot;\033[36m please enter ambari-server host ,like ambari.oa.com (请输入ambari-server地址,如ambari.oa.com): \033[0m&quot;
-    read ambariServerName
+&lt;h2 id=&quot;后记&quot;&gt;后记&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;以下是在安装ambari 2.7.4时遇到的问题(安装方式一样)&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
 
-	/usr/sbin/ambari-agent reset $ambariServerName
-	/usr/sbin/ambari-agent start 
-	
-fi
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">数据库配置 ``` 说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可</summary></entry><entry><title type="html">Ambari-本地Yum源配置(一)</title><link href="http://0.0.0.0/2020/03/06/ambari-yum/" rel="alternate" type="text/html" title="Ambari-本地Yum源配置(一)" /><published>2020-03-06T18:56:06+08:00</published><updated>2020-03-06T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/06/ambari-yum</id><content type="html" xml:base="http://0.0.0.0/2020/03/06/ambari-yum/">&lt;h2 id=&quot;ambari概述&quot;&gt;Ambari概述&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;初始化集群加入主机,状态一直为: preparing&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;解决方案: sudo chown -R ambari /var/run/ambari-server&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;HDFS 开启HA时报错 500&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;500 status code received on GET method for API: /api/v1/stacks/HDP/versions/2.4/recommendations 
+Error message: Error occured during stack advisor command invocation: Cannot create /var/run/ambari-server/stack-recommendations&lt;/p&gt;
+
+&lt;p&gt;解决方案：sudo chown -R ambari /var/run/ambari-server&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;ntpd 服务无法开机自启动
+&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/ambari-init-ntpd.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;解决方案: systemctl disable chronyd&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">数据库配置 ``` 说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可</summary></entry><entry><title type="html">Ambari-本地Yum源配置(一)</title><link href="http://0.0.0.0/2020/03/06/ambari-yum/" rel="alternate" type="text/html" title="Ambari-本地Yum源配置(一)" /><published>2020-03-06T18:56:06+08:00</published><updated>2020-03-06T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/06/ambari-yum</id><content type="html" xml:base="http://0.0.0.0/2020/03/06/ambari-yum/">&lt;h2 id=&quot;ambari概述&quot;&gt;Ambari概述&lt;/h2&gt;
 &lt;p&gt;Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。&lt;/p&gt;
 
 &lt;p&gt;Apache Ambari 从集群节点和服务收集大量信息，并把它们表现为容易使用的，集中化的接口：Ambari Web.&lt;/p&gt;
@@ -3013,267 +3088,4 @@ Error from server (Forbidden): pods &quot;myapp&quot; is forbidden: User &quot;d
 [root@k8s-node02 ~]#
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">RBAC (基于角色的访问控制)使用 rbac.authorization.k8s.io API 组来实现权限控制，RBAC 允许管理员通过 Kubernetes API 动态的配置权限策略。在 1.8 版本后默认启用,开启 RBAC 授权模式需要在 apiserver 组件中指定 –authorization-mode=RBAC 选项；</summary></entry><entry><title type="html">Elasticsearch 下分布式存储的数据分布</title><link href="http://0.0.0.0/2019/04/18/elk-disk-storage/" rel="alternate" type="text/html" title="Elasticsearch 下分布式存储的数据分布" /><published>2019-04-18T18:56:06+08:00</published><updated>2019-04-18T18:56:06+08:00</updated><id>http://0.0.0.0/2019/04/18/elk-disk-storage</id><content type="html" xml:base="http://0.0.0.0/2019/04/18/elk-disk-storage/">&lt;p&gt;对于一个分布式存储系统来说，数据是分散存储在多个节点上的。如何让数据均衡的分布在不同节点上，来保证其高可用性？所谓均衡，是指系统中每个节点的负载是均匀的，并且在发现有不均匀的情况或者有节点增加/删除时，能及时进行调整，保持均匀状态。  
-   在Elasticsearch中，以Shard为最小的数据分配/迁移单位。数据到节点的映射分离为两层：一层是数据到Shard的映射（Route），另一层是Shard到节点的映射（Allocate）&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk01.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;一方面，插入一条数据时，ES会根据指定的Key来计算应该落到哪个Shard上。默认Key是自动分配的id，可以自定义，比如在我们的业务中采用CompanyID作为Key。因为Primary Shard的个数是不允许改变的，所以同一个Key每次算出来的Shard是一样的，从而保证了准确定位。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shard_num = hash(_routing) % num_primary_shards
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;另一方面，Master会为每个Shard分配相应的Data节点进行存储，并维护相关元信息。通过Route计算出来的Shard序号，在元信息中找到对应的存储节点，便可完成数据分布。Shard Allocate的映射关系并不是完全不变的，当检测到数据分布不均匀、有新节点加入或者有节点挂掉等情况时就会进行调整，称为Relocate。那么，Elasticsearch是根据什么规则来为Shard选取节点，从而保证数据均衡分布的？概括来看，主要有三方面的影响：节点位置、磁盘空间、单个节点上的Index和Shard个数。&lt;/p&gt;
-
-&lt;h3 id=&quot;节点位置&quot;&gt;节点位置&lt;/h3&gt;
-&lt;p&gt;对于一个ES节点来说，它可能是某台物理机器上的一个VM，而这个物理机器位于某个Zone的某个机架（Rack)上。通过将Primary Shard和Replica Shard分散在不同的物理机器、Rack、Zone，可以尽可能的降低数据丢失和系统不可用的风险，这一点几乎在所有的分布式系统中都会考量。
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk01.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Elasticsearch是通过设置&lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/6.4/allocation-awareness.html&quot;&gt;awareness.attribute&lt;/a&gt;对集群中的节点进行分组，从而实现Rack和Zone的发现。比如按照下列方式对elasticsearch.yml进行配置，再启动相应的节点，即可实现Zone的区分。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// elasticsearch.yml
-cluster.routing.allocation.awareness.attributes: zone
-
-// 启动ES
-./bin/elasticsearch -Enode.attr.zone=zone_one
-./bin/elasticsearch -Enode.attr.zone=zone_two
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;实践中，如果使用了这样的Awareness机制，应该保证不同分组类的机器个数一致，不会发生倾斜。比如，在Zone Awareness下，如果集群有10台机器，应该保证每个Zone各有5台机器（2个Zone）&lt;/p&gt;
-
-&lt;h3 id=&quot;磁盘空间&quot;&gt;磁盘空间&lt;/h3&gt;
-&lt;p&gt;  磁盘空间是制约存储的硬性条件，单机的可用磁盘空间决定了能否继续往这个节点写入新数据、分配新Shard以及是否需要迁移数据等。在ES中，有三个参数用来控制与此相关的特性，默认每30秒检查一次。&lt;/p&gt;
-
-&lt;blockquote&gt;
-
-  &lt;p&gt;cluster.routing.allocation.disk.watermark.low: 默认为85%，超过这个阈值后，就不允许往这个节点分配Shard。
-cluster.routing.allocation.disk.watermark.high：默认为90%，超过这个阈值后，就需要将该节点的Shard迁移出去。
-cluster.routing.allocation.disk.watermark.flood_stage：默认为95%，超过这个阈值后，与该节点上的Shard有关的Index都变成只读，不允许写入数据。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk03.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-&lt;h4 id=&quot;参数调整&quot;&gt;参数调整&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;一般使用默认即可无需修改,需要注意的是如果使用% 百分比则必须都使用,不能配置gb 又配置百分比参数!!!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;PUT&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;_cluster/settings&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;transient&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.routing.allocation.disk.watermark.low&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;85%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.routing.allocation.disk.watermark.high&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;90%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.routing.allocation.disk.watermark.flood_stage&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;95%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.info.update.interval&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1m&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;取消配置&quot;&gt;取消配置&lt;/h4&gt;
-
-&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;//通配符匹配配置项&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;PUT&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;_cluster/settings&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;transient&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.routing.allocation.disk.watermark.*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//单个配置项&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;PUT&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;_cluster/settings&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;transient&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cluster.info.update.interval&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;单个节点上的index和shard个数&quot;&gt;单个节点上的Index和Shard个数&lt;/h3&gt;
-&lt;p&gt;  在满足节点位置和磁盘空间的条件后，单个节点上的Index和Shard个数是否均匀，决定了Shard可以分配/迁移到哪个节点。ES通过计算权值来量化这样的分配方式。
-  以检测某个Shard是否需要迁移到其他节点为例，ES会先计算该Shard所在节点（A）的权值，然后依次跟其他节点的权值比较，如果与节点B的差值（Delta-A）超过了阈值，再进一步计算节点A去掉该Shard后的权值与节点B增加该Shard后的权值之间的差值（Delta-B），如果Delta-A大于Delta-B，则表明Shard可以迁移到节点B。
-  这里的权值计算简化如下，其中indexBalance与shardBalance分别由参数控制，而阈值由cluster.routing.allocation.balance.threshold设置，默认为1.0f。当然，这里只描述了核心思想，详细逻辑请阅读&lt;a href=&quot;https://github.com/elastic/elasticsearch/blob/master/server/src/main/java/org/elasticsearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java&quot;&gt;BalancedShardsAllocator.java&lt;/a&gt;中的源码。通过调整三个参数，可以控制策略的松紧。&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// indexBalance = cluster.routing.allocation.balance.index, default is 0.55f&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// shardBalance = cluster.routing.allocation.balance.shard, default is 0.45f&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexBalance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shardBalance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theta0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shardBalance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theta1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexBalance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Balancer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;balancer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ModelNode&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numAdditionalShards&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weightShard&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;numShards&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numAdditionalShards&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;balancer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;avgShardsPerNode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weightIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;numShards&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numAdditionalShards&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;balancer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;avgShardsPerNode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theta0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weightShard&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theta1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weightIndex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;primary与replica分布&quot;&gt;Primary与Replica分布&lt;/h3&gt;
-&lt;p&gt;  最初关注Elasticsearch的数据分布，是因为在性能调优时遇到了一个与Primary/Replica分布有关的问题。背景是这样的，为了能够复用单个节点上的Disk Cache，我们对查询请求进行了限制，只允许其访问Primary Shard。然而总是有那么一两台机器的查询会被Queue住，通过调研发现，这些机器上面的Primary Shard比其他机器多（对某一个Index而言），即下图中左边所示，而我们希望的是右图所示的均匀分布。
-  引起这个问题的根源是，Elasticsearch中的Shard均匀分布是针对Primary+Replica整体而言的，也就是说没法做到只针对Primary Shard单方面做均匀分布，所以才会出现下图左边所示，某个节点上有3个Primary Shard，而另一个节点只有1个。目前尚未发现可以调节的地方。
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/elasticsearch/elkdisk04.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/6.4/modules.html&quot;&gt;Cluster Modules 配置&lt;/a&gt;
-&lt;a href=&quot;https://blog.csdn.net/zwgdft/article/details/83478241&quot;&gt;原文链接&lt;/a&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">对于一个分布式存储系统来说，数据是分散存储在多个节点上的。如何让数据均衡的分布在不同节点上，来保证其高可用性？所谓均衡，是指系统中每个节点的负载是均匀的，并且在发现有不均匀的情况或者有节点增加/删除时，能及时进行调整，保持均匀状态。   在Elasticsearch中，以Shard为最小的数据分配/迁移单位。数据到节点的映射分离为两层：一层是数据到Shard的映射（Route），另一层是Shard到节点的映射（Allocate）</summary></entry><entry><title type="html">ELK filebeat&amp;amp;logstash 收集grok解析Java应用日志</title><link href="http://0.0.0.0/2019/04/15/elk-javalog/" rel="alternate" type="text/html" title="ELK filebeat&amp;logstash 收集grok解析Java应用日志" /><published>2019-04-15T19:56:06+08:00</published><updated>2019-04-15T19:56:06+08:00</updated><id>http://0.0.0.0/2019/04/15/elk-javalog</id><content type="html" xml:base="http://0.0.0.0/2019/04/15/elk-javalog/">&lt;blockquote&gt;
-  &lt;p&gt;由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;建议推动开发人员对日志格式按照统一的分隔符来进行分割,然后使用ruby插件来处理,快速而高效,使用grok 处理效率低且及其容易丢失数据;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;filebeat&quot;&gt;filebeat&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;filebeat.prospectors:
-- input_type: log
-  fields:
-    vpc_ip: LOCAL_IP
-    app_name: APP_NAME
-    index_name: INDEX_NAME
-  paths:
-    - 'LOG_PATH'
-  ignore_older: 1m
-  close_inactive: 50s
-  tail_files: true
-  multiline:
-    pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}'
-    negate: true
-    match: after
-output.kafka:
-  hosts: [&quot;broker1:9092&quot;,&quot;broker1:9092&quot;,&quot;broker1:9092&quot;]
-  topic: testlog
-  required_acks: 1
-  compression: gzip
-  compression_level: 1
-  max_message_bytes: 100000000
-logging.level: info
-max_procs: 2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;/usr/bin/filebeat -c /etc/filebeat/filebeat.yml&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tail_files: true&lt;/code&gt; 首次启动从文件结尾开始读取&lt;/li&gt;
-  &lt;li&gt;如若重启后依旧希望从文件结尾读取需要删除 /var/lib/filebeat/ 目录下的offset registry 注册文件&lt;/li&gt;
-  &lt;li&gt;rm -rf /var/lib/filebeat/*&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;logstash&quot;&gt;logstash&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;默认没有处理前写入ES的数据如下所示&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;_index&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxxx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;_type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;doc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;t_avD2oBBaewsVVMu4Zz&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;_version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;_score&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;_source&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;@version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;source&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxx.log&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxxxx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;offset&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1680860846&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;@timestamp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2019-04-01T03:55:35.038Z&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;fields&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;namespace&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;x-xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;service-name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pod-ip&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxx&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;beat&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;hostname&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxxx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;6.0.0&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;fields&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;@timestamp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2019-04-01T03:55:35.038Z&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;sort&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1555041335038&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;input &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	kafka &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        	bootstrap_servers &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxx:9092&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-        	group_id &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;logstash_xxxx&quot;&lt;/span&gt;
-        	topics &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;xxx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-        	auto_offset_reset &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;latest&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-        	consumer_threads &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; 6
-        	decorate_events &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true
-        	&lt;/span&gt;codec &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;json&quot;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-
-filter &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;exception.Exception&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] or &lt;span class=&quot;s2&quot;&gt;&quot;exception.ApiException&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-          drop &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      grok &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-           match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;(?&amp;lt;time&amp;gt;^&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+-&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+-&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\s\d&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+)&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      grok &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-           match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;(?&amp;lt;level&amp;gt;[I|E]&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+)&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      grok &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-           match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;(?&amp;lt;tid&amp;gt;[nio|o|io].*-&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+)&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      grok &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-           match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;(?&amp;lt;class&amp;gt;[c]&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.)&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      grok &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-           match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;(?&amp;lt;method&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\[\s\s&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;+.*&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\d\]&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;{1}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\s&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;)&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      grok &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-           match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;(?&amp;lt;ms&amp;gt;[0-9]+[m][s])&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-           &lt;span class=&quot;c&quot;&gt;#match =&amp;gt; [ &quot;message&quot;, &quot;(?&amp;lt;ms&amp;gt;\d+)+ms&quot; ]&lt;/span&gt;
-         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      grok &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-           match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;(?&amp;lt;msg&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\s&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:+.*)&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-      date &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;time&quot;&lt;/span&gt; , &lt;span class=&quot;s2&quot;&gt;&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-            target &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;@timestamp&quot;&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-     &lt;span class=&quot;c&quot;&gt;## 解析嵌套json格式数据&lt;/span&gt;
-      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-         add_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;@fields&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{fields}&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      
-      json &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-         &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;@fields&quot;&lt;/span&gt;
-         &lt;span class=&quot;c&quot;&gt;## 删除filebeat 自带的不需要的元数据&lt;/span&gt;
-         remove_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;beat&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;@fields&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;fields&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;index_name&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;offset&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;source&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;time&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;tags&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        add_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{msg}&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        remove_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;msg&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
-
-output &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        elasticsearch &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;## 使用Search guard&lt;/span&gt;
-        hosts &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://es:9200&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
-        index &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;xxxxx_%{+YYYYMMdd}&quot;&lt;/span&gt;
-        user &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; admin
-        password &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;xxxxxxxxx&quot;&lt;/span&gt;
-        ssl &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true
-        &lt;/span&gt;ssl_certificate_verification &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true
-        &lt;/span&gt;truststore &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/opt/logstash/ssl/truststore.jks&quot;&lt;/span&gt;
-        truststore_password &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;xxxxxxxxxx&quot;&lt;/span&gt;
-         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-       
-&lt;span class=&quot;c&quot;&gt;#stdout { codec =&amp;gt; rubydebug }&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;启动logstash&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/opt/logstash/bin/logstash -f /opt/logstash/etc/test.conf --path.data=/opt/logstash/data/testlog
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">由于Java 日志输出的特殊性,导致在日志收集发送到ES后，所有信息都显示为一行,不便于搜索以及后续的图形化信息展示等;此次使用logstash grok 插件等对java 应用日志进行拆分处理；</summary></entry></feed>
+&lt;p&gt;转载请注明出处，本文采用 &lt;a href=&quot;http://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC4.0&lt;/a&gt; 协议授权&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">RBAC (基于角色的访问控制)使用 rbac.authorization.k8s.io API 组来实现权限控制，RBAC 允许管理员通过 Kubernetes API 动态的配置权限策略。在 1.8 版本后默认启用,开启 RBAC 授权模式需要在 apiserver 组件中指定 –authorization-mode=RBAC 选项；</summary></entry></feed>

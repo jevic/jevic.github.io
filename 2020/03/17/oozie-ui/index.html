@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Ambari-Cluster配置(三) &mdash; Jevic</title>
+    <title>Ambari安装oozie UI无法显示 &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/2020/03/07/ambari-cluster/">
+    <link rel="canonical" href="http://0.0.0.0:80/2020/03/17/oozie-ui/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Ambari-Cluster配置(三)">
+    <meta property="og:title" content="Ambari安装oozie UI无法显示">
       
-    <meta name="keywords" content="hadoop,spark">
-    <meta name="og:keywords" content="hadoop,spark">
+    <meta name="keywords" content="Bigdata">
+    <meta name="og:keywords" content="Bigdata">
       
-    <meta name="description" content="Ambari 集群配置">
-    <meta name="og:description" content="Ambari 集群配置">
+    <meta name="description" content="  如下图所示,无法正常显示UI界面">
+    <meta name="og:description" content="  如下图所示,无法正常显示UI界面">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/2020/03/07/ambari-cluster/">
+    <meta property="og:url" content="http://0.0.0.0:80/2020/03/17/oozie-ui/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2020-03-07">
+    <meta property="article:published_time" content="2020-03-17">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,22 +100,22 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Ambari-Cluster配">
+    <section class="collection-head small geopattern" data-pattern-id="Ambari安装oozie U">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Ambari-Cluster配置(三)</h1>
+        <h1 class="collection-header">Ambari安装oozie UI无法显示</h1>
         <div class="collection-info">
           
           <span class="meta-info">
-            <span class="octicon octicon-calendar"></span> 2020/03/07
+            <span class="octicon octicon-calendar"></span> 2020/03/17
           </span>
           
           
           <span class="meta-info">
             <span class="octicon octicon-file-directory"></span>
-            <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+            <a href="/categories/#ELK" title="ELK">ELK</a>
           </span>
           
         </div>
@@ -129,124 +129,46 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <h1 id="ambari-集群配置">Ambari 集群配置</h1>
-<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-01.png" alt="image" />
-<img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-02.png" alt="image" /></p>
+    <blockquote>
+  <p>如下图所示,无法正常显示UI界面</p>
+</blockquote>
 
-<ul>
-  <li>选择你需要安装的服务然后进入到配置界面</li>
-</ul>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/oozie-web.png" alt="" /></p>
 
-<h2 id="调整配置项">调整配置项</h2>
-<h3 id="hadoop-hue-依赖配置">hadoop hue 依赖配置</h3>
-<ul>
-  <li>检查确认是否有下列配置项,后面hue 要使用;</li>
-  <li><a href="https://docs.gethue.com/administrator/configuration/connectors/#hdfs">hue for HDFS</a></li>
-</ul>
+<h3 id="1-停止oozie-服务">1. 停止oozie 服务</h3>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/oozie02.png" alt="" /></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## core-site.xml
-hadoop.proxyuser.falcon.groups=*
-hadoop.proxyuser.falcon.hosts=*
-hadoop.proxyuser.hbase.groups=*
-hadoop.proxyuser.hbase.hosts=*
-hadoop.proxyuser.hcat.groups=*
-hadoop.proxyuser.hcat.hosts=*
-hadoop.proxyuser.httpfs.groups=*
-hadoop.proxyuser.httpfs.hosts=*
-hadoop.proxyuser.hue.groups=*
-hadoop.proxyuser.hue.hosts=*
-hadoop.proxyuser.root.hosts=*
-hadoop.proxyuser.root.groups=*
-hadoop.proxyuser.yarn.hosts=*
-hadoop.proxyuser.yarn.groups=*
-hadoop.proxyuser.mapred.hosts=*
-hadoop.proxyuser.mapred.groups=*
+<h3 id="2-下载扩展包">2. 下载扩展包</h3>
 
-## hdfs-site.xml
-# 关闭权限
-dfs.permissions.enabled=false
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@dt-hdp01 libext]# pwd
+/usr/hdp/3.1.4.0-315/oozie/libext
+[root@dt-hdp01 libext]# rm -rf ext-2.2  #如果已经存在的删除即可
+[root@dt-hdp01 libext]# wget http://archive.cloudera.com/gplextras/misc/ext-2.2.zip
+[root@dt-hdp01 libext]# unzip -q ext-2.2.zip 
+[root@dt-hdp01 libext]# chown oozie.hadoop ext-2.2 -R
 </code></pre></div></div>
 
-<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-hadoop.png" alt="image" /></p>
+<h3 id="3-删除旧页面文件">3. 删除旧页面文件</h3>
 
-<h3 id="hive">Hive</h3>
-<ul>
-  <li>连接数据库时使用,ambari 页面会有提示根据提示进行操作即可</li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@dt1 ~]# ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java-5.1.48-bin.jar
-Using python  /usr/bin/python
-Setup ambari-server
-Copying /usr/share/java/mysql-connector-java-5.1.48-bin.jar to /var/lib/ambari-server/resources
-If you are updating existing jdbc driver jar for mysql with mysql-connector-java-5.1.48-bin.jar. Please remove the old driver jar, from all hosts. Restarting services that need the driver, will automatically copy the new jar to the hosts.
-JDBC driver was successfully initialized.
-Ambari Server 'setup' completed successfully.
-</code></pre></div></div>
-<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-hive.png" alt="image" /></p>
-
-<h3 id="oozie">Oozie</h3>
-<p><a href="https://docs.gethue.com/administrator/configuration/connectors/#apache-oozie">hue oozie</a></p>
-
-<ul>
-  <li>ambari 初始化安装时添加下列参数</li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## oozie-site.xml
-oozie.service.ProxyUserService.proxyuser.hive.groups=*
-oozie.service.ProxyUserService.proxyuser.hive.hosts=*
-oozie.service.ProxyUserService.proxyuser.hue.groups=*
-oozie.service.ProxyUserService.proxyuser.hue.hosts=*
-oozie.processing.timezone=GMT+0800
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@dt-hdp01 webapps]# pwd
+/usr/hdp/current/oozie-server/oozie-server/webapps
+[root@dt-hdp01 webapps]# rm -rf oozie oozie.war 
 </code></pre></div></div>
 
-<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-oozie.png" alt="image" /></p>
+<h3 id="4-重新编译生成war包">4. 重新编译生成war包</h3>
 
-<ul>
-  <li>最终安装结果如下图</li>
-</ul>
-
-<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-end.png" alt="image" /></p>
-
-<h2 id="hadoop-ha">Hadoop HA</h2>
-<ul>
-  <li>ambari 默认安装hadoop时,没有启用HA 高可用,所以当安装完成后需要再次点击启用HA</li>
-  <li>参考<a href="http://www.louisvv.com/archives/1490.html">Ambari Hadoop安装启用HA</a></li>
-</ul>
-
-<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-01.png" alt="image" />
-<img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-02.png" alt="image" />
-<img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-03.png" alt="image" /></p>
-
-<p>剩下的步骤根据提示一步步操作即可!</p>
-
-<h2 id="yarn-ha">yarn HA</h2>
-<ul>
-  <li>与hadoop ha 一样点击开启HA,根据步骤操作即可</li>
-</ul>
-
-<h2 id="hadoop-httpfs">hadoop-httpfs</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y hadoop-httpfs
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@dt-hdp01 bin]# pwd
+/usr/hdp/current/oozie-server/bin
+[root@dt-hdp01 bin]# ./oozie-setup.sh prepare-war
 </code></pre></div></div>
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/hdp/oozie01.png" alt="" /></p>
 
-<p>安装完成后,无法正常启动;原因是由于缺失相关目录:
-<img src="https://raw.githubusercontent.com/jevic/images/master/hdp/hadoop-httpfs-01.png" alt="" /></p>
+<h3 id="5-启动oozie访问web页面即可">5. 启动oozie,访问web页面即可</h3>
 
-<p>打补丁:</p>
-<ul>
-  <li>
-    <p>下载 <a href="https://github.com/jevic/bigdata/blob/master/ambari/hadoop-httpfs_3.x_patch.tar.gz">hadoop-httpfs_3.x_patch.tar.gz</a>;解压后执行patch.sh</p>
-  </li>
-  <li>
-    <p>启动hadoop-httpfs</p>
-  </li>
-</ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## root用户操作
-# mkdir -p /var/run/hadoop/httpfs
-# chmod 777 /var/run/hadoop/httpfs
-# /usr/hdp/current/hadoop-httpfs/etc/rc.d/init.d/hadoop-httpfs start
-</code></pre></div></div>
+<h3 id="其他说明">其他说明:</h3>
+<p>关于ext-2.2 目录的位置;
+根据步骤3 当中所示的软连接地址把下载的包放置到对应位置即可;
+其他集群管理工具安装的oozie大致一样;</p>
 
     </article>
     <div class="share">
@@ -262,9 +184,9 @@ oozie.processing.timezone=GMT+0800
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/2020/03/07/ambari-cluster/';
-                    this.page.identifier = '/2020/03/07/ambari-cluster/';
-                    this.page.title = 'Ambari-Cluster配置(三)';
+                    this.page.url = 'http://0.0.0.0:80/2020/03/17/oozie-ui/';
+                    this.page.identifier = '/2020/03/17/oozie-ui/';
+                    this.page.title = 'Ambari安装oozie UI无法显示';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

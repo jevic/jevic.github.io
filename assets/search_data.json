@@ -1,5 +1,17 @@
 {
   
+  "2020-03-30-oozie-yarn-error": {
+    "title": "Oozie-YARN异常YarnException:Failed while publishing entity的解决方案",
+    "url": " /2020/03/30/oozie-yarn-error/",
+    "category": "Bigdata"
+  },
+  
+  "2020-03-17-oozie-ui": {
+    "title": "Ambari安装oozie UI无法显示",
+    "url": " /2020/03/17/oozie-ui/",
+    "category": "ELK"
+  },
+  
   "2020-03-16-hue": {
     "title": "Hue",
     "url": " /2020/03/16/hue/",
@@ -1055,6 +1067,18 @@
   "2020-03-16-hue": {
     "title": "Hue",
     "url": "/2020/03/16/hue/",
+    "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2020-03-17-oozie-ui": {
+    "title": "Ambari安装oozie UI无法显示",
+    "url": "/2020/03/17/oozie-ui/",
+    "category": "[&quot;ELK&quot;]"
+  },
+  
+  "2020-03-30-oozie-yarn-error": {
+    "title": "Oozie-YARN异常YarnException:Failed while publishing entity的解决方案",
+    "url": "/2020/03/30/oozie-yarn-error/",
     "category": "[&quot;Bigdata&quot;]"
   },
   
