@@ -474,6 +474,12 @@
     "category": "Docker"
   },
   
+  "2016-12-03-zabbix-template": {
+    "title": "Zabbix 自定义监控模板-Mysql",
+    "url": " /2016/12/03/zabbix-template/",
+    "category": "OPS"
+  },
+  
   "2016-11-29-linux-ops-zabbix-install": {
     "title": "Zabbix 手动快速安装",
     "url": " /2016/11/29/linux-ops-zabbix-install/",
@@ -605,6 +611,12 @@
   "2016-11-29-linux-ops-zabbix-install": {
     "title": "Zabbix 手动快速安装",
     "url": "/2016/11/29/linux-ops-zabbix-install/",
+    "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2016-12-03-zabbix-template": {
+    "title": "Zabbix 自定义监控模板-Mysql",
+    "url": "/2016/12/03/zabbix-template/",
     "category": "[&quot;OPS&quot;]"
   },
   
