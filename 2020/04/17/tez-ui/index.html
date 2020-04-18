@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>Apache Tez-ui &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2020/04/17/tez-ui/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="Apache Tez-ui">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="Bigdata">
+    <meta name="og:keywords" content="Bigdata">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="  版本信息:          Ambari 2.7.5      HDP-3.1.4.0      ">
+    <meta name="og:description" content="  版本信息:          Ambari 2.7.5      HDP-3.1.4.0      ">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2020/04/17/tez-ui/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2020-04-18">
+    <meta property="article:published_time" content="2020-04-17">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="Apache Tez-ui">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">Apache Tez-ui</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/04/17
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Bigdata" title="Bigdata">Bigdata</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,95 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <ul>
+  <li>版本信息:
+    <ul>
+      <li>Ambari 2.7.5</li>
+      <li>HDP-3.1.4.0</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="tez-ui-war包">tez-ui war包</h2>
+<ul>
+  <li><a href="https://tez.apache.org/releases/">Releases Downloads</a></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tar -zxf /opt/apache-tez-0.9.2-bin.tar.gz
+</code></pre></div></div>
+
+<h2 id="tomcat">tomcat</h2>
+<ul>
+  <li><a href="https://tomcat.apache.org/whichversion.html">下载</a>官方 tar.gz 安装包解压即可</li>
+</ul>
+
+<h3 id="tez-ui-配置">tez-ui 配置</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mkdir -p /opt/apache-tomcat-9.0.19/webapps/tez-ui
+# cp /opt/apache-tez-0.9.2-bin/tez-ui-0.9.2.war /opt/apache-tomcat-9.0.19/webapps/tez-ui
+# cd /opt/apache-tomcat-9.0.19/webapps/tez-ui
+# unzip tez-ui-0.9.2.war
+# cat config/configs.env
+...... 省略 ......
+ENV = {
+  hosts: {
+    /*
+     * Timeline Server Address:
+     * By default TEZ UI looks for timeline server at http://localhost:8188, uncomment and change
+     * the following value for pointing to a different address.
+     */
+    timeline: "http://192.168.1.12:8188",
+
+    /*
+     * Resource Manager Address:
+     * By default RM REST APIs are expected to be at http://localhost:8088, uncomment and change
+     * the following value to point to a different address.
+     */
+    rm: "http://192.168.1.12:8088",
+
+    /*
+     * Resource Manager Web Proxy Address:
+     * Optional - By default, value configured as RM host will be taken as proxy address
+     * Use this configuration when RM web proxy is configured at a different address than RM.
+     */
+    //rmProxy: "http://localhost:8088",
+  },
+  ...... 省略....
+
+</code></pre></div></div>
+
+<p>修改 tomcat server.conf 端口号</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="9999" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" /&gt;
+</code></pre></div></div>
+
+<ul>
+  <li>启动tomcat:
+    <ul>
+      <li>./bin/startup.sh</li>
+      <li>http://192.168.1.12:9999/tez-ui/ 访问页面</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="tez-sitexml">tez-site.xml</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;property&gt;
+      &lt;name&gt;tez.history.logging.service.class&lt;/name&gt;
+      &lt;value&gt;org.apache.tez.dag.history.logging.ats.ATSHistoryLoggingService&lt;/value&gt;
+    &lt;/property&gt;
+&lt;property&gt;
+      &lt;name&gt;tez.tez-ui.history-url.base&lt;/name&gt;
+      &lt;value&gt;http://192.168.1.12:9999/tez-ui/&lt;/value&gt;
+    &lt;/property&gt;
+</code></pre></div></div>
+
+<ul>
+  <li><a href="https://community.cloudera.com/t5/Community-Articles/How-to-install-Tez-UI-Standalone-and-use-it-to-debug-Hive/ta-p/247345">参考文档</a></li>
+</ul>
+
 
     </article>
     <div class="share">
@@ -132,9 +233,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2020/04/17/tez-ui/';
+                    this.page.identifier = '/2020/04/17/tez-ui/';
+                    this.page.title = 'Apache Tez-ui';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

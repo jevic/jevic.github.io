@@ -1,5 +1,17 @@
 {
   
+  "2020-04-17-yar-app-kill": {
+    "title": "Can't kill YARN apps using ResourceManager UI",
+    "url": " /2020/04/17/yar-app-kill/",
+    "category": "Bigdata"
+  },
+  
+  "2020-04-17-tez-ui": {
+    "title": "Apache Tez-ui",
+    "url": " /2020/04/17/tez-ui/",
+    "category": "Bigdata"
+  },
+  
   "2020-03-30-oozie-yarn-error": {
     "title": "Oozie-YARN异常YarnException:Failed while publishing entity的解决方案",
     "url": " /2020/03/30/oozie-yarn-error/",
@@ -1091,6 +1103,18 @@
   "2020-03-30-oozie-yarn-error": {
     "title": "Oozie-YARN异常YarnException:Failed while publishing entity的解决方案",
     "url": "/2020/03/30/oozie-yarn-error/",
+    "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2020-04-17-tez-ui": {
+    "title": "Apache Tez-ui",
+    "url": "/2020/04/17/tez-ui/",
+    "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2020-04-17-yar-app-kill": {
+    "title": "Can't kill YARN apps using ResourceManager UI",
+    "url": "/2020/04/17/yar-app-kill/",
     "category": "[&quot;Bigdata&quot;]"
   },
   
