@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>A Namespace Is Stuck in the Terminating State &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2020/05/23/k8s-terminating/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="A Namespace Is Stuck in the Terminating State">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="Docker,k8s">
+    <meta name="og:keywords" content="Docker,k8s">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="            Run the following command to view the namespaces that are stuck in the Terminating state:      ">
+    <meta name="og:description" content="            Run the following command to view the namespaces that are stuck in the Terminating state:      ">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2020/05/23/k8s-terminating/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2020-06-19">
+    <meta property="article:published_time" content="2020-05-23">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="A Namespace Is ">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">A Namespace Is Stuck in the Terminating State</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/05/23
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,83 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <ul>
+  <li>
+    <ol>
+      <li>Run the following command to view the namespaces that are stuck in the Terminating state:</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl get ns|grep Terminating
+cattle-prometheus      Terminating   406d
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <ol>
+      <li>Select a terminating namespace and view the contents of the namespace to find out the finalizer. Run the following command:</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl get ns cattle-prometheus -o yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    cattle.io/appIds: cluster-monitoring,monitoring-operator
+    cattle.io/status: '{"Conditions":[{"Type":"ResourceQuotaInit","Status":"True","Message":"","LastUpdateTime":"2019-05-09T06:34:14Z"},{"Type":"InitialRolesPopulated","Status":"True","Message":"","LastUpdateTime":"2019-05-09T06:34:19Z"}]}'
+    field.cattle.io/projectId: c-s2zlj:p-kw9lj
+    lifecycle.cattle.io/create.namespace-auth: "true"
+  creationTimestamp: "2019-05-09T06:34:13Z"
+  deletionGracePeriodSeconds: 0
+  deletionTimestamp: "2019-11-13T02:50:20Z"
+  finalizers:
+  - controller.cattle.io/namespace-auth
+  labels:
+    cattle.io/creator: norman
+    field.cattle.io/projectId: p-kw9lj
+  name: cattle-prometheus
+  resourceVersion: "39020658"
+  selfLink: /api/v1/namespaces/cattle-prometheus
+  uid: 75c9cd36-7224-11e9-9de0-e23029de4489
+spec: {}
+status:
+  phase: Terminating
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <ol>
+      <li>Run the following command  remove <code class="highlighter-rouge">finalizers</code> config
+Delete the following two lines of configuration save exit</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl edit ns cattle-prometheus
+.... 
+finalizers:
+  - controller.cattle.io/namespace-auth
+....
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <ol>
+      <li>Finally, execute the delete command again</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl delete ns cattle-prometheus
+</code></pre></div></div>
+
+<h2 id="cause-analysis">Cause analysis</h2>
+
+<p>Finalizers is an asynchronous pre delete hook commonly used by operators of kubernetes. When this resource is deleted, it needs to be cleaned up by the program that created the resource before deletion. After cleaning up, it needs to remove the identifier from the finalizers of the resource, and then the resource will be completely deleted</p>
+
 
     </article>
     <div class="share">
@@ -132,9 +221,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2020/05/23/k8s-terminating/';
+                    this.page.identifier = '/2020/05/23/k8s-terminating/';
+                    this.page.title = 'A Namespace Is Stuck in the Terminating State';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

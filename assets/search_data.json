@@ -1,5 +1,11 @@
 {
   
+  "2020-05-23-k8s-terminating": {
+    "title": "A Namespace Is Stuck in the Terminating State",
+    "url": " /2020/05/23/k8s-terminating/",
+    "category": "Kubernetes"
+  },
+  
   "2020-04-17-yar-app-kill": {
     "title": "Can't kill YARN apps using ResourceManager UI",
     "url": " /2020/04/17/yar-app-kill/",
@@ -1116,6 +1122,12 @@
     "title": "Can't kill YARN apps using ResourceManager UI",
     "url": "/2020/04/17/yar-app-kill/",
     "category": "[&quot;Bigdata&quot;]"
+  },
+  
+  "2020-05-23-k8s-terminating": {
+    "title": "A Namespace Is Stuck in the Terminating State",
+    "url": "/2020/05/23/k8s-terminating/",
+    "category": "[&quot;Kubernetes&quot;]"
   },
   
   "wiki-template": {
