@@ -1,4 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-20T15:06:45+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes-v1.18.0 Addons quickstart</title><link href="http://0.0.0.0/2020/06/03/kubernetes-addon/" rel="alternate" type="text/html" title="kubernetes-v1.18.0 Addons quickstart" /><published>2020-06-03T20:35:46+08:00</published><updated>2020-06-03T20:35:46+08:00</updated><id>http://0.0.0.0/2020/06/03/kubernetes-addon</id><content type="html" xml:base="http://0.0.0.0/2020/06/03/kubernetes-addon/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-20T18:23:59+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Apache SkyWalking</title><link href="http://0.0.0.0/2020/06/06/skywalking-deploy/" rel="alternate" type="text/html" title="Apache SkyWalking" /><published>2020-06-06T18:10:46+08:00</published><updated>2020-06-06T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/06/skywalking-deploy</id><content type="html" xml:base="http://0.0.0.0/2020/06/06/skywalking-deploy/">&lt;p&gt;SkyWalking是观察性分析平台和应用性能管理系统。
+提供分布式追踪、服务网格遥测分析、度量聚合和可视化一体化解决方案。&lt;/p&gt;
+
+&lt;h2 id=&quot;apache-skywalking&quot;&gt;&lt;a href=&quot;https://github.com/apache/skywalking&quot;&gt;Apache SkyWalking&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;SkyWalking 的核心是数据分析和度量结果的存储平台，通过 HTTP 或 gRPC 方式向 SkyWalking Collecter 提交分析和度量数据，SkyWalking Collecter 对数据进行分析和聚合，存储到 Elasticsearch、MySQL、TiDB 等其一即可，最后我们可以通过 SkyWalking UI 的可视化界面对最终的结果进行查看。&lt;/p&gt;
+
+&lt;p&gt;Skywalking 支持从多个来源和多种格式收集数据：多种语言的 Skywalking Agent 、Zipkin v1/v2 、Istio 勘测、Envoy 度量等数据格式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://skywalking.apache.org/assets/frame.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://skywalking.apache.org/assets/frame-v8.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;目前最主流的两个apm对比&quot;&gt;&lt;a href=&quot;https://www.jianshu.com/p/626cae6c0522&quot;&gt;目前最主流的两个APM对比&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/6918995-92910cb2690b4d70.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;dockerfile&quot;&gt;Dockerfile&lt;/h2&gt;
+
+&lt;h3 id=&quot;oap-server--ui&quot;&gt;OAP server &amp;amp; UI&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/apache/skywalking-docker&quot;&gt;官方镜像 Dockerfile&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;oap-server&quot;&gt;OAP server&lt;/h4&gt;
+&lt;p&gt;为了可以动态的修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;alarm-settings.yml&lt;/code&gt;;
+因此需要配置一个 configmap 以便于修改并重新加载alarm配置;
+但是由于官方提供的默认镜像使用了&lt;code class=&quot;highlighter-rouge&quot;&gt;ENTRYPOINT&lt;/code&gt; 方式来启动;无法对命令进行修改;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;因此需要做如下调整:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;setp 1: 下载源文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/apache/skywalking-docker.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;setp 2: 修改对应版本的Dockerfile
+    &lt;ul&gt;
+      &lt;li&gt;例如: 7.0 版本&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vim $PATH/skywalking-docker/7/7.0/oap-es7/Dockerfile
+
+### 删除最后一行 ENTRYPOINT 或者将 ENTRYPOINT 修改为 CMD
+ENTRYPOINT [&quot;bash&quot;, &quot;docker-entrypoint.sh&quot;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;setp 3: 重新build 镜像即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker build -t apache/skywalking-oap-server:7.0.0-es7 .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;setp 4: 修改时区,并上传到私有仓库&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Dockerfile&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FROM apache/skywalking-oap-server:7.0.0-es7
+ENV TZ=Asia/Shanghai
+RUN apk add --no-cache tzdata \
+    &amp;amp;&amp;amp; ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    &amp;amp;&amp;amp; echo $TZ &amp;gt; /etc/timezone
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker build -t reg.jevic.cn/basic/skywalking-oap-server:7.0.0-es7 .
+docker push reg.jevic.cn/basic/skywalking-oap-server:7.0.0-es7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;skywalking-ui&quot;&gt;skywalking-ui&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FROM apache/skywalking-ui:7.0.0
+ENV TZ=Asia/Shanghai
+RUN apk add --no-cache tzdata \
+    &amp;amp;&amp;amp; ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    &amp;amp;&amp;amp; echo $TZ &amp;gt; /etc/timezone
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker build -t reg.jevic.cn/basic/skywalking-ui:7.0.0 .
+docker push reg.jevic.cn/basic/skywalking-ui:7.0.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;skywalking-agent&quot;&gt;skywalking-agent&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FROM apache/skywalking-base:7.0.0-es7 AS build
+
+FROM busybox
+
+ENV AGENT_PATH=/opt/skywalking/agent
+
+COPY --from=build /skywalking/agent $AGENT_PATH
+
+RUN set -ex \
+    ## URL跟踪过滤
+    &amp;amp;&amp;amp; mv $AGENT_PATH/optional-plugins/apm-trace-ignore-plugin-7.0.0.jar $AGENT_PATH/plugins/ \
+    ## 网关
+    &amp;amp;&amp;amp; mv $AGENT_PATH/optional-plugins/apm-spring-cloud-gateway-2.x-plugin-7.0.0.jar $AGENT_PATH/plugins/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker build -t reg.jevic.cn/basic/skywalking-agent:v7 .
+docker push reg.jevic.cn/basic/skywalking-agent:v7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;git clone yaml 文件执行部署即可&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/jevic/skywalking/tree/master/deployment&quot;&gt;SkyWalking K8s deployment scripts&lt;/a&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">SkyWalking是观察性分析平台和应用性能管理系统。 提供分布式追踪、服务网格遥测分析、度量聚合和可视化一体化解决方案。</summary></entry><entry><title type="html">kubernetes-v1.18.0 Addons quickstart</title><link href="http://0.0.0.0/2020/06/03/kubernetes-addon/" rel="alternate" type="text/html" title="kubernetes-v1.18.0 Addons quickstart" /><published>2020-06-03T20:35:46+08:00</published><updated>2020-06-03T20:35:46+08:00</updated><id>http://0.0.0.0/2020/06/03/kubernetes-addon</id><content type="html" xml:base="http://0.0.0.0/2020/06/03/kubernetes-addon/">&lt;blockquote&gt;
   &lt;p&gt;kubernetes 安装此处省略,具体详情参考之前的文档以及对应版本脚本:&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -936,187 +1054,4 @@ Error message: Error occured during stack advisor command invocation: Cannot cre
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;解决方案: systemctl disable chronyd&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">数据库配置 ``` 说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可</summary></entry><entry><title type="html">Ambari-本地Yum源配置(一)</title><link href="http://0.0.0.0/2020/03/06/ambari-yum/" rel="alternate" type="text/html" title="Ambari-本地Yum源配置(一)" /><published>2020-03-06T18:56:06+08:00</published><updated>2020-03-06T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/06/ambari-yum</id><content type="html" xml:base="http://0.0.0.0/2020/03/06/ambari-yum/">&lt;h2 id=&quot;ambari概述&quot;&gt;Ambari概述&lt;/h2&gt;
-&lt;p&gt;Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。&lt;/p&gt;
-
-&lt;p&gt;Apache Ambari 从集群节点和服务收集大量信息，并把它们表现为容易使用的，集中化的接口：Ambari Web.&lt;/p&gt;
-
-&lt;p&gt;Ambari Web显示诸如服务特定的摘要、图表以及警报信息。可通过Ambari Web对Hadoop集群进行创建、管理、监视、添加主机、更新服务配置等；也可以利用Ambari Web执行集群管理任务，例如启用 Kerberos 安全以及执行Stack升级。任何用户都可以查看Ambari Web特性。拥有administrator-level 角色的用户可以访问比 operator-level 或 view-only 的用户能访问的更多选项。例如，Ambari administrator 可以管理集群安全，一个 operator 用户可以监控集群，而 view-only 用户只能访问系统管理员授予他的必要的权限。&lt;/p&gt;
-
-&lt;h2 id=&quot;ambari体系结构&quot;&gt;Ambari体系结构&lt;/h2&gt;
-&lt;p&gt;Ambari 自身也是一个分布式架构的软件，主要由两部分组成：Ambari Server 和 Ambari Agent。简单来说，用户通过Ambari Server通知 Ambari Agent 安装对应的软件；Agent 会定时地发送各个机器每个软件模块的状态给 Ambari Server，最终这些状态信息会呈现在 Ambari 的 GUI，方便用户了解到集群的各种状态，并进行相应的维护。&lt;/p&gt;
-
-&lt;p&gt;Ambari Server 从整个集群上收集信息。每个主机上都有 Ambari Agent, Ambari Server 通过 Ambari Agent 控制每部主机。&lt;/p&gt;
-
-&lt;h2 id=&quot;配置本地yum源&quot;&gt;配置本地YUM源&lt;/h2&gt;
-&lt;h2 id=&quot;参考文档&quot;&gt;参考文档&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;https://docs.cloudera.com/HDPDocuments&lt;/li&gt;
-  &lt;li&gt;https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/bk_ambari-installation/content/ambari_repositories.html&lt;/li&gt;
-  &lt;li&gt;https://docs.cloudera.com/HDPDocuments/Ambari-2.7.5.0/bk_ambari-installation/content/hdp_315_repositories.html&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;目录结构&quot;&gt;目录结构&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@192-168-5-12 ~]# mkdir -p /tmp/temp
- 
- 
-wget -N http://192.168.12.62/ambari/ambari2.6.2.2/HDP-2.6.5.0-centos7-rpm.tar.gz -P /tmp/temp/
-wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/HDP-GPL-2.6.5.0-centos7-gpl.tar.gz -P /tmp/temp/
-wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/HDP-UTILS-1.1.0.22-centos7.tar.gz -P /tmp/temp/
-wget -N  http://192.168.12.62/ambari/ambari2.6.2.2/ambari-2.6.2.2-centos7.tar.gz -P /tmp/temp/
- 
- 
-[root@192-168-5-12 ~]# for file in `ls -1 /tmp/temp/*.tar.gz` ; do tar -xzvf $file -C /tmp/temp/ ; done ;
- 
- 
- 
-[root@192-168-5-12 ~]#  mkdir -p /data/wwwroot/yum/{ambari,hdp,hdp-utils,hdp-gpl}
- 
- 
-mv /tmp/temp/ambari/centos7/2.6.2.2-1/* /data/wwwroot/yum/ambari/
-mv /tmp/temp/HDP/centos7/2.6.5.0-292/* /data/wwwroot/yum/hdp/
-mv /tmp/temp/HDP-GPL/centos7/2.6.5.0-292/* /data/wwwroot/yum/hdp-gpl/
-mv /tmp/temp/HDP-UTILS/centos7/1.1.0.22/* /data/wwwroot/yum//hdp-utils/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@yum ambari2.7.4]# pwd
-/data/wwwroot/yum/ambari2.7.4
-[root@yum ambari2.7.4]# tree -d -L 2
-.
-├── ambari
-│   ├── ambari
-│   ├── repodata
-│   ├── RPM-GPG-KEY
-│   ├── smartsense
-│   └── tars
-├── hdp
-│   ├── accumulo
-│   ├── atlas
-│   ├── bigtop-jsvc
-│   ├── bigtop-tomcat
-│   ├── datafu
-│   ├── druid
-│   ├── hadoop
-│   ├── hbase
-│   ├── hdp-select
-│   ├── hive
-│   ├── hive_warehouse_connector
-│   ├── kafka
-│   ├── knox
-│   ├── livy
-│   ├── oozie
-│   ├── phoenix
-│   ├── pig
-│   ├── ranger
-│   ├── repodata
-│   ├── RPM-GPG-KEY
-│   ├── shc
-│   ├── spark2
-│   ├── spark_atlas_connector
-│   ├── spark_schema_registry
-│   ├── sqoop
-│   ├── storm
-│   ├── superset
-│   ├── tez
-│   ├── vrpms
-│   ├── zeppelin
-│   └── zookeeper
-├── hdp-gpl
-│   ├── hadooplzo
-│   ├── repodata
-│   ├── RPM-GPG-KEY
-│   └── vrpms
-└── hdp-utils
-    ├── openblas
-    ├── repodata
-    ├── RPM-GPG-KEY
-    └── snappy
-
-48 directories
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;nginx-server配置&quot;&gt;nginx server配置&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-server {
-        listen       80;
-        server_name  localhost;
-        location / {
-            #root   /data/wwwroot/yum;
-	    root /data/wwwroot/yum ;
-            charset utf-8;
-	    autoindex on;
-            # set to on means use localtime
-            autoindex_localtime on;
-            # show size with unit 'MB' instead of 'Byte'
-            autoindex_exact_size off;
-            index  index.html index.htm;
-        }
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   html;
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;repo文件&quot;&gt;repo文件&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@s03 yum.repos.d]# cat ambari.repo
-#VERSION_NUMBER=2.7.4.0-118
-[ambari-2.7.4.0]
-#json.url = http://public-repo-1.hortonworks.com/HDP/hdp_urlinfo.json
-name=ambari Version - ambari-2.7.4.0
-#baseurl=http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0
-baseurl=http://192.168.12.70/ambari2.7.4/ambari/
-gpgcheck=1
-#gpgkey=http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
-gpgkey=http://192.168.12.70/ambari2.7.4/ambari/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
-enabled=1
-priority=1
-
-
-[root@s03 yum.repos.d]# cat hdp*repo
-
-#VERSION_NUMBER=3.1.4.0-315
-[HDP-GPL-3.1.4.0]
-name=HDP-GPL Version - HDP-GPL-3.1.4.0
-#baseurl=http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0
-baseurl=http://192.168.12.70/ambari2.7.4/hdp-gpl
-gpgcheck=1
-#gpgkey=http://public-repo-1.hortonworks.com/HDP-GPL/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
-gpgkey=http://192.168.12.70/ambari2.7.4/hdp-gpl/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
-enabled=1
-priority=1
-
-#VERSION_NUMBER=3.1.4.0-315
-[HDP-3.1.4.0]
-name=HDP Version - HDP-3.1.4.0
-#baseurl=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0
-baseurl=http://192.168.12.70/ambari2.7.4/hdp/
-gpgcheck=1
-#gpgkey=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
-gpgkey=http://192.168.12.70/ambari2.7.4/hdp/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
-enabled=1
-priority=1
-
-
-[HDP-UTILS-1.1.0.22]
-name=HDP-UTILS Version - HDP-UTILS-1.1.0.22
-#baseurl=http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
-baseurl=http://192.168.12.70/ambari2.7.4/hdp-utils
-gpgcheck=1
-#gpgkey=http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
-gpgkey=http://192.168.12.70/ambari2.7.4/hdp-utils/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
-enabled=1
-priority=1
-
-[HDP-UTILS-1.1.0.22]
-name=Hortonworks Data Platform Utils Version - HDP-UTILS-1.1.0.22
-#baseurl=http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
-baseurl=http://192.168.12.70/ambari2.7.4/hdp-utils
-gpgcheck=1
-enabled=0
-priority=1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">Ambari概述 Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。</summary></entry></feed>
+&lt;p&gt;解决方案: systemctl disable chronyd&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">数据库配置 ``` 说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可</summary></entry></feed>

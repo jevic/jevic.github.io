@@ -1,5 +1,11 @@
 {
   
+  "2020-06-06-skywalking-deploy": {
+    "title": "Apache SkyWalking",
+    "url": " /2020/06/06/skywalking-deploy/",
+    "category": "OPS"
+  },
+  
   "2020-06-03-kubernetes-addon": {
     "title": "kubernetes-v1.18.0 Addons quickstart",
     "url": " /2020/06/03/kubernetes-addon/",
@@ -1142,6 +1148,12 @@
     "title": "kubernetes-v1.18.0 Addons quickstart",
     "url": "/2020/06/03/kubernetes-addon/",
     "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2020-06-06-skywalking-deploy": {
+    "title": "Apache SkyWalking",
+    "url": "/2020/06/06/skywalking-deploy/",
+    "category": "[&quot;OPS&quot;]"
   },
   
   "wiki-template": {
