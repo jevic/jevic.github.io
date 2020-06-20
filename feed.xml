@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-20T18:23:59+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Apache SkyWalking</title><link href="http://0.0.0.0/2020/06/06/skywalking-deploy/" rel="alternate" type="text/html" title="Apache SkyWalking" /><published>2020-06-06T18:10:46+08:00</published><updated>2020-06-06T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/06/skywalking-deploy</id><content type="html" xml:base="http://0.0.0.0/2020/06/06/skywalking-deploy/">&lt;p&gt;SkyWalking是观察性分析平台和应用性能管理系统。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-20T18:31:23+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Apache SkyWalking</title><link href="http://0.0.0.0/2020/06/06/skywalking-deploy/" rel="alternate" type="text/html" title="Apache SkyWalking" /><published>2020-06-06T18:10:46+08:00</published><updated>2020-06-06T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/06/skywalking-deploy</id><content type="html" xml:base="http://0.0.0.0/2020/06/06/skywalking-deploy/">&lt;p&gt;SkyWalking是观察性分析平台和应用性能管理系统。
 提供分布式追踪、服务网格遥测分析、度量聚合和可视化一体化解决方案。&lt;/p&gt;
 
 &lt;h2 id=&quot;apache-skywalking&quot;&gt;&lt;a href=&quot;https://github.com/apache/skywalking&quot;&gt;Apache SkyWalking&lt;/a&gt;&lt;/h2&gt;
@@ -7,15 +7,13 @@
 
 &lt;p&gt;Skywalking 支持从多个来源和多种格式收集数据：多种语言的 Skywalking Agent 、Zipkin v1/v2 、Istio 勘测、Envoy 度量等数据格式。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://skywalking.apache.org/assets/frame.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://skywalking.apache.org/assets/frame-v8.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://skywalking.apache.org/assets/frame.jpeg&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;http://skywalking.apache.org/assets/frame-v8.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;目前最主流的两个apm对比&quot;&gt;&lt;a href=&quot;https://www.jianshu.com/p/626cae6c0522&quot;&gt;目前最主流的两个APM对比&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/6918995-92910cb2690b4d70.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/skywalking-pk-pinpoint.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;dockerfile&quot;&gt;Dockerfile&lt;/h2&gt;
-
 &lt;h3 id=&quot;oap-server--ui&quot;&gt;OAP server &amp;amp; UI&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/apache/skywalking-docker&quot;&gt;官方镜像 Dockerfile&lt;/a&gt;&lt;/li&gt;
