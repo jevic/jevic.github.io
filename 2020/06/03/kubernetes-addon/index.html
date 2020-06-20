@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.mritd.me/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.mritd.me/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>kubernetes-v1.18.0 Addons quickstart &mdash; Jevic</title>
+    <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
+    <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
+    <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
+    <link rel="stylesheet" href="/assets/css/components/collection.css">
+    <link rel="stylesheet" href="/assets/css/components/repo-card.css">
+    <link rel="stylesheet" href="/assets/css/sections/repo-list.css">
+    <link rel="stylesheet" href="/assets/css/sections/mini-repo-list.css">
+    <link rel="stylesheet" href="/assets/css/components/boxed-group.css">
+    <link rel="stylesheet" href="/assets/css/globals/common.css">
+    <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/globals/responsive.css">
+    <link rel="stylesheet" href="/assets/css/posts/index.css">
+    <!-- Latest compiled and minified CSS -->
+    
+
+    
+    <link rel="canonical" href="http://0.0.0.0:80/2020/06/03/kubernetes-addon/">
+    <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <meta property="og:title" content="kubernetes-v1.18.0 Addons quickstart">
+      
+    <meta name="keywords" content="Docker,k8s">
+    <meta name="og:keywords" content="Docker,k8s">
+      
+    <meta name="description" content="  kubernetes 安装此处省略,具体详情参考之前的文档以及对应版本脚本:">
+    <meta name="og:description" content="  kubernetes 安装此处省略,具体详情参考之前的文档以及对应版本脚本:">
+      
+    
+    
+        
+    
+    <meta property="og:url" content="http://0.0.0.0:80/2020/06/03/kubernetes-addon/">
+    <meta property="og:site_name" content="Jevic">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="zh_CN" />
+    
+    <meta property="article:published_time" content="2020-06-03">
+    
+    <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function toggleMenu() {
+        var nav = document.getElementsByClassName("site-header-nav")[0];
+        if (nav.style.display == "inline-flex") {
+          nav.style.display = "none";
+        } else {
+          nav.style.display = "inline-flex";
+        }
+    }
+    </script>
+</head>
+<body class="" data-mz="">
+    <header class="site-header">
+        <div class="container">
+            <h1><a href="/" title="Jevic"><span class="octicon octicon-mark-github"></span> Jevic</a></h1>
+            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <nav class="site-header-nav" role="navigation">
+                
+                <a href="/" class=" site-header-nav-item" target="" title="首页">首页</a>
+                
+                <a href="/categories/" class=" site-header-nav-item" target="" title="分类">分类</a>
+                
+                <a href="/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a>
+                
+                <a href="/open-source/" class=" site-header-nav-item" target="" title="开源">开源</a>
+                
+                <a href="/links/" class=" site-header-nav-item" target="" title="链接">链接</a>
+                
+                <a href="/about/" class=" site-header-nav-item" target="" title="关于">关于</a>
+                
+            </nav>
+        </div>
+    </header>
+    <!-- / header -->
+
+    <section class="collection-head small geopattern" data-pattern-id="kubernetes-v1.1">
+<div class="container">
+  <div class="columns">
+    <div class="column three-fourths">
+      <div class="collection-title">
+        <h1 class="collection-header">kubernetes-v1.18.0 Addons quickstart</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/06/03
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+<div class="columns">
+  <div class="column three-fourths" >
+    <article class="article-content markdown-body">
+    <blockquote>
+  <p>kubernetes 安装此处省略,具体详情参考之前的文档以及对应版本脚本:</p>
+</blockquote>
+
+<blockquote>
+  <p><a href="https://www.jevic.cn/2019/08/19/kubernetes-1.13.8/">kubernetes 1.13.8 二进制手动部署</a></p>
+</blockquote>
+
+<blockquote>
+  <p><a href="https://github.com/jevic/kubernetes">kubernetes 二进制手动安装脚本</a> :</p>
+</blockquote>
+
+<blockquote>
+  <p>分支及版本信息:</p>
+</blockquote>
+
+<ul>
+  <li>v1.18.0 (master)</li>
+  <li>v1.13.8</li>
+  <li>v1.14.0 (只包含启动配置文件)</li>
+</ul>
+
+<h2 id="role添加">Role添加</h2>
+<ul>
+  <li>首次安装完成后,role没有被打标签</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl get node
+NAME   STATUS   ROLES    AGE    VERSION
+k1     Ready    &lt;none&gt;   1h   v1.18.0
+k2     Ready    &lt;none&gt;   1h   v1.18.0
+k3     Ready    &lt;none&gt;   1h   v1.18.0
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl label nodes k1 node-role.kubernetes.io/master=
+kubectl get node --show-labels
+kubectl label nodes k2 node-role.kubernetes.io/node=
+# 设置 master 一般情况下不接受负载
+kubectl taint nodes k1 node-role.kubernetes.io/master=true:NoSchedule
+
+master运行pod
+kubectl taint nodes k1 node-role.kubernetes.io/master=
+
+master不运行pod
+kubectl taint nodes k1 node-role.kubernetes.io/master=:NoSchedule
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl get node
+NAME   STATUS   ROLES    AGE    VERSION
+k1     Ready    master   1h   v1.18.0
+k2     Ready    node     1h   v1.18.0
+k3     Ready    node     1h   v1.18.0
+</code></pre></div></div>
+
+<h2 id="calico">calico</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://docs.projectcalico.org/getting-started/kubernetes/quickstart
+https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises
+</code></pre></div></div>
+
+<h2 id="coredns">coredns</h2>
+<ul>
+  <li><a href="https://github.com/coredns/deployment/tree/master/kubernetes">github</a></li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -O https://raw.githubusercontent.com/coredns/deployment/master/kubernetes/coredns.yaml.sed
+curl -O https://raw.githubusercontent.com/coredns/deployment/master/kubernetes/deploy.sh
+
+./deploy.sh -i 10.254.0.2 -d cluster.local. &gt; coredns.yaml
+sed -i 's#coredns/coredns:1.6.7#registry.aliyuncs.com/google_containers/coredns:1.6.7#g' coredns.yaml
+</code></pre></div></div>
+
+<h3 id="dns-hpa">dns hpa</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dns-horizontal-autoscaler
+</code></pre></div></div>
+
+<h2 id="metrics-server">metrics-server</h2>
+
+<p>部署的YAML 文件获取方式:</p>
+
+<ul>
+  <li><a href="https://github.com/kubernetes-sigs/metrics-server">gitlab 官网</a></li>
+  <li>k8s源码包deploy目录: cluster/addons/metrics-server</li>
+  <li>修改image 为阿里云镜像,然后执行apply 部署即可;</li>
+</ul>
+
+<h3 id="报错处理">报错处理</h3>
+<ul>
+  <li>metrics-server 401 Unauthorized</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### 临时解决创建匿名用户-不太建议此操作;
+kubectl create clusterrolebinding the-boss --user system:anonymous --clusterrole cluster-admin
+</code></pre></div></div>
+
+<h2 id="nginx-ingress">nginx-ingress</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://kubernetes.github.io/ingress-nginx/deploy/#bare-metal
+wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
+</code></pre></div></div>
+
+<p>修改 <a href="https://kubernetes.github.io/ingress-nginx/deploy/baremetal/#via-the-host-network">网络模式-host</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template:
+  spec:
+    hostNetwork: true
+</code></pre></div></div>
+
+<h2 id="dashboard-v20">dashboard v2.0</h2>
+<p><a href="https://github.com/kubernetes/dashboard">dashboard</a></p>
+
+<h3 id="apiserver-配置">apiserver 配置</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># grep basic /etc/kubernetes/apiserver
+		--basic-auth-file=/etc/kubernetes/basic-auth.csv \
+</code></pre></div></div>
+<h3 id="用户密码文件">用户密码文件</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cat /etc/kubernetes/basic-auth.csv
+admin,admin,1
+password123,test,2
+</code></pre></div></div>
+<ul>
+  <li>说明: password,user,userID</li>
+</ul>
+
+<h3 id="dashboard-yaml">dashboard yaml</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.....
+template:
+    metadata:
+      labels:
+        k8s-app: kubernetes-dashboard
+    spec:
+      containers:
+        - name: kubernetes-dashboard
+          image: reg.yl.com/jk8s/kubernetesui/dashboard:v2.0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8443
+              protocol: TCP
+          args:
+            - --auto-generate-certificates
+            - --namespace=kubernetes-dashboard
+            - --authentication-mode=basic
+....
+</code></pre></div></div>
+
+<h3 id="授权用户">授权用户</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl create clusterrolebinding  login-on-dashboard-admin --clusterrole=cluster-admin --user=admin
+kubectl get clusterrolebinding login-on-dashboard-admin
+</code></pre></div></div>
+
+<h3 id="ingress-域名配置">ingress 域名配置</h3>
+<h5 id="添加证书">添加证书</h5>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># kubectl create secret tls dashboard-secret-jk8s --namespace=kubernetes-dashboard --cert jevic.com.pem --key jevic.com.key
+</code></pre></div></div>
+
+<h5 id="nginx-配置">nginx 配置</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cat ui-ing.yml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+  annotations:
+    ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  tls:
+  - hosts:
+    - jk8s.jevic.com
+    secretName: dashboard-secret-jk8s
+  rules:
+  - host: jk8s.jevic.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 443
+</code></pre></div></div>
+
+<h2 id="lxcfs-不建议生产使用">lxcfs (不建议生产使用)</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://yq.aliyun.com/articles/566208
+
+https://github.com/lxc/lxcfs
+yum install -y fuse fuse-lib fuse-devel libtool
+./bootstrap.sh &amp;&amp; ./configure &amp;&amp; make &amp;&amp; make install
+lxcfs /var/lib/lxcfs &amp;&gt;/dev/null &amp;
+
+
+git clone https://github.com/denverdino/lxcfs-admission-webhook
+</code></pre></div></div>
+
+<h3 id="说明">说明</h3>
+<ul>
+  <li>
+    <ol>
+      <li>lxcfs 服务建议直接make 编译安装在宿主机,而不是通过daemonset 方式以容器方式运行;</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>当lxcfs 服务异常重启后, 原有的Pod 执行exec 命令登录后,无法使用free/top 等系统命令;并且通过prometheus 等监控工具也无法获取到Pod信息;但是并不影响Pod 服务;</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>宿主机直接运行lxcfs服务后,当宿主机异常重启后,需要先清理掉 /var/lib/lxcfs 目录下的所有数据;否则服务无法正常启动且会导致容器也无法正常运行; 但是这样又会出现另外一个问题,当把目录数据删除后,之前运行的Pod的挂载信息就将全部丢失;同样也会出现上述第2点 所描述的异常情况;</li>
+    </ol>
+  </li>
+</ul>
+
+<h2 id="kube-debug可选">kube-debug(可选)</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://github.com/aylei/kubectl-debug
+
+添加配置:
+https://github.com/aylei/kubectl-debug#configuration
+</code></pre></div></div>
+
+    </article>
+    <div class="share">
+      <div class="share-component"></div>
+
+    </div>
+    <div class="comment">
+      
+    
+        
+        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+        
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://0.0.0.0:80/2020/06/03/kubernetes-addon/';
+                    this.page.identifier = '/2020/06/03/kubernetes-addon/';
+                    this.page.title = 'kubernetes-v1.18.0 Addons quickstart';
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    var shortname = 'jevic-cn';
+                    s.src = '//' + shortname + '.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        
+    
+
+
+    </div>
+  </div>
+  <div class="column one-fourth">
+    
+<h3>Search</h3>
+<div id="site_search">
+    <input type="text" id="search_box" placeholder="Search">
+    <button class="btn btn-default" id="site_search_do"><span class="octicon octicon-search"></span></button>
+</div>
+
+<ul id="search_results"></ul>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/modules/sidebar-search.css">
+<script src="/assets/js/lunr.min.js"></script>
+<script src="/assets/js/search.js"></script>
+
+    
+<h3>Post Directory</h3>
+<div id="post-directory-module" class="mobile-hidden">
+  <section class="post-directory">
+  <!-- Links that trigger the jumping -->
+  <!-- Added by javascript below -->
+  <dl></dl>
+  </section>
+</div>
+
+<script src="/assets/js/jquery.toc.js"></script>
+
+  </div>
+</div>
+</section>
+<!-- /section.content -->
+
+    <footer class="container">
+        <div class="site-footer" role="contentinfo">
+            <div class="copyright left mobile-block">
+                    © 2016~2020
+                    <span title="Jevic">Jevic</span>
+                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
+            </div>
+
+            <ul class="site-footer-links right mobile-hidden">
+                <li>
+                    <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">CC4.0</a>
+                </li>
+                <li>
+                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
+                </li>
+            </ul>
+            <a href="http://github.com/jevic/jevic.github.io" target="_blank" aria-label="view source code">
+                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+            </a>
+            <ul class="site-footer-links mobile-hidden">
+                
+                <li>
+                    <a href="/" title="首页" target="">首页</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/" title="分类" target="">分类</a>
+                </li>
+                
+                <li>
+                    <a href="/wiki/" title="维基" target="">维基</a>
+                </li>
+                
+                <li>
+                    <a href="/open-source/" title="开源" target="">开源</a>
+                </li>
+                
+                <li>
+                    <a href="/links/" title="链接" target="">链接</a>
+                </li>
+                
+                <li>
+                    <a href="/about/" title="关于" target="">关于</a>
+                </li>
+                
+                <li><a href="/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
+            </ul>
+
+        </div>
+    </footer>
+    <!-- / footer -->
+    <script src="/assets/vendor/share.js/dist/js/share.min.js"></script>
+    <script src="/assets/js/geopattern.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <link rel="stylesheet" href="/assets/css/globals/prism.css">
+    <script>
+      jQuery(document).ready(function($) {
+        // geopattern
+        $('.geopattern').each(function(){
+          $(this).geopattern($(this).data('pattern-id'));
+        });
+       // hljs.initHighlightingOnLoad();
+      });
+    </script>
+    
+    <div style="display:none">
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-82387173-1', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    </div>
+    
+</body>
+</html>

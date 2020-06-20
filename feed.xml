@@ -1,4 +1,225 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-19T14:49:21+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">A Namespace Is Stuck in the Terminating State</title><link href="http://0.0.0.0/2020/05/23/k8s-terminating/" rel="alternate" type="text/html" title="A Namespace Is Stuck in the Terminating State" /><published>2020-05-23T20:35:46+08:00</published><updated>2020-05-23T20:35:46+08:00</updated><id>http://0.0.0.0/2020/05/23/k8s-terminating</id><content type="html" xml:base="http://0.0.0.0/2020/05/23/k8s-terminating/">&lt;ul&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-20T15:06:45+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">kubernetes-v1.18.0 Addons quickstart</title><link href="http://0.0.0.0/2020/06/03/kubernetes-addon/" rel="alternate" type="text/html" title="kubernetes-v1.18.0 Addons quickstart" /><published>2020-06-03T20:35:46+08:00</published><updated>2020-06-03T20:35:46+08:00</updated><id>http://0.0.0.0/2020/06/03/kubernetes-addon</id><content type="html" xml:base="http://0.0.0.0/2020/06/03/kubernetes-addon/">&lt;blockquote&gt;
+  &lt;p&gt;kubernetes 安装此处省略,具体详情参考之前的文档以及对应版本脚本:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;https://www.jevic.cn/2019/08/19/kubernetes-1.13.8/&quot;&gt;kubernetes 1.13.8 二进制手动部署&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;https://github.com/jevic/kubernetes&quot;&gt;kubernetes 二进制手动安装脚本&lt;/a&gt; :&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;分支及版本信息:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;v1.18.0 (master)&lt;/li&gt;
+  &lt;li&gt;v1.13.8&lt;/li&gt;
+  &lt;li&gt;v1.14.0 (只包含启动配置文件)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;role添加&quot;&gt;Role添加&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;首次安装完成后,role没有被打标签&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl get node
+NAME   STATUS   ROLES    AGE    VERSION
+k1     Ready    &amp;lt;none&amp;gt;   1h   v1.18.0
+k2     Ready    &amp;lt;none&amp;gt;   1h   v1.18.0
+k3     Ready    &amp;lt;none&amp;gt;   1h   v1.18.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl label nodes k1 node-role.kubernetes.io/master=
+kubectl get node --show-labels
+kubectl label nodes k2 node-role.kubernetes.io/node=
+# 设置 master 一般情况下不接受负载
+kubectl taint nodes k1 node-role.kubernetes.io/master=true:NoSchedule
+
+master运行pod
+kubectl taint nodes k1 node-role.kubernetes.io/master=
+
+master不运行pod
+kubectl taint nodes k1 node-role.kubernetes.io/master=:NoSchedule
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl get node
+NAME   STATUS   ROLES    AGE    VERSION
+k1     Ready    master   1h   v1.18.0
+k2     Ready    node     1h   v1.18.0
+k3     Ready    node     1h   v1.18.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;calico&quot;&gt;calico&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://docs.projectcalico.org/getting-started/kubernetes/quickstart
+https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;coredns&quot;&gt;coredns&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/coredns/deployment/tree/master/kubernetes&quot;&gt;github&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -O https://raw.githubusercontent.com/coredns/deployment/master/kubernetes/coredns.yaml.sed
+curl -O https://raw.githubusercontent.com/coredns/deployment/master/kubernetes/deploy.sh
+
+./deploy.sh -i 10.254.0.2 -d cluster.local. &amp;gt; coredns.yaml
+sed -i 's#coredns/coredns:1.6.7#registry.aliyuncs.com/google_containers/coredns:1.6.7#g' coredns.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;dns-hpa&quot;&gt;dns hpa&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dns-horizontal-autoscaler
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;metrics-server&quot;&gt;metrics-server&lt;/h2&gt;
+
+&lt;p&gt;部署的YAML 文件获取方式:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubernetes-sigs/metrics-server&quot;&gt;gitlab 官网&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;k8s源码包deploy目录: cluster/addons/metrics-server&lt;/li&gt;
+  &lt;li&gt;修改image 为阿里云镜像,然后执行apply 部署即可;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;报错处理&quot;&gt;报错处理&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;metrics-server 401 Unauthorized&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;### 临时解决创建匿名用户-不太建议此操作;
+kubectl create clusterrolebinding the-boss --user system:anonymous --clusterrole cluster-admin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;nginx-ingress&quot;&gt;nginx-ingress&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://kubernetes.github.io/ingress-nginx/deploy/#bare-metal
+wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;修改 &lt;a href=&quot;https://kubernetes.github.io/ingress-nginx/deploy/baremetal/#via-the-host-network&quot;&gt;网络模式-host&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;template:
+  spec:
+    hostNetwork: true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;dashboard-v20&quot;&gt;dashboard v2.0&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/kubernetes/dashboard&quot;&gt;dashboard&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;apiserver-配置&quot;&gt;apiserver 配置&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# grep basic /etc/kubernetes/apiserver
+		--basic-auth-file=/etc/kubernetes/basic-auth.csv \
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;用户密码文件&quot;&gt;用户密码文件&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cat /etc/kubernetes/basic-auth.csv
+admin,admin,1
+password123,test,2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;说明: password,user,userID&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;dashboard-yaml&quot;&gt;dashboard yaml&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;.....
+template:
+    metadata:
+      labels:
+        k8s-app: kubernetes-dashboard
+    spec:
+      containers:
+        - name: kubernetes-dashboard
+          image: reg.yl.com/jk8s/kubernetesui/dashboard:v2.0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8443
+              protocol: TCP
+          args:
+            - --auto-generate-certificates
+            - --namespace=kubernetes-dashboard
+            - --authentication-mode=basic
+....
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;授权用户&quot;&gt;授权用户&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create clusterrolebinding  login-on-dashboard-admin --clusterrole=cluster-admin --user=admin
+kubectl get clusterrolebinding login-on-dashboard-admin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;ingress-域名配置&quot;&gt;ingress 域名配置&lt;/h3&gt;
+&lt;h5 id=&quot;添加证书&quot;&gt;添加证书&lt;/h5&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# kubectl create secret tls dashboard-secret-jk8s --namespace=kubernetes-dashboard --cert jevic.com.pem --key jevic.com.key
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;nginx-配置&quot;&gt;nginx 配置&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cat ui-ing.yml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+  annotations:
+    ingress.kubernetes.io/ssl-passthrough: &quot;true&quot;
+    nginx.ingress.kubernetes.io/backend-protocol: &quot;HTTPS&quot;
+spec:
+  tls:
+  - hosts:
+    - jk8s.jevic.com
+    secretName: dashboard-secret-jk8s
+  rules:
+  - host: jk8s.jevic.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 443
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;lxcfs-不建议生产使用&quot;&gt;lxcfs (不建议生产使用)&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://yq.aliyun.com/articles/566208
+
+https://github.com/lxc/lxcfs
+yum install -y fuse fuse-lib fuse-devel libtool
+./bootstrap.sh &amp;amp;&amp;amp; ./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+lxcfs /var/lib/lxcfs &amp;amp;&amp;gt;/dev/null &amp;amp;
+
+
+git clone https://github.com/denverdino/lxcfs-admission-webhook
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;说明&quot;&gt;说明&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;lxcfs 服务建议直接make 编译安装在宿主机,而不是通过daemonset 方式以容器方式运行;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;当lxcfs 服务异常重启后, 原有的Pod 执行exec 命令登录后,无法使用free/top 等系统命令;并且通过prometheus 等监控工具也无法获取到Pod信息;但是并不影响Pod 服务;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;宿主机直接运行lxcfs服务后,当宿主机异常重启后,需要先清理掉 /var/lib/lxcfs 目录下的所有数据;否则服务无法正常启动且会导致容器也无法正常运行; 但是这样又会出现另外一个问题,当把目录数据删除后,之前运行的Pod的挂载信息就将全部丢失;同样也会出现上述第2点 所描述的异常情况;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;kube-debug可选&quot;&gt;kube-debug(可选)&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://github.com/aylei/kubectl-debug
+
+添加配置:
+https://github.com/aylei/kubectl-debug#configuration
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">kubernetes 安装此处省略,具体详情参考之前的文档以及对应版本脚本:</summary></entry><entry><title type="html">A Namespace Is Stuck in the Terminating State</title><link href="http://0.0.0.0/2020/05/23/k8s-terminating/" rel="alternate" type="text/html" title="A Namespace Is Stuck in the Terminating State" /><published>2020-05-23T20:35:46+08:00</published><updated>2020-05-23T20:35:46+08:00</updated><id>http://0.0.0.0/2020/05/23/k8s-terminating</id><content type="html" xml:base="http://0.0.0.0/2020/05/23/k8s-terminating/">&lt;ul&gt;
   &lt;li&gt;
     &lt;ol&gt;
       &lt;li&gt;Run the following command to view the namespaces that are stuck in the Terminating state:&lt;/li&gt;
@@ -898,203 +1119,4 @@ baseurl=http://192.168.12.70/ambari2.7.4/hdp-utils
 gpgcheck=1
 enabled=0
 priority=1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">Ambari概述 Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。</summary></entry><entry><title type="html">Elastic Stack 7.x 初识</title><link href="http://0.0.0.0/2019/11/06/elk-7-release/" rel="alternate" type="text/html" title="Elastic Stack 7.x 初识" /><published>2019-11-06T18:56:06+08:00</published><updated>2019-11-06T18:56:06+08:00</updated><id>http://0.0.0.0/2019/11/06/elk-7-release</id><content type="html" xml:base="http://0.0.0.0/2019/11/06/elk-7-release/">&lt;h3 id=&quot;概述&quot;&gt;概述&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;2019年04月25日 &lt;a href=&quot;https://www.elastic.co/cn/blog/elastic-stack-7-0-0-released&quot;&gt;Elastic Stack 7.0.0 重磅发布&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;2019年10月02日 &lt;a href=&quot;https://www.elastic.co/cn/blog/elastic-stack-7-4-0-released&quot;&gt;Elastic Stack 7.4.0 重磅发布&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;关系型数据库与 Elasticsearch 的抽象与类比
-    &lt;ul&gt;
-      &lt;li&gt;在7.0 版本之前,一个index 可以设置多个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Types&lt;/code&gt;;&lt;/li&gt;
-      &lt;li&gt;7.0 以后一个索引只能创建一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Type =&amp;gt; &quot;_doc&quot;&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;RDBMS&lt;/th&gt;
-      &lt;th&gt;Elasticsearch&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Table&lt;/td&gt;
-      &lt;td&gt;Index(Type)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Row&lt;/td&gt;
-      &lt;td&gt;Document&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Column&lt;/td&gt;
-      &lt;td&gt;Filed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Schema&lt;/td&gt;
-      &lt;td&gt;Mapping&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;SQL&lt;/td&gt;
-      &lt;td&gt;DSL&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;关键特性&quot;&gt;关键特性&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;全新设计和导航……还有夜间模式&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/a-new-era-for-cluster-coordination-in-elasticsearch&quot;&gt;Elasticsearch 集群协调迎来新时代&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/improving-node-resiliency-with-the-real-memory-circuit-breaker&quot;&gt;使用真实内存断路器提高节点弹性&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/subscriptions&quot;&gt;Elastic Stack 订阅&lt;/a&gt;
- 核心安全功能 免费、免费、免费!!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;安装配置&quot;&gt;安装配置&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;详细的 安装配置说明可参考 &lt;a href=&quot;https://www.jevic.cn/2017/01/23/elk-elasticsearch-install-5x/&quot;&gt;Elasticsearch 5.x 集群配置&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Download 7.4.2
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-linux-x86_64.tar.gz&quot;&gt;elasticsearch&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/kibana/kibana-7.4.2-linux-x86_64.tar.gz&quot;&gt;kibana&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/logstash/logstash-7.4.2.tar.gz&quot;&gt;logstash&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Beat&lt;/code&gt;
-        &lt;ul&gt;
-          &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-linux-x86_64.tar.gz&quot;&gt;filebeat&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.4.2-linux-x86_64.tar.gz&quot;&gt;metricbeat&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-7.4.2-linux-x86_64.tar.gz&quot;&gt;auditbeat&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;a href=&quot;https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-7.4.2-linux-x86_64.tar.gz&quot;&gt;heartbeat&lt;/a&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;elasticsearch&quot;&gt;Elasticsearch&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;此处使用的版本为: &lt;code class=&quot;highlighter-rouge&quot;&gt;7.4.2&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;提示: OpenJDK 已经内置 &lt;code class=&quot;highlighter-rouge&quot;&gt;$ES_PATH/jdk&lt;/code&gt; &lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html#jvm-version&quot;&gt;JAVA (JVM)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;系统配置&quot;&gt;系统配置&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@jevic ~]# cat /etc/security/limits.conf
-* soft nofile 65536
-* hard nofile 65536
-* soft nproc unlimited
-* hard nproc unlimited
-es soft memlock unlimited
-es hard memlock unlimited
-
-[root@jevic ~]# cat /etc/security/limits.d/20-nproc.conf
-# Default limit for number of user's processes to prevent
-# accidental fork bombs.
-# See rhbz #432903 for reasoning.
-
-*          soft    nproc     102400
-root       soft    nproc     unlimited
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;elasticsearchyml&quot;&gt;elasticsearch.yml&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cluster.name: JevicTestDB
-node.name: node194
-node.master: true
-node.data: true
-path.data: /es-data1/data
-bootstrap.memory_lock: true
-network.host: 192.168.0.194
-http.port: 9200
-discovery.zen.minimum_master_nodes: 2
-discovery.seed_hosts: [&quot;node194&quot;, &quot;node198&quot;, &quot;node204&quot;]
-#discovery.seed_providers: unicast_hosts.txt
-## 重试间隔
-discovery.find_peers_interval: 1s
-cluster.initial_master_nodes: [&quot;node194&quot;, &quot;node198&quot;, &quot;node204&quot;]
-### sql插件支持
-http.cors.enabled: true
-http.cors.allow-origin: &quot;*&quot;
-#### 必须停用xpack sql才可以使用elasticsearch-sql
-xpack.sql.enabled: false
-### 开启认证:
-### 初始化认证: $ES_PATH/bin/elasticsearch-setup-passwords interactive
-#xpack.security.enabled: true
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;kibana&quot;&gt;Kibana&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;server.name: kibana
-server.host: &quot;0&quot;
-elasticsearch.hosts: [ &quot;http://elasticsearch:9200&quot; ]
-### 开启认证
-#xpack.security.enabled: true
-#elasticsearch.username: &quot;kibana&quot;
-#elasticsearch.password: &quot;123456&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h4 id=&quot;logstash&quot;&gt;Logstash&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;收集 NGINX 日志&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&quot;日志格式&quot;&gt;日志格式&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;log_format  json '{&quot;cip&quot;:&quot;$remote_addr&quot;,'
-                            '&quot;timestamp&quot;:&quot;$time_iso8601&quot;,'
-                            '&quot;rtime&quot;:$request_time,'
-                            '&quot;upres_time&quot;:$upstream_response_time,'
-                            '&quot;sbyte&quot;:$body_bytes_sent,'
-                            '&quot;host&quot;:&quot;$http_host&quot;,'
-                            '&quot;request&quot;:&quot;$request&quot;,'
-                            '&quot;scheme&quot;:&quot;$scheme&quot;,'
-                            '&quot;length&quot;:&quot;$content_length&quot;,'
-                            '&quot;server&quot;:&quot;$upstream_addr&quot;,'
-                            '&quot;method&quot;:&quot;$request_method&quot;,'
-                            '&quot;status&quot;:$status}';
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;pipe-配置&quot;&gt;pipe 配置&lt;/h5&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;input{
-    file {
-        path =&amp;gt; [ &quot;/var/log/nginx/es_access.log&quot; ]
-        start_position =&amp;gt; &quot;beginning&quot;
-        codec =&amp;gt; &quot;json&quot;
-    }
-}
-
-filter {
-  date {
-    match =&amp;gt; [ &quot;timestamp&quot;, &quot;ISO8601&quot; ]
-    target =&amp;gt; &quot;@timestamp&quot;
-  }
-  mutate {
-    split =&amp;gt; { &quot;request&quot; =&amp;gt; &quot; &quot; }
-    add_field =&amp;gt; { &quot;url&quot; =&amp;gt; &quot;%{[request][1]}&quot;}
-  }
-  mutate {
-    remove_field =&amp;gt; [ &quot;path&quot;, &quot;tags&quot;, &quot;request&quot;]
-  }
-}
-
-output {
-    #elasticsearch {
-    #    hosts =&amp;gt; [ &quot;192.168.0.194:9200&quot; ]
-    #    index =&amp;gt; &quot;nginx-%{+YYYY.MM.dd}&quot;
-    #}
-     stdout {
-	       codec =&amp;gt; rubydebug
-     }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ps: &lt;a href=&quot;https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html&quot;&gt;filters-mutate&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;扩展阅读&quot;&gt;扩展阅读&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/how-to-monitor-nginx-web-servers-with-the-elastic-stack&quot;&gt;如何使用 Elastic Stack 监测 Nginx Web 服务器&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.elastic.co/cn/blog/monitoring-kafka-with-elasticsearch-kibana-and-beats&quot;&gt;通过 Elasticsearch、Kibana 和 Beats 监测 Kafka&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;关于 &lt;a href=&quot;https://github.com/NLPchina/elasticsearch-sql/wiki&quot;&gt;elasticsearch-sql&lt;/a&gt; 和 &lt;a href=&quot;https://github.com/lmenezes/cerebro&quot;&gt;cerebro&lt;/a&gt; 插件的安装部署请移步Github&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">概述 2019年04月25日 Elastic Stack 7.0.0 重磅发布 2019年10月02日 Elastic Stack 7.4.0 重磅发布</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">Ambari概述 Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的创建、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等；除此之外，Ambari还支持Spark、Storm等计算框架及资源调度平台YARN。</summary></entry></feed>

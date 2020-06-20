@@ -353,8 +353,12 @@
 <lastmod>2020-05-23T20:35:46+08:00</lastmod>
 </url>
 <url>
+<loc>http://0.0.0.0/2020/06/03/kubernetes-addon/</loc>
+<lastmod>2020-06-03T20:35:46+08:00</lastmod>
+</url>
+<url>
 <loc>http://0.0.0.0/wiki/template/</loc>
-<lastmod>2020-06-19T14:49:21+08:00</lastmod>
+<lastmod>2020-06-20T15:06:45+08:00</lastmod>
 </url>
 <url>
 <loc>http://0.0.0.0/about/</loc>
@@ -403,5 +407,8 @@
 </url>
 <url>
 <loc>http://0.0.0.0/page11/</loc>
+</url>
+<url>
+<loc>http://0.0.0.0/page12/</loc>
 </url>
 </urlset>

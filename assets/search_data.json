@@ -1,5 +1,11 @@
 {
   
+  "2020-06-03-kubernetes-addon": {
+    "title": "kubernetes-v1.18.0 Addons quickstart",
+    "url": " /2020/06/03/kubernetes-addon/",
+    "category": "Kubernetes"
+  },
+  
   "2020-05-23-k8s-terminating": {
     "title": "A Namespace Is Stuck in the Terminating State",
     "url": " /2020/05/23/k8s-terminating/",
@@ -600,6 +606,8 @@
   
   
   
+  
+  
 
   
   "2016-07-23-linux-firewalld-iptables": {
@@ -1127,6 +1135,12 @@
   "2020-05-23-k8s-terminating": {
     "title": "A Namespace Is Stuck in the Terminating State",
     "url": "/2020/05/23/k8s-terminating/",
+    "category": "[&quot;Kubernetes&quot;]"
+  },
+  
+  "2020-06-03-kubernetes-addon": {
+    "title": "kubernetes-v1.18.0 Addons quickstart",
+    "url": "/2020/06/03/kubernetes-addon/",
     "category": "[&quot;Kubernetes&quot;]"
   },
   
