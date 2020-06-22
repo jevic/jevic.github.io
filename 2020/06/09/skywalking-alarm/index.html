@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>Apache SkyWalking Alarm &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2020/06/09/skywalking-alarm/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="Apache SkyWalking Alarm">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="SkyWalking">
+    <meta name="og:keywords" content="SkyWalking">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="alarm-settings.yml  alarm-settings.yml 配置为configmap 以便于动态修改加载;">
+    <meta name="og:description" content="alarm-settings.yml  alarm-settings.yml 配置为configmap 以便于动态修改加载;">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2020/06/09/skywalking-alarm/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2020-06-22">
+    <meta property="article:published_time" content="2020-06-09">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="Apache SkyWalki">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">Apache SkyWalking Alarm</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/06/09
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#OPS" title="OPS">OPS</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,111 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <h2 id="alarm-settingsyml">alarm-settings.yml</h2>
+<blockquote>
+  <p><code class="highlighter-rouge">alarm-settings.yml</code> 配置为configmap 以便于动态修改加载;</p>
+</blockquote>
+
+<p>详细配置参考: <a href="https://github.com/jevic/skywalking/blob/master/deployment/configmap.yml">deployment/configmap.yml</a></p>
+
+<h2 id="alarm-body">alarm body</h2>
+<p>skywalking alarm报警信息如下所示;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{
+    "scopeId": 1,
+    "scope": "SERVICE",
+    "name": "java-app-demo",
+    "id0": 23,
+    "id1": 0,
+    "ruleName": "service_sla_rule",
+    "alarmMessage":
+    "Successful rate of service java-app-demo is lower than 80% in 2 minutes of last 10 minutes",
+    "startTime": 1591951818298
+}, {
+    "scopeId": 1,
+    "scope": "SERVICE",
+    "name": "java-app-demo-test",
+    "id0": 2,
+    "id1": 0,
+    "ruleName": "service_sla_rule",
+    "alarmMessage":
+    "Successful rate of service java-app-demo-test is lower than 80% in 2 minutes of last 10 minutes",
+    "startTime": 1591951818298
+}]
+</code></pre></div></div>
+
+<p>因此,需要对 <code class="highlighter-rouge">body</code> 数据重新进行处理;</p>
+
+<h2 id="webhook企业微信">webhook(企业微信)</h2>
+
+<h3 id="weixinpy">weixin.py</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># -*- coding:utf-8 -*-
+import requests
+import json
+
+url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send"
+def Weixin(content):
+    querystring = {"key": "6c48b0fd-38c0-xxxx-a314-b76ed88f4fba"}
+    payload = {"msgtype": "text", "text": {"content": "%s" % content}}
+
+    headers = {
+        'Content-Type': "application/json",
+    }
+
+    response = requests.request("POST",
+                                url,
+                                data=json.dumps(payload),
+                                headers=headers,
+                                params=querystring)
+
+    print(response.text)
+</code></pre></div></div>
+
+<h3 id="alarmpy">alarm.py</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># -*- coding:utf-8 -*-
+from flask import Flask, request, jsonify
+from weixin import Weixin
+import json
+import time
+
+app = Flask(__name__)
+
+
+@app.route('/alarm', methods=['POST', 'GET'])
+def wechat():
+    if request.method == 'POST':
+        try:
+            data = request.get_data()
+            codes = json.loads(data.decode('utf-8'))
+            for i in range(len(codes)):
+                Message = codes[i]
+                name = Message['name']
+                scope = Message['scope']
+                ruleName = Message['ruleName']
+                message = Message['alarmMessage']
+                startTime = str(Message['startTime'])
+                timeStamp = int(startTime[0:10])
+                timeArray = time.localtime(timeStamp)
+                StartTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+                AlarmMsg = "服务名称: %s\n范围: %s\n规则: %s\n开始时间: %s\n告警内容: %s" % (name, scope, ruleName, StartTime, message)
+                Weixin(AlarmMsg)
+            return jsonify({"msg": "ok"})
+        except Exception as error:
+            print (error)
+            return jsonify({"mgs": error})
+    else:
+        return jsonify({"mgs": "POST only!!"})
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5100)
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/jevic/images/master/kubernetes/skywalking-alarm.png" alt="" /></p>
+
+<hr />
+
+<p><a href="https://github.com/apache/skywalking/blob/master/docs/en/setup/backend/backend-alarm.md">backend-alarm</a></p>
 
     </article>
     <div class="share">
@@ -132,9 +249,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2020/06/09/skywalking-alarm/';
+                    this.page.identifier = '/2020/06/09/skywalking-alarm/';
+                    this.page.title = 'Apache SkyWalking Alarm';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');

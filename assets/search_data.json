@@ -1,5 +1,17 @@
 {
   
+  "2020-06-09-skywalking-alarm": {
+    "title": "Apache SkyWalking Alarm",
+    "url": " /2020/06/09/skywalking-alarm/",
+    "category": "OPS"
+  },
+  
+  "2020-06-07-skywalking-config": {
+    "title": "Apache SkyWalking 配置项说明",
+    "url": " /2020/06/07/skywalking-config/",
+    "category": "OPS"
+  },
+  
   "2020-06-06-skywalking-deploy": {
     "title": "Apache SkyWalking",
     "url": " /2020/06/06/skywalking-deploy/",
@@ -1153,6 +1165,18 @@
   "2020-06-06-skywalking-deploy": {
     "title": "Apache SkyWalking",
     "url": "/2020/06/06/skywalking-deploy/",
+    "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2020-06-07-skywalking-config": {
+    "title": "Apache SkyWalking 配置项说明",
+    "url": "/2020/06/07/skywalking-config/",
+    "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2020-06-09-skywalking-alarm": {
+    "title": "Apache SkyWalking Alarm",
+    "url": "/2020/06/09/skywalking-alarm/",
     "category": "[&quot;OPS&quot;]"
   },
   

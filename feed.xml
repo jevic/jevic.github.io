@@ -1,4 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-20T18:31:23+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Apache SkyWalking</title><link href="http://0.0.0.0/2020/06/06/skywalking-deploy/" rel="alternate" type="text/html" title="Apache SkyWalking" /><published>2020-06-06T18:10:46+08:00</published><updated>2020-06-06T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/06/skywalking-deploy</id><content type="html" xml:base="http://0.0.0.0/2020/06/06/skywalking-deploy/">&lt;p&gt;SkyWalking是观察性分析平台和应用性能管理系统。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-22T17:08:02+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Apache SkyWalking Alarm</title><link href="http://0.0.0.0/2020/06/09/skywalking-alarm/" rel="alternate" type="text/html" title="Apache SkyWalking Alarm" /><published>2020-06-09T18:10:46+08:00</published><updated>2020-06-09T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/09/skywalking-alarm</id><content type="html" xml:base="http://0.0.0.0/2020/06/09/skywalking-alarm/">&lt;h2 id=&quot;alarm-settingsyml&quot;&gt;alarm-settings.yml&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;alarm-settings.yml&lt;/code&gt; 配置为configmap 以便于动态修改加载;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;详细配置参考: &lt;a href=&quot;https://github.com/jevic/skywalking/blob/master/deployment/configmap.yml&quot;&gt;deployment/configmap.yml&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;alarm-body&quot;&gt;alarm body&lt;/h2&gt;
+&lt;p&gt;skywalking alarm报警信息如下所示;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[{
+    &quot;scopeId&quot;: 1,
+    &quot;scope&quot;: &quot;SERVICE&quot;,
+    &quot;name&quot;: &quot;java-app-demo&quot;,
+    &quot;id0&quot;: 23,
+    &quot;id1&quot;: 0,
+    &quot;ruleName&quot;: &quot;service_sla_rule&quot;,
+    &quot;alarmMessage&quot;:
+    &quot;Successful rate of service java-app-demo is lower than 80% in 2 minutes of last 10 minutes&quot;,
+    &quot;startTime&quot;: 1591951818298
+}, {
+    &quot;scopeId&quot;: 1,
+    &quot;scope&quot;: &quot;SERVICE&quot;,
+    &quot;name&quot;: &quot;java-app-demo-test&quot;,
+    &quot;id0&quot;: 2,
+    &quot;id1&quot;: 0,
+    &quot;ruleName&quot;: &quot;service_sla_rule&quot;,
+    &quot;alarmMessage&quot;:
+    &quot;Successful rate of service java-app-demo-test is lower than 80% in 2 minutes of last 10 minutes&quot;,
+    &quot;startTime&quot;: 1591951818298
+}]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;因此,需要对 &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt; 数据重新进行处理;&lt;/p&gt;
+
+&lt;h2 id=&quot;webhook企业微信&quot;&gt;webhook(企业微信)&lt;/h2&gt;
+
+&lt;h3 id=&quot;weixinpy&quot;&gt;weixin.py&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# -*- coding:utf-8 -*-
+import requests
+import json
+
+url = &quot;https://qyapi.weixin.qq.com/cgi-bin/webhook/send&quot;
+def Weixin(content):
+    querystring = {&quot;key&quot;: &quot;6c48b0fd-38c0-xxxx-a314-b76ed88f4fba&quot;}
+    payload = {&quot;msgtype&quot;: &quot;text&quot;, &quot;text&quot;: {&quot;content&quot;: &quot;%s&quot; % content}}
+
+    headers = {
+        'Content-Type': &quot;application/json&quot;,
+    }
+
+    response = requests.request(&quot;POST&quot;,
+                                url,
+                                data=json.dumps(payload),
+                                headers=headers,
+                                params=querystring)
+
+    print(response.text)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;alarmpy&quot;&gt;alarm.py&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# -*- coding:utf-8 -*-
+from flask import Flask, request, jsonify
+from weixin import Weixin
+import json
+import time
+
+app = Flask(__name__)
+
+
+@app.route('/alarm', methods=['POST', 'GET'])
+def wechat():
+    if request.method == 'POST':
+        try:
+            data = request.get_data()
+            codes = json.loads(data.decode('utf-8'))
+            for i in range(len(codes)):
+                Message = codes[i]
+                name = Message['name']
+                scope = Message['scope']
+                ruleName = Message['ruleName']
+                message = Message['alarmMessage']
+                startTime = str(Message['startTime'])
+                timeStamp = int(startTime[0:10])
+                timeArray = time.localtime(timeStamp)
+                StartTime = time.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;, timeArray)
+                AlarmMsg = &quot;服务名称: %s\n范围: %s\n规则: %s\n开始时间: %s\n告警内容: %s&quot; % (name, scope, ruleName, StartTime, message)
+                Weixin(AlarmMsg)
+            return jsonify({&quot;msg&quot;: &quot;ok&quot;})
+        except Exception as error:
+            print (error)
+            return jsonify({&quot;mgs&quot;: error})
+    else:
+        return jsonify({&quot;mgs&quot;: &quot;POST only!!&quot;})
+
+
+if __name__ == &quot;__main__&quot;:
+    app.run(host='0.0.0.0', port=5100)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/skywalking-alarm.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/apache/skywalking/blob/master/docs/en/setup/backend/backend-alarm.md&quot;&gt;backend-alarm&lt;/a&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">alarm-settings.yml alarm-settings.yml 配置为configmap 以便于动态修改加载;</summary></entry><entry><title type="html">Apache SkyWalking 配置项说明</title><link href="http://0.0.0.0/2020/06/07/skywalking-config/" rel="alternate" type="text/html" title="Apache SkyWalking 配置项说明" /><published>2020-06-07T18:10:46+08:00</published><updated>2020-06-07T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/07/skywalking-config</id><content type="html" xml:base="http://0.0.0.0/2020/06/07/skywalking-config/">&lt;h2 id=&quot;skywalking-oap-server&quot;&gt;skywalking-oap-server&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## 主分配数量
+- name: SW_STORAGE_ES_INDEX_SHARDS_NUMBER
+  value: &quot;2&quot;
+## 副本数量
+- name: SW_STORAGE_ES_INDEX_REPLICAS_NUMBER
+  value: &quot;0&quot;
+## 每2000个请求执行一次批量处理  
+- name: SW_STORAGE_ES_BULK_ACTIONS
+  value: &quot;2000&quot;
+## 20m 进行一次flush bulk
+- name: SW_STORAGE_ES_BULK_SIZE
+  value: &quot;20&quot;
+## 采样率  默认为10000(全部采样)
+- name: SW_TRACE_SAMPLE_RATE
+  value: &quot;1000&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/apache/skywalking/blob/v6.6.0/docs/en/setup/backend/backend-storage.md&quot;&gt;更多配置参考官方说明&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;agent&quot;&gt;agent&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## 指定agent.jar 路径
+-javaagent:/skywalking/agent/skywalking-agent.jar
+## oap-server 地址
+-Dskywalking.collector.backend_service=192.168.13.100:11800 
+## 一个服务（项目）的唯一标识，这个字段决定了在sw的UI上的关于service的展示名称，尽量采用英文
+-Dskywalking.agent.service_name=$APP 
+## 每3秒采集Trace的数量，默认为负数-1，代表在保证不超过内存Buffer区的前提下，采集所有的Trace; 此值根据实际情况调整即可;
+-Dskywalking.agent.sample_n_per_3_secs=1000 
+## 日志级别
+-Dskywalking.logging.level=WARN 
+## 忽略特定请求后缀的trace,需要将apm-trace-ignore-plugin-7.0.0.jar 复制到 plugins 目录下
+-Dskywalking.trace.ignore_path=/actuator/**,/actuator
+## 开启 性能剖析,7.0+ 版本
+-Dskywalking.profile.active=true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">skywalking-oap-server</summary></entry><entry><title type="html">Apache SkyWalking</title><link href="http://0.0.0.0/2020/06/06/skywalking-deploy/" rel="alternate" type="text/html" title="Apache SkyWalking" /><published>2020-06-06T18:10:46+08:00</published><updated>2020-06-06T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/06/skywalking-deploy</id><content type="html" xml:base="http://0.0.0.0/2020/06/06/skywalking-deploy/">&lt;p&gt;SkyWalking是观察性分析平台和应用性能管理系统。
 提供分布式追踪、服务网格遥测分析、度量聚合和可视化一体化解决方案。&lt;/p&gt;
 
 &lt;h2 id=&quot;apache-skywalking&quot;&gt;&lt;a href=&quot;https://github.com/apache/skywalking&quot;&gt;Apache SkyWalking&lt;/a&gt;&lt;/h2&gt;
@@ -717,339 +858,4 @@ root@mdb2:/usr/share/hue/build/env# ./bin/hue migrate
       &lt;li&gt;&lt;a href=&quot;https://www.cnblogs.com/zlslch/p/6819622.html?utm_source=itdadao&amp;amp;utm_medium=referral&quot;&gt;Hue 问题汇总&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等</summary></entry><entry><title type="html">Ambari-Cluster配置(三)</title><link href="http://0.0.0.0/2020/03/07/ambari-cluster/" rel="alternate" type="text/html" title="Ambari-Cluster配置(三)" /><published>2020-03-07T20:35:06+08:00</published><updated>2020-03-07T20:35:06+08:00</updated><id>http://0.0.0.0/2020/03/07/ambari-cluster</id><content type="html" xml:base="http://0.0.0.0/2020/03/07/ambari-cluster/">&lt;h1 id=&quot;ambari-集群配置&quot;&gt;Ambari 集群配置&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-01.png&quot; alt=&quot;image&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-02.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;选择你需要安装的服务然后进入到配置界面&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;调整配置项&quot;&gt;调整配置项&lt;/h2&gt;
-&lt;h3 id=&quot;hadoop-hue-依赖配置&quot;&gt;hadoop hue 依赖配置&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;检查确认是否有下列配置项,后面hue 要使用;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.gethue.com/administrator/configuration/connectors/#hdfs&quot;&gt;hue for HDFS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## core-site.xml
-hadoop.proxyuser.falcon.groups=*
-hadoop.proxyuser.falcon.hosts=*
-hadoop.proxyuser.hbase.groups=*
-hadoop.proxyuser.hbase.hosts=*
-hadoop.proxyuser.hcat.groups=*
-hadoop.proxyuser.hcat.hosts=*
-hadoop.proxyuser.httpfs.groups=*
-hadoop.proxyuser.httpfs.hosts=*
-hadoop.proxyuser.hue.groups=*
-hadoop.proxyuser.hue.hosts=*
-hadoop.proxyuser.root.hosts=*
-hadoop.proxyuser.root.groups=*
-hadoop.proxyuser.yarn.hosts=*
-hadoop.proxyuser.yarn.groups=*
-hadoop.proxyuser.mapred.hosts=*
-hadoop.proxyuser.mapred.groups=*
-
-## hdfs-site.xml
-# 关闭权限
-dfs.permissions.enabled=false
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-hadoop.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;hive&quot;&gt;Hive&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;连接数据库时使用,ambari 页面会有提示根据提示进行操作即可&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@dt1 ~]# ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java-5.1.48-bin.jar
-Using python  /usr/bin/python
-Setup ambari-server
-Copying /usr/share/java/mysql-connector-java-5.1.48-bin.jar to /var/lib/ambari-server/resources
-If you are updating existing jdbc driver jar for mysql with mysql-connector-java-5.1.48-bin.jar. Please remove the old driver jar, from all hosts. Restarting services that need the driver, will automatically copy the new jar to the hosts.
-JDBC driver was successfully initialized.
-Ambari Server 'setup' completed successfully.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-hive.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;oozie&quot;&gt;Oozie&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://docs.gethue.com/administrator/configuration/connectors/#apache-oozie&quot;&gt;hue oozie&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ambari 初始化安装时添加下列参数&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## oozie-site.xml
-oozie.service.ProxyUserService.proxyuser.hive.groups=*
-oozie.service.ProxyUserService.proxyuser.hive.hosts=*
-oozie.service.ProxyUserService.proxyuser.hue.groups=*
-oozie.service.ProxyUserService.proxyuser.hue.hosts=*
-oozie.processing.timezone=GMT+0800
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-oozie.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;最终安装结果如下图&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-install-end.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;hadoop-ha&quot;&gt;Hadoop HA&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;ambari 默认安装hadoop时,没有启用HA 高可用,所以当安装完成后需要再次点击启用HA&lt;/li&gt;
-  &lt;li&gt;参考&lt;a href=&quot;http://www.louisvv.com/archives/1490.html&quot;&gt;Ambari Hadoop安装启用HA&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-01.png&quot; alt=&quot;image&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-02.png&quot; alt=&quot;image&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hadoop-ha-03.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;剩下的步骤根据提示一步步操作即可!&lt;/p&gt;
-
-&lt;h2 id=&quot;yarn-ha&quot;&gt;yarn HA&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;与hadoop ha 一样点击开启HA,根据步骤操作即可&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;hadoop-httpfs&quot;&gt;hadoop-httpfs&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y hadoop-httpfs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;安装完成后,无法正常启动;原因是由于缺失相关目录:
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hadoop-httpfs-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;打补丁:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;下载 &lt;a href=&quot;https://github.com/jevic/bigdata/blob/master/ambari/hadoop-httpfs_3.x_patch.tar.gz&quot;&gt;hadoop-httpfs_3.x_patch.tar.gz&lt;/a&gt;;解压后执行patch.sh&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;启动hadoop-httpfs&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## root用户操作
-# mkdir -p /var/run/hadoop/httpfs
-# chmod 777 /var/run/hadoop/httpfs
-# /usr/hdp/current/hadoop-httpfs/etc/rc.d/init.d/hadoop-httpfs start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">Ambari 集群配置</summary></entry><entry><title type="html">Ambari-Server&amp;amp;agent安装配置(二)</title><link href="http://0.0.0.0/2020/03/07/ambari-server-install/" rel="alternate" type="text/html" title="Ambari-Server&amp;agent安装配置(二)" /><published>2020-03-07T18:56:06+08:00</published><updated>2020-03-07T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/07/ambari-server-install</id><content type="html" xml:base="http://0.0.0.0/2020/03/07/ambari-server-install/">&lt;h2 id=&quot;数据库配置&quot;&gt;数据库配置&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可
-
-# mysql -u root -p123456 -e &quot;show variables like 'lower_case_table_names';&quot;
-mysql: [Warning] Using a password on the command line interface can be insecure.
-+------------------------+-------+
-| Variable_name          | Value |
-+------------------------+-------+
-| lower_case_table_names | 1     |
-+------------------------+-------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;创建数据库&quot;&gt;创建数据库&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;根据你需要安装的服务创建对应的数据库及配置访问信息;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;create database ambari character set utf8;
-GRANT ALL PRIVILEGES ON ambari.* TO 'ambari'@'%' IDENTIFIED BY 'Ambari_123';
-FLUSH PRIVILEGES;
-create database hive character set latin1;
-GRANT ALL PRIVILEGES ON hive.* TO 'hive'@'%' IDENTIFIED BY 'Hive@123';
-FLUSH PRIVILEGES;
-create database oozie character set utf8;
-GRANT ALL PRIVILEGES ON oozie.* TO 'oozie'@'%' IDENTIFIED BY 'Oozie@123';
-FLUSH PRIVILEGES;
-create database ranger character set utf8;
-GRANT ALL PRIVILEGES ON rangeradmin.* TO 'rangeradmin'@'%' IDENTIFIED BY 'Ranger@123';
-FLUSH PRIVILEGES;
-create database superset character set utf8;
-GRANT ALL PRIVILEGES ON superset.* TO 'superset'@'%' IDENTIFIED BY 'Superset@123';
-FLUSH PRIVILEGES;
-create database hbase character set latin1;
-GRANT ALL PRIVILEGES ON hbase.* TO 'hbase'@'%' IDENTIFIED BY 'Hbase@123';
-FLUSH PRIVILEGES;
-
-## hue 
-create database hue character set utf8;
-GRANT ALL PRIVILEGES ON hue.* TO 'hue'@'%' IDENTIFIED BY 'Hue@123456';
-FLUSH PRIVILEGES;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;主机初始化&quot;&gt;主机初始化&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;JDK 安装&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;主机名配置
-        &lt;ul&gt;
-          &lt;li&gt;1.1.1.1 node.xxx.xx&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;双机互相&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ssh-keygen -t rsa
-    ssh-copy-id NODE_NAME
-    ## 也可以使用sshpass 去除密码输入提示
-    yum install -y sshpass
-    sshpass PASSWORD -e ssh-copy-id NODE_NAME 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;初始化脚本:
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://github.com/jevic/bigdata/blob/master/ambari/initos.sh&quot;&gt;initos.sh&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;ambari-server&quot;&gt;ambari-server&lt;/h2&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Current Version: 2.6.5.0-292 &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;公共仓库]
-http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.5.0
-http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos7
-
-
-&lt;span class=&quot;c&quot;&gt;## &lt;/span&gt;
-yum install ambari-server &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;## jdbc 驱动下载地址 &lt;/span&gt;
-https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-5.1.48.tar.gz
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@jevic-t01 ~]# &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;server.jdbc.driver.path /etc/ambari-server/conf/ambari.properties 
-server.jdbc.driver.path&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/share/java/mysql-connector-java-5.1.48-bin.jar
-
-
-&lt;span class=&quot;c&quot;&gt;## 初始化安装&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;root@dt1 ~]# ambari-server setup
-Using python  /usr/bin/python
-Setup ambari-server
-Checking SELinux...
-SELinux status is &lt;span class=&quot;s1&quot;&gt;'disabled'&lt;/span&gt;
-Customize user account &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;ambari-server daemon &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/n] &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;? y
-Enter user account &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;ambari-server daemon &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;root&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:ambari
-Adjusting ambari-server permissions and ownership...
-Checking firewall status...
-Checking JDK...
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1] Oracle JDK 1.8 + Java Cryptography Extension &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;JCE&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; Policy Files 8
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;2] Oracle JDK 1.7 + Java Cryptography Extension &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;JCE&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; Policy Files 7
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;3] Custom JDK
-&lt;span class=&quot;o&quot;&gt;==============================================================================&lt;/span&gt;
-Enter choice &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: 3
-WARNING: JDK must be installed on all hosts and JAVA_HOME must be valid on all hosts.
-WARNING: JCE Policy files are required &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;configuring Kerberos security. If you plan to use Kerberos,please make sure JCE Unlimited Strength Jurisdiction Policy Files are valid on all hosts.
-Path to JAVA_HOME: /usr/local/java
-Validating JDK on Ambari Server...done.
-Checking GPL software agreement...
-GPL License &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;LZO: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
-Enable Ambari Server to download and install GPL Licensed LZO packages &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/n] &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;? n
-Completing setup...
-Configuring database...
-Enter advanced database configuration &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/n] &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;? y
-Configuring database...
-&lt;span class=&quot;o&quot;&gt;==============================================================================&lt;/span&gt;
-Choose one of the following options:
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1] - PostgreSQL &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Embedded&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;2] - Oracle
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;3] - MySQL / MariaDB
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;4] - PostgreSQL
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;5] - Microsoft SQL Server &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Tech Preview&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;6] - SQL Anywhere
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;7] - BDB
-&lt;span class=&quot;o&quot;&gt;==============================================================================&lt;/span&gt;
-Enter choice &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: 3
-Hostname &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;localhost&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: db1.jevic.cn
-Port &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;3306&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-Database name &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ambari&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: ambari
-Username &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ambari&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-Enter Database Password &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;bigdata&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-Re-enter password:
-Configuring ambari database...
-Configuring remote database connection properties...
-WARNING: Before starting Ambari Server, you must run the following DDL against the database to create the schema: /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
-Proceed with configuring remote database connection properties &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/n] &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;y&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;?
-Extracting system views...
-ambari-admin-2.6.2.2.1.jar
-...........
-Adjusting ambari-server permissions and ownership...
-Ambari Server &lt;span class=&quot;s1&quot;&gt;'setup'&lt;/span&gt; completed successfully.
-
-
-
-&lt;span class=&quot;c&quot;&gt;## 将Ambari数据库脚本导入到数据库&lt;/span&gt;
-mysql &lt;span class=&quot;nt&quot;&gt;-uambari&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-pxxx&lt;/span&gt;
-use ambari&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
-
-
-&lt;span class=&quot;c&quot;&gt;## 启动ambari server&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ambari-server start&lt;/span&gt;
-
-在浏览器中访问ip:8080，默认登录名：admin 密码:admin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;ambari-agent&quot;&gt;ambari-agent&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;配置yum 源
-yum -y install ambari-agent
-
-#ambari-agent 打ssl认证有问题，需要关闭
-grep -q &quot;^force_https_protocol=PROTOCOL_TLSv1_2&quot; /etc/ambari-agent/conf/ambari-agent.ini ||sed -i 's@\[security\]@&amp;amp;\nforce_https_protocol=PROTOCOL_TLSv1_2@g' /etc/ambari-agent/conf/ambari-agent.ini
-
-grep -q &quot;^verify=diable&quot; /etc/python/cert-verification.cfg || sed -i 's@\[https\]@&amp;amp;\nverify=diable@g' /etc/python/cert-verification.cfg 
-
-/usr/sbin/ambari-agent reset ServiceNAME
-/usr/sbin/ambari-agent start 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;后记&quot;&gt;后记&lt;/h2&gt;
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;以下是在安装ambari 2.7.4时遇到的问题(安装方式一样)&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;初始化集群加入主机,状态一直为: preparing&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;解决方案: sudo chown -R ambari /var/run/ambari-server&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;HDFS 开启HA时报错 500&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;500 status code received on GET method for API: /api/v1/stacks/HDP/versions/2.4/recommendations 
-Error message: Error occured during stack advisor command invocation: Cannot create /var/run/ambari-server/stack-recommendations&lt;/p&gt;
-
-&lt;p&gt;解决方案：sudo chown -R ambari /var/run/ambari-server&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;ntpd 服务无法开机自启动
-&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/ambari-init-ntpd.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;解决方案: systemctl disable chronyd&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">数据库配置 ``` 说明：数据库表名设置为大小写不敏感，修改mysql数据库配置文件my.cnf 即可</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等</summary></entry></feed>

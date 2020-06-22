@@ -125,6 +125,47 @@
                 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
+                      <a href="/2019/06/10/kubernetes-rbac/">kubernetes RBAC 用户角色访问控制（二）</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        RBAC (基于角色的访问控制)使用 rbac.authorization.k8s.io API 组来实现权限控制，RBAC 允许管理员通过 Kubernetes API 动态的配置权限策略。在 1.8 版本后默认启用,开启 RBAC 授权模式需要在 apiserver 组件中指定 –authorization-mode=RBAC 选项；
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2019/06/10
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
+                      <a href="/2019/04/18/elk-disk-storage/">Elasticsearch 下分布式存储的数据分布</a>
+                    </h3>
+                    <p class="repo-list-description">
+                        对于一个分布式存储系统来说，数据是分散存储在多个节点上的。如何让数据均衡的分布在不同节点上，来保证其高可用性？所谓均衡，是指系统中每个节点的负载是均匀的，并且在发现有不均匀的情况或者有节点增加/删除时，能及时进行调整，保持均匀状态。  
+   在Elasticsearch中，以Shard为最小的数据分配/迁移单位。数据到节点的映射分离为两层：一层是数据到Shard的映射（Route），另一层是Shard到节点的映射（Allocate）
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                          <span class="octicon octicon-calendar"></span> 2019/04/18
+                        </span>
+                        
+                        <span class="meta-info">
+                          <span class="octicon octicon-file-directory"></span>
+                          <a href="/categories/#ELK" title="ELK">ELK</a>
+                        </span>
+                        
+                    </p>
+                </li>
+                
+                <li class="repo-list-item">
+                    <h3 class="repo-list-name">
                       <a href="/2019/04/15/elk-javalog/">ELK filebeat&amp;logstash 收集grok解析Java应用日志</a>
                     </h3>
                     <p class="repo-list-description">
@@ -236,46 +277,6 @@
                     <p class="repo-list-meta">
                         <span class="meta-info">
                           <span class="octicon octicon-calendar"></span> 2019/02/15
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#OPS" title="OPS">OPS</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2019/01/10/helm-repo/">helm 私有仓库</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        helm 私有本地仓库配置
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2019/01/10
-                        </span>
-                        
-                        <span class="meta-info">
-                          <span class="octicon octicon-file-directory"></span>
-                          <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
-                        </span>
-                        
-                    </p>
-                </li>
-                
-                <li class="repo-list-item">
-                    <h3 class="repo-list-name">
-                      <a href="/2018/11/27/grafana-text-html/">grafana html 请求显示docker镜像信息</a>
-                    </h3>
-                    <p class="repo-list-description">
-                        通过grafana 请求应用接口显示Docker镜像的构建版本信息..
-                    </p>
-                    <p class="repo-list-meta">
-                        <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> 2018/11/27
                         </span>
                         
                         <span class="meta-info">
