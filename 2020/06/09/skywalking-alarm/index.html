@@ -231,9 +231,73 @@ if __name__ == "__main__":
 
 <p><img src="https://raw.githubusercontent.com/jevic/images/master/kubernetes/skywalking-alarm.png" alt="" /></p>
 
+<h3 id="alarm-images">alarm images</h3>
+<blockquote>
+  <p>默认端口:5100</p>
+</blockquote>
+
+<blockquote>
+  <p>环境变量: token=xxxx</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>registry.cn-shenzhen.aliyuncs.com/jevic/skywalking:alarm-dingding
+registry.cn-shenzhen.aliyuncs.com/jevic/skywalking:alarm-weixin
+</code></pre></div></div>
+
+<h4 id="docker-运行示例">docker 运行示例</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d --name weixin -p 5100:5100 -e token=xxxxx IMAGE
+</code></pre></div></div>
+
+<h4 id="k8s-yaml">k8s yaml</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apm-alarm
+  labels:
+    app: apm-alarm
+spec:
+  selector:
+    matchLabels:
+      app: apm-alarm
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apm-alarm
+    spec:
+      containers:
+        - name: apm-alarm
+          image: registry.cn-shenzhen.aliyuncs.com/jevic/skywalking:alarm-weixin
+          env:
+            - name: token
+              value: "xx-xx-4ac3xxa314-xxx"
+          ports:
+            - containerPort: 5100
+              name: apm-alarm
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apm-alarm
+spec:
+  selector:
+    app: apm-alarm
+  type: NodePort
+  ports:
+    - name: apm-alarm
+      port: 5100
+      targetPort: 5100
+      protocol: TCP
+      # nodePort:
+</code></pre></div></div>
+
 <hr />
 
-<p><a href="https://github.com/apache/skywalking/blob/master/docs/en/setup/backend/backend-alarm.md">backend-alarm</a></p>
+<p><a href="https://github.com/apache/skywalking/blob/master/docs/en/setup/backend/backend-alarm.md">backend-alarm</a>
+<a href="https://skyapm.github.io/document-cn-translation-of-skywalking/zh/6.3.0/setup/backend/backend-alarm.html">skywalking 告警</a></p>
 
     </article>
     <div class="share">

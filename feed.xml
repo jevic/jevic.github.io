@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-22T17:08:02+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Apache SkyWalking Alarm</title><link href="http://0.0.0.0/2020/06/09/skywalking-alarm/" rel="alternate" type="text/html" title="Apache SkyWalking Alarm" /><published>2020-06-09T18:10:46+08:00</published><updated>2020-06-09T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/09/skywalking-alarm</id><content type="html" xml:base="http://0.0.0.0/2020/06/09/skywalking-alarm/">&lt;h2 id=&quot;alarm-settingsyml&quot;&gt;alarm-settings.yml&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-24T10:49:49+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Apache SkyWalking Alarm</title><link href="http://0.0.0.0/2020/06/09/skywalking-alarm/" rel="alternate" type="text/html" title="Apache SkyWalking Alarm" /><published>2020-06-09T18:10:46+08:00</published><updated>2020-06-09T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/09/skywalking-alarm</id><content type="html" xml:base="http://0.0.0.0/2020/06/09/skywalking-alarm/">&lt;h2 id=&quot;alarm-settingsyml&quot;&gt;alarm-settings.yml&lt;/h2&gt;
 &lt;blockquote&gt;
   &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;alarm-settings.yml&lt;/code&gt; 配置为configmap 以便于动态修改加载;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -100,9 +100,73 @@ if __name__ == &quot;__main__&quot;:
 
 &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/kubernetes/skywalking-alarm.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
+&lt;h3 id=&quot;alarm-images&quot;&gt;alarm images&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;默认端口:5100&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;环境变量: token=xxxx&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;registry.cn-shenzhen.aliyuncs.com/jevic/skywalking:alarm-dingding
+registry.cn-shenzhen.aliyuncs.com/jevic/skywalking:alarm-weixin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;docker-运行示例&quot;&gt;docker 运行示例&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -d --name weixin -p 5100:5100 -e token=xxxxx IMAGE
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;k8s-yaml&quot;&gt;k8s yaml&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apm-alarm
+  labels:
+    app: apm-alarm
+spec:
+  selector:
+    matchLabels:
+      app: apm-alarm
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apm-alarm
+    spec:
+      containers:
+        - name: apm-alarm
+          image: registry.cn-shenzhen.aliyuncs.com/jevic/skywalking:alarm-weixin
+          env:
+            - name: token
+              value: &quot;xx-xx-4ac3xxa314-xxx&quot;
+          ports:
+            - containerPort: 5100
+              name: apm-alarm
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apm-alarm
+spec:
+  selector:
+    app: apm-alarm
+  type: NodePort
+  ports:
+    - name: apm-alarm
+      port: 5100
+      targetPort: 5100
+      protocol: TCP
+      # nodePort:
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/apache/skywalking/blob/master/docs/en/setup/backend/backend-alarm.md&quot;&gt;backend-alarm&lt;/a&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">alarm-settings.yml alarm-settings.yml 配置为configmap 以便于动态修改加载;</summary></entry><entry><title type="html">Apache SkyWalking 配置项说明</title><link href="http://0.0.0.0/2020/06/07/skywalking-config/" rel="alternate" type="text/html" title="Apache SkyWalking 配置项说明" /><published>2020-06-07T18:10:46+08:00</published><updated>2020-06-07T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/07/skywalking-config</id><content type="html" xml:base="http://0.0.0.0/2020/06/07/skywalking-config/">&lt;h2 id=&quot;skywalking-oap-server&quot;&gt;skywalking-oap-server&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/apache/skywalking/blob/master/docs/en/setup/backend/backend-alarm.md&quot;&gt;backend-alarm&lt;/a&gt;
+&lt;a href=&quot;https://skyapm.github.io/document-cn-translation-of-skywalking/zh/6.3.0/setup/backend/backend-alarm.html&quot;&gt;skywalking 告警&lt;/a&gt;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">alarm-settings.yml alarm-settings.yml 配置为configmap 以便于动态修改加载;</summary></entry><entry><title type="html">Apache SkyWalking 配置项说明</title><link href="http://0.0.0.0/2020/06/07/skywalking-config/" rel="alternate" type="text/html" title="Apache SkyWalking 配置项说明" /><published>2020-06-07T18:10:46+08:00</published><updated>2020-06-07T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/07/skywalking-config</id><content type="html" xml:base="http://0.0.0.0/2020/06/07/skywalking-config/">&lt;h2 id=&quot;skywalking-oap-server&quot;&gt;skywalking-oap-server&lt;/h2&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## 主分配数量
 - name: SW_STORAGE_ES_INDEX_SHARDS_NUMBER
