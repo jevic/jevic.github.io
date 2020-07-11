@@ -1,4 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-06-24T10:49:49+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">Apache SkyWalking Alarm</title><link href="http://0.0.0.0/2020/06/09/skywalking-alarm/" rel="alternate" type="text/html" title="Apache SkyWalking Alarm" /><published>2020-06-09T18:10:46+08:00</published><updated>2020-06-09T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/09/skywalking-alarm</id><content type="html" xml:base="http://0.0.0.0/2020/06/09/skywalking-alarm/">&lt;h2 id=&quot;alarm-settingsyml&quot;&gt;alarm-settings.yml&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://0.0.0.0/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0/" rel="alternate" type="text/html" /><updated>2020-07-11T11:41:59+08:00</updated><id>http://0.0.0.0/</id><title type="html">Jevic</title><subtitle>......</subtitle><author><name>Jevic</name></author><entry><title type="html">helm v3.x 部署 redis</title><link href="http://0.0.0.0/2020/07/01/helm-v3/" rel="alternate" type="text/html" title="helm v3.x 部署 redis" /><published>2020-07-01T20:35:46+08:00</published><updated>2020-07-01T20:35:46+08:00</updated><id>http://0.0.0.0/2020/07/01/helm-v3</id><content type="html" xml:base="http://0.0.0.0/2020/07/01/helm-v3/">&lt;blockquote&gt;
+  &lt;p&gt;helm v3.0 进行了重构,区别与v2.x　不需要安装tiller;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;installing-helm&quot;&gt;&lt;a href=&quot;https://helm.sh/docs/intro/install/&quot;&gt;Installing Helm&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/helm/helm/releases&quot;&gt;Download release&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@kms ~]# helm version
+version.BuildInfo{Version:&quot;v3.2.4&quot;, GitCommit:&quot;0ad800ef43d3b826f31a5ad8dfbb4fe05d143688&quot;, GitTreeState:&quot;clean&quot;, GoVersion:&quot;go1.13.12&quot;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;添加国内源&quot;&gt;添加国内源&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo remove stable
+helm repo add gitlab https://charts.gitlab.io/
+helm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+helm repo add incubator https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+helm repo add aliyun https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+helm repo update
+
+helm repo list
+NAME     	URL                                                                      
+stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts                   
+gitlab   	https://charts.gitlab.io/                                                
+incubator	https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+aliyun   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts-incubator/   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;安装redis&quot;&gt;安装redis&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@kms ~]# helm list
+Error: Kubernetes cluster unreachable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;解决方式:    配置 ~/.kube/config&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# helm search repo redis
+NAME           	CHART VERSION	APP VERSION	DESCRIPTION                                       
+stable/redis   	1.1.15       	4.0.8      	Open source, advanced key-value store. It is of...
+stable/redis-ha	2.0.1        	           	Highly available Redis cluster with multiple se...
+stable/sensu   	0.2.0        	           	Sensu monitoring framework backed by the Redis ...
+
+
+## 出现报错
+[root@kms ~]# helm install redis stable/redis
+Error: unable to build kubernetes objects from release manifest: unable to recognize &quot;&quot;: no matches for kind &quot;Deployment&quot; in version &quot;extensions/v1beta1&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;解决方式&quot;&gt;解决方式:&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;将 kind “Deployment” version 从”extensions/v1beta1” 修改为 apps/v1&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@kms helm]# helm pull stable/redis
+[root@kms helm]# pwd
+/root/helm
+[root@kms helm]# ls
+redis-1.1.15.tgz
+[root@kms helm]# tar zxf redis-1.1.15.tgz
+[root@kms helm]# ls
+redis  redis-1.1.15.tgz
+[root@kms templates]# pwd
+/root/helm/redis/templates
+[root@kms templates]# ls
+deployment.yaml  _helpers.tpl  networkpolicy.yaml  NOTES.txt  pvc.yaml  secrets.yaml  svc.yaml
+[root@kms templates]# vim deployment.yaml 
+[root@kms templates]# head -n2 deployment.yaml 
+apiVersion: apps/v1
+kind: Deployment
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# helm install redis redis
+NAME: redis
+LAST DEPLOYED: Wed Jul  8 14:00:29 2020
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Redis can be accessed via port 6379 on the following DNS name from within your cluster:
+redis-redis.default.svc.cluster.local
+To get your password run:
+
+    REDIS_PASSWORD=$(kubectl get secret --namespace default redis-redis -o jsonpath=&quot;{.data.redis-password}&quot; | base64 --decode)
+
+To connect to your Redis server:
+
+1. Run a Redis pod that you can use as a client:
+
+   kubectl run --namespace default redis-redis-client --rm --tty -i \
+    --env REDIS_PASSWORD=$REDIS_PASSWORD \
+   --image bitnami/redis:4.0.8-r2 -- bash
+
+2. Connect using the Redis CLI:
+
+  redis-cli -h redis-redis -a $REDIS_PASSWORD
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Jevic</name></author><summary type="html">helm v3.0 进行了重构,区别与v2.x　不需要安装tiller;</summary></entry><entry><title type="html">Apache SkyWalking Alarm</title><link href="http://0.0.0.0/2020/06/09/skywalking-alarm/" rel="alternate" type="text/html" title="Apache SkyWalking Alarm" /><published>2020-06-09T18:10:46+08:00</published><updated>2020-06-09T18:10:46+08:00</updated><id>http://0.0.0.0/2020/06/09/skywalking-alarm</id><content type="html" xml:base="http://0.0.0.0/2020/06/09/skywalking-alarm/">&lt;h2 id=&quot;alarm-settingsyml&quot;&gt;alarm-settings.yml&lt;/h2&gt;
 &lt;blockquote&gt;
   &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;alarm-settings.yml&lt;/code&gt; 配置为configmap 以便于动态修改加载;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -813,113 +911,4 @@ Caused by: com.sun.jersey.api.client.ClientHandlerException: java.net.SocketTime
 &lt;h3 id=&quot;其他说明&quot;&gt;其他说明:&lt;/h3&gt;
 &lt;p&gt;关于ext-2.2 目录的位置;
 根据步骤3 当中所示的软连接地址把下载的包放置到对应位置即可;
-其他集群管理工具安装的oozie大致一样;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">如下图所示,无法正常显示UI界面</summary></entry><entry><title type="html">Hue</title><link href="http://0.0.0.0/2020/03/16/hue/" rel="alternate" type="text/html" title="Hue" /><published>2020-03-16T18:56:06+08:00</published><updated>2020-03-16T18:56:06+08:00</updated><id>http://0.0.0.0/2020/03/16/hue</id><content type="html" xml:base="http://0.0.0.0/2020/03/16/hue/">&lt;p&gt;HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等&lt;/p&gt;
-
-&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;官网提供的只是源码只能编译安装(太耗时)&lt;/li&gt;
-  &lt;li&gt;直接使用CDH 的发行版本&lt;a href=&quot;https://docs.cloudera.com/documentation/enterprise/6/release-notes/topics/rg_cm_6_version_download.html#cm_6_version_download&quot;&gt;cm_6_version_download&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Docker 或者 kubernetes 部署 (优选)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;docker-方式部署&quot;&gt;Docker 方式部署&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;关于镜像
-    &lt;ul&gt;
-      &lt;li&gt;由于官方镜像实在是太大网络不好的根本很难正常下载;&lt;/li&gt;
-      &lt;li&gt;这里使用阿里云镜像仓库进行FROM 构建&lt;/li&gt;
-      &lt;li&gt;在从阿里云镜像拉取会快很多&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cat Dockerfile
-FROM gethue/hue:latest
-ENV US jevic
-
-....
-docker pull registry.cn-shenzhen.aliyuncs.com/jevic/hue:v1
-docker tag registry.cn-shenzhen.aliyuncs.com/jevic/hue:v1 hue
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;为了修改配置文件方便,可将配置文件进行挂载；&lt;/li&gt;
-  &lt;li&gt;挂载之前先将镜像的配置文件目录拷贝出来&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# docker run -it hue /bin/bash
-另外打开一个终端: 
-# docker cp hue:/usr/share/hue/desktop/conf /opt/hue/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;启动hue
-    &lt;ul&gt;
-      &lt;li&gt;如果使用默认桥接网络你需要显示的指明hostname:&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--add-host=db1.jevic.cn:192.168.1.1&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;否则容器内部无法进行域名解析&lt;/li&gt;
-      &lt;li&gt;这里使用host 模式所以无需指定&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cat run.hue.sh
-docker run -it -d \
---name hue \
---network host \
--v /opt/hue/conf:/usr/share/hue/desktop/conf \
-hue
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;修改hue的元数据库为mysql&quot;&gt;修改hue的元数据库为mysql&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;默认使用sqlite&lt;/li&gt;
-  &lt;li&gt;如果不修改为Mysql hue 访问是会出现 &lt;code class=&quot;highlighter-rouge&quot;&gt;Database is locked&lt;/code&gt; 错误&lt;/li&gt;
-  &lt;li&gt;需要注意: 一定要提前创建好 hue 数据库;之前在安装Ambari 时已经创建了所以此处不再列出;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;修改hueini-配置&quot;&gt;修改hue.ini 配置&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;需要修改两处配置项,参考图例&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hue-mysql.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    name=mysqldb
-    engine=mysql
-    host=db1.jevic.cn
-    port=3306
-    user=hue
-    password=Hue@123456
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hdp-hue-mysql02.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    engine=mysql
-    host=db1.jevic.cn
-    port=3306
-    user=hue
-    password=Hue@123456
-    name=hue
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;初始化数据库&quot;&gt;初始化数据库&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@mdb2:/usr/share/hue/build/env# ./bin/hue syncdb
-root@mdb2:/usr/share/hue/build/env# ./bin/hue migrate
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jevic/images/master/hdp/hue-init-mysql.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;重启服务:
- docker restart hue&lt;/p&gt;
-
-&lt;p&gt;其他的配置项根据需要逐一调整即可,具体参数示例可参考&lt;a href=&quot;https://docs.gethue.com/administrator/configuration/connectors/&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;参考文档
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://www.jianshu.com/p/087404300cda&quot;&gt;Hue&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;https://www.cnblogs.com/zlslch/p/6819622.html?utm_source=itdadao&amp;amp;utm_medium=referral&quot;&gt;Hue 问题汇总&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Jevic</name></author><summary type="html">HUE是一个开源的Apache Hadoop UI系统，早期由Cloudera开发，后来贡献给开源社区。它是基于Python Web框架Django实现的。通过使用Hue我们可以通过浏览器方式操纵Hadoop集群。例如put、get、执行MapReduce Job等等</summary></entry></feed>
+其他集群管理工具安装的oozie大致一样;&lt;/p&gt;</content><author><name>Jevic</name></author><summary type="html">如下图所示,无法正常显示UI界面</summary></entry></feed>

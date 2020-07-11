@@ -1,5 +1,11 @@
 {
   
+  "2020-07-01-helm-v3": {
+    "title": "helm v3.x 部署 redis",
+    "url": " /2020/07/01/helm-v3/",
+    "category": "Kubernetes"
+  },
+  
   "2020-06-09-skywalking-alarm": {
     "title": "Apache SkyWalking Alarm",
     "url": " /2020/06/09/skywalking-alarm/",
@@ -1178,6 +1184,12 @@
     "title": "Apache SkyWalking Alarm",
     "url": "/2020/06/09/skywalking-alarm/",
     "category": "[&quot;OPS&quot;]"
+  },
+  
+  "2020-07-01-helm-v3": {
+    "title": "helm v3.x 部署 redis",
+    "url": "/2020/07/01/helm-v3/",
+    "category": "[&quot;Kubernetes&quot;]"
   },
   
   "wiki-template": {

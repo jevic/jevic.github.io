@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Wiki Template &mdash; Jevic</title>
+    <title>helm v3.x 部署 redis &mdash; Jevic</title>
     <link rel="stylesheet" href="/assets/vendor/primer-css/css/primer.css">
     <link rel="stylesheet" href="/assets/vendor/primer-markdown/dist/user-content.min.css">
     <link rel="stylesheet" href="/assets/vendor/octicons/octicons/octicons.css">
@@ -36,28 +36,28 @@
     
 
     
-    <link rel="canonical" href="http://0.0.0.0:80/wiki/template/">
+    <link rel="canonical" href="http://0.0.0.0:80/2020/07/01/helm-v3/">
     <link rel="alternate" type="application/atom+xml" title="Jevic" href="/feed.xml">
     <link rel="shortcut icon" href="/favicon.ico">
     
-    <meta property="og:title" content="Wiki Template">
+    <meta property="og:title" content="helm v3.x 部署 redis">
       
-    <meta name="keywords" content="keyword1, keyword2">
-    <meta name="og:keywords" content="keyword1, keyword2">
+    <meta name="keywords" content="Docker,k8s">
+    <meta name="og:keywords" content="Docker,k8s">
       
-    <meta name="description" content="Content here">
-    <meta name="og:description" content="Content here">
+    <meta name="description" content="  helm v3.0 进行了重构,区别与v2.x　不需要安装tiller;">
+    <meta name="og:description" content="  helm v3.0 进行了重构,区别与v2.x　不需要安装tiller;">
       
     
     
         
     
-    <meta property="og:url" content="http://0.0.0.0:80/wiki/template/">
+    <meta property="og:url" content="http://0.0.0.0:80/2020/07/01/helm-v3/">
     <meta property="og:site_name" content="Jevic">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
     
-    <meta property="article:published_time" content="2020-07-11">
+    <meta property="article:published_time" content="2020-07-01">
     
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/js/jquery-ui.js"></script>
@@ -100,12 +100,25 @@
     </header>
     <!-- / header -->
 
-    <section class="collection-head small geopattern" data-pattern-id="Wiki Template">
+    <section class="collection-head small geopattern" data-pattern-id="helm v3.x 部署 re">
 <div class="container">
   <div class="columns">
     <div class="column three-fourths">
       <div class="collection-title">
-        <h1 class="collection-header">Wiki Template</h1>
+        <h1 class="collection-header">helm v3.x 部署 redis</h1>
+        <div class="collection-info">
+          
+          <span class="meta-info">
+            <span class="octicon octicon-calendar"></span> 2020/07/01
+          </span>
+          
+          
+          <span class="meta-info">
+            <span class="octicon octicon-file-directory"></span>
+            <a href="/categories/#Kubernetes" title="Kubernetes">Kubernetes</a>
+          </span>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +129,105 @@
 <div class="columns">
   <div class="column three-fourths" >
     <article class="article-content markdown-body">
-    <p>Content here</p>
+    <blockquote>
+  <p>helm v3.0 进行了重构,区别与v2.x　不需要安装tiller;</p>
+</blockquote>
+
+<h2 id="installing-helm"><a href="https://helm.sh/docs/intro/install/">Installing Helm</a></h2>
+<p><a href="https://github.com/helm/helm/releases">Download release</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@kms ~]# helm version
+version.BuildInfo{Version:"v3.2.4", GitCommit:"0ad800ef43d3b826f31a5ad8dfbb4fe05d143688", GitTreeState:"clean", GoVersion:"go1.13.12"}
+</code></pre></div></div>
+
+<h2 id="添加国内源">添加国内源</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm repo remove stable
+helm repo add gitlab https://charts.gitlab.io/
+helm repo add stable https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts
+helm repo add incubator https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+helm repo add aliyun https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+helm repo update
+
+helm repo list
+NAME     	URL                                                                      
+stable   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts                   
+gitlab   	https://charts.gitlab.io/                                                
+incubator	https://aliacs-app-catalog.oss-cn-hangzhou.aliyuncs.com/charts-incubator/
+aliyun   	https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts-incubator/   
+</code></pre></div></div>
+
+<h2 id="安装redis">安装redis</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@kms ~]# helm list
+Error: Kubernetes cluster unreachable
+</code></pre></div></div>
+
+<p>解决方式:    配置 ~/.kube/config</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># helm search repo redis
+NAME           	CHART VERSION	APP VERSION	DESCRIPTION                                       
+stable/redis   	1.1.15       	4.0.8      	Open source, advanced key-value store. It is of...
+stable/redis-ha	2.0.1        	           	Highly available Redis cluster with multiple se...
+stable/sensu   	0.2.0        	           	Sensu monitoring framework backed by the Redis ...
+
+
+## 出现报错
+[root@kms ~]# helm install redis stable/redis
+Error: unable to build kubernetes objects from release manifest: unable to recognize "": no matches for kind "Deployment" in version "extensions/v1beta1"
+</code></pre></div></div>
+
+<h2 id="解决方式">解决方式:</h2>
+<blockquote>
+  <p>将 kind “Deployment” version 从”extensions/v1beta1” 修改为 apps/v1</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@kms helm]# helm pull stable/redis
+[root@kms helm]# pwd
+/root/helm
+[root@kms helm]# ls
+redis-1.1.15.tgz
+[root@kms helm]# tar zxf redis-1.1.15.tgz
+[root@kms helm]# ls
+redis  redis-1.1.15.tgz
+[root@kms templates]# pwd
+/root/helm/redis/templates
+[root@kms templates]# ls
+deployment.yaml  _helpers.tpl  networkpolicy.yaml  NOTES.txt  pvc.yaml  secrets.yaml  svc.yaml
+[root@kms templates]# vim deployment.yaml 
+[root@kms templates]# head -n2 deployment.yaml 
+apiVersion: apps/v1
+kind: Deployment
+
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># helm install redis redis
+NAME: redis
+LAST DEPLOYED: Wed Jul  8 14:00:29 2020
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Redis can be accessed via port 6379 on the following DNS name from within your cluster:
+redis-redis.default.svc.cluster.local
+To get your password run:
+
+    REDIS_PASSWORD=$(kubectl get secret --namespace default redis-redis -o jsonpath="{.data.redis-password}" | base64 --decode)
+
+To connect to your Redis server:
+
+1. Run a Redis pod that you can use as a client:
+
+   kubectl run --namespace default redis-redis-client --rm --tty -i \
+    --env REDIS_PASSWORD=$REDIS_PASSWORD \
+   --image bitnami/redis:4.0.8-r2 -- bash
+
+2. Connect using the Redis CLI:
+
+  redis-cli -h redis-redis -a $REDIS_PASSWORD
+
+</code></pre></div></div>
 
     </article>
     <div class="share">
@@ -132,9 +243,9 @@
             <div id="disqus_thread"></div>
             <script>
                 var disqus_config = function () {
-                    this.page.url = 'http://0.0.0.0:80/wiki/template/';
-                    this.page.identifier = '/wiki/template/';
-                    this.page.title = 'Wiki Template';
+                    this.page.url = 'http://0.0.0.0:80/2020/07/01/helm-v3/';
+                    this.page.identifier = '/2020/07/01/helm-v3/';
+                    this.page.title = 'helm v3.x 部署 redis';
                 };
                 (function() { // DON'T EDIT BELOW THIS LINE
                     var d = document, s = d.createElement('script');
